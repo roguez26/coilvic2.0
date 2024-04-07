@@ -3,7 +3,7 @@ import java.util.logging.Logger;
 import mx.fei.coilvicapp.logic.region.*;
 import org.junit.Assert;
 import org.junit.Test;
-import java.sql.SQLException;
+import mx.fei.coilvicapp.logic.implementations.DAOException;
 
 public class RegionTest {
     
@@ -15,7 +15,7 @@ public class RegionTest {
         System.out.print("InsertRegion Success");
         try {            
             Assert.assertEquals(1,regionDAO.insertRegion(region));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
         }        
     } 
@@ -28,7 +28,7 @@ public class RegionTest {
         System.out.print("InsertRegion LengthExceeded");
         try {            
             Assert.assertEquals(1,regionDAO.insertRegion(region));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
         }        
     }  
@@ -42,7 +42,7 @@ public class RegionTest {
         System.out.println("UpdateRegion Success");  
         try {            
             Assert.assertEquals(1,regionDAO.updateRegion(newRegion, regionName));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
         } 
     }
@@ -56,7 +56,7 @@ public class RegionTest {
         System.out.println("UpdateRegion NotAvailable");  
         try {            
             Assert.assertEquals(1,regionDAO.updateRegion(newRegion, regionName));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
         } 
     }   
@@ -69,7 +69,7 @@ public class RegionTest {
         System.out.println("DeleteRegion Success"); 
         try {            
             Assert.assertEquals(1,regionDAO.deleteRegion(regionName));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
         }        
     }
@@ -82,7 +82,7 @@ public class RegionTest {
         System.out.println("DeleteRegion NotAvailable"); 
         try {            
             Assert.assertEquals(1,regionDAO.deleteRegion(regionName));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
         }        
     }
@@ -92,7 +92,11 @@ public class RegionTest {
         RegionDAO regionDAO = new RegionDAO();
         
         System.out.print("GetRegions Success");
+        try {            
         Assert.assertNotNull(regionDAO.getRegions());
+        } catch (DAOException exception) {
+            Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
     }
     
 }

@@ -3,7 +3,7 @@ import java.util.logging.Logger;
 import mx.fei.coilvicapp.logic.hiringcategory.*;
 import org.junit.Assert;
 import org.junit.Test;
-import java.sql.SQLException;
+import mx.fei.coilvicapp.logic.implementations.DAOException;
 
 public class HiringCategoryTest {
     
@@ -15,7 +15,7 @@ public class HiringCategoryTest {
         System.out.println("InsertHiringCategory Success");
         try {            
             Assert.assertEquals(1,hiringCategoryDAO.insertHiringCategory(hiringCategory));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(HiringCategoryTest.class.getName()).log(Level.SEVERE, null, exception);
         }        
     } 
@@ -28,7 +28,7 @@ public class HiringCategoryTest {
         System.out.print("InsertHiringCategory LengthExceeded");
         try {            
             Assert.assertEquals(1,hiringCategoryDAO.insertHiringCategory(hiringCategory));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(HiringCategoryTest.class.getName()).log(Level.SEVERE, null, exception);
         }        
     } 
@@ -42,7 +42,7 @@ public class HiringCategoryTest {
         System.out.println("UpdateHiringCategory Success");  
         try {            
             Assert.assertEquals(1,hiringCategoryDAO.updateHiringCategory(newHiringCategory, hiringCategoryName));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(HiringCategoryTest.class.getName()).log(Level.SEVERE, null, exception);
         } 
     }
@@ -56,7 +56,7 @@ public class HiringCategoryTest {
         System.out.println("UpdateHiringCategory NotAvailable");  
         try {            
             Assert.assertEquals(1,hiringCategoryDAO.updateHiringCategory(newHiringCategory, hiringCategoryName));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(HiringCategoryTest.class.getName()).log(Level.SEVERE, null, exception);
         } 
     }
@@ -69,7 +69,7 @@ public class HiringCategoryTest {
         System.out.println("DeleteHiringCategory Success"); 
         try {            
             Assert.assertEquals(1,hiringCategoryDAO.deleteHiringCategory(hiringCategoryName));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(HiringCategoryTest.class.getName()).log(Level.SEVERE, null, exception);
         }        
     }
@@ -82,7 +82,7 @@ public class HiringCategoryTest {
         System.out.println("DeleteHiringCategory NotAvailable"); 
         try {            
             Assert.assertEquals(1,hiringCategoryDAO.deleteHiringCategory(hiringCategoryName));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(HiringCategoryTest.class.getName()).log(Level.SEVERE, null, exception);
         }        
     }
@@ -92,7 +92,11 @@ public class HiringCategoryTest {
         HiringCategoryDAO hiringCategoryDAO = new HiringCategoryDAO();
         
         System.out.print("GetHiringCategories Success");
+        try {            
         Assert.assertNotNull(hiringCategoryDAO.getHiringCategories());
+        } catch (DAOException exception) {
+            Logger.getLogger(HiringCategoryTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
     }
     
 }

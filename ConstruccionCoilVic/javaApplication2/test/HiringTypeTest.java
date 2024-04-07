@@ -3,7 +3,7 @@ import java.util.logging.Logger;
 import mx.fei.coilvicapp.logic.hiringtype.*;
 import org.junit.Assert;
 import org.junit.Test;
-import java.sql.SQLException;
+import mx.fei.coilvicapp.logic.implementations.DAOException;
 
 public class HiringTypeTest {
 
@@ -15,7 +15,7 @@ public class HiringTypeTest {
         System.out.println("InsertHiringType Success");
         try {            
             Assert.assertEquals(1,hiringTypeDAO.insertHiringType(hiringType));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(HiringTypeTest.class.getName()).log(Level.SEVERE, null, exception);
         }        
     } 
@@ -28,7 +28,7 @@ public class HiringTypeTest {
         System.out.print("InsertHiringType LengthExceeded");
         try {            
             Assert.assertEquals(1,hiringTypeDAO.insertHiringType(hiringType));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(HiringTypeTest.class.getName()).log(Level.SEVERE, null, exception);
         }        
     } 
@@ -42,7 +42,7 @@ public class HiringTypeTest {
         System.out.println("UpdateHiringType Success");  
         try {            
             Assert.assertEquals(1,hiringTypeDAO.updateHiringType(newHiringType, hiringTypeName));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(HiringTypeTest.class.getName()).log(Level.SEVERE, null, exception);
         } 
     }
@@ -56,7 +56,7 @@ public class HiringTypeTest {
         System.out.println("UpdateHiringType NotAvailable");  
         try {            
             Assert.assertEquals(1,hiringTypeDAO.updateHiringType(newHiringType, hiringTypeName));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(HiringTypeTest.class.getName()).log(Level.SEVERE, null, exception);
         } 
     }
@@ -69,7 +69,7 @@ public class HiringTypeTest {
         System.out.println("DeleteHiringType Success"); 
         try {            
             Assert.assertEquals(1,hiringTypeDAO.deleteHiringType(hiringTypeName));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(HiringTypeTest.class.getName()).log(Level.SEVERE, null, exception);
         }        
     }
@@ -82,7 +82,7 @@ public class HiringTypeTest {
         System.out.println("DeleteHiringType NotAvailable"); 
         try {            
             Assert.assertEquals(1,hiringTypeDAO.deleteHiringType(hiringTypeName));
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Logger.getLogger(HiringTypeTest.class.getName()).log(Level.SEVERE, null, exception);
         }        
     }
@@ -92,7 +92,11 @@ public class HiringTypeTest {
         HiringTypeDAO hiringTypeDAO = new HiringTypeDAO();
         
         System.out.print("GetHiringTypes Success");
+        try {            
         Assert.assertNotNull(hiringTypeDAO.getHiringTypes());
+        } catch (DAOException exception) {
+            Logger.getLogger(HiringTypeTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
     }
     
 }
