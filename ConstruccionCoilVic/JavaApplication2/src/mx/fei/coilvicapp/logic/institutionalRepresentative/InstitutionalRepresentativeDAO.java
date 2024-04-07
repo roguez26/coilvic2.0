@@ -32,7 +32,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         DatabaseManager databaseManager = new DatabaseManager();
         String statement = "INSERT INTO RepresentanteInstitucional(nombre, apellidoPaterno, apellidoMaterno, correo, telefono,"
                 + " iduniversidad) values (?, ?, ?, ?, ?, ?)";
-        
+
         try {
             connection = databaseManager.getConnection();
             preparedStatement = intializeStatement(connection, statement, institutionalRepresentative);
