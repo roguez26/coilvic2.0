@@ -9,4 +9,5 @@ public interface IInstitutionalRepresentative {
     
     public int registerInstitutionalRepresentative(InstitutionalRepresentative instutionalRepresentative) throws DAOException;
     public int deleteInstitutionalRepresentative(InstitutionalRepresentative instutionalRepresentative) throws DAOException;
+    public int updateInstitutionalRepresentative (InstitutionalRepresentative institutionalRepresentative) throws DAOException;
 }
