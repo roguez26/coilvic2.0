@@ -18,8 +18,16 @@ import java.util.ArrayList;
  */
 public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentative {
 
+    public boolean checkEmailDuplication(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
+        if (getInstitutionalRepresentativeByEmail(institutionalRepresentative.getEmail()) != null) {
+            throw new DAOException("El correo ya se encuentra registrado", Status.WARNING);
+        }
+        return true;
+    }
+    
     @Override
     public int registerInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
+        
         checkEmailDuplication(institutionalRepresentative);
         return insertInstitutionalRepresentative(institutionalRepresentative);
     }
@@ -60,6 +68,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         return result;
     }
 
+    @Override
     public int updateInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         int result = -1;
         Connection connection;
@@ -73,8 +82,8 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
             connection = databaseManager.getConnection();
             preparedStatement = intializeStatement(connection, statement, institutionalRepresentative);
             preparedStatement.setInt(7, institutionalRepresentative.getIdInstitutionalRepresentative());
-             preparedStatement.executeUpdate();
-             resultSet = preparedStatement.getGeneratedKeys();
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
             }
@@ -228,12 +237,6 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         return institutionalRepresentative;
     }
 
-    public boolean checkEmailDuplication(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
-        if (getInstitutionalRepresentativeByEmail(institutionalRepresentative.getEmail()) != null) {
-            throw new DAOException("El correo ya se encuentra registrado", Status.WARNING);
-        }
-        return true;
-    }
 
     private PreparedStatement intializeStatement(Connection connection, String statement, InstitutionalRepresentative institutionalRepresentative) throws SQLException {
         PreparedStatement preparedStatement;

@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/institutionalRepresentative/IInstitutionalRepresentative.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/InstitutionalRepresentativeDAO/InstitutionalRepresentativeRegistrationTest.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/implementations/FieldValidator.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/university/University.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/institutionalRepresentative/InstitutionalRepresentativeDAO.java</file>
         </group>
     </open-files>
 </project-private>

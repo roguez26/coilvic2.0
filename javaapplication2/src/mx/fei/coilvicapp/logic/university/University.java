@@ -9,6 +9,7 @@ public class University {
    
     private int idUniversity;
     private String name;
+    private String acronym;
     private String jurisdiction;
     private String city;
     private int idCountry;
@@ -28,9 +29,17 @@ public class University {
     public String getName() {
         return name;
     }
+    
+    public String getAcronym() {
+        return acronym;
+    }
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
     }
 
     public String getJurisdiction() {
@@ -59,13 +68,13 @@ public class University {
     
     @Override
     public boolean equals(Object object) {
-//        boolean result = false;
-//        if (this == object) {
-//            result = true;
-//        }
-//        if (object == null || getClass() != object.getClass()) {
-//            result = false;
-//        }
+        
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
         University toCompare = (University) object;
         return idUniversity == toCompare.idUniversity &&
                 idCountry == toCompare.idCountry &&

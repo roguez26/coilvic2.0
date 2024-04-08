@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
@@ -19,7 +20,7 @@ public class InstitutionalRepresentativeDAOGettersTest {
 
     private static final InstitutionalRepresentativeDAO REPRESENTATIVE_DAO = new InstitutionalRepresentativeDAO();
     private static final ArrayList<InstitutionalRepresentative> REPRESENTATIVES_FOR_TESTING = new ArrayList<>();
-    private static ArrayList<InstitutionalRepresentative> AUX_REPRESENTATIVES_FOR_TESTING = new ArrayList<>();
+    private static final ArrayList<InstitutionalRepresentative> AUX_REPRESENTATIVES_FOR_TESTING = new ArrayList<>();
     private static final String[] NAMES = {"Natalia", "Daniel", "Juan"};
     private static final String[] PATERNAL_SURNAMES = {"Hernandez", "Romero", "Mata"};
     private static final String[] MATERNAL_SURNAMES = {"Alvarez", "Cid", "Alba"};
@@ -69,6 +70,58 @@ public class InstitutionalRepresentativeDAOGettersTest {
             Logger.getLogger(InstitutionalRepresentativeDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         assertEquals(REPRESENTATIVES_FOR_TESTING, result);
+    }
+
+    @Test
+    public void testGetInstitutionalRepresentativeByIdSuccess() {
+        InstitutionalRepresentative result = new InstitutionalRepresentative();
+        int ForSearch = 1;
+        
+        try {
+            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeById(REPRESENTATIVES_FOR_TESTING.get(ForSearch).getIdInstitutionalRepresentative());            
+        } catch (DAOException exception) {
+            Logger.getLogger(InstitutionalRepresentativeDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
+        assertEquals(REPRESENTATIVES_FOR_TESTING.get(ForSearch), result);
+    }
+    
+    @Test
+    public void testGetInstitutionalRepresentativeByIdFailByNonexistenceId() {
+        InstitutionalRepresentative result = new InstitutionalRepresentative();
+        int nonexistenceId = 0;
+        
+        try {           
+            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeById(nonexistenceId);            
+        } catch (DAOException exception) {
+            Logger.getLogger(InstitutionalRepresentativeDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
+        assertNotNull(result);
+    }
+    
+    @Test
+    public void testGetInstitutionalRepresentativeByEmailSuccess() {
+        InstitutionalRepresentative result = new InstitutionalRepresentative();
+        int ForSearch = 1;
+        
+        try {
+            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeByEmail(REPRESENTATIVES_FOR_TESTING.get(ForSearch).getEmail());            
+        } catch (DAOException exception) {
+            Logger.getLogger(InstitutionalRepresentativeDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
+        assertEquals(REPRESENTATIVES_FOR_TESTING.get(ForSearch), result);
+    }
+    
+    @Test
+    public void testGetInstitutionalRepresentativeByEmailFailByNonexistenceEmail() {
+        InstitutionalRepresentative result = new InstitutionalRepresentative();
+        String nonexistenceEmail = "xx@gmail.com";
+        
+        try {
+            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeByEmail(nonexistenceEmail);            
+        } catch (DAOException exception) {
+            Logger.getLogger(InstitutionalRepresentativeDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
+        assertNotNull(result);
     }
 
     @After

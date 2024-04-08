@@ -2,10 +2,12 @@ package mx.fei.coilvicapp.logic.university;
 
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
+import mx.fei.coilvicapp.logic.implementations.Status;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
@@ -21,21 +23,50 @@ public class UniversityDAO implements IUniversity {
     }
 
     @Override
+    public int registerUniversity(University university) throws DAOException {
+        int idVerification;
+        int idNewUniversity = -1;
+
+        idVerification = getUniverstiyIdByName(university);
+        if (idVerification > 0) {
+            throw new DAOException("La universidad ya se encuentra registrada", Status.WARNING);
+        } else {
+            idNewUniversity = insertUniversity(university);
+        }
+        return idNewUniversity;
+    }
+
     public int insertUniversity(University university) throws DAOException {
         int result = -1;
-        Connection connection = null;
+        Connection connection;
+        ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         DatabaseManager databaseManager = new DatabaseManager();
-        String statement = "INSERT INTO Universidad(nombre, jurisdiccion, ciudad, idPais) "
-                + "values (?, ?, ?, ?)";
+        String statement = "INSERT INTO Universidad(nombre, acronimo, jurisdiccion, ciudad, idPais) "
+                + "values (?, ?, ?, ?, ?)";
 
         try {
             connection = databaseManager.getConnection();
             preparedStatement = initializeStatement(connection, statement, university);
             result = preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                result = resultSet.getInt(1);
+            }
         } catch (SQLException exception) {
             Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible registrar la universidad", Status.ERROR);
         } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException exception) {
+                Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            }
             databaseManager.closeConnection();
         }
         return result;
@@ -135,13 +166,47 @@ public class UniversityDAO implements IUniversity {
         return university;
     }
 
-    private PreparedStatement initializeStatement(Connection connection, String statement, University university) throws SQLException {
+    public int getUniverstiyIdByName(University university) throws DAOException {
+        int result = -1;
+        Connection connection;
         PreparedStatement preparedStatement = null;
-        preparedStatement = connection.prepareStatement(statement);
+        ResultSet resultSet = null;
+        DatabaseManager databaseManager = new DatabaseManager();
+        String statement = "SELECT idUniversidad FROM Universidad WHERE nombre=?";
+
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setString(1, university.getName());
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                result = resultSet.getInt(1);
+            }
+        } catch (SQLException exception) {
+            Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException exception) {
+                Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            }
+        }
+        return result;
+    }
+
+    private PreparedStatement initializeStatement(Connection connection, String statement, University university) throws SQLException {
+        PreparedStatement preparedStatement;
+        preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, university.getName());
-        preparedStatement.setString(2, university.getJurisdiction());
-        preparedStatement.setString(3, university.getCity());
-        preparedStatement.setInt(4, university.getIdCountry());
+        preparedStatement.setString(2, university.getAcronym());
+        preparedStatement.setString(3, university.getJurisdiction());
+        preparedStatement.setString(4, university.getCity());
+        preparedStatement.setInt(5, university.getIdCountry());
         return preparedStatement;
     }
 
