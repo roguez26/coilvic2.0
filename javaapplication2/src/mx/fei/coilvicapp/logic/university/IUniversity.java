@@ -6,7 +6,8 @@ import java.util.ArrayList;
  * @author ivanr
  */
 public interface IUniversity {
-    public int insertUniversity(University university) throws DAOException;
+    
+    public int registerUniversity (University university) throws DAOException;
     
     public int updateUniversity(University university) throws DAOException;
     
