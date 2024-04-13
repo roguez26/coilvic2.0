@@ -15,5 +15,5 @@ public interface IUniversity {
     
     public ArrayList<University> getAllUniversities() throws DAOException;
     
-    public University getUniversityById(int idUniversity) throws DAOException;
+    public University getUniversityByName(String UniversityName) throws DAOException;
 }

@@ -18,21 +18,53 @@ import java.util.ArrayList;
  */
 public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentative {
 
-    public boolean checkEmailDuplication(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
-        if (getInstitutionalRepresentativeByEmail(institutionalRepresentative.getEmail()) != null) {
+    private boolean checkEmailDuplication(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
+        InstitutionalRepresentative instance;
+        int idRepresentative = 0;
+
+        try {
+            instance = getInstitutionalRepresentativeByEmail(institutionalRepresentative.getEmail());
+            idRepresentative = instance.getIdInstitutionalRepresentative();
+        } catch (DAOException exception) {
+            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", Status.ERROR);
+        }
+        if (idRepresentative != institutionalRepresentative.getIdInstitutionalRepresentative() && idRepresentative > 0) {
             throw new DAOException("El correo ya se encuentra registrado", Status.WARNING);
         }
-        return true;
-    }
-    
-    @Override
-    public int registerInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
-        
-        checkEmailDuplication(institutionalRepresentative);
-        return insertInstitutionalRepresentative(institutionalRepresentative);
+        return false;
     }
 
-    public int insertInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
+    @Override
+    public int registerInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
+        int result = 0;
+
+        if (!checkEmailDuplication(institutionalRepresentative)) {
+            result = insertInstitutionalRepresentativeTransaction(institutionalRepresentative);
+        }
+        return result;
+    }
+
+    @Override
+    public int updateInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
+        int result = 0;
+        
+        if (validateInstitutionalRepresentativeForUpdate(institutionalRepresentative)) {
+            result = updateInstitutionalRepresentativeTransaction(institutionalRepresentative);
+        }
+        return result;
+    }
+
+    public boolean validateInstitutionalRepresentativeForUpdate(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
+        InstitutionalRepresentative oldInstitutionalRepresentative = getInstitutionalRepresentativeById(institutionalRepresentative.getIdInstitutionalRepresentative());
+        boolean result = true;
+
+        if (!oldInstitutionalRepresentative.getEmail().equals(institutionalRepresentative.getEmail())) {
+            result = !checkEmailDuplication(institutionalRepresentative);
+        }
+        return result;
+    }
+
+    public int insertInstitutionalRepresentativeTransaction(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         int result = -1;
         Connection connection;
         ResultSet resultSet = null;
@@ -68,12 +100,10 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         return result;
     }
 
-    @Override
-    public int updateInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
+    public int updateInstitutionalRepresentativeTransaction(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         int result = -1;
         Connection connection;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         DatabaseManager databaseManager = new DatabaseManager();
         String statement = "UPDATE RepresentanteInstitucional SET nombre=?, apellidoPaterno=?, apellidoMaterno=?, correo=?, "
                 + "telefono=?, iduniversidad=? WHERE idRepresentante=?";
@@ -82,18 +112,12 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
             connection = databaseManager.getConnection();
             preparedStatement = intializeStatement(connection, statement, institutionalRepresentative);
             preparedStatement.setInt(7, institutionalRepresentative.getIdInstitutionalRepresentative());
-            preparedStatement.executeUpdate();
-            resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                result = resultSet.getInt(1);
-            }
+            result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             Logger.getLogger(InstitutionalRepresentativeDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible actualizar al representante", Status.ERROR);
         } finally {
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
                 if (preparedStatement != null) {
                     preparedStatement.close();
                 }
@@ -120,6 +144,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             Logger.getLogger(InstitutionalRepresentativeDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible eliminar al representante", Status.ERROR);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -133,6 +158,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         return result;
     }
 
+    @Override
     public ArrayList<InstitutionalRepresentative> getAllInstitutionalRepresentatives() throws DAOException {
         ArrayList<InstitutionalRepresentative> representativesList = new ArrayList<>();
         DatabaseManager databaseManager = new DatabaseManager();
@@ -152,6 +178,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
             }
         } catch (SQLException exception) {
             Logger.getLogger(InstitutionalRepresentativeDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible recuperar a los representantes", Status.ERROR);
         } finally {
             try {
                 if (resultSet != null) {
@@ -169,7 +196,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
     }
 
     public InstitutionalRepresentative getInstitutionalRepresentativeById(int idInstitutionalRepresentative) throws DAOException {
-        InstitutionalRepresentative institutionalRepresentative = null;
+        InstitutionalRepresentative institutionalRepresentative = new InstitutionalRepresentative();
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection;
         PreparedStatement preparedStatement = null;
@@ -187,6 +214,43 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
             }
         } catch (SQLException exception) {
             Logger.getLogger(InstitutionalRepresentativeDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible obtener al representante", Status.ERROR);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException exception) {
+                Logger.getLogger(InstitutionalRepresentativeDAO.class.getName()).log(Level.SEVERE, null, exception);
+            }
+            databaseManager.closeConnection();
+        }
+        return institutionalRepresentative;
+    }
+    
+    public InstitutionalRepresentative getInstitutionalRepresentativeByUniversityId(int universityId) throws DAOException {
+        InstitutionalRepresentative institutionalRepresentative = new InstitutionalRepresentative();
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String statement = "SELECT * FROM RepresentanteInstitucional WHERE idUniversidad=?";
+
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1, universityId);
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                institutionalRepresentative = initializeInstitutionalRepresentative(resultSet);
+            }
+        } catch (SQLException exception) {
+            Logger.getLogger(InstitutionalRepresentativeDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible obtener al representante", Status.ERROR);
         } finally {
             try {
                 if (resultSet != null) {
@@ -203,8 +267,9 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         return institutionalRepresentative;
     }
 
+    @Override
     public InstitutionalRepresentative getInstitutionalRepresentativeByEmail(String InstitutionalRepresentativeEmail) throws DAOException {
-        InstitutionalRepresentative institutionalRepresentative = null;
+        InstitutionalRepresentative institutionalRepresentative = new InstitutionalRepresentative();
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection;
         PreparedStatement preparedStatement = null;
@@ -221,6 +286,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
             }
         } catch (SQLException exception) {
             Logger.getLogger(InstitutionalRepresentativeDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible obtener al representante", Status.ERROR);
         } finally {
             try {
                 if (resultSet != null) {
@@ -236,7 +302,6 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return institutionalRepresentative;
     }
-
 
     private PreparedStatement intializeStatement(Connection connection, String statement, InstitutionalRepresentative institutionalRepresentative) throws SQLException {
         PreparedStatement preparedStatement;
@@ -262,5 +327,4 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         instance.setIdUniversity(resultSet.getInt("IdUniversidad"));
         return instance;
     }
-
 }

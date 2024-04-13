@@ -4,7 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
@@ -27,7 +27,7 @@ public class InstitutionalRepresentativeDAOGettersTest {
     private static final String[] PHONE_NUMBERS = {"2293846226", "2283948372", "2273820393"};
     private static final String[] EMAILS = {"natalia@gmail.com", "daniel@gmail.com", "juan@gmail.com"};
     private static final int[] REPRESENTATIVE_IDS = {0, 0, 0};
-    private static final int ID_UNIVERSITY = 1;
+    private static final int UNIVERSITY_ID = 1;
 
     public InstitutionalRepresentativeDAOGettersTest() {
 
@@ -55,7 +55,7 @@ public class InstitutionalRepresentativeDAOGettersTest {
             institutionalRepresentative.setMaternalSurname(MATERNAL_SURNAMES[i]);
             institutionalRepresentative.setPhoneNumber(PHONE_NUMBERS[i]);
             institutionalRepresentative.setEmail(EMAILS[i]);
-            institutionalRepresentative.setIdUniversity(ID_UNIVERSITY);
+            institutionalRepresentative.setIdUniversity(UNIVERSITY_ID);
             AUX_REPRESENTATIVES_FOR_TESTING.add(institutionalRepresentative);
         }
     }
@@ -94,8 +94,9 @@ public class InstitutionalRepresentativeDAOGettersTest {
             result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeById(nonexistenceId);            
         } catch (DAOException exception) {
             Logger.getLogger(InstitutionalRepresentativeDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
+            System.out.println(exception.getMessage());
         }
-        assertNotNull(result);
+        assertTrue(result.getIdInstitutionalRepresentative() > 0);
     }
     
     @Test
@@ -121,7 +122,7 @@ public class InstitutionalRepresentativeDAOGettersTest {
         } catch (DAOException exception) {
             Logger.getLogger(InstitutionalRepresentativeDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
         }
-        assertNotNull(result);
+        assertTrue(result.getIdInstitutionalRepresentative() > 0);
     }
 
     @After
@@ -132,7 +133,6 @@ public class InstitutionalRepresentativeDAOGettersTest {
             }
         } catch (DAOException exception) {
             Logger.getLogger(InstitutionalRepresentativeDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
-
         }
     }
 

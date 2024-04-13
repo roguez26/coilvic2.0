@@ -9,7 +9,7 @@ import mx.fei.coilvicapp.logic.implementations.FieldValidator;
  */
 public class InstitutionalRepresentative {
 
-    private int idInstitutionalRepresentative;
+    private int idInstitutionalRepresentative = 0;
     private String name;
     private String paternalSurname;
     private String maternalSurname;
@@ -64,9 +64,11 @@ public class InstitutionalRepresentative {
     }
 
     public void setMaternalSurname(String maternalSurname) {
-        FieldValidator fieldValidator = new FieldValidator();
+        if (maternalSurname != null) {
+            FieldValidator fieldValidator = new FieldValidator();
+            fieldValidator.checkName(maternalSurname);
 
-        fieldValidator.checkName(maternalSurname);
+        }
         this.maternalSurname = maternalSurname;
     }
 
@@ -79,7 +81,7 @@ public class InstitutionalRepresentative {
 
     public void setPhoneNumber(String phoneNumber) {
         FieldValidator fieldValidator = new FieldValidator();
-        
+
         fieldValidator.checkPhoneNumber(phoneNumber);
         this.phoneNumber = phoneNumber;
     }

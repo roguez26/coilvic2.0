@@ -14,4 +14,8 @@ public interface IInstitutionalRepresentative {
     public int updateInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException;
 
     public int deleteInstitutionalRepresentative(InstitutionalRepresentative instutionalRepresentative) throws DAOException;
+    
+    public ArrayList<InstitutionalRepresentative> getAllInstitutionalRepresentatives() throws DAOException;
+    
+    public InstitutionalRepresentative getInstitutionalRepresentativeByEmail(String instutionalRepresentativeEmail) throws DAOException;
 }
