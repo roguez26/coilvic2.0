@@ -20,7 +20,7 @@ public class InstitutionalRepresentativeRegistrationTest {
     private static final InstitutionalRepresentative REPRESENTATIVE_FOR_TESTING = new InstitutionalRepresentative();
     private static final String NAME = "Natalia";
     private static final String PATERNAL_SURNAME = "Hernandez";
-    private static final String MATERNAL_SURNAME = "Alvarez";
+    private static final String MATERNAL_SURNAME = null;
     private static final String PHONE_NUMBER = "2293846226";
     private static final String EMAIL = "natalia@gmail.com";
     private static final int ID_UNIVERSITY = 1;
@@ -70,6 +70,7 @@ public class InstitutionalRepresentativeRegistrationTest {
     @Test
     public void testRegisterInstitutionalRepresentativeSuccess() {
         int idRepresentative = 0;
+
         try {
             idRepresentative = REPRESENTATIVE_DAO.registerInstitutionalRepresentative(REPRESENTATIVE_FOR_TESTING);
             REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(idRepresentative);
@@ -82,10 +83,11 @@ public class InstitutionalRepresentativeRegistrationTest {
     @Test
     public void testRegisterInstitutionalRepresentativeFailByEmailDuplicated() {
         int idRepresentative = 0;
+
         try {
             REPRESENTATIVE_FOR_TESTING.setEmail(AUX_EMAIL);
             idRepresentative = REPRESENTATIVE_DAO.registerInstitutionalRepresentative(REPRESENTATIVE_FOR_TESTING);
-            REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(idRepresentative);
+            
         } catch (DAOException exception) {
             Logger.getLogger(InstitutionalRepresentativeRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());

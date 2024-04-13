@@ -3,7 +3,7 @@ package mx.fei.coilvicapp.logic.country;
 import java.util.Objects;
 
 public class Country {
-    private int idCountry;
+    private int idCountry = 0;
     private String name;
     
     public Country() {

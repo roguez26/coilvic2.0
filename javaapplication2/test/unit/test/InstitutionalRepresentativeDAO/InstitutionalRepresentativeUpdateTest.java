@@ -87,7 +87,7 @@ public class InstitutionalRepresentativeUpdateTest {
     }
 
     @Test
-    public void testUpdateInstitutionalRepresentativeFailByEmailDuplicated() {
+    public void testUpdateInstitutionalRepresentativeFailByDuplicatedEmail() {
         String newEmail = AUX_EMAIL;
         int result = 0;
 
@@ -105,6 +105,7 @@ public class InstitutionalRepresentativeUpdateTest {
     public void tearDown() {
         try {
             REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(REPRESENTATIVE_FOR_TESTING);
+            REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(AUX_REPRESENTATIVE_FOR_TESTING);
         } catch (DAOException exception) {
             Logger.getLogger(InstitutionalRepresentativeUpdateTest.class.getName()).log(Level.SEVERE, null, exception);
         }

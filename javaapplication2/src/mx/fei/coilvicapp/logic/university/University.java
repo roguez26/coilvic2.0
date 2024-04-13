@@ -1,23 +1,25 @@
 package mx.fei.coilvicapp.logic.university;
+
 import java.util.Objects;
+import mx.fei.coilvicapp.logic.implementations.FieldValidator;
+
 /**
  *
  * @author ivanr
  */
-
 public class University {
-   
-    private int idUniversity;
+
+    private int idUniversity = 0;
     private String name;
     private String acronym;
     private String jurisdiction;
     private String city;
     private int idCountry;
-    
+
     public University() {
-        
+
     }
-    
+
     public int getIdUniversity() {
         return idUniversity;
     }
@@ -29,16 +31,22 @@ public class University {
     public String getName() {
         return name;
     }
-    
+
     public String getAcronym() {
         return acronym;
     }
 
     public void setName(String name) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkName(name);
         this.name = name;
     }
-    
+
     public void setAcronym(String acronym) {
+        if (acronym != null) {
+            FieldValidator fieldValidator = new FieldValidator();
+            fieldValidator.checkName(acronym);
+        }
         this.acronym = acronym;
     }
 
@@ -47,6 +55,8 @@ public class University {
     }
 
     public void setJurisdiction(String jurisdiction) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkName(jurisdiction);
         this.jurisdiction = jurisdiction;
     }
 
@@ -55,6 +65,8 @@ public class University {
     }
 
     public void setCity(String city) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkName(city);
         this.city = city;
     }
 
@@ -65,10 +77,10 @@ public class University {
     public void setIdCountry(int idCountry) {
         this.idCountry = idCountry;
     }
-    
+
     @Override
     public boolean equals(Object object) {
-        
+
         if (this == object) {
             return true;
         }
@@ -76,27 +88,27 @@ public class University {
             return false;
         }
         University toCompare = (University) object;
-        return idUniversity == toCompare.idUniversity &&
-                idCountry == toCompare.idCountry &&
-                Objects.equals(name, toCompare.name) &&
-                Objects.equals(jurisdiction, toCompare.jurisdiction) &&
-                Objects.equals(city, toCompare.city);
+        return idUniversity == toCompare.idUniversity
+                && idCountry == toCompare.idCountry
+                && Objects.equals(name, toCompare.name)
+                && Objects.equals(jurisdiction, toCompare.jurisdiction)
+                && Objects.equals(city, toCompare.city);
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hash(idUniversity, name, jurisdiction, city, idCountry);
     }
-    
+
     @Override
     public String toString() {
-        return "University{" +
-                "idUniversity=" + idUniversity +
-                ", name='" + name + '\'' +
-                ", jurisdiction='" + jurisdiction + '\'' +
-                ", city='" + city + '\'' +
-                ", idCountry=" + idCountry +
-                '}';
+        return "University{"
+                + "idUniversity=" + idUniversity
+                + ", name='" + name + '\''
+                + ", jurisdiction='" + jurisdiction + '\''
+                + ", city='" + city + '\''
+                + ", idCountry=" + idCountry
+                + '}';
     }
 
 }
