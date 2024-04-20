@@ -12,5 +12,7 @@ public interface ICountry {
     public int registerCountry(Country country) throws DAOException;
     
     public int updateCountry(Country country) throws DAOException;
+    
+    public int deleteCountry(int country) throws DAOException;
 
 }

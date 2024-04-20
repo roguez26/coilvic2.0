@@ -2,6 +2,8 @@ package unit.test.UniversityDAO;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import mx.fei.coilvicapp.logic.country.Country;
+import mx.fei.coilvicapp.logic.country.CountryDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
@@ -15,20 +17,23 @@ import org.junit.After;
  * @author ivanr
  */
 public class UniversityUpdateTest {
+
     private static final UniversityDAO UNIVERSITY_DAO = new UniversityDAO();
     private static final University UNIVERSITY_FOR_TESTING = new University();
     private static final String NAME = "Universidad Veracruzana";
     private static final String ACRONYM = "UV";
     private static final String JURISDICTION = "Veracruz";
     private static final String CITY = "Xalapa";
-    private static final int ID_COUNTRY = 1;
 
     private static final University AUX_UNIVERSITY_FOR_TESTING = new University();
     private static final String AUX_NAME = "Universidad Católica Andrés Bello";
     private static final String AUX_ACRONYM = "UCAB";
     private static final String AUX_JURISDICTION = "Caracas";
     private static final String AUX_CITY = "Guayana";
-    private static final int AUX_ID_COUNTRY = 2;
+
+    private static final CountryDAO COUNTRY_DAO = new CountryDAO();
+    private static final Country AUX_COUNTRY = new Country();
+    private static final String AUX_COUNTRY_NAME = "Mexico";
 
     public UniversityUpdateTest() {
 
@@ -37,10 +42,16 @@ public class UniversityUpdateTest {
     @Before
     public void setUp() {
         int idUniversity;
+        int idCountry;
         intitliazeAuxiliarUniversity();
         intitliazeUniversity();
+        AUX_COUNTRY.setName(AUX_COUNTRY_NAME);
 
         try {
+            idCountry = COUNTRY_DAO.registerCountry(AUX_COUNTRY);
+            AUX_COUNTRY.setIdCountry(idCountry);
+            AUX_UNIVERSITY_FOR_TESTING.setIdCountry(idCountry);
+            UNIVERSITY_FOR_TESTING.setIdCountry(idCountry);
             idUniversity = UNIVERSITY_DAO.registerUniversity(AUX_UNIVERSITY_FOR_TESTING);
             AUX_UNIVERSITY_FOR_TESTING.setIdUniversity(idUniversity);
             idUniversity = UNIVERSITY_DAO.registerUniversity(UNIVERSITY_FOR_TESTING);
@@ -55,7 +66,6 @@ public class UniversityUpdateTest {
         UNIVERSITY_FOR_TESTING.setAcronym(ACRONYM);
         UNIVERSITY_FOR_TESTING.setJurisdiction(JURISDICTION);
         UNIVERSITY_FOR_TESTING.setCity(CITY);
-        UNIVERSITY_FOR_TESTING.setIdCountry(ID_COUNTRY);
     }
 
     private void intitliazeAuxiliarUniversity() {
@@ -63,7 +73,6 @@ public class UniversityUpdateTest {
         AUX_UNIVERSITY_FOR_TESTING.setAcronym(AUX_ACRONYM);
         AUX_UNIVERSITY_FOR_TESTING.setJurisdiction(AUX_JURISDICTION);
         AUX_UNIVERSITY_FOR_TESTING.setCity(AUX_CITY);
-        AUX_UNIVERSITY_FOR_TESTING.setIdCountry(AUX_ID_COUNTRY);
     }
 
     @Test
@@ -79,7 +88,7 @@ public class UniversityUpdateTest {
         }
         assertTrue(result > 0);
     }
-    
+
     @Test
     public void testUpdateUniversityFailByDuplicatedName() {
         String newName = AUX_NAME;
@@ -94,11 +103,13 @@ public class UniversityUpdateTest {
         }
         assertTrue(result > 0);
     }
+
     @After
     public void tearDown() {
         try {
-            UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING);
-            UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY_FOR_TESTING);
+            UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING.getIdUniversity());
+            UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY_FOR_TESTING.getIdUniversity());
+            COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
         } catch (DAOException exception) {
             Logger.getLogger(UniversityUpdateTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());

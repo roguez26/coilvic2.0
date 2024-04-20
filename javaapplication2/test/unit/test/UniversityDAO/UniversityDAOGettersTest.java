@@ -22,7 +22,6 @@ public class UniversityDAOGettersTest {
 
     private static final UniversityDAO UNIVERSITY_DAO = new UniversityDAO();
     private static final ArrayList<University> UNIVERSITIES_FOR_TESTING = new ArrayList<>();
-    private static final ArrayList<University> AUX_UNIVERSITIES_FOR_TESTING = new ArrayList<>();
     private static final String[] NAMES = {"Harvard University", "Stanford University", "Universidad Autonoma de Mexico"};
     private static final String[] ACRONYMS = {"Harvard", "Stanford", "UNAM"};
     private static final String[] JURISDICTIONS = {"Massachusetts", "California", "CDMX"};
@@ -39,17 +38,16 @@ public class UniversityDAOGettersTest {
 
     @Before
     public void setUp() {
-        int idCountry = 0;
+        int idCountry;
         AUX_COUNTRY.setName(AUX_NAME);
         
         try {
             idCountry = COUNTRY_DAO.registerCountry(AUX_COUNTRY);
             AUX_COUNTRY.setIdCountry(idCountry);
             initializeUniversities(idCountry);
-            for (int i = 0; i < AUX_UNIVERSITIES_FOR_TESTING.size(); i++) {
-                UNIVERSITY_IDS[i] = UNIVERSITY_DAO.registerUniversity(AUX_UNIVERSITIES_FOR_TESTING.get(i));
-                AUX_UNIVERSITIES_FOR_TESTING.get(i).setIdUniversity(UNIVERSITY_IDS[i]);
-                UNIVERSITIES_FOR_TESTING.add(AUX_UNIVERSITIES_FOR_TESTING.get(i));
+            for (int i = 0; i < UNIVERSITIES_FOR_TESTING.size(); i++) {
+                UNIVERSITY_IDS[i] = UNIVERSITY_DAO.registerUniversity(UNIVERSITIES_FOR_TESTING.get(i));
+                UNIVERSITIES_FOR_TESTING.get(i).setIdUniversity(UNIVERSITY_IDS[i]);
             }
         } catch (DAOException exception) {
             Logger.getLogger(UniversityDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
@@ -64,7 +62,7 @@ public class UniversityDAOGettersTest {
             university.setJurisdiction(JURISDICTIONS[i]);
             university.setCity(CITIES[i]);
             university.setIdCountry(idCountry);
-            AUX_UNIVERSITIES_FOR_TESTING.add(university);
+            UNIVERSITIES_FOR_TESTING.add(university);
         }
     }
 
@@ -83,20 +81,21 @@ public class UniversityDAOGettersTest {
     @Test
     public void testGetUniversityByIdSuccess() {
         University result = new University();
-        int forSearch = 2;
+        int positionForSearch = 2;
         
         try {
-            result = UNIVERSITY_DAO.getUniversityById(UNIVERSITIES_FOR_TESTING.get(forSearch).getIdUniversity());
+            result = UNIVERSITY_DAO.getUniversityById(UNIVERSITIES_FOR_TESTING.get(positionForSearch).getIdUniversity());
         } catch (DAOException exception) {
             Logger.getLogger(UniversityDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
         }
-        assertEquals(UNIVERSITIES_FOR_TESTING.get(forSearch), result);
+        assertEquals(UNIVERSITIES_FOR_TESTING.get(positionForSearch), result);
     }
     
     @Test
     public void testGetUniversityByIdFailByNonexistenceId() {
         University result = new University();
         int nonexistencId = 0;
+        
         try {
             result = UNIVERSITY_DAO.getUniversityById(nonexistencId);
         } catch (DAOException exception) {
@@ -109,10 +108,10 @@ public class UniversityDAOGettersTest {
     @Test
     public void testGetUniversityByNameSuccess() {
         University result = new University();
-        int forSearch = 2;
+        int positionForSearch = 2;
         
         try {
-            result = UNIVERSITY_DAO.getUniversityByName(UNIVERSITIES_FOR_TESTING.get(forSearch).getName());
+            result = UNIVERSITY_DAO.getUniversityByName(UNIVERSITIES_FOR_TESTING.get(positionForSearch).getName());
         } catch (DAOException exception) {
             Logger.getLogger(UniversityDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -138,9 +137,9 @@ public class UniversityDAOGettersTest {
     public void tearDown() {
         try {
             for (int i = 0; i < 3; i++) {
-                UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITIES_FOR_TESTING.get(i));
+                UNIVERSITY_DAO.deleteUniversity(UNIVERSITIES_FOR_TESTING.get(i).getIdUniversity());
             }
-            COUNTRY_DAO.deleteCountry(AUX_COUNTRY);
+            COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
         } catch (DAOException exception) {
             Logger.getLogger(UniversityDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
         }

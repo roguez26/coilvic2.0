@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package unit.test.CountryDAO;
 
 import mx.fei.coilvicapp.logic.country.Country;
@@ -79,8 +75,8 @@ public class CountryUpdateTest {
     @After
     public void tearDown() {
         try {
-            COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING);
-            COUNTRY_DAO.deleteCountry(AUX_COUNTRY_FOR_TESTING);
+            COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING.getIdCountry());
+            COUNTRY_DAO.deleteCountry(AUX_COUNTRY_FOR_TESTING.getIdCountry());
         } catch (DAOException exception) {
             Logger.getLogger(CountryRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }

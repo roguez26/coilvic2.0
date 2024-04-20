@@ -1,4 +1,4 @@
-package mx.fei.coilvicapp.logic.Feedback;
+package mx.fei.coilvicapp.logic.feedback;
 import java.util.Objects;
 /**
  *
@@ -7,8 +7,9 @@ import java.util.Objects;
 public class Response {
     private int idResponse = 0;
     private String responseText;
-    private int idFeedback;
     private int idQuestion;
+    private int idStudent;
+    private int idCollaborativeProject;
 
     public Response() {
 
@@ -18,57 +19,67 @@ public class Response {
         return idResponse;
     }
 
-    public void setIdResponse(int idResponse) {
-        this.idResponse = idResponse;
-    }
-
     public String getResponseText() {
         return responseText;
-    }
-
-    public void setResponseText(String responseText) {
-        this.responseText = responseText;
-    }
-
-    public int getIdFeedback() {
-        return idFeedback;
-    }
-
-    public void setIdFeedback(int idFeedback) {
-        this.idFeedback = idFeedback;
     }
 
     public int getIdQuestion() {
         return idQuestion;
     }
 
+    public int getIdStudent() {
+        return idStudent;
+    }
+
+    public int getIdCollaborativeProject() {
+        return idCollaborativeProject;
+    }
+
+    
+    public void setIdResponse(int idResponse) {
+        this.idResponse = idResponse;
+    }
+
+    public void setResponseText(String responseText) {
+        this.responseText = responseText;
+    }
+
     public void setIdQuestion(int idQuestion) {
         this.idQuestion = idQuestion;
     }
+
+    public void setIdStudent(int idStudent) {
+        this.idStudent = idStudent;
+    }
+
+    public void setIdCollaborativeProject(int idCollaborativeProject) {
+        this.idCollaborativeProject = idCollaborativeProject;
+    }
+
     
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Response response = (Response) obj;
+    public boolean equals(Object toCompare) {
+        //if (this == o) return true;
+        //if (o == null || getClass() != o.getClass()) return false;
+        Response response = (Response) toCompare;
         return idResponse == response.idResponse &&
-                idFeedback == response.idFeedback &&
-                idQuestion == response.idQuestion &&
-                Objects.equals(responseText, response.responseText);
+               idQuestion == response.idQuestion &&
+               idStudent == response.idStudent &&
+               idCollaborativeProject == response.idCollaborativeProject &&
+               Objects.equals(responseText, response.responseText);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idResponse, responseText, idFeedback, idQuestion);
-    }
-
+    
     @Override
     public String toString() {
         return "Response{" +
                 "idResponse=" + idResponse +
                 ", responseText='" + responseText + '\'' +
-                ", idFeedback=" + idFeedback +
                 ", idQuestion=" + idQuestion +
+                ", idStudent=" + idStudent +
+                ", idCollaborativeProject=" + idCollaborativeProject +
                 '}';
     }
+
+    
 }

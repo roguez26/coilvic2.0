@@ -28,15 +28,13 @@ public class UniversityDAO implements IUniversity {
 
     private boolean checkNameDuplication(University university) throws DAOException {
         University instance;
-        int idUniversity = 0;
 
         try {
             instance = getUniversityByName(university.getName());
-            idUniversity = instance.getIdUniversity();
         } catch (DAOException exception) {
             throw new DAOException("No fue posible realizar la validacion, intente mas tarde", Status.ERROR);
         }
-        if (idUniversity != university.getIdUniversity() && idUniversity > 0) {
+        if (instance.getIdUniversity() != university.getIdUniversity() && instance.getIdUniversity() > 0) {
             throw new DAOException("El nombre de esta universidad ya esta registrado", Status.WARNING);
         }
         return false;
@@ -80,21 +78,21 @@ public class UniversityDAO implements IUniversity {
     }
     
     @Override
-    public int deleteUniversity(University university) throws DAOException {
+    public int deleteUniversity(int idUniversity) throws DAOException {
         int result = 0;
         
-        if(validateUniversityForDelete(university)) {
-            result = deleteUniversityTransaction(university);
+        if(validateUniversityForDelete(idUniversity)) {
+            result = deleteUniversityTransaction(idUniversity);
         }
         return result;
     }
     
-    public boolean validateUniversityForDelete(University university) throws DAOException {
+    public boolean validateUniversityForDelete(int idUniversity) throws DAOException {
         InstitutionalRepresentativeDAO instanceDAO = new InstitutionalRepresentativeDAO();
         InstitutionalRepresentative instance = new InstitutionalRepresentative();
         
         try {
-            instance = instanceDAO.getInstitutionalRepresentativeByUniversityId(university.getIdUniversity());
+            instance = instanceDAO.getInstitutionalRepresentativeByUniversityId(idUniversity);
         } catch (DAOException exception) {
             Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No fue posible realizar la validacion para eliminar la universidad", Status.ERROR);
@@ -181,7 +179,7 @@ public class UniversityDAO implements IUniversity {
     }
 
     
-    public int deleteUniversityTransaction(University university) throws DAOException {
+    public int deleteUniversityTransaction(int idUniversity) throws DAOException {
         int result = -1;
         Connection connection;
         PreparedStatement preparedStatement = null;
@@ -191,7 +189,7 @@ public class UniversityDAO implements IUniversity {
         try {
             connection = databaseManager.getConnection();
             preparedStatement = connection.prepareStatement(statement);
-            preparedStatement.setInt(1, university.getIdUniversity());
+            preparedStatement.setInt(1, idUniversity);
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);

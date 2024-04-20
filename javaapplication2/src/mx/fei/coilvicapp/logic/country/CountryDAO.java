@@ -30,7 +30,7 @@ public class CountryDAO implements ICountry {
         } catch (DAOException exception) {
             throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", Status.ERROR);
         }
-        if(idCountry != country.getIdCountry()) {
+        if(idCountry != country.getIdCountry() && idCountry > 0) {
             throw new DAOException("El nombre ya se encuentra registrado", Status.WARNING);
         }
         return false;
@@ -56,21 +56,22 @@ public class CountryDAO implements ICountry {
         return result;
     }
     
-    public int deleteCountry(Country country) throws DAOException {
+    @Override
+    public int deleteCountry(int idCountry) throws DAOException {
         int result = 0;
         
-        if(validateCountryForDelete(country)) {
-            result = deleteCountryTransaction(country);
+        if(validateCountryForDelete(idCountry)) {
+            result = deleteCountryTransaction(idCountry);
         }
         return result;
     }
     
-    public boolean validateCountryForDelete(Country country) throws DAOException {
+    public boolean validateCountryForDelete(int idCountry) throws DAOException {
         UniversityDAO instanceDAO = new UniversityDAO();
         University instance = new University();
         
         try {
-            instance = instanceDAO.getUniversityByCountryId(country.getIdCountry());
+            instance = instanceDAO.getUniversityByCountryId(idCountry);
         } catch (DAOException exception) {
             Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No fue posible realizar la validacion para eliminar el pais", Status.ERROR);
@@ -101,7 +102,7 @@ public class CountryDAO implements ICountry {
         
         try {
             connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement,Statement.RETURN_GENERATED_KEYS );
+            preparedStatement = connection.prepareStatement(statement,Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, country.getName());
             result = preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
@@ -156,7 +157,7 @@ public class CountryDAO implements ICountry {
         return result;
     }
     
-    public int deleteCountryTransaction(Country country) throws DAOException {
+    public int deleteCountryTransaction(int idCountry) throws DAOException {
         int result = -1;
         Connection connection;
         PreparedStatement preparedStatement = null;
@@ -166,7 +167,7 @@ public class CountryDAO implements ICountry {
         try {
             connection = databaseManager.getConnection();
             preparedStatement = connection.prepareStatement(statement);
-            preparedStatement.setInt(1, country.getIdCountry());
+            preparedStatement.setInt(1, idCountry);
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);

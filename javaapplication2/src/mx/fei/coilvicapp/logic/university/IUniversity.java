@@ -11,7 +11,7 @@ public interface IUniversity {
     
     public int updateUniversity(University university) throws DAOException;
     
-    public int deleteUniversity(University university) throws DAOException;
+    public int deleteUniversity(int idUniversity) throws DAOException;
     
     public ArrayList<University> getAllUniversities() throws DAOException;
     

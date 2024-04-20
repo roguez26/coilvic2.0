@@ -39,7 +39,7 @@ public class CountryRegistrationTest {
         int idCountry = 0;
         
         try {
-            idCountry = COUNTRY_DAO.insertCountryTransaction(COUNTRY_FOR_TESTING);
+            idCountry = COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING);
         } catch (DAOException exception) {
             Logger.getLogger(CountryRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -48,14 +48,15 @@ public class CountryRegistrationTest {
     }
     
     @Test
-    public void testRegisterCountrySuccessByDuplicatedName() {
+    public void testRegisterCountryFailByDuplicatedName() {
         int idCountry = 0;
         
         COUNTRY_FOR_TESTING.setName(AUX_NAME);
         try {
-            idCountry = COUNTRY_DAO.insertCountryTransaction(COUNTRY_FOR_TESTING);
+            idCountry = COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING);
         } catch (DAOException exception) {
             Logger.getLogger(CountryRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
+            System.out.println(exception.getMessage());
         }
         COUNTRY_FOR_TESTING.setIdCountry(idCountry);
         assertTrue(idCountry > 0);
@@ -64,8 +65,8 @@ public class CountryRegistrationTest {
     @After
     public void tearDown() {
         try {
-            COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING);
-            COUNTRY_DAO.deleteCountry(AUX_COUNTRY_FOR_TESTING);
+            COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING.getIdCountry());
+            COUNTRY_DAO.deleteCountry(AUX_COUNTRY_FOR_TESTING.getIdCountry());
         } catch(DAOException exception) {
             Logger.getLogger(CountryRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }

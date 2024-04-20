@@ -1,4 +1,4 @@
-package mx.fei.coilvicapp.logic.Feedback;
+package mx.fei.coilvicapp.logic.feedback;
 import java.util.Objects;
 /**
  *
@@ -9,7 +9,7 @@ public class Question {
     private int idQuestion = 0;
     private String questionText;
     private String questionType;
-
+    
     public Question() {
         
     }
