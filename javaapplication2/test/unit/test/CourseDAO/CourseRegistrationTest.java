@@ -18,7 +18,7 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 
-public class CourseRegistrarionTest {
+public class CourseRegistrationTest {
     
     private static final CourseDAO COURSE_DAO = new CourseDAO();
     private static final Course COURSE_FOR_TESTING = new Course();
@@ -50,7 +50,7 @@ public class CourseRegistrarionTest {
             idProfessor = PROFESSOR_DAO.registerProfessor(AUX_PROFESSOR);
             
         } catch (DAOException exception) {
-            Logger.getLogger(CourseRegistrarionTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(CourseRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         AUX_COUNTRY.setIdCountry(idCountry);
         AUX_UNIVERSITY.setIdUniversity(idUniversity);
@@ -99,7 +99,7 @@ public class CourseRegistrarionTest {
         try {
             result = COURSE_DAO.insertCourse(COURSE_FOR_TESTING);
         } catch (DAOException exception) {
-            Logger.getLogger(CourseRegistrarionTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(CourseRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         
         assertTrue(result > 0);     
@@ -113,7 +113,7 @@ public class CourseRegistrarionTest {
             UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY.getIdUniversity());
             COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
         } catch (DAOException exception) {
-            Logger.getLogger(CourseRegistrarionTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(CourseRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }
     }
     
