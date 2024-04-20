@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package unit.test.UniversityDAO;
 
 import java.util.logging.Level;
@@ -49,7 +45,7 @@ public class UniversityDeleteTest {
     public void setUp() {
         int idUniversity = 0;
         int idInstitutionalRepresentative = 0;
-        int idCountry = 0;
+        int idCountry;
         
         intitliazeUniversity();
         initializeInstitutionalRepresentative();
@@ -90,7 +86,7 @@ public class UniversityDeleteTest {
         
         try {
             REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(AUX_REPRESENTATIVE);
-            result = UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING);
+            result = UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING.getIdUniversity());
         } catch (DAOException exception) {
             Logger.getLogger(UniversityUpdateTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());
@@ -103,7 +99,7 @@ public class UniversityDeleteTest {
         int result = 0;
         
         try {
-            result = UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING);
+            result = UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING.getIdUniversity());
         } catch (DAOException exception) {
             Logger.getLogger(UniversityUpdateTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());
@@ -115,8 +111,8 @@ public class UniversityDeleteTest {
     public void tearDown() {
         try {
             REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(AUX_REPRESENTATIVE);
-            UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING);
-            COUNTRY_DAO.deleteCountry(AUX_COUNTRY);
+            UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING.getIdUniversity());
+            COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
         } catch (DAOException exception) {
             Logger.getLogger(UniversityUpdateTest.class.getName()).log(Level.SEVERE, null, exception);
         }

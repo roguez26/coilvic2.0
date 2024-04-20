@@ -1,4 +1,4 @@
-package mx.fei.coilvicapp.logic.Feedback;
+package mx.fei.coilvicapp.logic.feedback;
 
 import java.util.ArrayList;
 import java.util.Objects;

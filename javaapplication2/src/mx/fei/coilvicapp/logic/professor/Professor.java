@@ -1,9 +1,9 @@
 package mx.fei.coilvicapp.logic.professor;
 
-import mx.fei.coilvicapp.logic.university.University;
+import java.util.Objects;
 
 public class Professor {
-    private int idProfessor;
+    private int idProfessor = 0;
     private String name;
     private String paternalSurname;
     private String maternalSurname;
@@ -11,10 +11,21 @@ public class Professor {
     private String gender;
     private String phoneNumber;
     private String state;
-    private University university;
+    private int idUniversity;
     
     public Professor() {
         
+    }
+    
+    public Professor(String name, String paternalSurname, String maternalSurname,
+            String email, String gender, String phoneNumber, int idUniversity) {
+        this.name = name;
+        this.paternalSurname = paternalSurname;
+        this.maternalSurname = maternalSurname;
+        this.email = email;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.idUniversity = idUniversity;
     }
     
     public int getIdProfessor() {
@@ -81,12 +92,32 @@ public class Professor {
         this.state = state;
     }
     
-    public University getUniversity() {
-        return university;
+    public int getIdUniversity() {
+        return idUniversity;
     }
 
-    public void setUniversity(University university) {
-        this.university = university;
+    public void setIdUniversity(int idUniversity) {
+        this.idUniversity = idUniversity;
     }
     
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Professor professor = (Professor) o;
+        return idProfessor == professor.idProfessor &&
+                Objects.equals(name, professor.name) &&
+                Objects.equals(paternalSurname, professor.paternalSurname) &&
+                Objects.equals(maternalSurname, professor.maternalSurname) &&
+                Objects.equals(email, professor.email) &&
+                Objects.equals(gender, professor.gender) &&
+                Objects.equals(phoneNumber, professor.phoneNumber) &&
+                Objects.equals(idUniversity, professor.idUniversity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idProfessor, name, paternalSurname, maternalSurname, email, gender, phoneNumber, idUniversity);
+    }
+
 }

@@ -119,9 +119,9 @@ public class UniversityRegistrationTest {
     @After
     public void tearDown() {
         try {
-            UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING);
-            UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY_FOR_TESTING);
-            COUNTRY_DAO.deleteCountry(AUX_COUNTRY);
+            UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING.getIdUniversity());
+            UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY_FOR_TESTING.getIdUniversity());
+            COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
         } catch (DAOException exception) {
             Logger.getLogger(UniversityRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }
