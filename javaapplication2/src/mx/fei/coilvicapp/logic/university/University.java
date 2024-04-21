@@ -2,7 +2,7 @@ package mx.fei.coilvicapp.logic.university;
 
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
-
+import mx.fei.coilvicapp.logic.country.Country;
 /**
  *
  * @author ivanr
@@ -14,10 +14,10 @@ public class University {
     private String acronym;
     private String jurisdiction;
     private String city;
-    private int idCountry;
+    private Country country;
 
     public University() {
-
+        country = new Country();
     }
 
     public int getIdUniversity() {
@@ -69,35 +69,43 @@ public class University {
         fieldValidator.checkName(city);
         this.city = city;
     }
-
-    public int getIdCountry() {
-        return idCountry;
+    
+    public Country getCountry() {
+        return country;
+    }
+    
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
+    public int getIdCountry() {
+        return country.getIdCountry();
+    }
+    
     public void setIdCountry(int idCountry) {
-        this.idCountry = idCountry;
+        country.setIdCountry(idCountry);
     }
 
     @Override
     public boolean equals(Object object) {
-
+        boolean isEqual = false;
+        
         if (this == object) {
-            return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        University toCompare = (University) object;
-        return idUniversity == toCompare.idUniversity
-                && idCountry == toCompare.idCountry
+            isEqual = true;
+        } else if (object != null && getClass() == object.getClass()) {
+            University toCompare = (University) object;
+            isEqual = idUniversity == toCompare.idUniversity
+                && Objects.equals(country, toCompare.country)
                 && Objects.equals(name, toCompare.name)
                 && Objects.equals(jurisdiction, toCompare.jurisdiction)
                 && Objects.equals(city, toCompare.city);
+        }
+        return isEqual;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUniversity, name, jurisdiction, city, idCountry);
+        return Objects.hash(idUniversity, name, jurisdiction, city, country);
     }
 
     @Override
@@ -107,7 +115,7 @@ public class University {
                 + ", name='" + name + '\''
                 + ", jurisdiction='" + jurisdiction + '\''
                 + ", city='" + city + '\''
-                + ", idCountry=" + idCountry
+                + ", idCountry=" + country
                 + '}';
     }
 

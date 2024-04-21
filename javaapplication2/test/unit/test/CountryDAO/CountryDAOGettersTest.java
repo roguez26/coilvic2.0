@@ -82,10 +82,10 @@ public class CountryDAOGettersTest {
     @Test
     public void testGetCountryByIdFailByNonexistenceId() {
         Country result = new Country();
-        int nonexistencId = 0;
+        int idNonexistence = 0;
         
         try {
-            result = COUNTRY_DAO.getCountryById(nonexistencId);
+            result = COUNTRY_DAO.getCountryById(idNonexistence);
         } catch (DAOException exception) {
             Logger.getLogger(CountryDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());

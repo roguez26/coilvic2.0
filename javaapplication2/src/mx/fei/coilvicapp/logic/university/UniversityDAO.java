@@ -213,7 +213,7 @@ public class UniversityDAO implements IUniversity {
         ArrayList<University> universitiesList = new ArrayList<>();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        University university = new University();
+        
         DatabaseManager databaseManager = new DatabaseManager();
         String statement = "SELECT * FROM Universidad";
 
@@ -222,6 +222,7 @@ public class UniversityDAO implements IUniversity {
             preparedStatement = connection.prepareCall(statement);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                University university = new University();
                 university = initializeUniversity(resultSet);
                 universitiesList.add(university);
             }

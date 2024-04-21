@@ -17,21 +17,25 @@ public class CountryRegistrationTest {
     
     private static final CountryDAO COUNTRY_DAO = new CountryDAO();
     private static final Country COUNTRY_FOR_TESTING = new Country();
-    private static final String NAME = "Alemania";
-    
-    private static final Country AUX_COUNTRY_FOR_TESTING = new Country();
-    private static final String AUX_NAME = "Japon";
+
+    private static final Country AUX_COUNTRY = new Country();
     
     @Before
     public void setUp() {
+        int idCountry = 0;
+        initializaeCountries();
+        
         try {
-            COUNTRY_FOR_TESTING.setName(NAME);
-            AUX_COUNTRY_FOR_TESTING.setName(AUX_NAME);
-            int idCountry = COUNTRY_DAO.registerCountry(AUX_COUNTRY_FOR_TESTING);
-            AUX_COUNTRY_FOR_TESTING.setIdCountry(idCountry);
+            idCountry = COUNTRY_DAO.registerCountry(AUX_COUNTRY);
         } catch (DAOException exception) {
             Logger.getLogger(CountryRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }
+        AUX_COUNTRY.setIdCountry(idCountry);
+    }
+    
+    private void initializaeCountries() {
+        COUNTRY_FOR_TESTING.setName( "Alemania");
+        AUX_COUNTRY.setName("Japon");
     }
     
     @Test
@@ -51,7 +55,7 @@ public class CountryRegistrationTest {
     public void testRegisterCountryFailByDuplicatedName() {
         int idCountry = 0;
         
-        COUNTRY_FOR_TESTING.setName(AUX_NAME);
+        COUNTRY_FOR_TESTING.setName(AUX_COUNTRY.getName());
         try {
             idCountry = COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING);
         } catch (DAOException exception) {
@@ -66,7 +70,7 @@ public class CountryRegistrationTest {
     public void tearDown() {
         try {
             COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING.getIdCountry());
-            COUNTRY_DAO.deleteCountry(AUX_COUNTRY_FOR_TESTING.getIdCountry());
+            COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
         } catch(DAOException exception) {
             Logger.getLogger(CountryRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }
