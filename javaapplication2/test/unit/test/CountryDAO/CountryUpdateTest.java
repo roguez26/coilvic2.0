@@ -18,10 +18,9 @@ public class CountryUpdateTest {
 
     private static final CountryDAO COUNTRY_DAO = new CountryDAO();
     private static final Country COUNTRY_FOR_TESTING = new Country();
-    private static final String NAME = "España";
 
-    private static final Country AUX_COUNTRY_FOR_TESTING = new Country();
-    private static final String AUX_NAME = "Colombia";
+    private static final Country AUX_COUNTRY = new Country();
+
 
     public CountryUpdateTest() {
 
@@ -31,16 +30,20 @@ public class CountryUpdateTest {
     public void setUp() {
         int idCountry;
         
-        COUNTRY_FOR_TESTING.setName(NAME);
-        AUX_COUNTRY_FOR_TESTING.setName(AUX_NAME);
+        initializaeCountries();
         try {
-            idCountry = COUNTRY_DAO.registerCountry(AUX_COUNTRY_FOR_TESTING);
-            AUX_COUNTRY_FOR_TESTING.setIdCountry(idCountry);
+            idCountry = COUNTRY_DAO.registerCountry(AUX_COUNTRY);
+            AUX_COUNTRY.setIdCountry(idCountry);
             idCountry = COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING);
             COUNTRY_FOR_TESTING.setIdCountry(idCountry);
         } catch (DAOException exception) {
             Logger.getLogger(CountryUpdateTest.class.getName()).log(Level.SEVERE, null, exception);
         }
+    }
+    
+    private void initializaeCountries() {
+        COUNTRY_FOR_TESTING.setName( "Alemania");
+        AUX_COUNTRY.setName("Japon");
     }
 
     @Test
@@ -60,7 +63,7 @@ public class CountryUpdateTest {
     @Test
     public void testUpdateCountryFailByDuplicatedName() {
         int result = 0;
-        String newName = AUX_NAME;
+        String newName = AUX_COUNTRY.getName();
         
         COUNTRY_FOR_TESTING.setName(newName);
         try {
@@ -76,7 +79,7 @@ public class CountryUpdateTest {
     public void tearDown() {
         try {
             COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING.getIdCountry());
-            COUNTRY_DAO.deleteCountry(AUX_COUNTRY_FOR_TESTING.getIdCountry());
+            COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
         } catch (DAOException exception) {
             Logger.getLogger(CountryRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }

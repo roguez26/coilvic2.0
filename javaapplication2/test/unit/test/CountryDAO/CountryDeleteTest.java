@@ -88,7 +88,6 @@ public class CountryDeleteTest {
 
         try {
             result = COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING.getIdCountry());
-
         } catch (DAOException exception) {
             Logger.getLogger(CountryRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());

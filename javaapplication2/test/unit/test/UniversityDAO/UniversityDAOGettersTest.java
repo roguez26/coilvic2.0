@@ -133,15 +133,15 @@ public class UniversityDAOGettersTest {
         assertTrue(result.getIdUniversity() > 0);
     }
 
-    @After
-    public void tearDown() {
-        try {
-            for (int i = 0; i < 3; i++) {
-                UNIVERSITY_DAO.deleteUniversity(UNIVERSITIES_FOR_TESTING.get(i).getIdUniversity());
-            }
-            COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
-        } catch (DAOException exception) {
-            Logger.getLogger(UniversityDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
-        }
-    }
+//    @After
+//    public void tearDown() {
+//        try {
+//            for (int i = 0; i < 3; i++) {
+//                UNIVERSITY_DAO.deleteUniversity(UNIVERSITIES_FOR_TESTING.get(i).getIdUniversity());
+//            }
+//            COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
+//        } catch (DAOException exception) {
+//            Logger.getLogger(UniversityDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
+//        }
+//    }
 }

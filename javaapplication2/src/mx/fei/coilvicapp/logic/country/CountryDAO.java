@@ -21,12 +21,12 @@ public class CountryDAO implements ICountry {
     }
 
     private boolean checkNameDuplication(Country country) throws DAOException {
-        Country instance;
+        Country countryforCheck;
         int idCountry = 0;
 
         try {
-            instance = getCountryByName(country.getName());
-            idCountry = instance.getIdCountry();
+            countryforCheck = getCountryByName(country.getName());
+            idCountry = countryforCheck.getIdCountry();
         } catch (DAOException exception) {
             throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", Status.ERROR);
         }
@@ -67,16 +67,16 @@ public class CountryDAO implements ICountry {
     }
     
     public boolean validateCountryForDelete(int idCountry) throws DAOException {
-        UniversityDAO instanceDAO = new UniversityDAO();
-        University instance = new University();
+        UniversityDAO universityDAO = new UniversityDAO();
+        University university = new University();
         
         try {
-            instance = instanceDAO.getUniversityByCountryId(idCountry);
+            university = universityDAO.getUniversityByCountryId(idCountry);
         } catch (DAOException exception) {
             Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No fue posible realizar la validacion para eliminar el pais", Status.ERROR);
         }
-        if(instance.getIdUniversity() > 0) {
+        if(university.getIdUniversity() > 0) {
             throw new DAOException ("No se pudo eliminar el pais debido a que existen aun universidades relacionadas a este pais", Status.WARNING);
         }        
         return true;
@@ -199,10 +199,10 @@ public class CountryDAO implements ICountry {
             preparedStatement = connection.prepareStatement(statement);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Country instance = new Country();
-                instance.setIdCountry(resultSet.getInt("IdPais"));
-                instance.setName(resultSet.getString("Nombre"));
-                countries.add(instance);
+                Country country = new Country();
+                country.setIdCountry(resultSet.getInt("IdPais"));
+                country.setName(resultSet.getString("Nombre"));
+                countries.add(country);
             }
 
         } catch (SQLException exception) {
