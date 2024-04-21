@@ -16,7 +16,7 @@ public class Course {
     private String generalObjective;
     private String topicsInterest;
     private int numberStudents;
-    private String studentPorfile;
+    private String studentsProfile;
     private String term;
     private String language;
     private String additionalInformation;
@@ -81,12 +81,12 @@ public class Course {
         this.numberStudents = numberStudents;
     }
     
-    public String getStudentPorfile() {
-        return studentPorfile;
+    public String getStudentsProfile() {
+        return studentsProfile;
     }
     
-    public void setStudentPorfile(String studentPorfile) {
-        this.studentPorfile = studentPorfile;
+    public void setStudentsProfile(String studentsProfile) {
+        this.studentsProfile = studentsProfile;
     }
     
     public String getTerm() {
