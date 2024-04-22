@@ -115,7 +115,7 @@ public class University {
                 + ", name='" + name + '\''
                 + ", jurisdiction='" + jurisdiction + '\''
                 + ", city='" + city + '\''
-                + ", idCountry=" + country
+                + ", country =" + country
                 + '}';
     }
 

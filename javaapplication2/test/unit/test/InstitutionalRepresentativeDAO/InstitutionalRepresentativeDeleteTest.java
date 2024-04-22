@@ -26,22 +26,12 @@ public class InstitutionalRepresentativeDeleteTest {
     
     private static final InstitutionalRepresentativeDAO REPRESENTATIVE_DAO = new InstitutionalRepresentativeDAO();
     private static final InstitutionalRepresentative REPRESENTATIVE_FOR_TESTING = new InstitutionalRepresentative();
-    private final String NAME = "Javier";
-    private final String PATERNAL_SURNAME = "Hernandez";
-    private final String MATERNAL_SURNAME = "Hernandez";
-    private final String PHONE_NUMBER = "2293445226";
-    private final String EMAIL = "javier@gmail.com";
     
     private static final UniversityDAO UNIVERSITY_DAO = new UniversityDAO();
     private static final University AUX_UNIVERSITY = new University();
-    private static final String AUX_NAME = "Universidad Católica Andrés Bello";
-    private static final String AUX_ACRONYM = "UCAB";
-    private static final String AUX_JURISDICTION = "Caracas";
-    private static final String AUX_CITY = "Guayana";
-    
+
     private static final CountryDAO COUNTRY_DAO = new CountryDAO();
     private static final Country AUX_COUNTRY = new Country();
-    private static final String AUX_COUNTRY_NAME = "Mexico";
     
     public InstitutionalRepresentativeDeleteTest() {
         
@@ -53,17 +43,17 @@ public class InstitutionalRepresentativeDeleteTest {
         int idCountry;
         int idUniversity;
         
-        AUX_COUNTRY.setName(AUX_COUNTRY_NAME);
+        initializeAuxiliarCountry();
         intitliazeAuxiliarUniversity();
-        initializeRepresentative();
+        initializeInstitutionalRepresentative();
         
         try {
             idCountry = COUNTRY_DAO.registerCountry(AUX_COUNTRY);
             AUX_COUNTRY.setIdCountry(idCountry);
-            AUX_UNIVERSITY.setIdCountry(idCountry);
+            AUX_UNIVERSITY.setCountry(AUX_COUNTRY);
             idUniversity = UNIVERSITY_DAO.registerUniversity(AUX_UNIVERSITY);
             AUX_UNIVERSITY.setIdUniversity(idUniversity);
-            REPRESENTATIVE_FOR_TESTING.setIdUniversity(idUniversity);
+            REPRESENTATIVE_FOR_TESTING.setUniversity(AUX_UNIVERSITY);
             idRepresentative = REPRESENTATIVE_DAO.registerInstitutionalRepresentative(REPRESENTATIVE_FOR_TESTING);
             REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(idRepresentative);
         } catch (DAOException exception) {
@@ -71,19 +61,23 @@ public class InstitutionalRepresentativeDeleteTest {
         }
     }
     
-    private void initializeRepresentative() {
-        REPRESENTATIVE_FOR_TESTING.setName(NAME);
-        REPRESENTATIVE_FOR_TESTING.setPaternalSurname(PATERNAL_SURNAME);
-        REPRESENTATIVE_FOR_TESTING.setMaternalSurname(MATERNAL_SURNAME);
-        REPRESENTATIVE_FOR_TESTING.setPhoneNumber(PHONE_NUMBER);
-        REPRESENTATIVE_FOR_TESTING.setEmail(EMAIL);
+    private void initializeAuxiliarCountry() {
+        AUX_COUNTRY.setName("Mexico");
+    }
+    
+    private void initializeInstitutionalRepresentative() {
+        REPRESENTATIVE_FOR_TESTING.setName("Carlos");
+        REPRESENTATIVE_FOR_TESTING.setPaternalSurname("Oliva");
+        REPRESENTATIVE_FOR_TESTING.setMaternalSurname("Ramirez");
+        REPRESENTATIVE_FOR_TESTING.setPhoneNumber("2297253222");
+        REPRESENTATIVE_FOR_TESTING.setEmail("Carlos@gmail.com");
     }
     
     private void intitliazeAuxiliarUniversity() {
-        AUX_UNIVERSITY.setName(AUX_NAME);
-        AUX_UNIVERSITY.setAcronym(AUX_ACRONYM);
-        AUX_UNIVERSITY.setJurisdiction(AUX_JURISDICTION);
-        AUX_UNIVERSITY.setCity(AUX_CITY);
+        AUX_UNIVERSITY.setName("Universidad Veracruzana");
+        AUX_UNIVERSITY.setAcronym("UV");
+        AUX_UNIVERSITY.setJurisdiction("Veracruz");
+        AUX_UNIVERSITY.setCity("Xalapa");
     }
     
     @Test

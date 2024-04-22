@@ -2,6 +2,7 @@ package mx.fei.coilvicapp.logic.institutionalRepresentative;
 
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
+import mx.fei.coilvicapp.logic.university.University;
 
 /**
  *
@@ -15,7 +16,11 @@ public class InstitutionalRepresentative {
     private String maternalSurname;
     private String eMail;
     private String phoneNumber;
-    private int idUniversity;
+    private University university;
+    
+    public InstitutionalRepresentative() {
+        university = new University();
+    }
 
     public int getIdInstitutionalRepresentative() {
         return idInstitutionalRepresentative;
@@ -39,10 +44,6 @@ public class InstitutionalRepresentative {
 
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public int getIdUniversity() {
-        return idUniversity;
     }
 
     public void setIdInstitutionalRepresentative(int idInstutionalRepresentative) {
@@ -85,33 +86,45 @@ public class InstitutionalRepresentative {
         fieldValidator.checkPhoneNumber(phoneNumber);
         this.phoneNumber = phoneNumber;
     }
+    
+    public University getUniversity() {
+        return university;
+    }
+    
+    public void setUniversity(University university) {
+        this.university = university;
+    }
 
-    public void setIdUniversity(int university) {
-        this.idUniversity = university;
+    public void setIdUniversity(int idUniversity) {
+        university.setIdUniversity(idUniversity);
+    }
+    
+    public int getIdUniversity() {
+        return university.getIdUniversity();
     }
 
     @Override
     public boolean equals(Object object) {
-        boolean result = false;
+        boolean isEqual = false;
+        
         if (this == object) {
-            result = true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            result = false;
-        }
-        InstitutionalRepresentative toCompare = (InstitutionalRepresentative) object;
-        return idInstitutionalRepresentative == toCompare.idInstitutionalRepresentative
-                && idUniversity == toCompare.idUniversity
+            isEqual = true;
+        } else if (object != null && getClass() == object.getClass()) {
+            InstitutionalRepresentative toCompare = (InstitutionalRepresentative) object;
+        isEqual = idInstitutionalRepresentative == toCompare.idInstitutionalRepresentative
+                && Objects.equals(university, toCompare.university)
                 && Objects.equals(name, toCompare.name)
                 && Objects.equals(paternalSurname, toCompare.paternalSurname)
                 && Objects.equals(maternalSurname, toCompare.maternalSurname)
                 && Objects.equals(eMail, toCompare.eMail)
                 && Objects.equals(phoneNumber, toCompare.phoneNumber);
+        }
+        return isEqual;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idInstitutionalRepresentative, name, paternalSurname, maternalSurname, eMail, phoneNumber, idUniversity);
+        return Objects.hash(idInstitutionalRepresentative, name, paternalSurname, maternalSurname, eMail, phoneNumber, university);
     }
 
     @Override
@@ -123,7 +136,7 @@ public class InstitutionalRepresentative {
                 + ", maternalSurname='" + maternalSurname + '\''
                 + ", eMail='" + eMail + '\''
                 + ", phoneNumber='" + phoneNumber + '\''
-                + ", university=" + idUniversity
+                + ", university=" + university
                 + '}';
     }
 }

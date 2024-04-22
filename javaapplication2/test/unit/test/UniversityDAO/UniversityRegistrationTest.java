@@ -20,48 +20,44 @@ public class UniversityRegistrationTest {
 
     private static final UniversityDAO UNIVERSITY_DAO = new UniversityDAO();
     private static final University UNIVERSITY_FOR_TESTING = new University();
-    private static final String NAME = "Universidad Veracruzana";
-    private static final String ACRONYM = "UV";
-    private static final String JURISDICTION = "Veracruz";
-    private static final String CITY = "Xalapa";
-    private static final int ID_COUNTRY = 1;
 
     private static final University AUX_UNIVERSITY_FOR_TESTING = new University();
-    private static final String AUX_NAME = "Universidad Católica Andrés Bello";
-    private static final String AUX_ACRONYM = "UCAB";
-    private static final String AUX_JURISDICTION = "Caracas";
-    private static final String AUX_CITY = "Guayana";
-    
+
     private static final CountryDAO COUNTRY_DAO = new CountryDAO();
     private static final Country AUX_COUNTRY = new Country();
-    private static final String AUX_COUNTRY_NAME = "Mexico";
+    
+    private void initializeAuxiliarCountry() {
+        AUX_COUNTRY.setName("Mexico");
+    }
 
     private void intitliazeUniversity() {
-        UNIVERSITY_FOR_TESTING.setName(NAME);
-        UNIVERSITY_FOR_TESTING.setAcronym(ACRONYM);
-        UNIVERSITY_FOR_TESTING.setJurisdiction(JURISDICTION);
-        UNIVERSITY_FOR_TESTING.setCity(CITY);
-        UNIVERSITY_FOR_TESTING.setIdCountry(ID_COUNTRY);
+        UNIVERSITY_FOR_TESTING.setName("Universidad Veracruzana");
+        UNIVERSITY_FOR_TESTING.setAcronym("UV");
+        UNIVERSITY_FOR_TESTING.setJurisdiction("Veracruz");
+        UNIVERSITY_FOR_TESTING.setCity("Xalapa");
+        UNIVERSITY_FOR_TESTING.setCountry(AUX_COUNTRY);
     }
 
     private void intitliazeAuxiliarUniversity() {
-        AUX_UNIVERSITY_FOR_TESTING.setName(AUX_NAME);
-        AUX_UNIVERSITY_FOR_TESTING.setAcronym(AUX_ACRONYM);
-        AUX_UNIVERSITY_FOR_TESTING.setJurisdiction(AUX_JURISDICTION);
-        AUX_UNIVERSITY_FOR_TESTING.setCity(AUX_CITY);
+        AUX_UNIVERSITY_FOR_TESTING.setName("Universidad Católica Andrés Bello");
+        AUX_UNIVERSITY_FOR_TESTING.setAcronym("UCAB");
+        AUX_UNIVERSITY_FOR_TESTING.setJurisdiction("Caracas");
+        AUX_UNIVERSITY_FOR_TESTING.setCity("Guayana");
+        AUX_UNIVERSITY_FOR_TESTING.setCountry(AUX_COUNTRY);
     }
 
     @Before
     public void setUp() {
         int idUniversity = 0;
         int idCountry = 0;
+        initializeAuxiliarCountry();
         intitliazeAuxiliarUniversity();
         intitliazeUniversity();
-        AUX_COUNTRY.setName(AUX_COUNTRY_NAME);
         
         try {
             idCountry = COUNTRY_DAO.registerCountry(AUX_COUNTRY);
-            AUX_UNIVERSITY_FOR_TESTING.setIdCountry(idCountry);
+            AUX_COUNTRY.setIdCountry(idCountry);
+            AUX_UNIVERSITY_FOR_TESTING.setCountry(AUX_COUNTRY);
             idUniversity = UNIVERSITY_DAO.registerUniversity(AUX_UNIVERSITY_FOR_TESTING);
             
         } catch (DAOException exception) {
@@ -89,7 +85,7 @@ public class UniversityRegistrationTest {
     public void testRegisterUniverityFailByNameDuplication() {
         int idUniversity = 0;
         
-        UNIVERSITY_FOR_TESTING.setName(AUX_NAME);
+        UNIVERSITY_FOR_TESTING.setName(AUX_UNIVERSITY_FOR_TESTING.getName());
         try {
             idUniversity = UNIVERSITY_DAO.registerUniversity(UNIVERSITY_FOR_TESTING);
         } catch (DAOException exception) {
@@ -101,10 +97,12 @@ public class UniversityRegistrationTest {
     }
     
     @Test
-    public void testRegistarUniversityFailByNonexistenceCountryId() {
+    public void testRegisterUniversityFailByNonexistenceCountry() {
         int idUniversity = 0;
         int nonexistenceCountryId = -1;
+        int idCountry;
         
+        idCountry = UNIVERSITY_FOR_TESTING.getIdCountry();
         UNIVERSITY_FOR_TESTING.setIdCountry(nonexistenceCountryId);
         try {
             idUniversity = UNIVERSITY_DAO.registerUniversity(UNIVERSITY_FOR_TESTING);
@@ -113,6 +111,7 @@ public class UniversityRegistrationTest {
             System.out.println(exception.getMessage());
         }
         UNIVERSITY_FOR_TESTING.setIdUniversity(idUniversity);
+        UNIVERSITY_FOR_TESTING.setIdCountry(idCountry);
         assertTrue(idUniversity > 0);   
     }
 
