@@ -27,14 +27,14 @@ public class UniversityDAO implements IUniversity {
     }
 
     private boolean checkNameDuplication(University university) throws DAOException {
-        University instance;
+        University universityForCheck;
 
         try {
-            instance = getUniversityByName(university.getName());
+            universityForCheck = getUniversityByName(university.getName());
         } catch (DAOException exception) {
             throw new DAOException("No fue posible realizar la validacion, intente mas tarde", Status.ERROR);
         }
-        if (instance.getIdUniversity() != university.getIdUniversity() && instance.getIdUniversity() > 0) {
+        if (universityForCheck.getIdUniversity() != university.getIdUniversity() && universityForCheck.getIdUniversity() > 0) {
             throw new DAOException("El nombre de esta universidad ya esta registrado", Status.WARNING);
         }
         return false;
@@ -45,28 +45,28 @@ public class UniversityDAO implements IUniversity {
         int result = 0;
 
         if (!checkNameDuplication(university)) {
-            if(checkCountryExistence(university.getIdCountry())) {
+            if (checkCountryExistence(university.getIdCountry())) {
                 result = insertUniversityTransaction(university);
             }
         }
         return result;
     }
-    
+
     public boolean checkCountryExistence(int idCountry) throws DAOException {
-        CountryDAO instanceDAO = new CountryDAO();
-        Country instance;
-        
+        CountryDAO countryDAO = new CountryDAO();
+        Country country;
+
         try {
-            instance = instanceDAO.getCountryById(idCountry);
+            country = countryDAO.getCountryById(idCountry);
         } catch (DAOException exception) {
-            throw new DAOException ("No se pudo hacer la validacion para registrar la universidad", Status.ERROR);
+            throw new DAOException("No se pudo hacer la validacion para registrar la universidad", Status.ERROR);
         }
-        if(instance.getIdCountry() <= 0) {
+        if (country.getIdCountry() <= 0) {
             throw new DAOException("Este pais aun no se encuentra registrado", Status.WARNING);
         }
         return true;
     }
-    
+
     @Override
     public int updateUniversity(University university) throws DAOException {
         int result = 0;
@@ -76,38 +76,38 @@ public class UniversityDAO implements IUniversity {
         }
         return result;
     }
-    
+
     @Override
     public int deleteUniversity(int idUniversity) throws DAOException {
         int result = 0;
-        
-        if(validateUniversityForDelete(idUniversity)) {
+
+        if (validateUniversityForDelete(idUniversity)) {
             result = deleteUniversityTransaction(idUniversity);
         }
         return result;
     }
-    
+
     public boolean validateUniversityForDelete(int idUniversity) throws DAOException {
         InstitutionalRepresentativeDAO instanceDAO = new InstitutionalRepresentativeDAO();
         InstitutionalRepresentative instance = new InstitutionalRepresentative();
-        
+
         try {
             instance = instanceDAO.getInstitutionalRepresentativeByUniversityId(idUniversity);
         } catch (DAOException exception) {
             Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No fue posible realizar la validacion para eliminar la universidad", Status.ERROR);
         }
-        if(instance.getIdInstitutionalRepresentative() > 0) {
+        if (instance.getIdInstitutionalRepresentative() > 0) {
             throw new DAOException("No se pudo eliminar la universidad debido a que existen representates relacionados con esta universidad", Status.WARNING);
         }
         return true;
     }
-    
+
     public boolean validateUniversityForUpdate(University university) throws DAOException {
         University oldUniversity = getUniversityById(university.getIdUniversity());
         boolean result = true;
-        
-        if(!oldUniversity.getName().equals(university.getName())) {
+
+        if (!oldUniversity.getName().equals(university.getName())) {
             result = !checkNameDuplication(university);
         }
         return result;
@@ -178,7 +178,6 @@ public class UniversityDAO implements IUniversity {
         return result;
     }
 
-    
     public int deleteUniversityTransaction(int idUniversity) throws DAOException {
         int result = -1;
         Connection connection;
@@ -213,7 +212,7 @@ public class UniversityDAO implements IUniversity {
         ArrayList<University> universitiesList = new ArrayList<>();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        
+
         DatabaseManager databaseManager = new DatabaseManager();
         String statement = "SELECT * FROM Universidad";
 
@@ -279,7 +278,7 @@ public class UniversityDAO implements IUniversity {
         }
         return university;
     }
-    
+
     public University getUniversityByCountryId(int idCountry) throws DAOException {
         Connection connection;
         University university = new University();
@@ -362,14 +361,20 @@ public class UniversityDAO implements IUniversity {
         return preparedStatement;
     }
 
-    private University initializeUniversity(ResultSet resultSet) throws SQLException {
-        University instance = new University();
-        instance.setIdUniversity(resultSet.getInt("IdUniversidad"));
-        instance.setName(resultSet.getString("Nombre"));
-        instance.setAcronym(resultSet.getString("Acronimo"));
-        instance.setJurisdiction(resultSet.getString("Jurisdiccion"));
-        instance.setCity(resultSet.getString("Ciudad"));
-        instance.setIdCountry(resultSet.getInt("IdPais"));
-        return instance;
+    private University initializeUniversity(ResultSet resultSet) throws DAOException {
+        University university = new University();
+        CountryDAO countryDAO = new CountryDAO();
+
+        try {
+            university.setIdUniversity(resultSet.getInt("IdUniversidad"));
+            university.setName(resultSet.getString("Nombre"));
+            university.setAcronym(resultSet.getString("Acronimo"));
+            university.setJurisdiction(resultSet.getString("Jurisdiccion"));
+            university.setCity(resultSet.getString("Ciudad"));
+            university.setCountry(countryDAO.getCountryById(resultSet.getInt("IdPais")));
+        } catch (SQLException exception) {
+            Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+        }
+        return university;
     }
 }

@@ -2,6 +2,8 @@ package mx.fei.coilvicapp.logic.institutionalRepresentative;
 
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
+import mx.fei.coilvicapp.logic.university.UniversityDAO;
+import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.implementations.Status;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
@@ -19,12 +21,12 @@ import java.util.ArrayList;
 public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentative {
 
     private boolean checkEmailDuplication(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
-        InstitutionalRepresentative instance;
+        InstitutionalRepresentative institutionalRepresentativeForCheck;
         int idRepresentative = 0;
 
         try {
-            instance = getInstitutionalRepresentativeByEmail(institutionalRepresentative.getEmail());
-            idRepresentative = instance.getIdInstitutionalRepresentative();
+            institutionalRepresentativeForCheck = getInstitutionalRepresentativeByEmail(institutionalRepresentative.getEmail());
+            idRepresentative = institutionalRepresentativeForCheck.getIdInstitutionalRepresentative();
         } catch (DAOException exception) {
             throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", Status.ERROR);
         }
@@ -33,13 +35,30 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return false;
     }
+    
+    private boolean checkUniversityExistence(int idUniversity) throws DAOException {
+        UniversityDAO universityDAO = new UniversityDAO();
+        University university = new University();
+        
+        try {
+            university = universityDAO.getUniversityById(idUniversity);
+        } catch (DAOException exception) {
+            throw new DAOException("No se pudo hacer la validacion para registrar al representante", Status.ERROR);
+        }
+        if (university.getIdCountry() <= 0) {
+            throw new DAOException("Esta universidad aun no se encuentra registrado", Status.WARNING);
+        }
+        return true;
+    }
 
     @Override
     public int registerInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         int result = 0;
 
         if (!checkEmailDuplication(institutionalRepresentative)) {
-            result = insertInstitutionalRepresentativeTransaction(institutionalRepresentative);
+            if(checkUniversityExistence(institutionalRepresentative.getIdUniversity())){
+                result = insertInstitutionalRepresentativeTransaction(institutionalRepresentative);
+            }
         }
         return result;
     }
@@ -47,7 +66,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
     @Override
     public int updateInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         int result = 0;
-        
+
         if (validateInstitutionalRepresentativeForUpdate(institutionalRepresentative)) {
             result = updateInstitutionalRepresentativeTransaction(institutionalRepresentative);
         }
@@ -230,7 +249,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return institutionalRepresentative;
     }
-    
+
     public InstitutionalRepresentative getInstitutionalRepresentativeByUniversityId(int universityId) throws DAOException {
         InstitutionalRepresentative institutionalRepresentative = new InstitutionalRepresentative();
         DatabaseManager databaseManager = new DatabaseManager();
@@ -316,15 +335,22 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         return preparedStatement;
     }
 
-    private InstitutionalRepresentative initializeInstitutionalRepresentative(ResultSet resultSet) throws SQLException {
+    private InstitutionalRepresentative initializeInstitutionalRepresentative(ResultSet resultSet) throws DAOException {
+        UniversityDAO universityDAO = new UniversityDAO();
         InstitutionalRepresentative instance = new InstitutionalRepresentative();
-        instance.setIdInstitutionalRepresentative(resultSet.getInt("IdRepresentante"));
-        instance.setName(resultSet.getString("Nombre"));
-        instance.setPaternalSurname(resultSet.getString("ApellidoPaterno"));
-        instance.setMaternalSurname(resultSet.getString("ApellidoMaterno"));
-        instance.setEmail(resultSet.getString("Correo"));
-        instance.setPhoneNumber(resultSet.getString("Telefono"));
-        instance.setIdUniversity(resultSet.getInt("IdUniversidad"));
+
+        try {
+            instance.setIdInstitutionalRepresentative(resultSet.getInt("IdRepresentante"));
+            instance.setName(resultSet.getString("Nombre"));
+            instance.setPaternalSurname(resultSet.getString("ApellidoPaterno"));
+            instance.setMaternalSurname(resultSet.getString("ApellidoMaterno"));
+            instance.setEmail(resultSet.getString("Correo"));
+            instance.setPhoneNumber(resultSet.getString("Telefono"));
+            instance.setUniversity(universityDAO.getUniversityById(resultSet.getInt("idUniversidad")));
+
+        } catch (SQLException exception) {
+            Logger.getLogger(InstitutionalRepresentativeDAO.class.getName()).log(Level.SEVERE, null, exception);
+        }
         return instance;
     }
 }

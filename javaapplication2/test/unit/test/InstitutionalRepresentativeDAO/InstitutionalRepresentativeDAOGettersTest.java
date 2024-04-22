@@ -24,24 +24,13 @@ public class InstitutionalRepresentativeDAOGettersTest {
 
     private static final InstitutionalRepresentativeDAO REPRESENTATIVE_DAO = new InstitutionalRepresentativeDAO();
     private static final ArrayList<InstitutionalRepresentative> REPRESENTATIVES_FOR_TESTING = new ArrayList<>();
-    private static final String[] NAMES = {"Natalia", "Daniel", "Juan"};
-    private static final String[] PATERNAL_SURNAMES = {"Hernandez", "Romero", "Mata"};
-    private static final String[] MATERNAL_SURNAMES = {"Alvarez", "Cid", "Alba"};
-    private static final String[] PHONE_NUMBERS = {"2293846226", "2283948372", "2273820393"};
-    private static final String[] EMAILS = {"natalia@gmail.com", "daniel@gmail.com", "juan@gmail.com"};
-    private static final int[] REPRESENTATIVE_IDS = {0, 0, 0};
 
     private static final UniversityDAO UNIVERSITY_DAO = new UniversityDAO();
     private static final University AUX_UNIVERSITY = new University();
-    private static final String AUX_NAME = "Universidad Católica Andrés Bello";
-    private static final String AUX_ACRONYM = "UCAB";
-    private static final String AUX_JURISDICTION = "Caracas";
-    private static final String AUX_CITY = "Guayana";
-    
+
     private static final CountryDAO COUNTRY_DAO = new CountryDAO();
     private static final Country AUX_COUNTRY = new Country();
-    private static final String AUX_COUNTRY_NAME = "Mexico";
-    
+
     public InstitutionalRepresentativeDAOGettersTest() {
 
     }
@@ -50,44 +39,55 @@ public class InstitutionalRepresentativeDAOGettersTest {
     public void setUp() {
         int idCountry;
         int idUniversity;
-        
-        AUX_COUNTRY.setName(AUX_COUNTRY_NAME);
-        intitliazeAuxiliarUniversity();
-        initializeRepresentative();
-        
+        int idInstitutionalRepresentative;
+
+        initializeCountry();
+        intitliazeUniversity();
+        initializeInstitutionalRepresentatives();
+
         try {
             idCountry = COUNTRY_DAO.registerCountry(AUX_COUNTRY);
             AUX_COUNTRY.setIdCountry(idCountry);
-            AUX_UNIVERSITY.setIdCountry(idCountry);
+            AUX_UNIVERSITY.setCountry(AUX_COUNTRY);
             idUniversity = UNIVERSITY_DAO.registerUniversity(AUX_UNIVERSITY);
             AUX_UNIVERSITY.setIdUniversity(idUniversity);
-            for (int i = 0; i < REPRESENTATIVES_FOR_TESTING.size(); i++) {
-                REPRESENTATIVES_FOR_TESTING.get(i).setIdUniversity(idUniversity);
-                REPRESENTATIVE_IDS[i] = REPRESENTATIVE_DAO.registerInstitutionalRepresentative(REPRESENTATIVES_FOR_TESTING.get(i));
-                REPRESENTATIVES_FOR_TESTING.get(i).setIdInstitutionalRepresentative(REPRESENTATIVE_IDS[i]);
+            for (int i = 0; i < 3; i++) {
+                REPRESENTATIVES_FOR_TESTING.get(i).setUniversity(AUX_UNIVERSITY);
+                idInstitutionalRepresentative = REPRESENTATIVE_DAO.registerInstitutionalRepresentative(REPRESENTATIVES_FOR_TESTING.get(i));
+                REPRESENTATIVES_FOR_TESTING.get(i).setIdInstitutionalRepresentative(idInstitutionalRepresentative);
             }
         } catch (DAOException exception) {
             Logger.getLogger(InstitutionalRepresentativeDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
         }
     }
 
-    private void initializeRepresentative() {
+    private void initializeCountry() {
+        AUX_COUNTRY.setName("Mexico");
+    }
+
+    private void intitliazeUniversity() {
+        AUX_UNIVERSITY.setName("Universidad Veracruzana");
+        AUX_UNIVERSITY.setAcronym("UV");
+        AUX_UNIVERSITY.setJurisdiction("Veracruz");
+        AUX_UNIVERSITY.setCity("Xalapa");
+    }
+
+    private void initializeInstitutionalRepresentatives() {
+        String[] names = {"Natalia", "Daniel", "Juan"};
+        String[] paternalSurnames = {"Hernandez", "Romero", "Mata"};
+        String[] maternalSurnames = {"Alvarez", "Cid", "Alba"};
+        String[] phoneNumber = {"2293846226", "2283948372", "2273820393"};
+        String[] emails = {"natalia@gmail.com", "daniel@gmail.com", "juan@gmail.com"};
+
         for (int i = 0; i < 3; i++) {
             InstitutionalRepresentative institutionalRepresentative = new InstitutionalRepresentative();
-            institutionalRepresentative.setName(NAMES[i]);
-            institutionalRepresentative.setPaternalSurname(PATERNAL_SURNAMES[i]);
-            institutionalRepresentative.setMaternalSurname(MATERNAL_SURNAMES[i]);
-            institutionalRepresentative.setPhoneNumber(PHONE_NUMBERS[i]);
-            institutionalRepresentative.setEmail(EMAILS[i]);
+            institutionalRepresentative.setName(names[i]);
+            institutionalRepresentative.setPaternalSurname(paternalSurnames[i]);
+            institutionalRepresentative.setMaternalSurname(maternalSurnames[i]);
+            institutionalRepresentative.setPhoneNumber(phoneNumber[i]);
+            institutionalRepresentative.setEmail(emails[i]);
             REPRESENTATIVES_FOR_TESTING.add(institutionalRepresentative);
         }
-    }
-    
-    private void intitliazeAuxiliarUniversity() {
-        AUX_UNIVERSITY.setName(AUX_NAME);
-        AUX_UNIVERSITY.setAcronym(AUX_ACRONYM);
-        AUX_UNIVERSITY.setJurisdiction(AUX_JURISDICTION);
-        AUX_UNIVERSITY.setCity(AUX_CITY);
     }
 
     @Test
@@ -106,49 +106,49 @@ public class InstitutionalRepresentativeDAOGettersTest {
     public void testGetInstitutionalRepresentativeByIdSuccess() {
         InstitutionalRepresentative result = new InstitutionalRepresentative();
         int ForSearch = 1;
-        
+
         try {
-            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeById(REPRESENTATIVES_FOR_TESTING.get(ForSearch).getIdInstitutionalRepresentative());            
+            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeById(REPRESENTATIVES_FOR_TESTING.get(ForSearch).getIdInstitutionalRepresentative());
         } catch (DAOException exception) {
             Logger.getLogger(InstitutionalRepresentativeDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         assertEquals(REPRESENTATIVES_FOR_TESTING.get(ForSearch), result);
     }
-    
+
     @Test
     public void testGetInstitutionalRepresentativeByIdFailByNonexistenceId() {
         InstitutionalRepresentative result = new InstitutionalRepresentative();
         int nonexistenceId = 0;
-        
-        try {           
-            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeById(nonexistenceId);            
+
+        try {
+            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeById(nonexistenceId);
         } catch (DAOException exception) {
             Logger.getLogger(InstitutionalRepresentativeDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());
         }
         assertTrue(result.getIdInstitutionalRepresentative() > 0);
     }
-    
+
     @Test
     public void testGetInstitutionalRepresentativeByEmailSuccess() {
         InstitutionalRepresentative result = new InstitutionalRepresentative();
         int ForSearch = 1;
-        
+
         try {
-            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeByEmail(REPRESENTATIVES_FOR_TESTING.get(ForSearch).getEmail());            
+            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeByEmail(REPRESENTATIVES_FOR_TESTING.get(ForSearch).getEmail());
         } catch (DAOException exception) {
             Logger.getLogger(InstitutionalRepresentativeDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         assertEquals(REPRESENTATIVES_FOR_TESTING.get(ForSearch), result);
     }
-    
+
     @Test
     public void testGetInstitutionalRepresentativeByEmailFailByNonexistenceEmail() {
         InstitutionalRepresentative result = new InstitutionalRepresentative();
         String nonexistenceEmail = "xxxx@gmail.com";
-        
+
         try {
-            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeByEmail(nonexistenceEmail);            
+            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeByEmail(nonexistenceEmail);
         } catch (DAOException exception) {
             Logger.getLogger(InstitutionalRepresentativeDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
         }

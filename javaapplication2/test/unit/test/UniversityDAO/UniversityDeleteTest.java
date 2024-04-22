@@ -22,62 +22,55 @@ public class UniversityDeleteTest {
     
     private static final UniversityDAO UNIVERSITY_DAO = new UniversityDAO();
     private static final University UNIVERSITY_FOR_TESTING = new University();
-    private static final String NAME = "Universidad Veracruzana";
-    private static final String ACRONYM = "UV";
-    private static final String JURISDICTION = "Veracruz";
-    private static final String CITY = "Xalapa";
-    private static final int ID_COUNTRY = 1;
-    
+     
     private static final InstitutionalRepresentativeDAO REPRESENTATIVE_DAO = new InstitutionalRepresentativeDAO();
     private static final InstitutionalRepresentative AUX_REPRESENTATIVE = new InstitutionalRepresentative();
-    private static final String AUX_REPRESENTATIVE_NAME = "Carlos";
-    private static final String AUX_PATERNAL_SURNAME = "Oliva";
-    private static final String AUX_MATERNAL_SURNAME = "Ramirez";
-    private static final String AUX_PHONE_NUMBER = "2297253222";
-    private static final String AUX_EMAIL = "Carlos@gmail.com";
     
     private static final CountryDAO COUNTRY_DAO = new CountryDAO();
     private static final Country AUX_COUNTRY = new Country();
-    private static final String AUX_COUNTRY_NAME = "Mexico";
     
     
     @Before
     public void setUp() {
-        int idUniversity = 0;
+        int idUniversity;
         int idInstitutionalRepresentative = 0;
         int idCountry;
         
+        initializeAuxiliarCountry();
         intitliazeUniversity();
-        initializeInstitutionalRepresentative();
-        AUX_COUNTRY.setName(AUX_COUNTRY_NAME);
+        initializeAuxiliarInstitutionalRepresentative();
         try {
             idCountry = COUNTRY_DAO.registerCountry(AUX_COUNTRY);
             AUX_COUNTRY.setIdCountry(idCountry);
-            UNIVERSITY_FOR_TESTING.setIdCountry(idCountry);
+            UNIVERSITY_FOR_TESTING.setCountry(AUX_COUNTRY);
+            
             idUniversity = UNIVERSITY_DAO.registerUniversity(UNIVERSITY_FOR_TESTING);
-            AUX_REPRESENTATIVE.setIdUniversity(idUniversity);
+            UNIVERSITY_FOR_TESTING.setIdUniversity(idUniversity);
+            AUX_REPRESENTATIVE.setUniversity(UNIVERSITY_FOR_TESTING);
             idInstitutionalRepresentative = REPRESENTATIVE_DAO.registerInstitutionalRepresentative(AUX_REPRESENTATIVE);
         } catch (DAOException exception) {
             Logger.getLogger(UniversityUpdateTest.class.getName()).log(Level.SEVERE, null, exception);
         }
-        UNIVERSITY_FOR_TESTING.setIdUniversity(idUniversity);
         AUX_REPRESENTATIVE.setIdInstitutionalRepresentative(idInstitutionalRepresentative);
+    }
+    
+    private void initializeAuxiliarCountry() {
+        AUX_COUNTRY.setName("Mexico");
     }
 
     private void intitliazeUniversity() {
-        UNIVERSITY_FOR_TESTING.setName(NAME);
-        UNIVERSITY_FOR_TESTING.setAcronym(ACRONYM);
-        UNIVERSITY_FOR_TESTING.setJurisdiction(JURISDICTION);
-        UNIVERSITY_FOR_TESTING.setCity(CITY);
-        UNIVERSITY_FOR_TESTING.setIdCountry(ID_COUNTRY);
+        UNIVERSITY_FOR_TESTING.setName("Universidad Veracruzana");
+        UNIVERSITY_FOR_TESTING.setAcronym("UV");
+        UNIVERSITY_FOR_TESTING.setJurisdiction("Veracruz");
+        UNIVERSITY_FOR_TESTING.setCity("Xalapa");
     }
     
-    private void initializeInstitutionalRepresentative() {
-        AUX_REPRESENTATIVE.setName(AUX_REPRESENTATIVE_NAME);
-        AUX_REPRESENTATIVE.setPaternalSurname(AUX_PATERNAL_SURNAME);
-        AUX_REPRESENTATIVE.setMaternalSurname(AUX_MATERNAL_SURNAME);
-        AUX_REPRESENTATIVE.setPhoneNumber(AUX_PHONE_NUMBER);
-        AUX_REPRESENTATIVE.setEmail(AUX_EMAIL);
+    private void initializeAuxiliarInstitutionalRepresentative() {
+        AUX_REPRESENTATIVE.setName("Carlos");
+        AUX_REPRESENTATIVE.setPaternalSurname("Oliva");
+        AUX_REPRESENTATIVE.setMaternalSurname("Ramirez");
+        AUX_REPRESENTATIVE.setPhoneNumber("2297253222");
+        AUX_REPRESENTATIVE.setEmail("Carlos@gmail.com");
     }
     
     @Test
@@ -89,7 +82,6 @@ public class UniversityDeleteTest {
             result = UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING.getIdUniversity());
         } catch (DAOException exception) {
             Logger.getLogger(UniversityUpdateTest.class.getName()).log(Level.SEVERE, null, exception);
-            System.out.println(exception.getMessage());
         }
         assertTrue(result > 0);
     }
@@ -106,6 +98,21 @@ public class UniversityDeleteTest {
         }
         assertTrue(result > 0);
     }
+    
+    @Test
+    public void testDeleteUniversityFailByNonexistenceId() {
+        int result = 0;
+        int idNonexistence = 0;
+        
+        try {
+            result = UNIVERSITY_DAO.deleteUniversity(idNonexistence);
+        } catch (DAOException exception) {
+            Logger.getLogger(UniversityUpdateTest.class.getName()).log(Level.SEVERE, null, exception);
+            System.out.println(exception.getMessage());
+        }
+        assertTrue(result > 0);
+    }
+    
     
     @After
     public void tearDown() {

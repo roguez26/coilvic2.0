@@ -2,6 +2,8 @@ package unit.test.InstitutionalRepresentativeDAO;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import mx.fei.coilvicapp.logic.country.Country;
+import mx.fei.coilvicapp.logic.country.CountryDAO;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.Before;
@@ -9,6 +11,8 @@ import org.junit.After;
 import mx.fei.coilvicapp.logic.institutionalRepresentative.InstitutionalRepresentativeDAO;
 import mx.fei.coilvicapp.logic.institutionalRepresentative.InstitutionalRepresentative;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
+import mx.fei.coilvicapp.logic.university.University;
+import mx.fei.coilvicapp.logic.university.UniversityDAO;
 
 /**
  *
@@ -18,20 +22,14 @@ public class InstitutionalRepresentativeRegistrationTest {
 
     private static final InstitutionalRepresentativeDAO REPRESENTATIVE_DAO = new InstitutionalRepresentativeDAO();
     private static final InstitutionalRepresentative REPRESENTATIVE_FOR_TESTING = new InstitutionalRepresentative();
-    private static final String NAME = "Natalia";
-    private static final String PATERNAL_SURNAME = "Hernandez";
-    private static final String MATERNAL_SURNAME = null;
-    private static final String PHONE_NUMBER = "2293846226";
-    private static final String EMAIL = "natalia@gmail.com";
-    private static final int ID_UNIVERSITY = 1;
 
     private static final InstitutionalRepresentative AUX_REPRESENTATIVE_FOR_TESTING = new InstitutionalRepresentative();
-    private static final String AUX_NAME = "Carlos";
-    private static final String AUX_PATERNAL_SURNAME = "Oliva";
-    private static final String AUX_MATERNAL_SURNAME = "Ramirez";
-    private static final String AUX_PHONE_NUMBER = "2297253222";
-    private static final String AUX_EMAIL = "Carlos@gmail.com";
-    private static final int AUX_ID_UNIVERSITY = 1;
+    
+    private static final UniversityDAO UNIVERSITY_DAO = new UniversityDAO();
+    private static final University AUX_UNIVERSITY = new University();
+    
+    private static final CountryDAO COUNTRY_DAO = new CountryDAO();
+    private static final Country AUX_COUNTRY = new Country();
 
     public InstitutionalRepresentativeRegistrationTest() {
 
@@ -39,32 +37,54 @@ public class InstitutionalRepresentativeRegistrationTest {
 
     @Before
     public void setUp() {
+        int idRepresentative;
+        int idCountry;
+        int idUniversity;
+        
+        initializeAuxiliarCountry();
+        intitliazeAuxiliarUniversity();
+        initializeAuxiliarRepresentative();
+        initializeRepresentative();
         try {
-            initializeRepresentative();
-            initializeAuxiliarRepresentative();
-            int idRepresentative = REPRESENTATIVE_DAO.registerInstitutionalRepresentative(AUX_REPRESENTATIVE_FOR_TESTING);
+            idCountry = COUNTRY_DAO.registerCountry(AUX_COUNTRY);
+            AUX_COUNTRY.setIdCountry(idCountry);
+            AUX_UNIVERSITY.setCountry(AUX_COUNTRY);
+            idUniversity = UNIVERSITY_DAO.registerUniversity(AUX_UNIVERSITY);
+            AUX_UNIVERSITY.setIdUniversity(idUniversity);
+            AUX_REPRESENTATIVE_FOR_TESTING.setUniversity(AUX_UNIVERSITY);
+            REPRESENTATIVE_FOR_TESTING.setUniversity(AUX_UNIVERSITY);
+            idRepresentative = REPRESENTATIVE_DAO.registerInstitutionalRepresentative(AUX_REPRESENTATIVE_FOR_TESTING);
             AUX_REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(idRepresentative);
         } catch (DAOException exception) {
             Logger.getLogger(InstitutionalRepresentativeRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }
     }
+    
+    private void initializeAuxiliarCountry() {
+        AUX_COUNTRY.setName("Mexico");
+    }
+    
+    private void intitliazeAuxiliarUniversity() {
+        AUX_UNIVERSITY.setName("Universidad Veracruzana");
+        AUX_UNIVERSITY.setAcronym("UV");
+        AUX_UNIVERSITY.setJurisdiction("Veracruz");
+        AUX_UNIVERSITY.setCity("Xalapa");
+    }
 
     private void initializeRepresentative() {
-        REPRESENTATIVE_FOR_TESTING.setName(NAME);
-        REPRESENTATIVE_FOR_TESTING.setPaternalSurname(PATERNAL_SURNAME);
-        REPRESENTATIVE_FOR_TESTING.setMaternalSurname(MATERNAL_SURNAME);
-        REPRESENTATIVE_FOR_TESTING.setPhoneNumber(PHONE_NUMBER);
-        REPRESENTATIVE_FOR_TESTING.setEmail(EMAIL);
-        REPRESENTATIVE_FOR_TESTING.setIdUniversity(ID_UNIVERSITY);
+        REPRESENTATIVE_FOR_TESTING.setName("Natalia");
+        REPRESENTATIVE_FOR_TESTING.setPaternalSurname("Hernandez");
+        REPRESENTATIVE_FOR_TESTING.setMaternalSurname(null);
+        REPRESENTATIVE_FOR_TESTING.setPhoneNumber("2293846226");
+        REPRESENTATIVE_FOR_TESTING.setEmail("natalia@gmail.com");
     }
 
     private void initializeAuxiliarRepresentative() {
-        AUX_REPRESENTATIVE_FOR_TESTING.setName(AUX_NAME);
-        AUX_REPRESENTATIVE_FOR_TESTING.setPaternalSurname(AUX_PATERNAL_SURNAME);
-        AUX_REPRESENTATIVE_FOR_TESTING.setMaternalSurname(AUX_MATERNAL_SURNAME);
-        AUX_REPRESENTATIVE_FOR_TESTING.setPhoneNumber(AUX_PHONE_NUMBER);
-        AUX_REPRESENTATIVE_FOR_TESTING.setEmail(AUX_EMAIL);
-        AUX_REPRESENTATIVE_FOR_TESTING.setIdUniversity(AUX_ID_UNIVERSITY);
+        AUX_REPRESENTATIVE_FOR_TESTING.setName("Carlos");
+        AUX_REPRESENTATIVE_FOR_TESTING.setPaternalSurname("Oliva");
+        AUX_REPRESENTATIVE_FOR_TESTING.setMaternalSurname("Ramirez");
+        AUX_REPRESENTATIVE_FOR_TESTING.setPhoneNumber("2297253222");
+        AUX_REPRESENTATIVE_FOR_TESTING.setEmail("Carlos@gmail.com");
     }
 
     @Test
@@ -85,7 +105,7 @@ public class InstitutionalRepresentativeRegistrationTest {
         int idRepresentative = 0;
 
         try {
-            REPRESENTATIVE_FOR_TESTING.setEmail(AUX_EMAIL);
+            REPRESENTATIVE_FOR_TESTING.setEmail(AUX_REPRESENTATIVE_FOR_TESTING.getEmail());
             idRepresentative = REPRESENTATIVE_DAO.registerInstitutionalRepresentative(REPRESENTATIVE_FOR_TESTING);
             
         } catch (DAOException exception) {
@@ -94,12 +114,31 @@ public class InstitutionalRepresentativeRegistrationTest {
         }
         assertTrue(idRepresentative > 0);
     }
+    
+    @Test
+    public void testRegisterInstitutionalRepresentativeFailByNonexistenceUniversity() {
+        int idRepresentative = 0;
+        int idUniversity;
+        idUniversity = REPRESENTATIVE_FOR_TESTING.getIdUniversity();
+        try {
+            REPRESENTATIVE_FOR_TESTING.setIdUniversity(0);
+            idRepresentative = REPRESENTATIVE_DAO.registerInstitutionalRepresentative(REPRESENTATIVE_FOR_TESTING);
+            
+        } catch (DAOException exception) {
+            Logger.getLogger(InstitutionalRepresentativeRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
+            System.out.println(exception.getMessage());
+        }
+        REPRESENTATIVE_FOR_TESTING.setIdUniversity(idUniversity);
+        assertTrue(idRepresentative > 0);
+    }
 
     @After
     public void tearDown() {
         try {
             REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(REPRESENTATIVE_FOR_TESTING);
             REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(AUX_REPRESENTATIVE_FOR_TESTING);
+            UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY.getIdUniversity());
+            COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
         } catch (DAOException exception) {
             Logger.getLogger(InstitutionalRepresentativeRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }

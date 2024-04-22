@@ -21,19 +21,11 @@ public class UniversityUpdateTest {
     private static final UniversityDAO UNIVERSITY_DAO = new UniversityDAO();
     private static final University UNIVERSITY_FOR_TESTING = new University();
     private static final String NAME = "Universidad Veracruzana";
-    private static final String ACRONYM = "UV";
-    private static final String JURISDICTION = "Veracruz";
-    private static final String CITY = "Xalapa";
 
     private static final University AUX_UNIVERSITY_FOR_TESTING = new University();
-    private static final String AUX_NAME = "Universidad Católica Andrés Bello";
-    private static final String AUX_ACRONYM = "UCAB";
-    private static final String AUX_JURISDICTION = "Caracas";
-    private static final String AUX_CITY = "Guayana";
 
     private static final CountryDAO COUNTRY_DAO = new CountryDAO();
     private static final Country AUX_COUNTRY = new Country();
-    private static final String AUX_COUNTRY_NAME = "Mexico";
 
     public UniversityUpdateTest() {
 
@@ -43,9 +35,9 @@ public class UniversityUpdateTest {
     public void setUp() {
         int idUniversity;
         int idCountry;
+        initializeAuxiliarCountry();
         intitliazeAuxiliarUniversity();
         intitliazeUniversity();
-        AUX_COUNTRY.setName(AUX_COUNTRY_NAME);
 
         try {
             idCountry = COUNTRY_DAO.registerCountry(AUX_COUNTRY);
@@ -61,18 +53,24 @@ public class UniversityUpdateTest {
         }
     }
 
+    private void initializeAuxiliarCountry() {
+        AUX_COUNTRY.setName("Mexico");
+    }
+
     private void intitliazeUniversity() {
-        UNIVERSITY_FOR_TESTING.setName(NAME);
-        UNIVERSITY_FOR_TESTING.setAcronym(ACRONYM);
-        UNIVERSITY_FOR_TESTING.setJurisdiction(JURISDICTION);
-        UNIVERSITY_FOR_TESTING.setCity(CITY);
+        UNIVERSITY_FOR_TESTING.setName("Universidad Veracruzana");
+        UNIVERSITY_FOR_TESTING.setAcronym("UV");
+        UNIVERSITY_FOR_TESTING.setJurisdiction("Veracruz");
+        UNIVERSITY_FOR_TESTING.setCity("Xalapa");
+        UNIVERSITY_FOR_TESTING.setCountry(AUX_COUNTRY);
     }
 
     private void intitliazeAuxiliarUniversity() {
-        AUX_UNIVERSITY_FOR_TESTING.setName(AUX_NAME);
-        AUX_UNIVERSITY_FOR_TESTING.setAcronym(AUX_ACRONYM);
-        AUX_UNIVERSITY_FOR_TESTING.setJurisdiction(AUX_JURISDICTION);
-        AUX_UNIVERSITY_FOR_TESTING.setCity(AUX_CITY);
+        AUX_UNIVERSITY_FOR_TESTING.setName("Universidad Católica Andrés Bello");
+        AUX_UNIVERSITY_FOR_TESTING.setAcronym("UCAB");
+        AUX_UNIVERSITY_FOR_TESTING.setJurisdiction("Caracas");
+        AUX_UNIVERSITY_FOR_TESTING.setCity("Guayana");
+        AUX_UNIVERSITY_FOR_TESTING.setCountry(AUX_COUNTRY);
     }
 
     @Test
@@ -91,7 +89,7 @@ public class UniversityUpdateTest {
 
     @Test
     public void testUpdateUniversityFailByDuplicatedName() {
-        String newName = AUX_NAME;
+        String newName = AUX_UNIVERSITY_FOR_TESTING.getName();
         int result = 0;
 
         UNIVERSITY_FOR_TESTING.setName(newName);
