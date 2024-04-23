@@ -11,5 +11,5 @@ public interface IUser {
     
     public User authenticateUser(String email, String password) throws DAOException;
     
-    
+    public int deleteUser(int idProfessor) throws DAOException;
 }

@@ -114,17 +114,17 @@ public class UniversityRegistrationTest {
         UNIVERSITY_FOR_TESTING.setIdCountry(idCountry);
         assertTrue(idUniversity > 0);   
     }
-
-    @After
-    public void tearDown() {
-        try {
-            UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING.getIdUniversity());
-            UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY_FOR_TESTING.getIdUniversity());
-            COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
-        } catch (DAOException exception) {
-            Logger.getLogger(UniversityRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
-        }
-
-    }
+//
+//    @After
+//    public void tearDown() {
+//        try {
+//            UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING.getIdUniversity());
+//            UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY_FOR_TESTING.getIdUniversity());
+//            COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
+//        } catch (DAOException exception) {
+//            Logger.getLogger(UniversityRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
+//        }
+//
+//    }
 
 }

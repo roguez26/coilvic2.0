@@ -75,6 +75,9 @@ public class University {
     }
     
     public void setCountry(Country country) {
+        if (country == null) {
+            throw new IllegalArgumentException("Debe asignarle un país a la universidad");
+        }
         this.country = country;
     }
 
