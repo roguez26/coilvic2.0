@@ -17,9 +17,26 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/UniversityRegistrationFXML"));
+        scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/UniversityManager"));
         stage.setScene(scene);
         stage.show();
+    }
+    
+    public static void setRoot(String fxml) throws IOException {
+        scene.setRoot(loadFXML(fxml));
+    }
+    
+    public static void changeView(String url, int width, int height) throws IOException {
+        Stage currentStage = (Stage) scene.getWindow();
+        configureStage(currentStage, width, height);
+        setRoot(url);
+        
+    }
+    
+    private static void configureStage(Stage stage, int width, int height) {
+        stage.setWidth(width);
+        stage.setHeight(height);
+        stage.centerOnScreen();
     }
     
     private static Parent loadFXML(String fxml) throws IOException {

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.UniversityRegistrationController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.UniversityRegistrationController">
    <children>
       <Label alignment="CENTER" prefHeight="92.0" prefWidth="400.0" text="Registrar Universidad">
          <font>
@@ -18,18 +18,18 @@
       <VBox maxWidth="-Infinity" prefHeight="306.0" prefWidth="286.0" spacing="10.0">
          <children>
             <Label prefHeight="33.0" prefWidth="134.0" text="Nombre:" />
-            <TextField fx:id="nameTextField" prefHeight="26.0" prefWidth="326.0" promptText="Ej: Universidad Veracruzana" />
+            <TextField fx:id="nameTextField" prefHeight="26.0" prefWidth="326.0" promptText="Universidad Veracruzana" />
             <Label prefHeight="18.0" prefWidth="103.0" text="Acrónimo:" />
-            <TextField fx:id="acronymTextField" promptText="Ej: UV" />
+            <TextField fx:id="acronymTextField" promptText="UV" />
             <Label prefHeight="18.0" prefWidth="119.0" text="Jurisdicción:" />
-            <TextField fx:id="jurisdictionTextField" promptText="Ej: Veracruz" />
+            <TextField fx:id="jurisdictionTextField" promptText="Veracruz" />
             <Label prefHeight="30.0" prefWidth="78.0" text="Ciudad:" />
-            <TextField fx:id="cityTextField" prefHeight="26.0" prefWidth="241.0" promptText="Ej: Xalapa" />
+            <TextField fx:id="cityTextField" prefHeight="26.0" prefWidth="241.0" promptText="Xalapa" />
             <Label text="País:" />
             <ComboBox fx:id="countryCombobox" prefWidth="150.0" visibleRowCount="5" />
          </children>
       </VBox>
-      <HBox alignment="CENTER" cache="true" fillHeight="false" prefHeight="98.0" prefWidth="323.0" spacing="50.0" VBox.vgrow="ALWAYS">
+      <HBox alignment="CENTER" cache="true" fillHeight="false" prefHeight="50.0" prefWidth="314.0" spacing="50.0" VBox.vgrow="ALWAYS">
          <children>
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#cancel" prefHeight="26.0" prefWidth="100.0" text="Cancelar" HBox.hgrow="ALWAYS" />
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#accept" prefHeight="26.0" prefWidth="100.0" text="Aceptar" HBox.hgrow="ALWAYS" />

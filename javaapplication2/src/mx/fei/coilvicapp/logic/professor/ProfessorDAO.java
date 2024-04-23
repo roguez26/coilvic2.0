@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
+import mx.fei.coilvicapp.logic.user.UserDAO;
+import mx.fei.coilvicapp.logic.user.User;
 
 public class ProfessorDAO implements IProfessor {
     
@@ -295,6 +297,29 @@ public class ProfessorDAO implements IProfessor {
         professor.setIdUniversity(resultSet.getInt("IdUniversidad"));
         return professor;
         
+    }
+    
+    public int assignUser(Professor professor, String password) throws DAOException {
+        int result = 0;
+        User user = new User();
+        UserDAO userDAO = new UserDAO();
+        
+        user.setProfessor(professor);
+        user.setType("P");
+        user.setPassword(password);
+        
+        result = userDAO.registerUser(user);
+        
+        return result;
+    }
+    
+    public int deleteUser(Professor professor) throws DAOException {
+        int result = 0;
+        UserDAO userDAO = new UserDAO();
+        
+        userDAO.deleteUser(professor.getIdProfessor());
+        
+        return result;
     }
     
 }
