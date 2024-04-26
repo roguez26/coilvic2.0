@@ -1,55 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.UniversityManagerController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.UniversityManagerController">
    <children>
       <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="66.0" prefWidth="554.0" spacing="190.0">
          <children>
-            <Button fx:id="backButton" lineSpacing="50.0" mnemonicParsing="false" text="⮌">
+            <Button fx:id="backButton" lineSpacing="50.0" mnemonicParsing="false" stylesheets="@../../../../../stylesheet/buttonback.css" text="⮌">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
             <Label alignment="CENTER" lineSpacing="70.0" prefHeight="20.0" prefWidth="118.0" text="Universidades" textAlignment="CENTER">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="Verdana Bold" size="14.0" />
                </font>
             </Label>
          </children>
       </HBox>
       <VBox maxWidth="-Infinity" prefHeight="364.0" prefWidth="554.0">
          <children>
-            <TableView fx:id="universitiesTableView" accessibleRole="CONTEXT_MENU" cache="true" prefHeight="347.0" prefWidth="554.0">
+            <TableView fx:id="universitiesTableView" accessibleRole="CONTEXT_MENU" cache="true" prefHeight="347.0" prefWidth="542.0" stylesheets="@../../../../../stylesheet/tableview.css">
               <columns>
-                <TableColumn fx:id="nameTableColumn" prefWidth="146.39996641874313" text="Nombre" />
-                <TableColumn fx:id="acronymTableColumn" prefWidth="109.59991455078125" text="Acrónimo" />
+                <TableColumn fx:id="nameTableColumn" prefWidth="134.40002745389938" text="Nombre" />
+                <TableColumn fx:id="acronymTableColumn" prefWidth="121.59996032714844" text="Acrónimo" />
                   <TableColumn fx:id="jurisdictionTableColumn" prefWidth="101.60002136230469" text="Jurisdicción" />
                   <TableColumn fx:id="cityTableColumn" prefWidth="99.20001220703125" text="Ciudad" />
                   <TableColumn fx:id="countryTableColumn" prefWidth="96.800048828125" text="Pais" />
               </columns>
-               <effect>
-                  <ColorAdjust />
-               </effect>
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
             </TableView>
          </children>
       </VBox>
       <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="46.0" prefWidth="556.0" spacing="10.0">
          <children>
-            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButton" prefHeight="26.0" prefWidth="80.0" text="Eliminar" />
-            <Button fx:id="updateButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Actualizar" />
-            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerButton" prefHeight="26.0" prefWidth="80.0" text="Registrar" />
+            <Button fx:id="seeDetailsButton" mnemonicParsing="false" onAction="#seeDetailsButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheet/buttongray.css" text="Ver Detalles" />
+            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerButton" prefHeight="26.0" prefWidth="80.0" stylesheets="@../../../../../stylesheet/buttonblue.css" text="Registrar" />
          </children>
       </HBox>
    </children>

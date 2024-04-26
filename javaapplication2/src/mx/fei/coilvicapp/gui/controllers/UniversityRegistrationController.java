@@ -61,7 +61,7 @@ public class UniversityRegistrationController implements Initializable {
     @FXML
     private void cancel(ActionEvent event) throws IOException {
         if (confirmedCancelation()) {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager", 600, 500);
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
         }
     }
     
@@ -82,7 +82,7 @@ public class UniversityRegistrationController implements Initializable {
         } catch (IllegalArgumentException ioException) {
             handleValidationException(ioException);
         } catch (DAOException daoException) {
-            habdleDAOException(daoException);
+            handleDAOException(daoException);
         }
     }
     
@@ -111,13 +111,12 @@ public class UniversityRegistrationController implements Initializable {
         return university;
     }
     
-    private void habdleDAOException(DAOException exception) {
+    private void handleDAOException(DAOException exception) {
         try {
             DialogController.getDialog(new AlertMessage (exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
-                case ERROR -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager", 0, 0);
-                case FATAL -> MainApp.changeView("/main/MainApp", 0, 0);
-                
+                case ERROR -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                case FATAL -> MainApp.changeView("/main/MainApp");  
             }
         } catch (IOException ioException) {
             

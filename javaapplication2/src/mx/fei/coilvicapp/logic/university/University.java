@@ -121,5 +121,16 @@ public class University {
                 + ", country =" + country
                 + '}';
     }
+    
+    public University copy() {
+        University copy = new University();
+        copy.setIdUniversity(this.idUniversity);
+        copy.setName(this.name);
+        copy.setAcronym(this.acronym);
+        copy.setJurisdiction(this.jurisdiction);
+        copy.setCity(this.city);
+        copy.setCountry(this.country);
+        return copy;
+    }
 
 }
