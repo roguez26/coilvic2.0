@@ -15,7 +15,7 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ButtonType;
+import javafx.fxml.FXMLLoader;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.implementations.Status;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
@@ -50,7 +50,7 @@ public class UniversityManagerController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ArrayList<University> universitiesList = new ArrayList<>();
-
+        
         try {
             universitiesList = UNIVERSITY_DAO.getAllUniversities();
         } catch (DAOException exception) {
@@ -62,70 +62,44 @@ public class UniversityManagerController implements Initializable {
         cityTableColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
         countryTableColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
         universitiesTableView.getItems().addAll(universitiesList);
+    
     }
 
     @FXML
     private void backButton(ActionEvent event) throws IOException {
-
-    }
-
-    @FXML
-    private void deleteButton(ActionEvent event) throws IOException {
-        University selectedUniversity = (University) universitiesTableView.getSelectionModel().getSelectedItem();
-        if (selectedUniversity != null) {
-            if (deleteConfirmation()) {
-                try {
-                    invokeDeleteUniversity(selectedUniversity);
-                } catch (DAOException exception) {
-                    habdleDAOException(exception);
-                }
-                universitiesTableView.getItems().remove(selectedUniversity);
-                universitiesTableView.refresh();
-            }
-        } else {
-            Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog( "Aviso", "Seleccione una universidad");
-        }
-    }
-
-    private void invokeDeleteUniversity(University university) throws DAOException {
-        int result = 0;
-        result = UNIVERSITY_DAO.deleteUniversity(university.getIdUniversity());
-        if (result > 0) {
-            wasDeletedConfirmation();
-        }
+        MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");
     }
 
     @FXML
     private void registerButton(ActionEvent event) throws IOException {
-        MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityRegistrationFXML", 400, 500);
+        MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityRegistrationFXML");
     }
 
-    private boolean wasDeletedConfirmation() {
-        Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog("Eliminada", "La universidad fue eliminada");
-        return response.get() == DialogController.BUTTON_ACCEPT;
+    @FXML
+    private void seeDetailsButtonIsPressed(ActionEvent event) throws IOException {
+        University university = (University) universitiesTableView.getSelectionModel().getSelectedItem();
+        if (university != null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/UpdateUniversity.fxml"));
+            MainApp.changeView(fxmlLoader);
+            UpdateUniversityController updateUniversitycontroller = fxmlLoader.getController();
+            
+            updateUniversitycontroller.setUniversity(university);
+        } else {
+            
+        }
     }
 
-    private boolean deleteConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar eliminacion", "¿Deseas salir eliminar la universidad?");
-        return (response.get() == DialogController.BUTTON_YES);
-    }
-
-    private void habdleDAOException(DAOException exception) {
+    private void handleDAOException(DAOException exception) {
         try {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager", 0, 0);
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp", 0, 0);
-
+                    MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
 
         }
-    }
-
-    private void handleValidationException(IllegalArgumentException ex) {
-        DialogController.getDialog(new AlertMessage(ex.getMessage(), Status.WARNING));
     }
 }
