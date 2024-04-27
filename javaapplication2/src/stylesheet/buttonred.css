@@ -1,6 +1,6 @@
 .button {
-    -fx-background-color: #f3f3f3; /* Color de fondo azul */
-    -fx-text-fill:  rgb(60, 60, 60);
+    -fx-background-color: #b62020; /* Color de fondo azul */
+    -fx-text-fill:  white;
     -fx-font-family: "Roboto"; /* Fuente Arial */
     -fx-font-size: 12px; /* Tamaño de fuente */
     -fx-padding: 5px 10px; /* Espaciado interno del botón ajustado */

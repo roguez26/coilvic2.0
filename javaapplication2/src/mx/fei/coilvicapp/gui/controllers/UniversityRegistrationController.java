@@ -21,6 +21,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonType;
 import main.MainApp;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -31,19 +32,21 @@ public class UniversityRegistrationController implements Initializable {
 
     @FXML
     private TextField nameTextField;
-    
+
     @FXML
     private TextField acronymTextField;
-    
+
     @FXML
     private TextField jurisdictionTextField;
-    
+
     @FXML
     private TextField cityTextField;
-    
+    @FXML
+    private VBox backgroundVBox;
+
     @FXML
     private ComboBox<Country> countryCombobox;
-    
+
     private final ICountry COUNTRY_DAO = new CountryDAO();
     private final IUniversity UNIVERSITY_DAO = new UniversityDAO();
 
@@ -53,30 +56,35 @@ public class UniversityRegistrationController implements Initializable {
         try {
             countries = COUNTRY_DAO.getAllCountries();
         } catch (DAOException exception) {
-            
+
         }
-        countryCombobox.setItems(FXCollections.observableArrayList(countries));   
+        countryCombobox.setItems(FXCollections.observableArrayList(countries));
     }
-    
+
     @FXML
-    private void cancel(ActionEvent event) throws IOException {
-        if (confirmedCancelation()) {
+    private void cancelButtonIsPressed(ActionEvent event) throws IOException {
+
+        if (textFieldsAreCleaned() || confirmedCancelation()) {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
         }
     }
-    
+
+    private boolean textFieldsAreCleaned() {
+        return nameTextField.getText().equals("") && acronymTextField.getText().equals("") && jurisdictionTextField.getText().equals("") && cityTextField.getText().equals("");
+    }
+
     private boolean confirmedCancelation() {
         Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", "¿Deseas cancelar el registro?");
         return (response.get() == DialogController.BUTTON_YES);
     }
-    
+
     private boolean wasRegisteredConfirmation() {
-        Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog("Registrada","La universidad se registro con exito");
+        Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog("Registrada", "La universidad se registro con exito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
-    
+
     @FXML
-    private void accept (ActionEvent event) throws IOException {
+    private void acceptButtonIsPressed(ActionEvent event) throws IOException {
         try {
             invokeUniversityRegistration(initializeUniversity());
         } catch (IllegalArgumentException ioException) {
@@ -85,22 +93,23 @@ public class UniversityRegistrationController implements Initializable {
             handleDAOException(daoException);
         }
     }
-    
+
     private void invokeUniversityRegistration(University university) throws DAOException {
         int idUniversity = UNIVERSITY_DAO.registerUniversity(university);
-        if(idUniversity > 0) {
+        if (idUniversity > 0) {
             wasRegisteredConfirmation();
             cleanFields();
         }
     }
-    
+
     private void cleanFields() {
         nameTextField.setText("");
         acronymTextField.setText("");
         jurisdictionTextField.setText("");
         cityTextField.setText("");
+        countryCombobox.setValue(null);
     }
-    
+
     private University initializeUniversity() {
         University university = new University();
         university.setName(nameTextField.getText());
@@ -110,21 +119,23 @@ public class UniversityRegistrationController implements Initializable {
         university.setCountry(countryCombobox.getValue());
         return university;
     }
-    
+
     private void handleDAOException(DAOException exception) {
         try {
-            DialogController.getDialog(new AlertMessage (exception.getMessage(), exception.getStatus()));
+            DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
-                case ERROR -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
-                case FATAL -> MainApp.changeView("/main/MainApp");  
+                case ERROR ->
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                case FATAL ->
+                    MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-            
+
         }
     }
-    
+
     private void handleValidationException(IllegalArgumentException ex) {
-        DialogController.getDialog(new AlertMessage( ex.getMessage(), Status.WARNING));
+        DialogController.getDialog(new AlertMessage(ex.getMessage(), Status.WARNING));
     }
 
 }
