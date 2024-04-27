@@ -14,15 +14,16 @@ import javafx.scene.paint.Color;
  */
 public class MainApp extends Application {
     private static Scene scene;
-    private static final int WIDTH = 600;
-    private static final int HEIGHT = 500;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 700;
     
 
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/UniversityManager"));
-       
         stage.setScene(scene);
+        stage.setWidth(WIDTH);
+        stage.setHeight(HEIGHT);
         scene.setFill(Color.BLUE);
         stage.show();
     }

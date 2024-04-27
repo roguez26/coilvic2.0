@@ -1,50 +1,42 @@
-.table-view .column-header,
-.table-view .column-header-background .filler {
-    -fx-background-color:  #3b9aff; 
+.table-view-container {
+    -fx-background-color: #005e86; /* Color de fondo de la TableView */
+    -fx-padding: 5px; /* Espaciado interno de la TableView */
+    /* Radio de las esquinas redondeadas */
+    -fx-background-radius: 10px;
+    
+}
+
+.table-view .column-header {
+    -fx-background-color: #005e86;
+  
 }
 .table-view .column-header .label{
-    -fx-font-family: "Verdana";
-    -fx-font-weight: normal;
+    -fx-font-family: "Roboto";
    -fx-text-fill: white;
    -fx-font-weight: bold; 
    -fx-alignment: CENTER_LEFT;
+   
 }
  .table-view .cell{
-    -fx-font-family: "Verdana";
-   /* -fx-cell-size: 35;
-  -fx-alignment: center-left;
-  -fx-background-color: #e8e8e8;
-  -fx-border-color: #c4c4c4;
-  -fx-text-fill: rgb(0, 0, 0);
-  -fx-alignment: CENTER_LEFT; */
-   
+    -fx-font-family: "Roboto";
+    -fx-font-size: 10px;
+    -fx-font-weight: bold; 
 } 
 .table-row-cell:selected {
-   -fx-background-color: #84c8ff; 
-   -fx-text-background-color:  whitesmoke;
+   -fx-background-color: #5d9bcd; 
+   -fx-text-background-color:  white;
+   -fx-font-weight: bold; 
 
 }
-
-/* scroll bar starts here */
-
-/* The increment and decrement button CSS class of scrollbar */
-/* .table-view .increment-button ,.table-view .decrement-button {
-    -fx-background-color:transparent;
-	-fx-background-radius: 2em;
-
-} */
-
-/* The main scrollbar **track** CSS class  */
 .table-view .scroll-bar:horizontal .track,
 .table-view .scroll-bar:vertical .track{
 	-fx-background-color: transparent;
-	-fx-border-color:derive( #89b4e3,80%);
+	-fx-border-color:derive( #3b9aff,80%);
 
 	-fx-background-radius: 2em;
 	-fx-border-radius:2em;
 }
 
-/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
 .table-view .scroll-bar:horizontal .thumb,
 .table-view .scroll-bar:vertical .thumb {
     -fx-background-color:derive( #89b4e3,90%);
@@ -52,19 +44,3 @@
 	-fx-background-radius: 2em;
 
 }
-
-/* chart properties */
-
-/* .chart {
-    -fx-padding: 10px;
-    -fx-background-color: transparent;
-    -fx-legend-visible: false;
-}
-.chart-plot-background {
-    -fx-background-color:transparent;
-}
-
-.chart-pie {
-    -fx-border-color: derive(-fx-pie-color, 1%);
-    -fx-border-width: 0px;
-} */

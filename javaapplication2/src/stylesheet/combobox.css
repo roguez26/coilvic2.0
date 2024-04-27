@@ -1,0 +1,40 @@
+/* Estilo para el ComboBox */
+.combo-box {
+    -fx-background-color: #f3f3f3; /* Color de fondo */
+    -fx-text-fill: rgb(0, 0, 0); /* Color del texto */
+    -fx-font-family: "Roboto"; /* Fuente Arial */
+    -fx-font-weight: bold;
+    -fx-font-size: 9px; /* Tamaño de la fuente */
+    -fx-padding: 2px 10px; /* Espaciado interno del ComboBox */
+    -fx-background-radius: 5px; /* Bordes redondeados */
+    -fx-background-radius: 13px; /* Radio de los bordes */
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: white; /* Color de fondo de la lista */
+    -fx-background-radius: 13px;
+     /* Color del borde de la lista * /* Ancho del borde de la lista */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0); /* Sombra */
+}
+
+/* Estilo para el desplegable del ComboBox */
+.combo-box .list-cell {
+    -fx-background-radius: 13px;
+    -fx-background-color: #f3f3f3; /* Color de fondo de los elementos del desplegable */
+    -fx-text-fill: rgb(0, 0, 0); /* Color del texto de los elementos */
+    -fx-font-family: "Roboto"; /* Fuente Arial */
+    -fx-font-weight: bold;
+    -fx-font-size: 10px; /* Tamaño de la fuente de los elementos */
+    
+}
+
+
+.combo-box .list-cell:selected {
+    /* -fx-background-color: #007bffb3; /* Color de fondo del item seleccionado */
+    /* -fx-text-fill: white; Color del texto del item seleccionado */ 
+}
+
+.combo-box:pressed {
+    -fx-background-color: #b1b0b0; /* Cambia el color de fondo al presionar */
+    /* Ajusta el espaciado al presionar */
+}

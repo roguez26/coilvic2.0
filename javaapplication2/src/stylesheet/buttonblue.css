@@ -1,12 +1,18 @@
-/* Estilos para el botón azul */
 .button {
-    -fx-background-color: #007bff; /* Color de fondo azul */
+    -fx-background-color: #0466cf; /* Color de fondo azul */
     -fx-text-fill: white; /* Color del texto blanco */
-    -fx-font-family: "Arial"; /* Fuente Arial */
+    -fx-font-family: "Roboto"; /* Fuente Arial */
     -fx-font-size: 12px; /* Tamaño de fuente */
-    /* -fx-padding: 8px 16px; Espaciado interno del botón */
-    -fx-background-radius: 5px; /* Bordes redondeados */
-    -fx-border-color: transparent; /* Color del borde transparente */
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 13px; /* Bordes redondeados */
     -fx-min-width: 90px; /* Ancho mínimo del botón */
     -fx-min-height: 26px;
+    -fx-font-weight: bold;
+}
+
+/* Estilos para el botón cuando es presionado */
+.button:pressed {
+    -fx-background-color: white; /* Cambia el color de fondo al presionar */
+    -fx-text-fill: #0466cf;
+    -fx-padding: 6px 11px; /* Ajusta el espaciado al presionar */
 }
