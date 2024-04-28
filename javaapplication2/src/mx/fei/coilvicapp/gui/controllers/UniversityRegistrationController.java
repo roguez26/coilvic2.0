@@ -78,19 +78,26 @@ public class UniversityRegistrationController implements Initializable {
         return (response.get() == DialogController.BUTTON_YES);
     }
 
+    private boolean confirmedRegistration() {
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar registro", "¿Deseas añadir esta nueva universidad?");
+        return (response.get() == DialogController.BUTTON_YES);
+    }
+
     private boolean wasRegisteredConfirmation() {
-        Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog("Registrada", "La universidad se registro con exito");
+        Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog("Registrada", "La universidad fue registrada con exito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
     @FXML
     private void acceptButtonIsPressed(ActionEvent event) throws IOException {
-        try {
-            invokeUniversityRegistration(initializeUniversity());
-        } catch (IllegalArgumentException ioException) {
-            handleValidationException(ioException);
-        } catch (DAOException daoException) {
-            handleDAOException(daoException);
+        if (confirmedRegistration()) {
+            try {
+                invokeUniversityRegistration(initializeUniversity());
+            } catch (IllegalArgumentException ioException) {
+                handleValidationException(ioException);
+            } catch (DAOException daoException) {
+                handleDAOException(daoException);
+            }
         }
     }
 
