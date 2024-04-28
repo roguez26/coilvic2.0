@@ -14,10 +14,10 @@ public class ProfessorUV extends Professor {
     private AcademicArea academicArea;
     private Region region;    
     
-    public ProfessorUV(Professor professor, int idUniversity) {
-        super(professor.getName(), professor.getPaternalSurname(), professor.getMaternalSurname(),
-                professor.getEmail(), professor.getGender(), professor.getPhoneNumber(), idUniversity);
-    }
+    //public ProfessorUV(Professor professor, int idUniversity) {
+    //    super(professor.getName(), professor.getPaternalSurname(), professor.getMaternalSurname(),
+    //            professor.getEmail(), professor.getGender(), professor.getPhoneNumber(), idUniversity);
+    //}
     
     public int getPersonalNumber() {
         return personalNumber;

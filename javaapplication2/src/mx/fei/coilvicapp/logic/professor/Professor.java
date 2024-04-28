@@ -1,6 +1,8 @@
 package mx.fei.coilvicapp.logic.professor;
 
 import java.util.Objects;
+import mx.fei.coilvicapp.logic.university.University;
+import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 
 public class Professor {
     private int idProfessor = 0;
@@ -11,21 +13,20 @@ public class Professor {
     private String gender;
     private String phoneNumber;
     private String state;
-    private int idUniversity;
+    private University university;
     
     public Professor() {
-        
+        university = new University();
     }
     
     public Professor(String name, String paternalSurname, String maternalSurname,
-            String email, String gender, String phoneNumber, int idUniversity) {
+            String email, String gender, String phoneNumber) {
         this.name = name;
         this.paternalSurname = paternalSurname;
         this.maternalSurname = maternalSurname;
         this.email = email;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
-        this.idUniversity = idUniversity;
     }
     
     public int getIdProfessor() {
@@ -41,6 +42,8 @@ public class Professor {
     }
 
     public void setName(String name) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkName(name);
         this.name = name;
     }
 
@@ -65,6 +68,8 @@ public class Professor {
     }
 
     public void setEmail(String email) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkEmail(email);
         this.email = email;
     }
 
@@ -80,7 +85,9 @@ public class Professor {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {        
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkPhoneNumber(phoneNumber);
         this.phoneNumber = phoneNumber;
     }
 
@@ -92,32 +99,45 @@ public class Professor {
         this.state = state;
     }
     
-    public int getIdUniversity() {
-        return idUniversity;
+    public void setUniversity(University university) {
+        this.university = university;
     }
-
+    
+    public University getUniversity() {
+        return university;
+    }
+    
     public void setIdUniversity(int idUniversity) {
-        this.idUniversity = idUniversity;
+        this.university.setIdUniversity(idUniversity);
+    }
+    
+    public int getIdUniversity() {
+        return university.getIdUniversity();
     }
     
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Professor professor = (Professor) o;
-        return idProfessor == professor.idProfessor &&
-                Objects.equals(name, professor.name) &&
-                Objects.equals(paternalSurname, professor.paternalSurname) &&
-                Objects.equals(maternalSurname, professor.maternalSurname) &&
-                Objects.equals(email, professor.email) &&
-                Objects.equals(gender, professor.gender) &&
-                Objects.equals(phoneNumber, professor.phoneNumber) &&
-                Objects.equals(idUniversity, professor.idUniversity);
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        if (this == object) {
+            return true;
+        }
+
+        Professor toCompare = (Professor) object;
+        return idProfessor == toCompare.getIdProfessor() &&
+                Objects.equals(name, toCompare.getName()) &&
+                Objects.equals(paternalSurname, toCompare.getPaternalSurname()) &&
+                Objects.equals(maternalSurname, toCompare.getMaternalSurname()) &&
+                Objects.equals(email, toCompare.getEmail()) &&
+                Objects.equals(gender, toCompare.getGender()) &&
+                Objects.equals(phoneNumber, toCompare.getPhoneNumber()) &&
+                Objects.equals(state, toCompare.getState());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProfessor, name, paternalSurname, maternalSurname, email, gender, phoneNumber, idUniversity);
+        return Objects.hash(idProfessor, name, paternalSurname, maternalSurname, email, gender, phoneNumber, state);
     }
 
 }

@@ -4,15 +4,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
+import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
-import mx.fei.coilvicapp.logic.user.UserDAO;
-import mx.fei.coilvicapp.logic.user.User;
 
 public class ProfessorDAO implements IProfessor {
     
@@ -24,7 +22,7 @@ public class ProfessorDAO implements IProfessor {
             professorAux = getProfessorByEmail(professor.getEmail());
             idProfessor = professorAux.getIdProfessor();
         } catch (DAOException exception) {
-            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", Status.ERROR);
+            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde.", Status.ERROR);
         }
         if (idProfessor != professor.getIdProfessor() && idProfessor > 0) {
             throw new DAOException("El correo ya se encuentra registrado", Status.WARNING);
@@ -32,7 +30,6 @@ public class ProfessorDAO implements IProfessor {
         return false;
     }
     
-    @Override
     public int registerProfessor(Professor professor) throws DAOException {
         int result = 0;
 
@@ -41,7 +38,8 @@ public class ProfessorDAO implements IProfessor {
         }
         return result;        
     }
-
+    
+    @Override
     public int insertProfessor(Professor professor) throws DAOException {
         int result = -1;
         ResultSet resultSet = null;
@@ -88,7 +86,6 @@ public class ProfessorDAO implements IProfessor {
         return result;        
     }
 
-    @Override
     public int updateProfessorVerification(Professor newProfessorInformation) throws DAOException {   
         int result = 0;
 
@@ -246,7 +243,7 @@ public class ProfessorDAO implements IProfessor {
     }
     
     @Override
-    public ArrayList<Professor> getAllInstitutionalRepresentatives() throws DAOException {
+    public ArrayList<Professor> getAllProfessors() throws DAOException {
         ArrayList<Professor> professors = new ArrayList<>();
         Professor professor;
         DatabaseManager databaseManager = new DatabaseManager();
@@ -282,9 +279,9 @@ public class ProfessorDAO implements IProfessor {
         return professors;
     }
     
-    private Professor initializeProfessor(ResultSet resultSet) throws SQLException {
-        
+    private Professor initializeProfessor(ResultSet resultSet) throws SQLException {        
         Professor professor = new Professor();
+        UniversityDAO universityDAO = new UniversityDAO();
         
         professor.setIdProfessor(resultSet.getInt("idProfesor"));
         professor.setName(resultSet.getString("nombre"));
@@ -294,32 +291,13 @@ public class ProfessorDAO implements IProfessor {
         professor.setGender(resultSet.getString("genero"));
         professor.setPhoneNumber(resultSet.getString("telefono"));
         professor.setState(resultSet.getString("estado"));
-        professor.setIdUniversity(resultSet.getInt("IdUniversidad"));
-        return professor;
-        
+        int idUniversity = resultSet.getInt("IdUniversidad");
+        try {
+            professor.setUniversity(universityDAO.getUniversityById(idUniversity));
+        } catch (DAOException exception) {
+            Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+        }
+        return professor;  
     }
-    
-    public int assignUser(Professor professor, String password) throws DAOException {
-        int result = 0;
-        User user = new User();
-        UserDAO userDAO = new UserDAO();
-        
-        user.setProfessor(professor);
-        user.setType("P");
-        user.setPassword(password);
-        
-        result = userDAO.registerUser(user);
-        
-        return result;
-    }
-    
-    public int deleteUser(Professor professor) throws DAOException {
-        int result = 0;
-        UserDAO userDAO = new UserDAO();
-        
-        userDAO.deleteUser(professor.getIdProfessor());
-        
-        return result;
-    }
-    
+       
 }
