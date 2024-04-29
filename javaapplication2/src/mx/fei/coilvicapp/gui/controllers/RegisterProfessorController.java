@@ -74,7 +74,7 @@ public class RegisterProfessorController implements Initializable {
     private void cancel(ActionEvent event) throws IOException {
         if (event.getSource() == cancelButton) {
             if (confirmCancelation()) {
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager", 800, 500);
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
             }
         }
     }
@@ -100,8 +100,9 @@ public class RegisterProfessorController implements Initializable {
     }
     
     private boolean emptyFieldsConfirmation() {
-        Optional<ButtonType> response = DialogController.getEmptyFieldsConfirmationDialog("Campos Vacios", "Llene los campos para hacer un registro");
-        return response.get() == DialogController.BUTTON_ACCEPT;
+        //Optional<ButtonType> response = DialogController.getEmptyFieldsConfirmationDialog("Campos Vacios", "Llene los campos para hacer un registro");
+       // return response.get() == DialogController.BUTTON_ACCEPT;
+       return false;
     }
     
     @FXML
@@ -179,8 +180,8 @@ public class RegisterProfessorController implements Initializable {
         try {
             DialogController.getDialog(new AlertMessage (exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
-                case ERROR -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/MainApp", 0, 0);
-                case FATAL -> MainApp.changeView("/main/MainApp", 0, 0);
+                case ERROR -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/MainApp");
+                case FATAL -> MainApp.changeView("/main/MainApp");
                 
             }
         } catch (IOException ioException) {

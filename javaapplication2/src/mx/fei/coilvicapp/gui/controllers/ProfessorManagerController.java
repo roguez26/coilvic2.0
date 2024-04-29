@@ -89,7 +89,7 @@ public class ProfessorManagerController implements Initializable {
     private void back(ActionEvent event) throws IOException {
         if (event.getSource() == backButton) {
             if (backConfirmation()) {
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/main", 400, 500);   
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");   
             }            
         }
     }
@@ -114,7 +114,7 @@ public class ProfessorManagerController implements Initializable {
                 //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/UpdateUniversity.fxml"));
                 //MainApp.changeView(fxmlLoader);
                 //UpdateUniversityController updateUniversitycontroller = fxmlLoader.getController();
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorDetails", 500, 400);   
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorDetails");   
                 //updateUniversitycontroller.setUniversity(university);                
             } else {
                 
@@ -125,7 +125,7 @@ public class ProfessorManagerController implements Initializable {
     @FXML
     private void register(ActionEvent event) throws IOException {
         if (event.getSource() == registerButton) {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/RegisterProfessor", 400, 500);
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/RegisterProfessor");
         }
     }    
     

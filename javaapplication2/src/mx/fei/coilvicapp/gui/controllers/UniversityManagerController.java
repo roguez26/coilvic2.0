@@ -7,7 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import java.util.ArrayList;
-import java.util.Optional;
 import mx.fei.coilvicapp.logic.university.IUniversity;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import mx.fei.coilvicapp.logic.university.University;
@@ -17,7 +16,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import main.MainApp;
-import mx.fei.coilvicapp.logic.implementations.Status;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
@@ -33,10 +31,10 @@ public class UniversityManagerController implements Initializable {
     private final IUniversity UNIVERSITY_DAO = new UniversityDAO();
 
     @FXML
-    private TableColumn<University, String> nameTableColumn;
+    private TableColumn nameTableColumn;
 
     @FXML
-    private TableColumn<University, String> acronymTableColumn;
+    private TableColumn acronymTableColumn;
 
     @FXML
     private TableColumn jurisdictionTableColumn;

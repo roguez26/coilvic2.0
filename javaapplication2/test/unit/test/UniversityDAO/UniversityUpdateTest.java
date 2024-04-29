@@ -20,7 +20,6 @@ public class UniversityUpdateTest {
 
     private static final UniversityDAO UNIVERSITY_DAO = new UniversityDAO();
     private static final University UNIVERSITY_FOR_TESTING = new University();
-    private static final String NAME = "Universidad Veracruzana";
 
     private static final University AUX_UNIVERSITY_FOR_TESTING = new University();
 
