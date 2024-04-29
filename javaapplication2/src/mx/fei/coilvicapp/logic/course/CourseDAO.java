@@ -43,7 +43,7 @@ public class CourseDAO implements ICourse{
             preparedStatement.setString(3, course.getGeneralObjective());
             preparedStatement.setString(4, course.getTopicsInterest());
             preparedStatement.setInt(5,course.getNumerStudents());
-            preparedStatement.setString(6, course.getStudentPorfile());
+            preparedStatement.setString(6, course.getStudentsProfile());
             preparedStatement.setString(7, course.getTerm());
             preparedStatement.setString(8, course.getLanguage());
             preparedStatement.setString(9, course.getAdditionalInformation());
@@ -93,7 +93,7 @@ public class CourseDAO implements ICourse{
                 course.setGeneralObjective(resultSet.getString("objetivoGeneral"));
                 course.setTopicsInterest(resultSet.getString("temasInteres"));
                 course.setNumberStudents(resultSet.getInt("numeroEstudiantes"));
-                course.setStudentPorfile(resultSet.getString("perfilEstudiantes"));
+                course.setStudentsProfile(resultSet.getString("perfilEstudiantes"));
                 course.setTerm(resultSet.getString("periodo"));
                 course.setLanguage(resultSet.getString("idioma"));
                 course.setAdditionalInformation(resultSet.getString("informacionAdicional"));

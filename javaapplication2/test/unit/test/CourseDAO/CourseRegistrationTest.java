@@ -85,7 +85,7 @@ public class CourseRegistrationTest {
         + " programacion estructurada y orientada a objetos");
         COURSE_FOR_TESTING.setTopicsInterest("Abstraccion, Herencia, Polimorfismo");
         COURSE_FOR_TESTING.setNumberStudents(35);
-        COURSE_FOR_TESTING.setStudentPorfile("Ingenieria de software");
+        COURSE_FOR_TESTING.setStudentsProfile("Ingenieria de software");
         COURSE_FOR_TESTING.setTerm("Febrero-Junio 2024");
         COURSE_FOR_TESTING.setLanguage("Ingles");
         COURSE_FOR_TESTING.setAdditionalInformation("Ademas de la progrmacion"
