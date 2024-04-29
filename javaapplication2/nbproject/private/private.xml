@@ -4,13 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/UpdateUniversityController.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/university/UniversityDAO.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/UniversityManagerController.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/RegisterProfessorController.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/UniversityRegistrationController.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/university/University.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/ProfessorManagerController.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/views/UniversityManager.fxml</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/main/MainApp.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/EmailSenderDAO/EmailRegistrationTest.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/views/UpdateUniversity.fxml</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/DialogController.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/CourseDAO/CourseRegistrationTest.java</file>
         </group>
     </open-files>
 </project-private>
