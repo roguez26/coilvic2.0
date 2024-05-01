@@ -1,5 +1,7 @@
 package mx.fei.coilvicapp.logic.assignment;
 
+import mx.fei.coilvicapp.logic.implementations.FieldValidator;
+
 /*
  * @author d0ubl3_d
  */
@@ -29,6 +31,7 @@ public class Assignment {
     }
     
     public void setName(String name) {
+        FieldValidator.checkShortRange(name);
         this.name = name;
     }
     
@@ -37,6 +40,7 @@ public class Assignment {
     }
     
     public void setDescription(String description) {
+        FieldValidator.checkLongRange(description);
         this.description = description;
     }
     

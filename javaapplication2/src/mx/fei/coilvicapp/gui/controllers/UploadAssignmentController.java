@@ -7,13 +7,13 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -25,6 +25,7 @@ import mx.fei.coilvicapp.logic.assignment.Assignment;
 import mx.fei.coilvicapp.logic.assignment.AssignmentDAO;
 import mx.fei.coilvicapp.logic.assignment.IAssignment;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
+import mx.fei.coilvicapp.logic.implementations.FileManager;
 import mx.fei.coilvicapp.logic.implementations.Status;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
@@ -70,45 +71,47 @@ public class UploadAssignmentController implements Initializable {
     private File selectedFile;
     private final Assignment assignment = new Assignment();
     private final IAssignment asigmentDAO = new AssignmentDAO();
-    private static final long MAX_SIZE_BYTES = 10 * 1024 * 1024;
-    Path destination = Paths.get("C:\\Users\\ivanr\\OneDrive\\Escritorio\\actividadesCoilvic");
-    Path fileDestination;
+    private final FileManager fileManager = new FileManager();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
     }
 
     @FXML
     void acceptButtonIsPressed(ActionEvent event) {
-        if (selectedFile != null && selectedFile.length() <= MAX_SIZE_BYTES) {
-            saveFileInDirectory();
-            initializeAssignment(fileDestination.toString());
-            try {
-                invokeRegisterAssignment();
-            } catch (DAOException exception) {
-                handleDAOException(exception);
-            }
-        }
-    }
-
-    private void saveFileInDirectory() {
-        fileDestination = destination.resolve(selectedFile.getName());
         try {
-            Files.copy(selectedFile.toPath(), fileDestination);
-        } catch (IOException exception) {
-            DialogController.getDialog(new AlertMessage(exception.getMessage(), Status.WARNING));
+            invokeSaveAssignment();
+        } catch (IllegalArgumentException iaException) {
+            handleValidationException(iaException);
+        } catch (DAOException daoException) {
+            handleDAOException(daoException);
+            fileManager.undoSaveAssignment();
+        } catch (IOException ioexception) {
+            handleIOException(ioexception);
+            fileManager.undoSaveAssignment();
         }
     }
 
-    private void invokeRegisterAssignment() throws DAOException {
-        asigmentDAO.insertAssignment(assignment);
+    private void invokeSaveAssignment() throws DAOException, IOException {
+        initializeAssignment();
+        String  ruta = fileManager.saveAssignment(selectedFile, assignment.getIdColaborativeProject());
+        invokeRegisterAssignment(ruta);
+        desktop.open(new File(ruta));
     }
 
-    private void initializeAssignment(String path) {
+    private void invokeRegisterAssignment(String newPath) throws DAOException, IOException {
+        assignment.setPath(newPath);
+        if (asigmentDAO.insertAssignment(assignment) > 0) {
+            wasUploadedConfirmation();
+            
+            cleanFields();
+        }
+    }
+
+    private void initializeAssignment() {
         assignment.setName(nameTextField.getText());
         assignment.setDescription(descriptionTextArea.getText());
-        assignment.setPath(path);
         assignment.setIdColaborativeProject(1);
     }
 
@@ -129,7 +132,6 @@ public class UploadAssignmentController implements Initializable {
                 fileTextField.setText(selectedFile.getName());
             }
         }
-
     }
 
     private void handleDAOException(DAOException exception) {
@@ -140,11 +142,29 @@ public class UploadAssignmentController implements Initializable {
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
                 case FATAL ->
                     MainApp.changeView("/main/MainApp");
-
             }
         } catch (IOException ioException) {
-
+            
         }
+    }
+
+    private void cleanFields() {
+        nameTextField.setText("");
+            descriptionTextArea.setText("");
+            fileTextField.setText("");
+            selectedFile = null;
+    }
+    private void handleIOException(IOException exception) {
+        DialogController.getDialog(new AlertMessage("No fue posible subir la actividad", Status.WARNING));
+    }
+
+    private void handleValidationException(IllegalArgumentException exception) {
+        DialogController.getDialog(new AlertMessage(exception.getMessage(), Status.WARNING));
+    }
+
+    private boolean wasUploadedConfirmation() {
+        Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog("Subida", "La actividad fue subida con éxito");
+        return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
 }
