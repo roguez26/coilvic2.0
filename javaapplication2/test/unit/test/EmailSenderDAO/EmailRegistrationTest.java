@@ -35,14 +35,32 @@ public class EmailRegistrationTest {
     private static final Country AUX_COUNTRY = new Country();
 
     @Before
-    private void setUp() {
-        int idCountry = 0;
-        int idUniversity = 0;
-        int idProfessor = 0;
-
+    public void setUp() {
+        int idCountry;
+        int idUniversity;
+        int idProfessor;
+        
+        initializeCountry();
+        intitliazeUniversity();
+        initializeProfessor();
+        intializeEmail();
+        
+        try {
+            idCountry = COUNTRY_DAO.registerCountry(AUX_COUNTRY);
+            AUX_COUNTRY.setIdCountry(idCountry);
+            AUX_UNIVERSITY.setCountry(AUX_COUNTRY);
+            idUniversity = UNIVERSITY_DAO.registerUniversity(AUX_UNIVERSITY);
+            AUX_UNIVERSITY.setIdUniversity(idUniversity);
+            AUX_PROFESSOR.setUniversity(AUX_UNIVERSITY);
+            idProfessor = PROFESSOR_DAO.registerProfessor(AUX_PROFESSOR);
+            AUX_PROFESSOR.setIdProfessor(idProfessor);
+        } catch (DAOException exception) {
+            Logger.getLogger(EmailRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
+        EMAIL_SENDER_FOR_TESTING.setReceiver(AUX_PROFESSOR);
     }
 
-    private void initializeAuxiliarCountry() {
+    private void initializeCountry() {
         AUX_COUNTRY.setName("Mexico");
     }
 
@@ -61,7 +79,36 @@ public class EmailRegistrationTest {
         AUX_PROFESSOR.setEmail("ivanrfcoc@gmail.com");
         AUX_PROFESSOR.setGender("M");
         AUX_PROFESSOR.setPhoneNumber("2283728394");
-     //  AUX_PROFESSOR
     }
+    
+    public void intializeEmail() {
+        EMAIL_SENDER_FOR_TESTING.setMessage("Mensaje de prueba");
+        EMAIL_SENDER_FOR_TESTING.setSubject("Asunto de prueba");
 
+    }
+    
+    @Test
+    public void testRegisterSentEmailSuccess() {
+        int idEmail = 0;
+        
+        try {
+            idEmail = EMAIL_SENDER_DAO.registerEmail(EMAIL_SENDER_FOR_TESTING);
+            EMAIL_SENDER_FOR_TESTING.setIdEmail(idEmail);
+        } catch (DAOException exception) {
+            Logger.getLogger(EmailRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
+        assertTrue(idEmail > 0);
+    }
+//    
+//    @After
+//    public void tearDown() {
+//        try {
+//            EMAIL_SENDER_DAO.deleteEmail(EMAIL_SENDER_FOR_TESTING.getIdEmail());
+//            PROFESSOR_DAO.deleteProfessorByID(AUX_PROFESSOR.getIdProfessor());
+//            UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY.getIdUniversity());
+//            COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
+//        } catch (DAOException exception) {
+//            Logger.getLogger(EmailRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
+//        }
+//    }
 }

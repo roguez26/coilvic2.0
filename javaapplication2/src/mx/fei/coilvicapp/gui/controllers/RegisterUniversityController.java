@@ -28,7 +28,7 @@ import javafx.scene.layout.VBox;
  *
  * @author ivanr
  */
-public class UniversityRegistrationController implements Initializable {
+public class RegisterUniversityController implements Initializable {
 
     @FXML
     private TextField nameTextField;
@@ -78,7 +78,7 @@ public class UniversityRegistrationController implements Initializable {
         return (response.get() == DialogController.BUTTON_YES);
     }
 
-    private boolean confirmedRegistration() {
+    private boolean confirmRegistration() {
         Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar registro", "¿Deseas añadir esta nueva universidad?");
         return (response.get() == DialogController.BUTTON_YES);
     }
@@ -90,22 +90,22 @@ public class UniversityRegistrationController implements Initializable {
 
     @FXML
     private void acceptButtonIsPressed(ActionEvent event) throws IOException {
-        if (confirmedRegistration()) {
-            try {
-                invokeUniversityRegistration(initializeUniversity());
-            } catch (IllegalArgumentException ioException) {
-                handleValidationException(ioException);
-            } catch (DAOException daoException) {
-                handleDAOException(daoException);
-            }
+        try {
+            invokeUniversityRegistration();
+        } catch (IllegalArgumentException iaException) {
+            handleValidationException(iaException);
+        } catch (DAOException daoException) {
+            handleDAOException(daoException);
         }
     }
 
-    private void invokeUniversityRegistration(University university) throws DAOException {
-        int idUniversity = UNIVERSITY_DAO.registerUniversity(university);
-        if (idUniversity > 0) {
-            wasRegisteredConfirmation();
-            cleanFields();
+    private void invokeUniversityRegistration() throws DAOException {
+        University university = initializeUniversity();
+        if (confirmRegistration()) {
+            if (UNIVERSITY_DAO.registerUniversity(university) > 0) {
+                wasRegisteredConfirmation();
+                cleanFields();
+            }
         }
     }
 

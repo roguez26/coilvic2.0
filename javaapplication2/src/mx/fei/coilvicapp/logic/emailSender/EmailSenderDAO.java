@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author ivanr
  */
-public class EmailSenderDAO implements EmailSenderI {
+public class EmailSenderDAO implements IEmailSender {
 
     public EmailSenderDAO() {
 
@@ -58,5 +58,32 @@ public class EmailSenderDAO implements EmailSenderI {
         }
         return result;
     }
-
+    
+    public int deleteEmail(int idEmail) throws DAOException {
+        int result = -1;
+        Connection connection;
+        PreparedStatement preparedStatement = null;
+        DatabaseManager databaseManager = new DatabaseManager();
+        String statement = "DELETE FROM correo WHERE idCorreo=?";
+        
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1, idEmail);
+            result = preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            Logger.getLogger(EmailSenderDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible eliminar el correo", Status.ERROR);
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException exception) {
+                Logger.getLogger(EmailSenderDAO.class.getName()).log(Level.SEVERE, null, exception);
+            }
+            databaseManager.closeConnection();
+        }
+        return result;
+    }
 }

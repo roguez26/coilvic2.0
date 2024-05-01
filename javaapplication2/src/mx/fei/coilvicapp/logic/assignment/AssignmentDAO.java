@@ -23,7 +23,7 @@ public class AssignmentDAO implements IAssignment {
         PreparedStatement preparedStatement = null;
         // TODO Hacer procedimiento almacenado para insertar, ya ahi se mete la fecha
         String statement = "insert into Actividad (idProyectoColaborativo, nombre, descripcion,"
-                + " fecha, ruta) values (?, ?, ?, ?, ?)";
+                + ", ruta) values (?, ?, ?, ?)";
         DatabaseManager databaseManager = new DatabaseManager();
         int rowsAffected = -1;
 
