@@ -1,0 +1,18 @@
+.text-area {
+    -fx-font-family: "Roboto"; /* Cambia la fuente a Roboto */
+    -fx-font-size: 12px; /* Cambia el tamaño de la fuente */
+    -fx-text-fill: #333333; /* Color del texto */
+    -fx-background-color: #FFFFFF; /* Color de fondo */
+    
+    -fx-border-radius: 5px; /* Radio de las esquinas del borde */
+    -fx-background-radius: 5px; /* Radio de las esquinas del fondo */
+    -fx-padding: 5px; /* Espaciado interno */
+    -fx-font-weight: bold;
+
+    /* Desactivar la sombra interna */
+  
+    
+    /* Desactivar el resaltado azul al escribir */
+    
+    -fx-highlight-text-fill: #333333;
+}

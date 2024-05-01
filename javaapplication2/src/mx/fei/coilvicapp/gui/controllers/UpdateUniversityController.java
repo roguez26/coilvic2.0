@@ -234,8 +234,8 @@ public class UpdateUniversityController implements Initializable {
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
-    private void handleValidationException(IllegalArgumentException ex) {
-        DialogController.getDialog(new AlertMessage(ex.getMessage(), Status.WARNING));
+    private void handleValidationException(IllegalArgumentException exception) {
+        DialogController.getDialog(new AlertMessage(exception.getMessage(), Status.WARNING));
     }
 
     private void handleDAOException(DAOException exception) {

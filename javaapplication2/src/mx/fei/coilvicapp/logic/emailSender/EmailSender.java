@@ -11,7 +11,9 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.professor.Professor;
+
 
 /**
  *
@@ -19,7 +21,8 @@ import mx.fei.coilvicapp.logic.professor.Professor;
  */
 public class EmailSender {
 
-    private final String emailSender = "coilvicapplication@gmail.com";
+    private int idEmail;
+    private final String sender = "coilvicapplication@gmail.com";
     private Professor receiver;
     private String subject;
     private String message;
@@ -38,15 +41,13 @@ public class EmailSender {
         properties.setProperty("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         properties.setProperty("mail.smtp.port", "587");
-        properties.setProperty("mail.smtp.user", emailSender);
+        properties.setProperty("mail.smtp.user", sender);
         properties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
         properties.setProperty("mail.smtp.auth", "true");
-
         session = Session.getDefaultInstance(properties);
-
         try {
             mail = new MimeMessage(session);
-            mail.setFrom(new InternetAddress(emailSender));
+            mail.setFrom(new InternetAddress(sender));
             mail.setRecipient(Message.RecipientType.TO, new InternetAddress(receiver.getEmail()));
             mail.setSubject(subject);
             mail.setText(message, "ISO-8859-1", "html");
@@ -58,45 +59,72 @@ public class EmailSender {
         }
     }
 
-    public void sendEmail() {
+    public boolean sendEmail() {
+        boolean result = true;
+        Transport transport = null;
         try {
-            Transport transport = session.getTransport("smtp");
-            transport.connect(emailSender, password);
+            transport = session.getTransport("smtp");
+            transport.connect(sender, password);
             transport.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
-            transport.close();
         } catch (NoSuchProviderException nspException) {
             Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, nspException);
+            result = false;
         } catch (MessagingException mException) {
             Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, mException);
+            return false;
+        } catch (IllegalStateException isException) {
+            Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, isException);
+            return false;
+        } finally {
+            if (transport != null) {
+                try {
+                    transport.close();
+                } catch (MessagingException mException) {
+                    Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, mException);
+                }
+            } //AuthenticationFailedException
         }
+        return result;
     }
-    
-    public void setReieiver(Professor reveiver) {
+
+    public void setReceiver(Professor reveiver) {
         this.receiver = reveiver;
     }
-    
+
     public void setSubject(String subject) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkShortRange(subject);
         this.subject = subject;
     }
-    
+
     public void setMessage(String message) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkLongRange(message);
         this.message = message;
     }
-    
+
     public Professor getReceiver() {
         return receiver;
     }
-    
+
     public String getEmailReceiver() {
         return receiver.getEmail();
     }
-     
+
     public String getSubject() {
         return subject;
     }
-    
+
     public String getMessage() {
         return message;
+    }
+
+    public void setIdEmail(int idEmail) {
+        this.idEmail = idEmail;
+    }
+
+    public int getIdEmail() {
+        return idEmail;
     }
 
 }

@@ -16,7 +16,7 @@ public class EmailSenderTest {
     }
     
     @Test
-    public void sendEmailSuccess() {
+    public void testSendEmailSuccess() {
         emailSender.createEmail();
         emailSender.sendEmail();
     }
