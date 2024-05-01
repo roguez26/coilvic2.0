@@ -21,9 +21,7 @@ public class AssignmentDAO implements IAssignment {
     public int insertAssignment(Assignment assignment) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        // TODO Hacer procedimiento almacenado para insertar, ya ahi se mete la fecha
-        String statement = "insert into Actividad (idProyectoColaborativo, nombre, descripcion,"
-                + ", ruta) values (?, ?, ?, ?)";
+        String statement = "insert into Actividad (idProyectoColaborativo, nombre, descripcion, ruta) values (?, ?, ?, ?)";
         DatabaseManager databaseManager = new DatabaseManager();
         int rowsAffected = -1;
 
@@ -34,8 +32,7 @@ public class AssignmentDAO implements IAssignment {
             preparedStatement.setInt(1, assignment.getIdColaborativeProject());
             preparedStatement.setString(2, assignment.getName());
             preparedStatement.setString(3, assignment.getDescription());
-            preparedStatement.setString(4, assignment.getDate());
-            preparedStatement.setString(5, assignment.getPath());
+            preparedStatement.setString(4, assignment.getPath());
 
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
