@@ -1,5 +1,6 @@
 package mx.fei.coilvicapp.logic.emailSender;
 
+import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,7 +14,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.professor.Professor;
-
 
 /**
  *
@@ -59,22 +59,20 @@ public class EmailSender {
         }
     }
 
-    public boolean sendEmail() {
+    public boolean sendEmail() throws MessagingException {
         boolean result = true;
         Transport transport = null;
+
         try {
             transport = session.getTransport("smtp");
             transport.connect(sender, password);
             transport.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
         } catch (NoSuchProviderException nspException) {
             Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, nspException);
-            result = false;
-        } catch (MessagingException mException) {
-            Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, mException);
-            return false;
-        } catch (IllegalStateException isException) {
-            Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, isException);
-            return false;
+            throw new MessagingException("No fue posible realizar la notificacion");
+        } catch (MessagingException | IllegalStateException exception) {
+            Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, exception);
+            throw new MessagingException("No fue posible realizar la notificacion ");
         } finally {
             if (transport != null) {
                 try {
@@ -82,8 +80,9 @@ public class EmailSender {
                 } catch (MessagingException mException) {
                     Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, mException);
                 }
-            } //AuthenticationFailedException
+            }
         }
+
         return result;
     }
 

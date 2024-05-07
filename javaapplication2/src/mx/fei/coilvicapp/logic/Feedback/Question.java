@@ -52,4 +52,9 @@ public class Question {
     public int hashCode() {
         return Objects.hash(idQuestion, questionText, questionType);
     }
+    
+    @Override
+    public String toString() {
+        return questionText;
+    }
 }

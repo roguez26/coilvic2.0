@@ -1,10 +1,15 @@
 package mx.fei.coilvicapp.logic.student;
+
+import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
-import java.util.List;
 
 public interface IStudent {
     
-    public int insertStudent(Student student) throws DAOException;
-    public List<String> getStudentByEmail(String email) throws DAOException;
-    
+    public int registerStudent(Student student) throws DAOException;
+    public int updateStudent(Student newStudentInformation) throws DAOException;
+    public int deleteStudentById(int idStudent) throws DAOException;
+    public Student getStudentById(int idStudent) throws DAOException;
+    public Student getStudentByEmail(String studentEmail) throws DAOException;
+    public ArrayList<Student> getAllStudents() throws DAOException;
+   
 }

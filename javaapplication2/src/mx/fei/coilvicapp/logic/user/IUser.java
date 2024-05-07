@@ -9,7 +9,7 @@ public interface IUser {
     
     public int registerUser(User user) throws DAOException;
     
-    public User authenticateUser(String email, String password) throws DAOException;
+    public boolean authenticateUser(String email, String password) throws DAOException;
     
     public int deleteUser(int idProfessor) throws DAOException;
 }

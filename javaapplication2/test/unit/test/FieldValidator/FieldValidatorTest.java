@@ -34,6 +34,19 @@ public class FieldValidatorTest {
         }
         assertTrue(result);
     }
+    
+    @Test
+    public void testCheckNameFailByNull() {
+        String nullName = null;
+        boolean result = false;
+
+        try {
+            result = FIELD_VALIDATOR.checkName(nullName);
+        } catch (IllegalArgumentException exception) {
+            Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
+        assertTrue(result);
+    }
 
     @Test
     public void testCheckPhoneNumberSuccess() {

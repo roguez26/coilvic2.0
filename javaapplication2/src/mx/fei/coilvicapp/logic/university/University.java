@@ -113,13 +113,7 @@ public class University {
 
     @Override
     public String toString() {
-        return "University{"
-                + "idUniversity=" + idUniversity
-                + ", name='" + name + '\''
-                + ", jurisdiction='" + jurisdiction + '\''
-                + ", city='" + city + '\''
-                + ", country =" + country
-                + '}';
+        return name;
     }
     
     public University copy() {

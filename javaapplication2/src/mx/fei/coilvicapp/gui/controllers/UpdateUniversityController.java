@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.Optional;
 import javafx.scene.control.ButtonType;
 import main.MainApp;
-import mx.fei.coilvicapp.logic.implementations.Status;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
@@ -128,7 +127,6 @@ public class UpdateUniversityController implements Initializable {
         } catch (IllegalArgumentException ioException) {
             handleValidationException(ioException);
         }
-
     }
 
     private University initializeNewUniversity() {
@@ -188,7 +186,6 @@ public class UpdateUniversityController implements Initializable {
                 handleDAOException(exception);
             }
         }
-
     }
     
     @FXML
@@ -225,17 +222,17 @@ public class UpdateUniversityController implements Initializable {
     }
 
     private boolean wasUpdatedConfirmation() {
-        Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog("Actualizada", "La universidad fue actualizada");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Actualizada", "La universidad fue actualizada");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
     private boolean wasDeletedConfirmation() {
-        Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog("Eliminada", "La universidad fue eliminada");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Eliminada", "La universidad fue eliminada");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
     private void handleValidationException(IllegalArgumentException exception) {
-        DialogController.getDialog(new AlertMessage(exception.getMessage(), Status.WARNING));
+        DialogController.getInvalidDataDialog(exception.getMessage());
     }
 
     private void handleDAOException(DAOException exception) {

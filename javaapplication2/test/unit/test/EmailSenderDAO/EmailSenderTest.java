@@ -1,5 +1,6 @@
 
 package unit.test.EmailSenderDAO;
+import javax.mail.MessagingException;
 import org.junit.Test;
 import mx.fei.coilvicapp.logic.emailSender.EmailSender;
 
@@ -18,7 +19,13 @@ public class EmailSenderTest {
     @Test
     public void testSendEmailSuccess() {
         emailSender.createEmail();
-        emailSender.sendEmail();
+        try {
+            emailSender.sendEmail();
+        } catch(MessagingException exception) {
+            
+        }
+            
+        
     }
     
 }

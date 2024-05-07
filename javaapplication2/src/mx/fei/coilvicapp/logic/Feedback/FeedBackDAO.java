@@ -16,9 +16,9 @@ import mx.fei.coilvicapp.logic.implementations.Status;
  *
  * @author ivanr
  */
-public class FeedBackDAO implements IFeedBack {
+public class FeedbackDAO implements IFeedback {
 
-    public FeedBackDAO() {
+    public FeedbackDAO() {
 
     }
 
@@ -38,6 +38,7 @@ public class FeedBackDAO implements IFeedBack {
         return false;
     }
 
+    @Override
     public int registerQuestion(Question question) throws DAOException {
         int result = 0;
 
@@ -47,19 +48,22 @@ public class FeedBackDAO implements IFeedBack {
         return result;
     }
     
+    @Override
     public int deleteQuestion(Question question) throws DAOException {
-        int result = 0;
+        int result;
         
         result = deleteQuestionTransaction(question);
         return result;
     }
     
-    public int registerResponses(ArrayList<Response> responses) throws DAOException {
-        int result = 0;
+    @Override
+    public int registerStudentResponses(ArrayList<Response> responses) throws DAOException {
+        int result;
         
-        result = insertResponsesTransaction(responses);
+        result = insertStudentResponsesTransaction(responses);
         return result;
     }
+    
     //Este va a ser para agregar mas preguntas
     public int insertQuestionTransaction(Question question) throws DAOException {
         int result = -1;
@@ -80,7 +84,7 @@ public class FeedBackDAO implements IFeedBack {
                 result = resultSet.getInt(1);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No fue posible registrar la pregunta", Status.ERROR);
         } finally {
             try {
@@ -91,13 +95,14 @@ public class FeedBackDAO implements IFeedBack {
                     preparedStatement.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
             }
             databaseManager.closeConnection();
         }
         return result;
     }
 
+    @Override
     public int updateQuestionTransaction(Question question) throws DAOException {
         int result = -1;
         Connection connection;
@@ -113,7 +118,7 @@ public class FeedBackDAO implements IFeedBack {
             preparedStatement.setInt(3, question.getIdQuestion());
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No fue posible actualizar la pregunta", Status.ERROR);
         } finally {
             try {
@@ -121,7 +126,7 @@ public class FeedBackDAO implements IFeedBack {
                     preparedStatement.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
             }
             databaseManager.closeConnection();
         }
@@ -141,7 +146,7 @@ public class FeedBackDAO implements IFeedBack {
             preparedStatement.setInt(1, question.getIdQuestion());
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No fue posible eliminar la pregunta", Status.ERROR);
         } finally {
             try {
@@ -149,14 +154,14 @@ public class FeedBackDAO implements IFeedBack {
                     preparedStatement.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
             }
             databaseManager.closeConnection();
         }
         return result;
     }
 
-    public int insertResponsesTransaction(ArrayList<Response> responses) throws DAOException {
+    public int insertStudentResponsesTransaction(ArrayList<Response> responses) throws DAOException {
         int result = -1;
         Connection connection;
         PreparedStatement preparedStatement = null;
@@ -176,7 +181,7 @@ public class FeedBackDAO implements IFeedBack {
             }
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException ("No fue posible registrar las respuestas", Status.ERROR);
         } finally {
             try {
@@ -184,14 +189,14 @@ public class FeedBackDAO implements IFeedBack {
                     preparedStatement.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
             }
         }
         return result;
     }
 
     private String configureInsertResponsesStatement(int size) {
-        String statement = "INSERT INTO respuesta (respuesta, idpregunta, idestudiante, idproyectocolaborativo) VALUES ";
+        String statement = "INSERT INTO respuestaestudiante (respuesta, idpregunta, idestudiante, idproyectocolaborativo) VALUES ";
         for (int i = 0; i < size; i++) {
             statement += "(?, ?, ?, ?)";
             if (i != size - 1) {
@@ -201,8 +206,9 @@ public class FeedBackDAO implements IFeedBack {
         return statement;
     }
     //Esta se mostrara para que llenen el formulario
-    public Question getQuestionByType(String type) throws DAOException {
-        Question question = new Question();
+    @Override
+    public ArrayList<Question> getQuestionByType(String type) throws DAOException {
+        ArrayList<Question> questionsList = new ArrayList<>();
         Connection connection;
         PreparedStatement preparedStatement = null;
         DatabaseManager databaseManager = new DatabaseManager();
@@ -215,12 +221,14 @@ public class FeedBackDAO implements IFeedBack {
             preparedStatement.setString(1, type);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                Question question = new Question();
                 question.setIdQuestion(resultSet.getInt("idPregunta"));
                 question.setQuestionText(resultSet.getString("pregunta"));
                 question.setQuestionType(resultSet.getString("tipo"));
+                questionsList.add(question);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -230,10 +238,10 @@ public class FeedBackDAO implements IFeedBack {
                     resultSet.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
             }
         }
-        return question;
+        return questionsList;
     }
 
     public ArrayList<Response> getResponsesByIdQuestionAndIdCollaborativeProject(int idQuestion, int idCollaborativeProject) throws DAOException {
@@ -260,7 +268,7 @@ public class FeedBackDAO implements IFeedBack {
                 responses.add(instance);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -270,7 +278,7 @@ public class FeedBackDAO implements IFeedBack {
                     resultSet.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
             }
         }
         return responses;
@@ -295,7 +303,7 @@ public class FeedBackDAO implements IFeedBack {
                 question.setQuestionType(resultSet.getString("tipo"));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No fue posible obtener la pregunta", Status.ERROR);
         } finally {
             try {
@@ -306,7 +314,7 @@ public class FeedBackDAO implements IFeedBack {
                     preparedStatement.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
             }
             databaseManager.closeConnection();
         }

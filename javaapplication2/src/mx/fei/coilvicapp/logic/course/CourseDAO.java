@@ -27,16 +27,17 @@ public class CourseDAO implements ICourse{
     public int insertCourse(Course course) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String statement = "insert into Curso (idProfesor, nombre,"
+        String statement = "INSERT INTO Curso (idProfesor, nombre,"
         + " objetivoGeneral, temasInteres, numeroEstudiantes, perfilEstudiantes,"
         + " periodo, idioma, informacionAdicional)"
-        + " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         DatabaseManager databaseManager = new DatabaseManager();
-        int rowsAffected = -1; 
+        ResultSet resultSet = null;
+        int result = -1; 
         
         try {
             connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement = connection.prepareCall(statement);
             
             preparedStatement.setInt(1, course.getProfessor().getIdProfessor());
             preparedStatement.setString(2, course.getName());        
@@ -48,12 +49,19 @@ public class CourseDAO implements ICourse{
             preparedStatement.setString(8, course.getLanguage());
             preparedStatement.setString(9, course.getAdditionalInformation());
             
-            rowsAffected = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                result = resultSet.getInt(1);
+            }
         } catch (SQLException exception) {
             Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No fue posible registrar el curso", Status.WARNING);
         } finally {
             try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
                 if (preparedStatement != null) {
                     preparedStatement.close();
                 }
@@ -64,42 +72,89 @@ public class CourseDAO implements ICourse{
                 Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
             }
         }
-        return rowsAffected;
+        return result;
     }
     
     @Override
-    public List<Course> getCoursesByStatus(String state) throws DAOException {
-        List<Course> courses = new ArrayList<>();
+    public Course getCourseByIdCourse(int idCourse) throws DAOException {
         Course course = new Course();
-        Professor professor = new Professor();
-        ProfessorDAO professorDAO = new ProfessorDAO();
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String statement = "select * from Curso where estado = ?";
+        String statement = "SELECT * FROM curso WHERE idCurso = ?";
         
         try {
             connection = databaseManager.getConnection();
             preparedStatement = connection.prepareStatement(statement);
-            preparedStatement.setString(1,state);
+            
+            preparedStatement.setInt(1, idCourse);
             
             resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                course = initializeCourse(resultSet);                
+            }
+        } catch (SQLException exception) {
+            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible recuperar el curso", Status.WARNING);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException exception){
+                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+            }
+        }
+        return course;
+    }
+    
+    private Course initializeCourse(ResultSet resultSet) throws DAOException {
+        Course course = new Course();
+        ProfessorDAO professorDAO = new ProfessorDAO();
+        
+        try {
+            course.setIdCourse(resultSet.getInt("idCurso"));
+            course.setName(resultSet.getString("nombre"));
+            course.setStatus(resultSet.getString("estado"));
+            course.setGeneralObjective(resultSet.getString("objetivoGeneral"));
+            course.setTopicsInterest(resultSet.getString("temasInteres"));
+            course.setNumberStudents(resultSet.getInt("numeroEstudiantes"));
+            course.setStudentsProfile(resultSet.getString("perfilEstudiantes"));
+            course.setTerm(resultSet.getString("periodo"));
+            course.setLanguage(resultSet.getString("idioma"));
+            course.setAdditionalInformation(resultSet.getString("informacionAdicional"));         
+            course.setProfessor(professorDAO.getProfessorById(resultSet.getInt("idProfesor")));
+        } catch (SQLException exception) {
+            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+        } 
+        return course;
+    }
+    
+    @Override
+    public List<Course> getCoursesByStatus(String status) throws DAOException {
+        List<Course> courses = new ArrayList<>();        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String statement = "SELECT * FROM Curso WHERE estado = ?";
+        
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
             
-            while (resultSet != null && resultSet.next()) {
-                course.setIdProfessor(resultSet.getInt("idProfesor"));
-                course.setName(resultSet.getString("nombre"));
-                course.setStatus(resultSet.getString("estado"));
-                course.setGeneralObjective(resultSet.getString("objetivoGeneral"));
-                course.setTopicsInterest(resultSet.getString("temasInteres"));
-                course.setNumberStudents(resultSet.getInt("numeroEstudiantes"));
-                course.setStudentsProfile(resultSet.getString("perfilEstudiantes"));
-                course.setTerm(resultSet.getString("periodo"));
-                course.setLanguage(resultSet.getString("idioma"));
-                course.setAdditionalInformation(resultSet.getString("informacionAdicional"));
-                professor = professorDAO.getProfessorById(course.getIdProfessor());
-                course.setProfessor(professor);
-                courses.add(course);
+            preparedStatement.setString(1,status);
+            
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                courses.add(initializeCourse(resultSet));
             }
         } catch (SQLException exception) {
             Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
@@ -123,23 +178,24 @@ public class CourseDAO implements ICourse{
     }
    
     @Override
-    public int updateCourseStatusByIdCourse(int courseId, String newState) throws DAOException {
+    public int updateCourseStatusByIdCourse(int idCourse, String status) throws DAOException {
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String statement = "update Curso set estado = ? where idCurso = ?";
+        String statement = "UPDATE Curso SET estado = ? where idCurso = ?";
         int rowsAffected = -1;
         
         try {
             connection = databaseManager.getConnection();
             preparedStatement = connection.prepareStatement(statement);
-            preparedStatement.setString(1,newState);
-            preparedStatement.setInt(2,courseId);
+            
+            preparedStatement.setString(1,status);
+            preparedStatement.setInt(2,idCourse);
             
             rowsAffected = preparedStatement.executeUpdate();
         } catch(SQLException exception) {
             Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible cambiar el estado del curso", Status.WARNING);
+            throw new DAOException("No fue posible evaluar el curso", Status.WARNING);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -154,5 +210,129 @@ public class CourseDAO implements ICourse{
         }
         return rowsAffected;
     }   
+    
+    @Override
+    public int updateCourse(Course course) throws DAOException {
+        int result = -1;
+        if (!course.getStatus().equals("Aceptado")) {
+            result = updateCoursePrivate(course);
+        } else {
+            throw new DAOException("No puede actualizar un curso que ya fue aceptado", Status.WARNING);
+        }
+        return result;
+    }
+    
+    private int updateCoursePrivate(Course course) throws DAOException {
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String statement = "UPDATE Curso SET nombre = ?, estado = 'Pendiente',"
+        + " objetivoGeneral = ?, temasInteres = ?, numeroEstudiantes = ?,"
+        + " perfilEstudiantes = ?, periodo = ?, idioma = ?, informacionAdicional = ?";
+        int rowsAffected = -1;
+       
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
+            
+            preparedStatement.setString(1,course.getName());
+            preparedStatement.setString(2,course.getGeneralObjective());
+            preparedStatement.setString(3,course.getTopicsInterest());
+            preparedStatement.setInt(4, course.getNumerStudents());
+            preparedStatement.setString(5, course.getStudentsProfile());
+            preparedStatement.setString(6,course.getTerm());
+            preparedStatement.setString(7,course.getLanguage());
+            preparedStatement.setString(8,course.getAdditionalInformation());
+            
+            rowsAffected = preparedStatement.executeUpdate();
+        }catch (SQLException exception) {
+            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible actualizar el curso", Status.WARNING);
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException exception) {
+                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+            }
+        }
+        return rowsAffected;
+    }
+    
+    @Override 
+    public List<Course> getCoursesByIdProfessor(int idProfessor) throws DAOException {     
+        List<Course> courses = new ArrayList<>();        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String statement = "SELECT * FROM Curso WHERE idProfesor = ?";
+        
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
+            
+            preparedStatement.setInt(1,idProfessor);
+            
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                courses.add(initializeCourse(resultSet));
+            }
+        } catch (SQLException exception) {
+            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible obtener los cursos", Status.WARNING);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException exception){
+                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+            }
+        }
+        return courses;   
+    }
+    
+    @Override
+    public int deleteCourseByIdCourse(int idCourse) throws DAOException {
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String statement = "DELETE FROM Curso WHERE idCurso = ?";
+        int rowsAffected = -1;
+        
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
+            
+            preparedStatement.setInt(1, idCourse);
+            
+            rowsAffected = preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible eliminar el curso", Status.WARNING);
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException exception) {
+                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+            }
+        }
+        return rowsAffected;
+    }   
 }
-

@@ -1,8 +1,7 @@
 .vbox-container {
     -fx-background-color:
         linear-gradient(to bottom, #ff650cf3, #fe1067c1);
-    -fx-padding: 10px; /* Espaciado interno del VBox */
-    -fx-spacing: 10px; /* Espaciado entre hijos del VBox */
+   
     -fx-border-color: #e25858; /* Color del borde del VBox */
     -fx-border-width: 1px; /* Ancho del borde del VBox */
     -fx-border-radius: 5px; /* Radio de los bordes del VBox */

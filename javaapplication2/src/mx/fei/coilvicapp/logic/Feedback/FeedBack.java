@@ -6,7 +6,7 @@ import java.util.Objects;
  *
  * @author ivanr
  */
-public class FeedBack {
+public class Feedback {
     private int idFeedback = 0;
     private ArrayList<Question> questions;
     private ArrayList<Response> responses;
@@ -39,7 +39,7 @@ public class FeedBack {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        FeedBack feedBack = (FeedBack) obj;
+        Feedback feedBack = (Feedback) obj;
         return idFeedback == feedBack.idFeedback &&
                 Objects.equals(questions, feedBack.questions) &&
                 Objects.equals(responses, feedBack.responses);

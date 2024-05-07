@@ -20,7 +20,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/UploadAssignment"));
+        scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/LoginParticipant"));
         stage.setScene(scene);
         stage.setWidth(WIDTH);
         stage.setHeight(HEIGHT);
@@ -58,6 +58,4 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         launch();
     }
-    
-    
 }

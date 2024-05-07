@@ -284,6 +284,7 @@ public class ProfessorDAO implements IProfessor {
     private Professor initializeProfessor(ResultSet resultSet) throws SQLException {        
         Professor professor = new Professor();
         UniversityDAO universityDAO = new UniversityDAO();
+        UserDAO userDAO = new UserDAO();
         
         professor.setIdProfessor(resultSet.getInt("idProfesor"));
         professor.setName(resultSet.getString("nombre"));
@@ -294,8 +295,10 @@ public class ProfessorDAO implements IProfessor {
         professor.setPhoneNumber(resultSet.getString("telefono"));
         professor.setState(resultSet.getString("estado"));
         int idUniversity = resultSet.getInt("IdUniversidad");
+        int idUser = resultSet.getInt("idUsuario");
         try {
             professor.setUniversity(universityDAO.getUniversityById(idUniversity));
+            professor.setUser(userDAO.getUserById(idUser));
         } catch (DAOException exception) {
             Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -307,7 +310,7 @@ public class ProfessorDAO implements IProfessor {
         User user = new User();
         UserDAO userDAO = new UserDAO();
         
-        user.setProfessor(professor);
+     //   user.setProfessor(professor);
         user.setType("P");
         user.setPassword(password);
         

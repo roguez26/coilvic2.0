@@ -14,5 +14,5 @@
 .button:pressed {
     -fx-text-fill: #f3f3f3;
     -fx-background-color: rgb(60, 60, 60); /* Cambia el color de fondo al presionar */
-    -fx-padding: 6px 11px; /* Ajusta el espaciado al presionar */
+     /* Ajusta el espaciado al presionar */
 }
