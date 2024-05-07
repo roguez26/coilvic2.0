@@ -4,10 +4,23 @@
  */
 package mx.fei.coilvicapp.logic.feedback;
 
+import java.util.ArrayList;
+import mx.fei.coilvicapp.logic.implementations.DAOException;
+
 /**
  *
  * @author ivanr
  */
-public interface IFeedBack {
+public interface IFeedback {
+    
+    public int registerQuestion(Question question) throws DAOException;
+    
+    public int deleteQuestion(Question question) throws DAOException;
+    
+    public int registerStudentResponses(ArrayList<Response> responses) throws DAOException;
+    
+    public int updateQuestionTransaction(Question question) throws DAOException;
+    
+    public ArrayList<Question> getQuestionByType(String type) throws DAOException;
     
 }

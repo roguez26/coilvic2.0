@@ -1,7 +1,7 @@
 package unit.test.FeedbackDAO;
 
 
-import mx.fei.coilvicapp.logic.feedback.FeedBackDAO;
+import mx.fei.coilvicapp.logic.feedback.FeedbackDAO;
 import mx.fei.coilvicapp.logic.feedback.Question;
 import mx.fei.coilvicapp.logic.feedback.Response;
 import org.junit.Before;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class FeedBackDAOGettersTest {
     
-    private static final FeedBackDAO FEEDBACK_DAO = new FeedBackDAO();
+    private static final FeedbackDAO FEEDBACK_DAO = new FeedbackDAO();
     private static final Question QUESTION_FOR_TESTING = new Question();
     private static final String QUESTION_TEXT = "¿Surgieron problemas en el momento de la implementacion?";
     private static final String QUESTION_TYPE = "P";

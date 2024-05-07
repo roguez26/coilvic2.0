@@ -47,14 +47,14 @@ public class RegisterUniversityController implements Initializable {
     @FXML
     private ComboBox<Country> countryCombobox;
 
-    private final ICountry COUNTRY_DAO = new CountryDAO();
-    private final IUniversity UNIVERSITY_DAO = new UniversityDAO();
+    private final ICountry CountryDAO = new CountryDAO();
+    private final IUniversity UniversityDAO = new UniversityDAO();
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
         ArrayList<Country> countries = new ArrayList<>();
         try {
-            countries = COUNTRY_DAO.getAllCountries();
+            countries = CountryDAO.getAllCountries();
         } catch (DAOException exception) {
 
         }
@@ -63,7 +63,6 @@ public class RegisterUniversityController implements Initializable {
 
     @FXML
     private void cancelButtonIsPressed(ActionEvent event) throws IOException {
-
         if (textFieldsAreCleaned() || confirmedCancelation()) {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
         }
@@ -84,7 +83,7 @@ public class RegisterUniversityController implements Initializable {
     }
 
     private boolean wasRegisteredConfirmation() {
-        Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog("Registrada", "La universidad fue registrada con exito");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Registrada", "La universidad fue registrada con exito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
@@ -102,7 +101,7 @@ public class RegisterUniversityController implements Initializable {
     private void invokeUniversityRegistration() throws DAOException {
         University university = initializeUniversity();
         if (confirmRegistration()) {
-            if (UNIVERSITY_DAO.registerUniversity(university) > 0) {
+            if (UniversityDAO.registerUniversity(university) > 0) {
                 wasRegisteredConfirmation();
                 cleanFields();
             }
@@ -141,8 +140,8 @@ public class RegisterUniversityController implements Initializable {
         }
     }
 
-    private void handleValidationException(IllegalArgumentException ex) {
-        DialogController.getDialog(new AlertMessage(ex.getMessage(), Status.WARNING));
+    private void handleValidationException(IllegalArgumentException exception) {
+        DialogController.getInvalidDataDialog(exception.getMessage());
     }
 
 }

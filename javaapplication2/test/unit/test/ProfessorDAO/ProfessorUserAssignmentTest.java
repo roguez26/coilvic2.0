@@ -42,7 +42,7 @@ public class ProfessorUserAssignmentTest {
         PROFESSOR_FOR_TESTING.setEmail("roberto@gmail.com");
         PROFESSOR_FOR_TESTING.setGender("M");
         PROFESSOR_FOR_TESTING.setPhoneNumber("2283728394");
-        PROFESSOR_FOR_TESTING.setIdUniversity(136);
+        PROFESSOR_FOR_TESTING.setIdUniversity(3);
     }
     
     @Test

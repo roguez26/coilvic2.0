@@ -14,11 +14,14 @@ import mx.fei.coilvicapp.logic.emailSender.IEmailSender;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonType;
 import main.MainApp;
 import javafx.scene.layout.VBox;
+import javax.mail.MessagingException;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
@@ -52,6 +55,7 @@ public class NotifyProfessorController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
+
         professor.setEmail("ivanxspoti@gmail.com");
         professor.setIdProfessor(8);
         showEmail(professor.getEmail());
@@ -65,19 +69,21 @@ public class NotifyProfessorController implements Initializable {
             handleValidationException(iaException);
         } catch (DAOException daoException) {
             handleDAOException(daoException);
+        } catch (MessagingException mException) {
+            handleMessagingException(mException);
         }
     }
 
-    private void invokeSendEmail() throws DAOException {
+    private void invokeSendEmail() throws DAOException, MessagingException {
         initializeEmailSender();
         if (confirmNotification()) {
             emailSender.createEmail();
+
             if (emailSender.sendEmail()) {
                 wasSentConfirmation();
                 emailSenderDAO.registerEmail(emailSender);
-            } else {
-                wasNotSentConfirmation();
             }
+
         }
     }
 
@@ -95,12 +101,7 @@ public class NotifyProfessorController implements Initializable {
     }
 
     private boolean wasSentConfirmation() {
-        Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog("", "El correo fue enviado con exito");
-        return (response.get() == DialogController.BUTTON_YES);
-    }
-
-    private boolean wasNotSentConfirmation() {
-        Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog("", "El correo no pudo ser enviado");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("", "El correo fue enviado con exito");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
@@ -138,7 +139,11 @@ public class NotifyProfessorController implements Initializable {
     }
 
     private void handleValidationException(IllegalArgumentException exception) {
-        DialogController.getDialog(new AlertMessage(exception.getMessage(), Status.WARNING));
+        DialogController.getInvalidDataDialog(exception.getMessage());
+    }
+
+    private void handleMessagingException(MessagingException exception) {
+        DialogController.getNotSentMessageDialog(exception.getMessage());
     }
 
 }

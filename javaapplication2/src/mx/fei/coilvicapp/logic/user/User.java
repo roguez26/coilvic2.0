@@ -11,27 +11,17 @@ public class User {
     private int idUser;
     private String password;
     private String type;
-    private Professor professor;
     
     public User() {
-        professor = new Professor();
+
     }
     
-    public Professor getProfessor() {
-        return professor;
-    }
-    
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
-    }
 
     public int getIdUser() {
         return idUser;
     }
     
-    public int getIdProfessor() {
-        return professor.getIdProfessor();
-    }
+
 
     public String getPassword() {
         return password;
@@ -53,9 +43,7 @@ public class User {
         this.type = type;
     }
     
-    public void setIdProfessor(int idProfessor) {
-        this.professor.setIdProfessor(idProfessor);
-    }
+
 
     @Override
     public boolean equals(Object object) {
@@ -67,15 +55,14 @@ public class User {
             User toCompare = (User) object;
             isEqual = idUser == toCompare.idUser
                 && Objects.equals(password, toCompare.password)
-                && Objects.equals(type, toCompare.type)
-                && Objects.equals(professor, toCompare.professor);
+                && Objects.equals(type, toCompare.type);
         }
         return isEqual;
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(idUser, password, type, professor);
+        return Objects.hash(idUser, password, type);
     }
 
     @Override

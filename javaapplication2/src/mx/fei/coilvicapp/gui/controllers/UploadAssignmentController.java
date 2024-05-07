@@ -65,9 +65,8 @@ public class UploadAssignmentController implements Initializable {
     private Button selectFileButton;
 
     @FXML
-    private Label titileLabel;
+    private Label titleLabel; //Corregir está mal escrito
 
-    private Desktop desktop;
     private File selectedFile;
     private final Assignment assignment = new Assignment();
     private final IAssignment asigmentDAO = new AssignmentDAO();
@@ -87,24 +86,26 @@ public class UploadAssignmentController implements Initializable {
         } catch (DAOException daoException) {
             handleDAOException(daoException);
             fileManager.undoSaveAssignment();
-        } catch (IOException ioexception) {
-            handleIOException(ioexception);
+        } catch (IOException ioException) {
+            handleIOException(ioException);
             fileManager.undoSaveAssignment();
         }
     }
 
     private void invokeSaveAssignment() throws DAOException, IOException {
         initializeAssignment();
-        String  ruta = fileManager.saveAssignment(selectedFile, assignment.getIdColaborativeProject());
-        invokeRegisterAssignment(ruta);
-        desktop.open(new File(ruta));
+        fileManager.setFile(selectedFile);
+        fileManager.setDestinationDirectory(assignment.getIdColaborativeProject());
+        fileManager.isValidFileForSave();
+        if (confirmUpload()) {
+            invokeRegisterAssignment(fileManager.saveAssignment());
+        }
     }
 
     private void invokeRegisterAssignment(String newPath) throws DAOException, IOException {
         assignment.setPath(newPath);
         if (asigmentDAO.insertAssignment(assignment) > 0) {
             wasUploadedConfirmation();
-            
             cleanFields();
         }
     }
@@ -122,15 +123,9 @@ public class UploadAssignmentController implements Initializable {
 
     @FXML
     void selectFileButtonIsPressed(ActionEvent event) {
-        if (Desktop.isDesktopSupported()) {
-            desktop = Desktop.getDesktop();
-            FileChooser fileChooser = new FileChooser();
-            ExtensionFilter pdfFilter = new ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf");
-            fileChooser.getExtensionFilters().add(pdfFilter);
-            selectedFile = fileChooser.showOpenDialog(backgroundVBox.getScene().getWindow());
-            if (selectedFile != null) {
-                fileTextField.setText(selectedFile.getName());
-            }
+        selectedFile = fileManager.selectPDF(backgroundVBox.getScene().getWindow());
+        if (selectedFile != null) {
+            fileTextField.setText(selectedFile.getName());
         }
     }
 
@@ -144,26 +139,32 @@ public class UploadAssignmentController implements Initializable {
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-            
+
         }
+    }
+
+    private boolean confirmUpload() {
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("", "¿Deseas subir esta nueva actividad?");
+        return (response.get() == DialogController.BUTTON_YES);
     }
 
     private void cleanFields() {
         nameTextField.setText("");
-            descriptionTextArea.setText("");
-            fileTextField.setText("");
-            selectedFile = null;
+        descriptionTextArea.setText("");
+        fileTextField.setText("");
+        selectedFile = null;
     }
+
     private void handleIOException(IOException exception) {
-        DialogController.getDialog(new AlertMessage("No fue posible subir la actividad", Status.WARNING));
+        DialogController.getInformativeConfirmationDialog("Lo sentimos", "No fue posible subir la actividad");
     }
 
     private void handleValidationException(IllegalArgumentException exception) {
-        DialogController.getDialog(new AlertMessage(exception.getMessage(), Status.WARNING));
+        DialogController.getInvalidDataDialog(exception.getMessage());
     }
 
     private boolean wasUploadedConfirmation() {
-        Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog("Subida", "La actividad fue subida con éxito");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Subida", "La actividad fue subida con éxito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 

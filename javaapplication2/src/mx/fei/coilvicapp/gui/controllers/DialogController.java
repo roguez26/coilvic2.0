@@ -4,7 +4,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert;
 import java.util.Optional;
-import javafx.collections.ObservableList;
+import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 /**
  *
  * @author ivanr
@@ -26,11 +26,11 @@ public class DialogController {
                     alert.setHeaderText("Advertencia");
                 }
                 case ERROR -> {
-                    alert = new Alert(Alert.AlertType.WARNING);
+                    alert = new Alert(Alert.AlertType.ERROR);
                     alert.setHeaderText("Error");
                 }
                 case FATAL -> {
-                    alert = new Alert(Alert.AlertType.WARNING);
+                    alert = new Alert(Alert.AlertType.ERROR);
                     alert.setHeaderText("Fatal");
                 }
                 default -> throw new IllegalArgumentException("Tipo de mensaje no admitido");                    
@@ -51,12 +51,29 @@ public class DialogController {
         return alert.showAndWait();
     }
     
-    public static Optional<ButtonType> getPositiveConfirmationDialog(String title, String message) {
+    public static Optional<ButtonType> getInformativeConfirmationDialog(String title, String message) {
         Alert alert = new Alert(
                 Alert.AlertType.INFORMATION,
                 message, BUTTON_ACCEPT);
         alert.setHeaderText(title);
         return alert.showAndWait();
     }
+    
+    public static Optional<ButtonType> getInvalidDataDialog(String message) {
+        Alert alert = new Alert(
+                Alert.AlertType.WARNING,
+                message, BUTTON_ACCEPT);
+        alert.setHeaderText("Datos inválidos");
+        return alert.showAndWait();
+    }
+    
+    public static Optional<ButtonType> getNotSentMessageDialog(String message) {
+        Alert alert = new Alert(
+                Alert.AlertType.ERROR,
+                message, BUTTON_ACCEPT);
+        alert.setHeaderText("Lo sentimos");
+        return alert.showAndWait();
+    }
+    
    
 }

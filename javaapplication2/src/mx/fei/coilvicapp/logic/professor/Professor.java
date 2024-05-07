@@ -3,6 +3,7 @@ package mx.fei.coilvicapp.logic.professor;
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
+import mx.fei.coilvicapp.logic.user.User;
 
 public class Professor {
     private int idProfessor = 0;
@@ -14,6 +15,7 @@ public class Professor {
     private String phoneNumber;
     private String state;
     private University university;
+    private User user;
     
     public Professor() {
         university = new University();
@@ -113,6 +115,14 @@ public class Professor {
     
     public int getIdUniversity() {
         return university.getIdUniversity();
+    }
+    
+    public User getUser() {
+        return user;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
     }
     
     @Override

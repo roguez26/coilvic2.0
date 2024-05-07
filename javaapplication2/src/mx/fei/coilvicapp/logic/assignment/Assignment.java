@@ -14,8 +14,10 @@ public class Assignment {
     private String description;
     private String date;
     private String path;
+    private final FieldValidator fieldValidator;
     
     public Assignment() {
+        fieldValidator = new FieldValidator();
     }
     
     public int getIdColaborativeProject() {
@@ -31,7 +33,7 @@ public class Assignment {
     }
     
     public void setName(String name) {
-        FieldValidator.checkShortRange(name);
+        fieldValidator.checkShortRange(name);
         this.name = name;
     }
     
@@ -40,7 +42,7 @@ public class Assignment {
     }
     
     public void setDescription(String description) {
-        FieldValidator.checkLongRange(description);
+        fieldValidator.checkLongRange(description);
         this.description = description;
     }
     

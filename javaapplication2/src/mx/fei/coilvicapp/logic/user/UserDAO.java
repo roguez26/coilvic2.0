@@ -22,9 +22,10 @@ import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 public class UserDAO implements IUser {
 
     @Override
-    public User authenticateUser(String email, String password) throws DAOException {
+    public boolean authenticateUser(String email, String password) throws DAOException {
         ProfessorDAO professorDAO = new ProfessorDAO();
         Professor professor = new Professor();
+        boolean result = false;
 
         try {
             professor = professorDAO.getProfessorByEmail(email);
@@ -33,9 +34,15 @@ public class UserDAO implements IUser {
         }
 
         if (professor.getIdProfessor() > 0) {
-
+            if (professor.getUser().getPassword().equals(encryptPassword(password))) {
+                result = true;
+            } else {
+                throw new DAOException ("La contraseña proporcinada es incorrecta", Status.WARNING);
+            }
+        } else {
+            throw new DAOException ("El correo no se encuentra registrado", Status.WARNING);
         }
-        return null;
+        return result;
     }
 
     @Override
@@ -49,10 +56,10 @@ public class UserDAO implements IUser {
 
         return result;
     }
-    
+
     @Override
     public int deleteUser(int idProfessor) throws DAOException {
-        
+
         return deleteUserTransaction(idProfessor);
     }
 
@@ -62,15 +69,15 @@ public class UserDAO implements IUser {
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         DatabaseManager databaseManager = new DatabaseManager();
-        String statement = "INSERT INTO usuario(contraseña, tipo, idProfesor) "
-                + "VALUES (?, ?, ?)";
+        String statement = "INSERT INTO usuario(contraseña, tipo) "
+                + "VALUES (?, ?)";
 
         try {
             connection = databaseManager.getConnection();
             preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, user.getPassword());
             preparedStatement.setString(2, user.getType());
-            preparedStatement.setInt(3, user.getIdProfessor());
+            //preparedStatement.setInt(3, user.getIdProfessor());
             result = preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -130,9 +137,8 @@ public class UserDAO implements IUser {
         }
         return result;
     }
-  
 
-    public static String encryptPassword(String password) throws DAOException {
+    public String encryptPassword(String password) throws DAOException {
         String encryptedPassword = "";
 
         try {
@@ -140,7 +146,7 @@ public class UserDAO implements IUser {
             byte[] hashedBytes = digest.digest(password.getBytes());
 
             StringBuilder hexString = new StringBuilder();
-            
+
             for (byte byteIntHashedBytes : hashedBytes) {
                 hexString.append(String.format("%02x", byteIntHashedBytes));
             }
@@ -152,5 +158,40 @@ public class UserDAO implements IUser {
         }
         return encryptedPassword;
     }
+
+    public User getUserById(int idUser) throws DAOException {
+        Connection connection;
+        User user = new User();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        DatabaseManager databaseManager = new DatabaseManager();
+        String statement = "SELECT * FROM usuario WHERE idusuario=?";
+
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareCall(statement);
+            preparedStatement.setInt(1, idUser);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet != null && resultSet.next()) {
+                user.setPassword(resultSet.getString("Contraseña"));
+                user.setType(resultSet.getString("Tipo"));
+            }
+        } catch (SQLException exception) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible obtener la universidad", Status.ERROR);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException exception) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, exception);
+            }
+            databaseManager.closeConnection();
+        }
+        return user;
+    }
 }
-    

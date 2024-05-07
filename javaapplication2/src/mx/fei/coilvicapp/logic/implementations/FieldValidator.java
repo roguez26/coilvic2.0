@@ -12,9 +12,9 @@ public class FieldValidator {
     private final String EMAIL_REGEX = "^(?=.{3,45}$)[^\\s@]+@(?:uv\\.mx|estudiantes\\.uv\\.mx|gmail\\.com|hotmail\\.com|outlook\\.com|edu\\.mx)$";
     private final String NAME_REGEX = "^(?!.*[\\!\\#\\$%\\&'\\(\\)\\*\\+\\-\\.,\\/\\:\\;<\\=\\>\\?\\@\\[\\\\\\]\\^_`\\{\\|\\}\\~])(?!.*  )(?!^ $)(?!.*\\d)^.{1,45}$";
     private static final String SHORT_RANGE = "^[\\p{L}0-9\\s]{3,45}$";
-    private static final String LONG_RANGE = "^[\\p{L}0-9\\s]{3,255}$"; 
+    private static final String LONG_RANGE = "^[\\p{L}0-9\\s]{3,255}$";
     private final String PHONE_NUMBER_REGEX = "^\\d{10}$";
-    
+
     public boolean checkEmail(String eMail) {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
         Matcher matcher = pattern.matcher(eMail);
@@ -26,7 +26,7 @@ public class FieldValidator {
         }
         return true;
     }
-    
+
     public boolean checkName(String name) {
         Pattern pattern = Pattern.compile(NAME_REGEX);
         Matcher matcher = pattern.matcher(name);
@@ -40,7 +40,7 @@ public class FieldValidator {
         }
         return true;
     }
-    
+
     public boolean checkPhoneNumber(String phoneNumber) {
         Pattern pattern = Pattern.compile(PHONE_NUMBER_REGEX);
         Matcher matcher = pattern.matcher(phoneNumber);
@@ -54,23 +54,37 @@ public class FieldValidator {
         }
         return true;
     }
-    
-    public static boolean checkShortRange(String stringForCheck) {
+
+    public boolean checkShortRange(String stringForCheck) {
         Pattern pattern = Pattern.compile(SHORT_RANGE);
         Matcher matcher = pattern.matcher(stringForCheck);
-        if(!matcher.matches()) {
+        if (!matcher.matches()) {
             throw new IllegalArgumentException("El campo debe tener las siguientes características:\n"
-                    +"1.- Debe contener al un rango de 3 a 45 caractéres \n");
+                    + "1.- Debe contener al un rango de 3 a 45 caractéres \n");
         }
         return true;
     }
-    
-    public static boolean checkLongRange(String stringForCheck) {
+
+    public void checkLongRange(String stringForCheck) {
         Pattern pattern = Pattern.compile(LONG_RANGE);
-        Matcher matcher = pattern.matcher(stringForCheck);
-        if(!matcher.matches()) {
-            throw new IllegalArgumentException("El campo debe tener las siguientes características:\n"
-                    +"1.- Debe contener al un rango de 3 a 255 caractéres \n");
+        if (stringForCheck != null) {
+            Matcher matcher = pattern.matcher(stringForCheck);
+            if (matcher.matches()) {
+                return;
+            }
+        }
+        throw new IllegalArgumentException("El campo debe tener las siguientes "
+                + "características:\n1.- Debe contener al un rango de 3 a 255 caractéres \n");
+    }
+    
+    private final String ENROLLMENT_REGEX = "^S\\d{8}$";
+    
+    public boolean checkEnrollment(String enrollment) {
+        Pattern pattern = Pattern.compile(ENROLLMENT_REGEX);
+        Matcher matcher = pattern.matcher(enrollment);        
+        if (!matcher.matches()) {
+            throw new IllegalArgumentException("La matricula debe comenzar por S "
+                    + "mayuscula y estar seguida de 8 numeros");
         }
         return true;
     }

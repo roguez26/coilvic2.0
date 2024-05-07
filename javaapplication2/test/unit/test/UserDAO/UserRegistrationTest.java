@@ -25,6 +25,6 @@ public class UserRegistrationTest {
  
     
     public void initializeUser() {
-        USER_FOR_TESTING.setIdProfessor(1);
+       // USER_FOR_TESTING.setIdProfessor(1);
     }
 }

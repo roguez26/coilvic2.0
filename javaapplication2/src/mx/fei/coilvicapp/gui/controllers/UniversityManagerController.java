@@ -60,7 +60,6 @@ public class UniversityManagerController implements Initializable {
         cityTableColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
         countryTableColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
         universitiesTableView.getItems().addAll(universitiesList);
-    
     }
 
     @FXML

@@ -9,8 +9,8 @@ import mx.fei.coilvicapp.logic.professor.*;
 public class Course {
     
     private Professor professor;
-    private int idProfessor;
     
+    private int idCourse = 0;
     private String name;
     private String status;
     private String generalObjective;
@@ -33,12 +33,12 @@ public class Course {
         this.professor = professor;
     }
     
-    public int getIdProfessor() {
-        return idProfessor;
+    public int getIdCourse() {
+        return idCourse;
     }
     
-    public void setIdProfessor(int idProfessor) {
-        this.idProfessor = idProfessor;
+    public void setIdCourse(int idCourse) {
+        this.idCourse = idCourse;
     }
     
     public String getName() {

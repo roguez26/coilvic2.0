@@ -95,7 +95,7 @@ public class RegisterProfessorController implements Initializable {
     }
     
     private boolean wasRegisteredConfirmation() {
-        Optional<ButtonType> response = DialogController.getPositiveConfirmationDialog("Registrado","El profesor se ha registrado con exito");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Registrado","El profesor se ha registrado con exito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
     

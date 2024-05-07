@@ -1,7 +1,6 @@
 package unit.test.FeedbackDAO;
 
-import mx.fei.coilvicapp.logic.feedback.Question;
-import mx.fei.coilvicapp.logic.feedback.FeedBackDAO;
+
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,15 +9,18 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 import java.util.ArrayList;
+import mx.fei.coilvicapp.logic.feedback.FeedbackDAO;
 import mx.fei.coilvicapp.logic.feedback.Response;
+import mx.fei.coilvicapp.logic.feedback.Question;
+
 
 /**
  *
  * @author ivanr
  */
-public class FeedBackRegistrationsTest {
+public class FeedbackRegistrationsTest {
 
-    private static final FeedBackDAO FEEDBACK_DAO = new FeedBackDAO();
+    private final FeedbackDAO FEEDBACK_DAO = new FeedbackDAO();
     private static final Question QUESTION_FOR_TESTING = new Question();
     private static final String QUESTION_TEXT = "¿Recomendarias esta colaboracion?";
     private static final String QUESTION_TYPE = "E";
@@ -33,7 +35,7 @@ public class FeedBackRegistrationsTest {
     private static final int AUX_ID_COLLABORATIVE_PROJECT = 1;
     
 
-    public FeedBackRegistrationsTest() {
+    public FeedbackRegistrationsTest() {
 
     }
 
@@ -55,7 +57,7 @@ public class FeedBackRegistrationsTest {
         try {
             idQuestion = FEEDBACK_DAO.registerQuestion(AUX_QUESTION_FOR_TESTING);
         } catch (DAOException exception) {
-            Logger.getLogger(FeedBackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedbackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         instance.setIdQuestion(idQuestion);
         RESPONSES_FOR_TESTING.add(instance);
@@ -72,8 +74,9 @@ public class FeedBackRegistrationsTest {
             idQuestion = FEEDBACK_DAO.registerQuestion(QUESTION_FOR_TESTING);
             QUESTION_FOR_TESTING.setIdQuestion(idQuestion);
         } catch (DAOException exception) {
-            Logger.getLogger(FeedBackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedbackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
         }
+        System.out.println(idQuestion);
         assertTrue(idQuestion > 0);
     }
     
@@ -86,7 +89,7 @@ public class FeedBackRegistrationsTest {
         try {
             idQuestion = FEEDBACK_DAO.registerQuestion(QUESTION_FOR_TESTING);
         } catch (DAOException exception) {
-            Logger.getLogger(FeedBackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedbackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());
         }
         QUESTION_FOR_TESTING.setIdQuestion(idQuestion);
@@ -98,20 +101,20 @@ public class FeedBackRegistrationsTest {
         int result = 0;
         
         try {
-            result = FEEDBACK_DAO.registerResponses(RESPONSES_FOR_TESTING);
+            result = FEEDBACK_DAO.registerStudentResponses(RESPONSES_FOR_TESTING);
         } catch (DAOException exception) {
-            Logger.getLogger(FeedBackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedbackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         assertTrue(result > 0);
     }
     
-    @After
-    public void tearDown() {
-        try {
-            FEEDBACK_DAO.deleteQuestion(AUX_QUESTION_FOR_TESTING);
-            FEEDBACK_DAO.deleteQuestion(QUESTION_FOR_TESTING);
-        } catch (DAOException exception) {
-            Logger.getLogger(FeedBackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
-        }
-    }
+//    @After
+//    public void tearDown() {
+//        try {
+//            FEEDBACK_DAO.deleteQuestion(AUX_QUESTION_FOR_TESTING);
+//            FEEDBACK_DAO.deleteQuestion(QUESTION_FOR_TESTING);
+//        } catch (DAOException exception) {
+//            Logger.getLogger(FeedbackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
+//        }
+//    }
 }
