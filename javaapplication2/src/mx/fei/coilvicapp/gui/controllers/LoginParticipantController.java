@@ -98,7 +98,6 @@ public class LoginParticipantController implements Initializable {
                 if (student.getIdStudent() > 0) {
                     CollaborativeProject collaborativeProject = COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectByCode(identifierPasswordTextField.getText());
                     if (collaborativeProject.getIdCollaborativeProject() > 0) {
-                        System.out.println("jjdd");
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent.fxml"));
                         MainApp.changeView(fxmlLoader);
                         CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController = fxmlLoader.getController();

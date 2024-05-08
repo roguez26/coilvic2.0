@@ -28,8 +28,8 @@ public class DatabaseManager {
             if (connection == null || connection.isClosed()) {
                 connection = connect();
             }
-        } catch (SQLException e) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, e);
+        } catch (SQLException exception) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No se pudo realizar la conexion a la base de datos", Status.FATAL);
         }
         return connection;
@@ -50,8 +50,8 @@ public class DatabaseManager {
                 connection.close();
             }
             isClosed = true;
-        } catch (SQLException e) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, e);
+        } catch (SQLException exception) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, exception);
         }
         return isClosed;
     }

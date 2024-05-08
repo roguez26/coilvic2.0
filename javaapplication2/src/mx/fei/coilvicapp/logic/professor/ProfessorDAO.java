@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import log.Log;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
@@ -32,17 +33,17 @@ public class ProfessorDAO implements IProfessor {
         return false;
     }
     
+    @Override
     public int registerProfessor(Professor professor) throws DAOException {
         int result = 0;
 
         if (!checkEmailDuplication(professor)) {
-            result = insertProfessor(professor);
+            result = insertProfessorTransaction(professor);
         }
         return result;        
     }
     
-    @Override
-    public int insertProfessor(Professor professor) throws DAOException {
+    public int insertProfessorTransaction(Professor professor) throws DAOException {
         int result = -1;
         ResultSet resultSet = null;
         Connection connection = null;
@@ -68,7 +69,7 @@ public class ProfessorDAO implements IProfessor {
             }
             
         } catch (SQLException exception) {
-            Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible registrar al profesor", Status.ERROR);
         } finally {
             try {
@@ -82,13 +83,14 @@ public class ProfessorDAO implements IProfessor {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             }
         }
         return result;        
     }
-
-    public int updateProfessorVerification(Professor newProfessorInformation) throws DAOException {   
+    
+    @Override
+    public int updateProfessor(Professor newProfessorInformation) throws DAOException {   
         int result = 0;
 
         if (!checkEmailDuplication(newProfessorInformation)) {
@@ -97,8 +99,7 @@ public class ProfessorDAO implements IProfessor {
         return result;          
     }
     
-    @Override
-    public int updateProfessor(Professor newProfessorInformation) throws DAOException {   
+    public int updateProfessorTransaction(Professor newProfessorInformation) throws DAOException {   
         int result = -1;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -118,7 +119,7 @@ public class ProfessorDAO implements IProfessor {
             preparedStatement.setInt(7, newProfessorInformation.getIdProfessor());
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
-            Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible actualizar al profesor", Status.ERROR);
         } finally {
             try {
@@ -129,7 +130,7 @@ public class ProfessorDAO implements IProfessor {
                     connection.close();
                 }               
             } catch (SQLException exception) {
-                Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             }
         }        
         return result;
@@ -149,7 +150,7 @@ public class ProfessorDAO implements IProfessor {
             preparedStatement.setInt(1, idProfessor);
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
-            Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible eliminar al profesor", Status.ERROR);
         } finally {            
             try {
@@ -160,7 +161,7 @@ public class ProfessorDAO implements IProfessor {
                     connection.close();
                 }               
             } catch (SQLException exception) {
-                Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             }
         }       
         return result;
@@ -185,7 +186,7 @@ public class ProfessorDAO implements IProfessor {
                 professor = initializeProfessor(resultSet);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener al profesor", Status.ERROR);
         } finally {         
             try {
@@ -199,7 +200,7 @@ public class ProfessorDAO implements IProfessor {
                     connection.close();
                 }               
             } catch (SQLException exception) {
-                Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             }
         }
         return professor;          
@@ -224,7 +225,7 @@ public class ProfessorDAO implements IProfessor {
                 professor = initializeProfessor(resultSet);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener al profesor", Status.ERROR);
         } finally {         
             try {
@@ -238,7 +239,7 @@ public class ProfessorDAO implements IProfessor {
                     connection.close();
                 }               
             } catch (SQLException exception) {
-                Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             }
         }
         return professor;          
@@ -263,7 +264,7 @@ public class ProfessorDAO implements IProfessor {
                 professors.add(professor);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible recuperar a los profesores", Status.ERROR);
         } finally {
             try {
@@ -274,17 +275,53 @@ public class ProfessorDAO implements IProfessor {
                     preparedStatement.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             }
             databaseManager.closeConnection();
         }
         return professors;
     }
     
+    @Override
+    public ArrayList<Professor> getProfessorsByPendingStatus() throws DAOException {
+        ArrayList<Professor> professors = new ArrayList<>();
+        Professor professor;
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String statement = "SELECT * FROM profesor where estado = 'Pendiente'";
+
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                professor = initializeProfessor(resultSet);
+                professors.add(professor);
+            }
+        } catch (SQLException exception) {
+            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible recuperar a los profesores por su estado", Status.ERROR);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException exception) {
+                Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
+            }
+            databaseManager.closeConnection();
+        }
+        return professors;        
+    }
+    
     private Professor initializeProfessor(ResultSet resultSet) throws SQLException {        
         Professor professor = new Professor();
         UniversityDAO universityDAO = new UniversityDAO();
-        UserDAO userDAO = new UserDAO();
         
         professor.setIdProfessor(resultSet.getInt("idProfesor"));
         professor.setName(resultSet.getString("nombre"));
@@ -295,12 +332,10 @@ public class ProfessorDAO implements IProfessor {
         professor.setPhoneNumber(resultSet.getString("telefono"));
         professor.setState(resultSet.getString("estado"));
         int idUniversity = resultSet.getInt("IdUniversidad");
-        int idUser = resultSet.getInt("idUsuario");
         try {
             professor.setUniversity(universityDAO.getUniversityById(idUniversity));
-            professor.setUser(userDAO.getUserById(idUser));
         } catch (DAOException exception) {
-            Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
         }
         return professor;  
     }
@@ -310,7 +345,7 @@ public class ProfessorDAO implements IProfessor {
         User user = new User();
         UserDAO userDAO = new UserDAO();
         
-     //   user.setProfessor(professor);
+       // user.setProfessor(professor);
         user.setType("P");
         user.setPassword(password);
         

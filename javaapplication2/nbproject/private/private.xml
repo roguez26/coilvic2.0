@@ -6,9 +6,12 @@
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/LoginParticipantController.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/UserDAO/UserRegistrationTest.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/professor/ProfessorDAO.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/log/Log.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/CollaborativeProjectDetailsStudentController.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/AlertMessage.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/user/User.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/collaborativeProject/CollaborativeProject.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/DialogController.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/ProfessorUVDAO/ProfessorTest.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/RegisterStudentController.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/implementations/PDFCreator.java</file>
@@ -19,6 +22,7 @@
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/feedback/Response.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/implementations/FileManager.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/UniversityManagerController.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/dataaccess/DatabaseManager.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/views/LoginParticipant.fxml</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/collaborativeProject/CollaborativeProjectDAO.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/main/MainApp.java</file>
@@ -26,9 +30,12 @@
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/course/ICourse.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/implementations/FieldValidator.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/ProfessorDAO/ProfessorUserAssignmentTest.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/ProfessorRegisterController.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/UpdateUniversityController.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/FeedbackOnCollaborativeProjectController.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/ProfessorDetailsController.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/course/Course.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/student/StudentDAO.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/collaborativeProjectRequest/CollaborativeProjectRequest.java</file>
         </group>
     </open-files>

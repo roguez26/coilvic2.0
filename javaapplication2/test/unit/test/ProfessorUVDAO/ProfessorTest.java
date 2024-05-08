@@ -103,7 +103,7 @@ public class ProfessorTest {
         AUX_TEST_PROFESSOR.setIdProfessor(TEST_PROFESSOR.getIdProfessor());
         AUX_TEST_PROFESSOR.setEmail(TEST_PROFESSOR.getEmail());
         try {
-            result = PROFESSOR_DAO.updateProfessorVerification(AUX_TEST_PROFESSOR);
+            result = PROFESSOR_DAO.updateProfessor(AUX_TEST_PROFESSOR);
         } catch (DAOException exception) {
             Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
