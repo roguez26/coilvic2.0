@@ -5,20 +5,29 @@
         <group>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/FeedbackFormsController.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/professor/ProfessorDAO.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/implementations/FileManager.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/CollaborativeProjectDetailsStudentController.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/AlertMessage.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/main/MainApp.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/DialogController.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/implementations/FieldValidator.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/assignment/Assignment.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/RegisterUniversityController.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/FieldValidator/FieldValidatorTest.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/student/Student.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/assignment/IAssignment.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/implementations/FileManager.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/main/MainApp.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/professor/Professor.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/course/ICourse.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/implementations/FieldValidator.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/collaborativeprojectrequest/ICollaborativeProjectRequest.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/ProfessorDAO/ProfessorUserAssignmentTest.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/UploadAssignmentController.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/assignment/AssignmentDAO.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/RegisterUniversityController.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/student/Student.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/course/CourseDAO.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/course/Course.java</file>
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/student/StudentDAO.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/assignment/IAssignment.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/collaborativeprojectrequest/CollaborativeProjectRequest.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/collaborativeprojectrequest/CollaborativeProjectRequestDAO.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/views/UploadAssignment.fxml</file>
         </group>
     </open-files>
 </project-private>
