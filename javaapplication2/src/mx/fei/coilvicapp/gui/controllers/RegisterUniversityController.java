@@ -63,7 +63,7 @@ public class RegisterUniversityController implements Initializable {
 
     @FXML
     private void cancelButtonIsPressed(ActionEvent event) throws IOException {
-        if (textFieldsAreCleaned() || confirmedCancelation()) {
+        if (textFieldsAreCleaned() || confirmCancelation()) {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
         }
     }
@@ -72,7 +72,7 @@ public class RegisterUniversityController implements Initializable {
         return nameTextField.getText().equals("") && acronymTextField.getText().equals("") && jurisdictionTextField.getText().equals("") && cityTextField.getText().equals("");
     }
 
-    private boolean confirmedCancelation() {
+    private boolean confirmCancelation() {
         Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", "¿Deseas cancelar el registro?");
         return (response.get() == DialogController.BUTTON_YES);
     }

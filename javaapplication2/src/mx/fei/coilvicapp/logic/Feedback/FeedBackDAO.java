@@ -47,24 +47,41 @@ public class FeedbackDAO implements IFeedback {
         }
         return result;
     }
-    
+
     @Override
     public int deleteQuestion(Question question) throws DAOException {
         int result;
-        
+
         result = deleteQuestionTransaction(question);
         return result;
     }
-    
+
     @Override
     public int registerStudentResponses(ArrayList<Response> responses) throws DAOException {
         int result;
-        
+
         result = insertStudentResponsesTransaction(responses);
         return result;
     }
-    
-    //Este va a ser para agregar mas preguntas
+
+    @Override
+    public boolean areThereStudentQuestions() throws DAOException {
+        boolean result = false;
+        DatabaseManager databaseManager = new DatabaseManager();
+        String statement = "SELECT 1 FROM pregunta WHERE tipo = 'E' LIMIT 1";
+
+        try (Connection connection = databaseManager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement); ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                result = 1 == resultSet.getInt(1);
+            }
+        } catch (SQLException exception) {
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible validar si hay preguntas para el estudiante", Status.ERROR);
+        }
+
+        return result;
+    }
+
     public int insertQuestionTransaction(Question question) throws DAOException {
         int result = -1;
         Connection connection;
@@ -132,7 +149,7 @@ public class FeedbackDAO implements IFeedback {
         }
         return result;
     }
-    
+
     public int deleteQuestionTransaction(Question question) throws DAOException {
         int result = -1;
         Connection connection;
@@ -182,7 +199,7 @@ public class FeedbackDAO implements IFeedback {
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException ("No fue posible registrar las respuestas", Status.ERROR);
+            throw new DAOException("No fue posible registrar las respuestas", Status.ERROR);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -205,6 +222,7 @@ public class FeedbackDAO implements IFeedback {
         }
         return statement;
     }
+
     //Esta se mostrara para que llenen el formulario
     @Override
     public ArrayList<Question> getQuestionByType(String type) throws DAOException {
@@ -213,12 +231,18 @@ public class FeedbackDAO implements IFeedback {
         PreparedStatement preparedStatement = null;
         DatabaseManager databaseManager = new DatabaseManager();
         ResultSet resultSet = null;
-        String statement = "SELECT * FROM pregunta WHERE tipo=?";
+         String statement = "SELECT * FROM pregunta WHERE tipo=?";
+
+        if (type.equals("Estudiante")) {
+            statement = "SELECT * FROM pregunta WHERE tipo LIKE 'Estudiante-%'";
+        } 
         
         try {
             connection = databaseManager.getConnection();
             preparedStatement = connection.prepareStatement(statement);
-            preparedStatement.setString(1, type);
+            if (!type.equals("Estudiante")) {
+                preparedStatement.setString(1, type);
+            }
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Question question = new Question();
@@ -251,7 +275,7 @@ public class FeedbackDAO implements IFeedback {
         DatabaseManager databaseManager = new DatabaseManager();
         ResultSet resultSet = null;
         String statement = "SELECT * FROM respuesta WHERE idpregunta=? and idproyectocolaborativo=?";
-        
+
         try {
             connection = databaseManager.getConnection();
             preparedStatement = connection.prepareStatement(statement);

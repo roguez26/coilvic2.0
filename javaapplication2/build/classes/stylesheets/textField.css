@@ -5,7 +5,7 @@
     -fx-font-size: 12px; /* Tamaño de la fuente */
     -fx-prompt-text-fill: rgba(128, 128, 128, 0.639); /* Color del texto de sugerencia */
     -fx-padding: 6px; /* Espaciado interno del TextField */
-    -fx-font-weight: bold;
+    /*-fx-font-weight: bold;*/
     -fx-background-radius: 13px;
 }
 

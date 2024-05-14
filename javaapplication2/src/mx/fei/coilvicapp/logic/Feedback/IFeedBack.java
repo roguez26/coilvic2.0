@@ -23,4 +23,6 @@ public interface IFeedback {
     
     public ArrayList<Question> getQuestionByType(String type) throws DAOException;
     
+    public boolean areThereStudentQuestions() throws DAOException;
+    
 }

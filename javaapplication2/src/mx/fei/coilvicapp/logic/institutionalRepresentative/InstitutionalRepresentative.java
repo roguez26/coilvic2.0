@@ -68,7 +68,6 @@ public class InstitutionalRepresentative {
         if (maternalSurname != null) {
             FieldValidator fieldValidator = new FieldValidator();
             fieldValidator.checkName(maternalSurname);
-
         }
         this.maternalSurname = maternalSurname;
     }

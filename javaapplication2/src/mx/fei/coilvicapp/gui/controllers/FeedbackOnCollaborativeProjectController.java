@@ -17,6 +17,7 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
+import log.Log;
 import main.MainApp;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
@@ -57,6 +58,7 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
+        
         ArrayList<Question> questionsList = new ArrayList<>();
         try {
             questionsList = FEEDBACK_DAO.getQuestionByType("E");
@@ -89,7 +91,6 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
     public void getResponseText() {
         responsesList.get(currentQuestion).setResponseText(responseTextArea.getText());
         responseTextArea.setText("");
-
     }
 
     @FXML
@@ -101,12 +102,12 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
                 wasRegisteredConfirmation();
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent");
             }
-        } catch (DAOException daoException) {
-            handleDAOException(daoException);
-        } catch (IllegalArgumentException iaException) {
-            handleValidationException(iaException);
-        } catch (IOException ioException) {
-
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        } catch (IllegalArgumentException exception) {
+            handleValidationException(exception);
+        } catch (IOException exception) {
+            Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -116,10 +117,9 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
             try {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent");
             } catch (IOException exception) {
-
+                Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(exception.getMessage(), exception);
             }
         }
-
     }
 
     @FXML
@@ -132,7 +132,6 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
             } catch (IllegalArgumentException exception) {
                 handleValidationException(exception);
             }
-
             hideButtons();
         }
     }
@@ -180,7 +179,7 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-
+            Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(ioException.getMessage(), ioException);
         }
     }
 }

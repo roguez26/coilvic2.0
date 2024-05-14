@@ -44,7 +44,7 @@
                   <Label fx:id="emailLabel" prefHeight="18.0" prefWidth="85.0" stylesheets="@../../../../../stylesheets/label.css" text="Correo:" />
                   <TextField fx:id="emailTextField" promptText="Ej. coilvic@gmail.com" stylesheets="@../../../../../stylesheets/textField.css" />
                   <Label fx:id="identifierLabel" stylesheets="@../../../../../stylesheets/label.css" text="Contraseña:" />
-                  <PasswordField fx:id="identifierPasswordTextField" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <PasswordField fx:id="identifierPasswordField" stylesheets="@../../../../../stylesheets/textField.css" />
                   <Button fx:id="startButton" mnemonicParsing="false" onAction="#startButtonIsPressed" prefHeight="26.0" prefWidth="290.0" stylesheets="@../../../../../stylesheets/buttonLogin.css" text="Iniciar Sesión" />
                   <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerButtonIsPressed" prefHeight="26.0" prefWidth="290.0" stylesheets="@../../../../../stylesheets/buttonLogin.css" text="Registrar" />
                </children>

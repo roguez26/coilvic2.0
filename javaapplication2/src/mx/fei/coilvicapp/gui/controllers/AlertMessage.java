@@ -1,4 +1,3 @@
-
 package mx.fei.coilvicapp.gui.controllers;
 import mx.fei.coilvicapp.logic.implementations.Status;
 

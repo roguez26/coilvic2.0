@@ -65,11 +65,10 @@ public class UploadAssignmentController implements Initializable {
     private Button selectFileButton;
 
     @FXML
-    private Label titleLabel; //Corregir está mal escrito
+    private Label titleLabel; 
 
     private File selectedFile;
     private final Assignment assignment = new Assignment();
-    private final IAssignment asigmentDAO = new AssignmentDAO();
     private final FileManager fileManager = new FileManager();
 
     @Override
@@ -81,13 +80,13 @@ public class UploadAssignmentController implements Initializable {
     void acceptButtonIsPressed(ActionEvent event) {
         try {
             invokeSaveAssignment();
-        } catch (IllegalArgumentException iaException) {
-            handleValidationException(iaException);
-        } catch (DAOException daoException) {
-            handleDAOException(daoException);
+        } catch (IllegalArgumentException exception) {
+            handleValidationException(exception);
+        } catch (DAOException exception) {
+            handleDAOException(exception);
             fileManager.undoSaveAssignment();
-        } catch (IOException ioException) {
-            handleIOException(ioException);
+        } catch (IOException exception) {
+            handleIOException(exception);
             fileManager.undoSaveAssignment();
         }
     }
@@ -103,6 +102,8 @@ public class UploadAssignmentController implements Initializable {
     }
 
     private void invokeRegisterAssignment(String newPath) throws DAOException, IOException {
+        IAssignment asigmentDAO = new AssignmentDAO();
+        
         assignment.setPath(newPath);
         if (asigmentDAO.insertAssignment(assignment) > 0) {
             wasUploadedConfirmation();
@@ -117,8 +118,8 @@ public class UploadAssignmentController implements Initializable {
     }
 
     @FXML
-    void cancelButtonIsPressed(ActionEvent event) {
-
+    void cancelButtonIsPressed(ActionEvent event) throws Throwable {
+        
     }
 
     @FXML

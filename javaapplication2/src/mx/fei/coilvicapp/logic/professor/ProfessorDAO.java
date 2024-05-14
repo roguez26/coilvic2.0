@@ -322,6 +322,7 @@ public class ProfessorDAO implements IProfessor {
     private Professor initializeProfessor(ResultSet resultSet) throws SQLException {        
         Professor professor = new Professor();
         UniversityDAO universityDAO = new UniversityDAO();
+        UserDAO userDAO = new UserDAO();
         
         professor.setIdProfessor(resultSet.getInt("idProfesor"));
         professor.setName(resultSet.getString("nombre"));
@@ -332,8 +333,11 @@ public class ProfessorDAO implements IProfessor {
         professor.setPhoneNumber(resultSet.getString("telefono"));
         professor.setState(resultSet.getString("estado"));
         int idUniversity = resultSet.getInt("IdUniversidad");
+        int idUser = resultSet.getInt("idUsuario");
+        
         try {
             professor.setUniversity(universityDAO.getUniversityById(idUniversity));
+            professor.setUser(userDAO.getUserById(idUser));
         } catch (DAOException exception) {
             Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
         }
@@ -345,13 +349,42 @@ public class ProfessorDAO implements IProfessor {
         User user = new User();
         UserDAO userDAO = new UserDAO();
         
-       // user.setProfessor(professor);
         user.setType("P");
         user.setPassword(password);
         
         result = userDAO.registerUser(user);
         
-        return result;
+        String statement = "Update Profesor set idUsuario=? where idProfesor=?";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1, result);
+            preparedStatement.setInt(2, professor.getIdProfessor());
+            result = preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible recuperar a los profesores por su estado", Status.ERROR);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException exception) {
+                Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
+            }
+            databaseManager.closeConnection();
+        }
+        return result; 
+        
     }
     
     public int deleteUser(Professor professor) throws DAOException {

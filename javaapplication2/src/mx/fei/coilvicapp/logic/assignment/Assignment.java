@@ -46,6 +46,12 @@ public class Assignment {
         this.description = description;
     }
     
+    public void checkFields() {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkShortRange(name);
+        fieldValidator.checkLongRange(description);
+    }
+    
     public String getDate() {
         return date;
     }

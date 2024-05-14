@@ -21,19 +21,19 @@ public class ProfessorUserAssignmentTest {
     private static final ProfessorDAO PROFESSOR_DAO = new ProfessorDAO();
     private static final Professor PROFESSOR_FOR_TESTING = new Professor();
     
-    @Before
-    public void setUp() {
-        initializeProfessor();
-        
-        int idProfessor = 0;
-        try {
-            idProfessor = PROFESSOR_DAO.registerProfessor(PROFESSOR_FOR_TESTING);
-        } catch (DAOException exception) {
-            Logger.getLogger(ProfessorUserAssignmentTest.class.getName()).log(Level.SEVERE, null, exception);
-        }
-        PROFESSOR_FOR_TESTING.setIdProfessor(idProfessor);
-        
-    }
+//    @Before
+//    public void setUp() {
+//        initializeProfessor();
+//        
+//        int idProfessor = 0;
+//        try {
+//            idProfessor = PROFESSOR_DAO.registerProfessor(PROFESSOR_FOR_TESTING);
+//        } catch (DAOException exception) {
+//            Logger.getLogger(ProfessorUserAssignmentTest.class.getName()).log(Level.SEVERE, null, exception);
+//        }
+//        PROFESSOR_FOR_TESTING.setIdProfessor(idProfessor);
+//        
+//    }
     
     public void initializeProfessor() {
         PROFESSOR_FOR_TESTING.setName("Roberto");
@@ -48,8 +48,8 @@ public class ProfessorUserAssignmentTest {
     @Test
     public void testUserRegistration() {
         int result = 0;
-        String password = "newPassword123";
-        
+        String password = "n";
+        PROFESSOR_FOR_TESTING.setIdProfessor(1);
         try {
             result = PROFESSOR_DAO.assignUser(PROFESSOR_FOR_TESTING, password);
         } catch (DAOException exception) {

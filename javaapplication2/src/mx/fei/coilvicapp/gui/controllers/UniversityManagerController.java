@@ -81,9 +81,7 @@ public class UniversityManagerController implements Initializable {
             UpdateUniversityController updateUniversitycontroller = fxmlLoader.getController();
             
             updateUniversitycontroller.setUniversity(university);
-        } else {
-            
-        }
+        } 
     }
 
     private void handleDAOException(DAOException exception) {

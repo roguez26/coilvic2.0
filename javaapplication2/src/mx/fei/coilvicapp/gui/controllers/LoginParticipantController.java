@@ -2,21 +2,20 @@ package mx.fei.coilvicapp.gui.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import log.Log;
 import main.MainApp;
-import mx.fei.coilvicapp.logic.collaborativeProject.CollaborativeProject;
-import mx.fei.coilvicapp.logic.collaborativeProject.CollaborativeProjectDAO;
-import mx.fei.coilvicapp.logic.collaborativeProject.ICollaborativeProject;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
+import mx.fei.coilvicapp.logic.collaborativeproject.ICollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
@@ -36,16 +35,13 @@ import mx.fei.coilvicapp.logic.user.UserDAO;
 public class LoginParticipantController implements Initializable {
 
     @FXML
-    private Label emailLabel;
-
-    @FXML
     private TextField emailTextField;
 
     @FXML
     private Label identifierLabel;
 
     @FXML
-    private PasswordField identifierPasswordTextField;
+    private PasswordField identifierPasswordField;
 
     @FXML
     private Button registerButton;
@@ -74,66 +70,75 @@ public class LoginParticipantController implements Initializable {
         if (roleButton.getText().equals("Profesor")) {
             roleButton.setText("Estudiante");
             identifierLabel.setText("Código de proyecto:");
-
         } else {
             roleButton.setText("Profesor");
             identifierLabel.setText("Contraseña: ");
         }
-
     }
 
     @FXML
     void startButtonIsPressed(ActionEvent event) {
-        if (roleButton.getText().equals("Profesor")) {
-            try {
-                if (USER_DAO.authenticateUser(emailTextField.getText(), identifierPasswordTextField.getText())) {
-                    Professor professor = PROFESSOR_DAO.getProfessorByEmail(emailTextField.getText());
-                }
-            } catch (DAOException daoException) {
-                handleDAOException(daoException);
+        try {
+            if (roleButton.getText().equals("Profesor")) {
+                invokeAuthenticateProfessor();
+            } else {
+                invokeAuthenticateStudentAndCollaborativeProject();
+            }
+        } catch (IllegalArgumentException exception) {
+            DialogController.getInvalidDataDialog(exception.getMessage());
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        } catch (IOException exception) {
+            Log.getLogger(LoginParticipantController.class).error(exception.getMessage(), exception);
+        }
+    }
+
+    private void invokeAuthenticateStudentAndCollaborativeProject() throws DAOException, IOException {
+        Student student = new Student();
+
+        student.setEmail(emailTextField.getText());
+        student = STUDENT_DAO.getStudentByEmail(emailTextField.getText());
+        if (student.getIdStudent() > 0) {
+            CollaborativeProject collaborativeProject = COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectByCode(identifierPasswordField.getText());
+            if (collaborativeProject.getIdCollaborativeProject() > 0) {
+                changeViewForStudent(student, collaborativeProject);
+            } else {
+                DialogController.getInformativeConfirmationDialog("Proyecto no encontrado", "No se encontró ningún proyecto con el codigo: " + identifierPasswordField.getText());
             }
         } else {
-            try {
-                Student student = STUDENT_DAO.getStudentByEmail(emailTextField.getText());
-                if (student.getIdStudent() > 0) {
-                    CollaborativeProject collaborativeProject = COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectByCode(identifierPasswordTextField.getText());
-                    if (collaborativeProject.getIdCollaborativeProject() > 0) {
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent.fxml"));
-                        MainApp.changeView(fxmlLoader);
-                        CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController = fxmlLoader.getController();
-                        collaborativeProjectDetailsStudentController.setStudent(student);
-                        collaborativeProjectDetailsStudentController.setCollaborativeProject(collaborativeProject);
-                    } else {
-                        wasNotFound("Proyecto no encontrado", "No se encontró ningún proyecto con el codigo: " + identifierPasswordTextField.getText());
-                    }
-                } else {
-                    wasNotFound("Estudiante no encontrado", "No se encontró ningún registro con el correo: " + emailTextField.getText());
-                }
-            } catch (DAOException daoException) {
-                handleDAOException(daoException);
-            } catch (IOException exception) {
-
-            }
+            DialogController.getInformativeConfirmationDialog("Estudiante no encontrado", "No se encontró ningún registro con el correo: " + emailTextField.getText());
         }
+    }
+    
+    private void invokeAuthenticateProfessor() throws DAOException {
+        Professor professor = new Professor();
+
+        professor.setEmail(emailTextField.getText());
+        if (USER_DAO.authenticateUser(emailTextField.getText(), identifierPasswordField.getText())) {
+            professor = PROFESSOR_DAO.getProfessorByEmail(emailTextField.getText());
+        }
+    }
+
+    private void changeViewForStudent(Student student, CollaborativeProject collaborativeProject) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent.fxml"));
+
+        MainApp.changeView(fxmlLoader);
+        CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController = fxmlLoader.getController();
+        collaborativeProjectDetailsStudentController.setStudent(student);
+        collaborativeProjectDetailsStudentController.setCollaborativeProject(collaborativeProject);
     }
 
     @FXML
     void registerButtonIsPressed(ActionEvent event) {
         try {
             if (roleButton.getText().equals("Profesor")) {
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/RegisterProfessor");
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorRegister");
             } else {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/RegisterStudent");
             }
-
         } catch (IOException exception) {
-
+            Log.getLogger(LoginParticipantController.class).error(exception.getMessage(), exception);
         }
-    }
-
-    private boolean wasNotFound(String title, String message) {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(title, message);
-        return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
     private void handleDAOException(DAOException exception) {
@@ -141,12 +146,12 @@ public class LoginParticipantController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                    MainApp.changeView("/main/MainApp");
                 case FATAL ->
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-
+            Log.getLogger(LoginParticipantController.class).error(ioException.getMessage(), ioException);
         }
     }
 }

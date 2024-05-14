@@ -30,7 +30,7 @@ public class Feedback {
     public ArrayList<Response> getResponses() {
         return responses;
     }
-
+ 
     public void setResponses(ArrayList<Response> responses) {
         this.responses = responses;
     }

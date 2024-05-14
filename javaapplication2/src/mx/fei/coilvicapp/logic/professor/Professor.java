@@ -45,7 +45,6 @@ public class Professor {
 
     public void setName(String name) {
         FieldValidator fieldValidator = new FieldValidator();
-        fieldValidator.checkName(name);
         this.name = name;
     }
 

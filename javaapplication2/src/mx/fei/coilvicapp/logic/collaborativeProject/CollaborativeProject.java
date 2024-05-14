@@ -1,4 +1,4 @@
-package mx.fei.coilvicapp.logic.collaborativeProject;
+package mx.fei.coilvicapp.logic.collaborativeproject;
 import mx.fei.coilvicapp.logic.course.Course;
 
 /*
