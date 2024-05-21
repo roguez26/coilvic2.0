@@ -81,12 +81,14 @@ public class FeedbackFormsController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
+
         try {
             professorQuestions = FEEDBACK_DAO.getQuestionByType("Profesor");
             studentQuestions = FEEDBACK_DAO.getQuestionByType("Estudiante");
         } catch (DAOException exception) {
 
         }
+
         studentQuestionsTableColumn.setCellValueFactory(new PropertyValueFactory<>("questionText"));
         typeTableColumn.setCellValueFactory(new PropertyValueFactory<>("questionType"));
         professorQuestionsTableColumn.setCellValueFactory(new PropertyValueFactory<>("questionText"));
@@ -154,9 +156,9 @@ public class FeedbackFormsController implements Initializable {
                 DialogController.getInformativeConfirmationDialog("Pregunta actualizada", "La pregunta se actualizó con éxito");
                 updateTableViewForUpdate(newQuestion, selectedQuestion);
                 cleanFields();
-                setModeModifyQuestions(false);
             }
         }
+        setModeModifyQuestions(false);
     }
 
     private void updateTableViewForUpdate(Question newQuestion, Question oldQuestion) {

@@ -8,40 +8,44 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.FeedbackOnCollaborativeProjectController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.FeedbackOnCollaborativeProjectController">
    <children>
-      <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="126.0" prefWidth="640.0" spacing="60.0">
+      <VBox alignment="CENTER" maxWidth="-Infinity" prefHeight="506.0" prefWidth="639.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
          <children>
-            <Label fx:id="titleLabel" alignment="CENTER" prefHeight="30.0" prefWidth="366.0" stylesheets="@../../../../../stylesheets/title.css" text="Retroalimentar Proyecto Colaborativo" />
-            <ImageView fitHeight="101.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../stylesheets/Imagen1.png" />
-               </image>
-            </ImageView>
-         </children>
-      </HBox>
-      <VBox maxWidth="-Infinity" prefHeight="374.0" prefWidth="430.0" spacing="10.0">
-         <children>
-            <HBox prefHeight="58.0" prefWidth="491.0" spacing="10.0">
+            <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="151.0" prefWidth="576.0" spacing="70.0">
                <children>
-                  <Label fx:id="questionNumberLabel" stylesheets="@../../../../../stylesheets/label.css" text="Numero pregunta" />
-                  <Label fx:id="questionTextLabel" prefHeight="18.0" prefWidth="294.0" stylesheets="@../../../../../stylesheets/label.css" text="Pregunta ejemplo" />
+                  <Label fx:id="titleLabel" alignment="CENTER" prefHeight="30.0" prefWidth="318.0" stylesheets="@../../../../../stylesheets/titleLabel.css" text="Retroalimentar Proyecto Colaborativo" />
+                  <ImageView fitHeight="55.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../stylesheets/Imagen1.png" />
+                     </image>
+                  </ImageView>
                </children>
             </HBox>
-            <TextArea fx:id="responseTextArea" prefHeight="218.0" prefWidth="430.0" stylesheets="@../../../../../stylesheets/textArea.css" />
-            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+            <VBox maxWidth="-Infinity" prefHeight="374.0" prefWidth="437.0" spacing="10.0">
                <children>
-                  <Button fx:id="previousButton" mnemonicParsing="false" onAction="#previousButtonIsPressed" stylesheets="@../../../../../stylesheets/buttongray.css" text="Anterior" />
-                  <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextButtonIsPressed" stylesheets="@../../../../../stylesheets/buttongray.css" text="Siguiente" />
+                  <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="491.0" spacing="10.0">
+                     <children>
+                        <Label fx:id="questionNumberLabel" stylesheets="@../../../../../stylesheets/label.css" text="No. P" />
+                        <Label fx:id="questionTextLabel" prefHeight="18.0" prefWidth="324.0" stylesheets="@../../../../../stylesheets/label.css" text="Pregunta ejemplo" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_RIGHT" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="27.0" prefWidth="439.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="previousButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="51.0" mnemonicParsing="false" onAction="#previousButtonIsPressed" prefHeight="27.0" prefWidth="30.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="❮" />
+                        <Button fx:id="nextButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="33.0" mnemonicParsing="false" onAction="#nextButtonIsPressed" prefHeight="27.0" prefWidth="30.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="❯" />
+                     </children>
+                  </HBox>
+                  <TextArea fx:id="responseTextArea" prefHeight="222.0" prefWidth="459.0" stylesheets="@../../../../../stylesheets/textArea.css" />
+               </children>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="136.0" prefWidth="524.0" spacing="15.0">
+               <children>
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonIsPressed" prefHeight="27.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" />
+                  <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Finalizar" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <HBox alignment="CENTER" prefHeight="146.0" prefWidth="800.0" spacing="90.0">
-         <children>
-            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonIsPressed" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" />
-            <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" />
-         </children>
-      </HBox>
    </children>
 </VBox>

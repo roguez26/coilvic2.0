@@ -6,13 +6,7 @@
     
     -fx-border-radius: 5px; /* Radio de las esquinas del borde */
     -fx-background-radius: 5px; /* Radio de las esquinas del fondo */
-    -fx-padding: 5px; /* Espaciado interno */
-    -fx-font-weight: bold;
+   
 
-    /* Desactivar la sombra interna */
-  
-    
-    /* Desactivar el resaltado azul al escribir */
-    
-    -fx-highlight-text-fill: #333333;
+
 }

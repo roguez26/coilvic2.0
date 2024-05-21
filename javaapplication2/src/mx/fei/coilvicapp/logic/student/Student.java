@@ -84,6 +84,9 @@ public class Student {
     }
     
     public void setGender (String gender) {
+        if(gender == null) {
+            throw new IllegalArgumentException("El campo del género no puede ser nulo");
+        }
         this.gender = gender;
     }
     
@@ -92,10 +95,16 @@ public class Student {
     }
     
     public void setLineage (String lineage) {
+        if(lineage == null) {
+            throw new IllegalArgumentException("El campo del linaje no puede ser nulo");
+        }
         this.lineage = lineage;
     }
     
     public void setUniversity(University university) {
+        if(university == null) {
+            throw new IllegalArgumentException("El campo de la universidad no puede ser nulo");
+        }
         this.university = university;
     }
     

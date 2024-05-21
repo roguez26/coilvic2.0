@@ -32,7 +32,7 @@ import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 public class NotifyProfessorController implements Initializable {
 
     @FXML
-    private Button acceptButton;
+    private Button sendButton;
 
     @FXML
     private VBox backgroundVBox;
@@ -55,14 +55,13 @@ public class NotifyProfessorController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-
         professor.setEmail("ivanxspoti@gmail.com");
         professor.setIdProfessor(8);
         showEmail(professor.getEmail());
     }
 
     @FXML
-    void acceptButtonIsPressed(ActionEvent event) {
+    void sendButtonIsPressed(ActionEvent event) {
         try {
             invokeSendEmail();
         } catch (IllegalArgumentException iaException) {
@@ -78,12 +77,10 @@ public class NotifyProfessorController implements Initializable {
         initializeEmailSender();
         if (confirmNotification()) {
             emailSender.createEmail();
-
             if (emailSender.sendEmail()) {
                 wasSentConfirmation();
                 emailSenderDAO.registerEmail(emailSender);
             }
-
         }
     }
 

@@ -7,20 +7,21 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" spacing="40.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.LoginParticipantController">
+<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" spacing="40.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.LoginParticipantController">
    <children>
-      <HBox alignment="CENTER_LEFT" prefHeight="700.0" prefWidth="800.0" spacing="50.0">
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="1000.0" spacing="60.0">
          <children>
-            <ImageView fitHeight="706.0" fitWidth="420.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true">
+            <ImageView fitHeight="750.0" fitWidth="502.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true">
                <image>
                   <Image url="@../../../../../stylesheets/imagen2.jpg" />
                </image>
             </ImageView>
-            <VBox maxWidth="-Infinity" prefHeight="669.0" prefWidth="279.0" spacing="10.0">
+            <VBox maxWidth="-Infinity" prefHeight="706.0" prefWidth="368.0" spacing="10.0">
                <children>
                   <VBox alignment="CENTER" prefHeight="232.0" prefWidth="279.0">
                      <children>
@@ -29,7 +30,7 @@
                               <Image url="@../../../../../stylesheets/Imagen1.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="29.0" prefWidth="106.0" stylesheets="@../../../../../stylesheets/title.css" text="Bienvenido" />
+                        <Label prefHeight="30.0" prefWidth="92.0" stylesheets="@../../../../../stylesheets/titleLabel.css" text="Bienvenido" />
                         <Label text="Inicio de sesión COIL-VIC" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
@@ -40,16 +41,34 @@
                         <Insets top="30.0" />
                      </padding>
                   </VBox>
-                  <Button fx:id="roleButton" mnemonicParsing="false" onAction="#roleButtonIsPressed" stylesheets="@../../../../../stylesheets/buttongray.css" text="Profesor" />
-                  <Label fx:id="emailLabel" prefHeight="18.0" prefWidth="85.0" stylesheets="@../../../../../stylesheets/label.css" text="Correo:" />
-                  <TextField fx:id="emailTextField" promptText="Ej. coilvic@gmail.com" stylesheets="@../../../../../stylesheets/textField.css" />
-                  <Label fx:id="identifierLabel" stylesheets="@../../../../../stylesheets/label.css" text="Contraseña:" />
-                  <PasswordField fx:id="identifierPasswordField" stylesheets="@../../../../../stylesheets/textField.css" />
-                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#startButtonIsPressed" prefHeight="26.0" prefWidth="290.0" stylesheets="@../../../../../stylesheets/buttonLogin.css" text="Iniciar Sesión" />
-                  <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerButtonIsPressed" prefHeight="26.0" prefWidth="290.0" stylesheets="@../../../../../stylesheets/buttonLogin.css" text="Registrar" />
+                  <VBox alignment="CENTER" fillWidth="false" prefHeight="239.0" prefWidth="368.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
+                     <children>
+                        <VBox alignment="CENTER_LEFT" prefHeight="213.0" prefWidth="326.0" spacing="10.0">
+                           <children>
+                              <Button fx:id="roleButton" mnemonicParsing="false" onAction="#roleButtonIsPressed" stylesheets="@../../../../../stylesheets/buttongray.css" text="Profesor" />
+                              <Label fx:id="emailLabel" prefHeight="18.0" prefWidth="85.0" stylesheets="@../../../../../stylesheets/label.css" text="Correo:" />
+                              <TextField fx:id="emailTextField" prefHeight="27.0" prefWidth="255.0" promptText="Ej. coilvic@gmail.com" stylesheets="@../../../../../stylesheets/textField.css" />
+                              <Label fx:id="identifierLabel" stylesheets="@../../../../../stylesheets/label.css" text="Contraseña:" />
+                              <HBox alignment="BOTTOM_LEFT" spacing="2.0">
+                                 <children>
+                                    <PasswordField fx:id="identifierPasswordField" prefHeight="27.0" prefWidth="310.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                                    <Button fx:id="showButton" mnemonicParsing="false" onMousePressed="#showButtonIsPressed" onMouseReleased="#showButtonIsReleased" prefHeight="26.0" prefWidth="42.0" stylesheets="@../../../../../stylesheets/showAndHideButton.css" text="👁" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="140.0" prefWidth="298.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="startButton" mnemonicParsing="false" onAction="#startButtonIsPressed" prefHeight="26.0" prefWidth="302.0" stylesheets="@../../../../../stylesheets/startSessionButton.css" text="Iniciar Sesión" />
+                        <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerButtonIsPressed" prefHeight="26.0" prefWidth="300.0" stylesheets="@../../../../../stylesheets/registerButton.css" text="Registrar" />
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </children>
       </HBox>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
    </children>
 </VBox>

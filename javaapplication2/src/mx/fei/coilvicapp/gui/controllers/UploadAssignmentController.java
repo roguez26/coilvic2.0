@@ -1,12 +1,8 @@
 package mx.fei.coilvicapp.gui.controllers;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,20 +14,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.assignment.Assignment;
 import mx.fei.coilvicapp.logic.assignment.AssignmentDAO;
 import mx.fei.coilvicapp.logic.assignment.IAssignment;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.FileManager;
-import mx.fei.coilvicapp.logic.implementations.Status;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
 /**
- * FXML Controller class
  *
  * @author ivanr
  */
@@ -65,14 +58,15 @@ public class UploadAssignmentController implements Initializable {
     private Button selectFileButton;
 
     @FXML
-    private Label titleLabel; 
+    private Label titleLabel;
 
     private File selectedFile;
     private final Assignment assignment = new Assignment();
     private final FileManager fileManager = new FileManager();
+    private CollaborativeProject collaborativeProject;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL URL, ResourceBundle resourceBundle) {
 
     }
 
@@ -103,9 +97,9 @@ public class UploadAssignmentController implements Initializable {
 
     private void invokeRegisterAssignment(String newPath) throws DAOException, IOException {
         IAssignment asigmentDAO = new AssignmentDAO();
-        
+
         assignment.setPath(newPath);
-        if (asigmentDAO.insertAssignment(assignment) > 0) {
+        if (asigmentDAO.registerAssignment(assignment, collaborativeProject) > 0) {
             wasUploadedConfirmation();
             cleanFields();
         }
@@ -119,7 +113,7 @@ public class UploadAssignmentController implements Initializable {
 
     @FXML
     void cancelButtonIsPressed(ActionEvent event) throws Throwable {
-        
+
     }
 
     @FXML
@@ -166,7 +160,12 @@ public class UploadAssignmentController implements Initializable {
 
     private boolean wasUploadedConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Subida", "La actividad fue subida con éxito");
+
         return response.get() == DialogController.BUTTON_ACCEPT;
+    }
+
+    public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
+        this.collaborativeProject = collaborativeProject;
     }
 
 }

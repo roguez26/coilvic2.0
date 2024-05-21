@@ -1,5 +1,6 @@
 package mx.fei.coilvicapp.logic.collaborativeproject;
 import mx.fei.coilvicapp.logic.course.Course;
+import mx.fei.coilvicapp.logic.modality.Modality;
 
 /*
  * @author d0ubl3_d
@@ -10,13 +11,13 @@ public class CollaborativeProject {
     private int idCollaborativeProject = 0;
     
     private Course requesterCourse;
-    private Course requestedCourse;        
+    private Course requestedCourse; 
+    private Modality modality;
     
     private String name;
     private String status;
     private String description;
-    private String generalObjective;
-    private String modality;
+    private String generalObjective;    
     private String code;
     private String syllabusPath;
     
@@ -25,6 +26,10 @@ public class CollaborativeProject {
     
     public int getIdCollaborativeProject() {
         return idCollaborativeProject;
+    }
+    
+    public void setIdCollaborativeProject(int idCollaborativeProject) {
+        this.idCollaborativeProject = idCollaborativeProject;
     }
     
     public Course getRequesterCourse() {
@@ -43,8 +48,12 @@ public class CollaborativeProject {
         this.requestedCourse = requestedCourse;
     }
     
-    public void setIdCollaborativeProject(int idCollaborativeProject) {
-        this.idCollaborativeProject = idCollaborativeProject;
+    public Modality getModality() {
+        return modality;
+    }
+    
+    public void setModality(Modality modality) {
+        this.modality = modality;
     }
     
     public String getName() {
@@ -77,14 +86,6 @@ public class CollaborativeProject {
     
     public void setGeneralObjective(String generalObjective) {
         this.generalObjective = generalObjective;
-    }
-    
-    public String getModality() {
-        return modality;
-    }
-    
-    public void setModality(String modality) {
-        this.modality = modality;
     }
     
     public String getCode() {

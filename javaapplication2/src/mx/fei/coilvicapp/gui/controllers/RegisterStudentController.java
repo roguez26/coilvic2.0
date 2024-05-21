@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import javafx.event.ActionEvent;
@@ -17,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import log.Log;
 import main.MainApp;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
@@ -95,15 +95,13 @@ public class RegisterStudentController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-        ObservableList<String> genders = FXCollections.observableArrayList("Masculino", "Femenino", "Prefiero no decirlo");
-        gendersCombobox.setItems(genders);
-        ObservableList<String> lineages = FXCollections.observableArrayList("Hispano, Latino o origen español", "Blanco", "Negro o africano", "Indio americano o nativo de Alaska", "Asiático o Isleño del Pacífico", "Otro");
-        lineagesCombobox.setItems(lineages);
+        gendersCombobox.setItems(FXCollections.observableArrayList("Masculino", "Femenino", "Otro"));
+        lineagesCombobox.setItems(FXCollections.observableArrayList("Hispano, Latino u origen español", "Blanco", "Negro o africano", "Indio americano o nativo de Alaska", "Asiático o Isleño del Pacífico", "Otro"));
         ArrayList<University> universities = new ArrayList<>();
         try {
             universities = UNIVERSITY_DAO.getAllUniversities();
         } catch (DAOException exception) {
-
+            goBack();
         }
         universitiesCombobox.setItems(FXCollections.observableArrayList(universities));
     }
@@ -112,12 +110,12 @@ public class RegisterStudentController implements Initializable {
     void acceptButtonIsPressed(ActionEvent event) {
         try {
             invokeRegisterStudent();
-            wasRegisteredConfirmation();
-            
-        } catch (IllegalArgumentException iaException) {
-            handleValidationException(iaException);
-        } catch (DAOException daoException) {
-            handleDAOException(daoException);
+            DialogController.getInformativeConfirmationDialog("Registrado", "El estudiante fue registrado con éxito");
+            goBack();
+        } catch (IllegalArgumentException exception) {
+            handleValidationException(exception);
+        } catch (DAOException exception) {
+            handleDAOException(exception);
         }
     }
 
@@ -128,7 +126,6 @@ public class RegisterStudentController implements Initializable {
         } else {
             setVisibilityOfUVFields(false);
         }
-
     }
 
     private void setVisibilityOfUVFields(boolean isVisible) {
@@ -139,7 +136,7 @@ public class RegisterStudentController implements Initializable {
     }
 
     private boolean isMemberUV(University university) {
-        return university.getName().equals("Universidad Veracruzana") && university.getAcronym().equals("UV");
+        return university.getName().equals("Universidad Veracruzana");
     }
 
     private void initializeStudent() {
@@ -159,20 +156,20 @@ public class RegisterStudentController implements Initializable {
 
     @FXML
     void cancelButtonIsPressed(ActionEvent event) {
-        if (textFieldsAreCleaned() || confirmedCancelation()) {
+        if (textFieldsAreClean() || confirmCancelation()) {
             try {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
             } catch (IOException exception) {
-
+                Log.getLogger(RegisterStudentController.class).error(exception.getMessage(), exception);
             }
         }
     }
 
-    private boolean textFieldsAreCleaned() {
+    private boolean textFieldsAreClean() {
         return nameTextField.getText().equals("") && paternalSurnameTextField.getText().equals("") && maternalSurnameTextField.getText().equals("") && emailTextField.getText().equals("");
     }
 
-    private boolean confirmedCancelation() {
+    private boolean confirmCancelation() {
         Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", "¿Deseas cancelar el registro?");
         return (response.get() == DialogController.BUTTON_YES);
     }
@@ -191,13 +188,16 @@ public class RegisterStudentController implements Initializable {
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-
+            Log.getLogger(RegisterStudentController.class).error(exception.getMessage(), exception);
         }
     }
-    
-    private boolean wasRegisteredConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Registrado", "El estudiante se registró con éxito");
-        return response.get() == DialogController.BUTTON_ACCEPT;
+
+    private void goBack() {
+        try {
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
+        } catch (IOException exception) {
+            Log.getLogger(RegisterStudentController.class).error(exception.getMessage(), exception);
+        }
     }
 
 }

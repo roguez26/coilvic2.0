@@ -29,7 +29,7 @@ import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 public class FeedbackOnCollaborativeProjectController implements Initializable {
 
     @FXML
-    private Button acceptButton;
+    private Button finishButton;
 
     @FXML
     private Button cancelButton;
@@ -58,6 +58,7 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
+        
         
         ArrayList<Question> questionsList = new ArrayList<>();
         try {
@@ -94,7 +95,7 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
     }
 
     @FXML
-    void acceptButtonIsPressed(ActionEvent event) {
+    void finishButtonIsPressed(ActionEvent event) {
         try {
             getResponseText();
             if (finishConfirmation()) {
@@ -174,9 +175,9 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
             }
         } catch (IOException ioException) {
             Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(ioException.getMessage(), ioException);

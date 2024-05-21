@@ -37,21 +37,21 @@ public class ProfessorTest {
             Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
         }                  
     }
-//    
-//    @After
-//    public void tearDown() {
-//        int idProfessor = TEST_PROFESSOR.getIdProfessor();
-//        int idUniversity = TEST_PROFESSOR.getIdUniversity();
-//        int idCountry = TEST_PROFESSOR.getUniversity().getIdCountry();
-//        
-//        try {
-//            PROFESSOR_DAO.deleteProfessorByID(idProfessor);
-//            UNIVERSITY_DAO.deleteUniversity(idUniversity);
-//            COUNTRY_DAO.deleteCountry(idCountry);
-//        } catch (DAOException exception) {
-//            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
-//        }      
-//    }
+    
+    @After
+    public void tearDown() {
+        int idProfessor = TEST_PROFESSOR.getIdProfessor();
+        int idUniversity = TEST_PROFESSOR.getIdUniversity();
+        int idCountry = TEST_PROFESSOR.getUniversity().getIdCountry();
+        
+        try {
+            PROFESSOR_DAO.deleteProfessorByID(idProfessor);
+            UNIVERSITY_DAO.deleteUniversity(idUniversity);
+            COUNTRY_DAO.deleteCountry(idCountry);
+        } catch (DAOException exception) {
+            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+        }      
+    }
     
     @Test
     public void testSuccessRegisterProfessor() {
@@ -211,10 +211,10 @@ public class ProfessorTest {
     }
     
     private void initializeTestProfessor() {        
-        TEST_PROFESSOR.setName("Maria de los Angeles");
+        TEST_PROFESSOR.setName("Maria");
         TEST_PROFESSOR.setPaternalSurname("Arenas");
         TEST_PROFESSOR.setMaternalSurname("Valdes");
-        TEST_PROFESSOR.setEmail("aarenas@uv.mx");
+        TEST_PROFESSOR.setEmail("aaren@uv.mx");
         TEST_PROFESSOR.setGender("Mujer");
         TEST_PROFESSOR.setPhoneNumber("1234567890");
         TEST_PROFESSOR.setUniversity(initializeUniversity());
@@ -222,10 +222,10 @@ public class ProfessorTest {
     }
     
     private void initializeAuxTestProfessor() {        
-        AUX_TEST_PROFESSOR.setName("Jorge Octavio");
+        AUX_TEST_PROFESSOR.setName("Jorge");
         AUX_TEST_PROFESSOR.setPaternalSurname("Ocharan");
         AUX_TEST_PROFESSOR.setMaternalSurname("Hernandez");
-        AUX_TEST_PROFESSOR.setEmail("jocharan@uv.mx");
+        AUX_TEST_PROFESSOR.setEmail("jochar@uv.mx");
         AUX_TEST_PROFESSOR.setGender("Hombre");
         AUX_TEST_PROFESSOR.setPhoneNumber("1234567890");
         AUX_TEST_PROFESSOR.setUniversity(TEST_PROFESSOR.getUniversity()); 

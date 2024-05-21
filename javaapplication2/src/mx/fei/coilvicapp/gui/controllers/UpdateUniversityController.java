@@ -59,8 +59,6 @@ public class UpdateUniversityController implements Initializable {
 
     @FXML
     private Button updateButton;
-   
-    
 
     private final ICountry COUNTRY_DAO = new CountryDAO();
     private final IUniversity UNIVERSITY_DAO = new UniversityDAO();
@@ -77,15 +75,7 @@ public class UpdateUniversityController implements Initializable {
         acronymTextField.setText(university.getAcronym());
         jurisdictionTextField.setText(university.getJurisdiction());
         cityTextField.setText(university.getCity());
-        countryTextField.setText(university.getCountry().toString());
-    }
-
-    private void initializeTextFields() {
-        nameTextField.setText(university.getName());
-        acronymTextField.setText(university.getAcronym());
-        jurisdictionTextField.setText(university.getJurisdiction());
-        cityTextField.setText(university.getCity());
-        countryTextField.setText(university.getCountry().toString());
+        countriesCombobox.setPromptText(university.getCountry().toString());
     }
 
     @Override
@@ -118,14 +108,13 @@ public class UpdateUniversityController implements Initializable {
     private void acceptButtonIsPressed(ActionEvent event) throws IOException {
         try {
             if (isDifferent() && updateConfirmation()) {
-                try {
-                    invokeUpdateUniversity();
-                } catch (DAOException exception) {
-                    handleDAOException(exception);
-                }
+                invokeUpdateUniversity();
             }
-        } catch (IllegalArgumentException ioException) {
-            handleValidationException(ioException);
+            back();
+        } catch (IllegalArgumentException exception) {
+            handleValidationException(exception);
+        } catch (DAOException exception) {
+            handleDAOException(exception);
         }
     }
 
@@ -141,7 +130,6 @@ public class UpdateUniversityController implements Initializable {
         } else {
             newUniversity.setCountry(university.getCountry());
         }
-
         return newUniversity;
     }
 
@@ -151,30 +139,28 @@ public class UpdateUniversityController implements Initializable {
 
     @FXML
     private void cancelButtonIsPressed(ActionEvent event) throws IOException {
-        initializeTextFields();
-        updateButton.setVisible(true);
-        nameTextField.setEditable(false);
-        acronymTextField.setEditable(false);
-        jurisdictionTextField.setEditable(false);
-        cityTextField.setEditable(false);
-        acceptButton.setVisible(false);
-        countriesCombobox.setVisible(false);
-        deleteButton.setVisible(true);
-        cancelButton.setVisible(false);
+        initializeTextFields(university);
+        setModifyMode(false);
     }
 
     @FXML
     private void updateButtonIsPressed(ActionEvent event) throws IOException {
         initializeCombobox();
-        updateButton.setVisible(false);
-        nameTextField.setEditable(true);
-        acronymTextField.setEditable(true);
-        jurisdictionTextField.setEditable(true);
-        cityTextField.setEditable(true);
-        acceptButton.setVisible(true);
-        countriesCombobox.setVisible(true);
-        deleteButton.setVisible(false);
-        cancelButton.setVisible(true);
+        setModifyMode(true);
+    }
+    
+    private void setModifyMode(boolean isModifiable) {
+        nameTextField.setEditable(isModifiable);
+        acronymTextField.setEditable(isModifiable);
+        jurisdictionTextField.setEditable(isModifiable);
+        cityTextField.setEditable(isModifiable);
+        acceptButton.setVisible(isModifiable);
+        cancelButton.setVisible(isModifiable);
+        countriesCombobox.setDisable(!isModifiable);
+        updateButton.setManaged(!isModifiable);
+        deleteButton.setManaged(!isModifiable);
+        updateButton.setVisible(!isModifiable);
+        deleteButton.setVisible(!isModifiable);
     }
 
     @FXML
@@ -187,18 +173,12 @@ public class UpdateUniversityController implements Initializable {
             }
         }
     }
-    
-    @FXML
-    private void optionIsSelected(ActionEvent event) throws IOException {
-        countryTextField.setText(countriesCombobox.getValue().toString());
-    }
 
-    private void invokeUpdateUniversity() throws DAOException, IOException {
+    private void invokeUpdateUniversity() throws DAOException {
         int result;
         result = UNIVERSITY_DAO.updateUniversity(initializeNewUniversity());
         if (result > 0) {
             wasUpdatedConfirmation();
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
         }
     }
 
@@ -207,8 +187,12 @@ public class UpdateUniversityController implements Initializable {
         result = UNIVERSITY_DAO.deleteUniversity(university.getIdUniversity());
         if (result > 0) {
             wasDeletedConfirmation();
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+            back();
         }
+    }
+    
+    private void back() throws IOException {
+        MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
     }
 
     private boolean updateConfirmation() {

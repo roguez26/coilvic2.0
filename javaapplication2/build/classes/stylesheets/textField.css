@@ -2,11 +2,11 @@
     -fx-background-color: #ffffff; /* Fondo transparente */
     -fx-text-fill: black; /* Color del texto */
     -fx-font-family: "Arial"; /* Fuente */
-    -fx-font-size: 12px; /* Tamaño de la fuente */
+    -fx-font-size: 11px; /* Tamaño de la fuente */
     -fx-prompt-text-fill: rgba(128, 128, 128, 0.639); /* Color del texto de sugerencia */
     -fx-padding: 6px; /* Espaciado interno del TextField */
     /*-fx-font-weight: bold;*/
-    -fx-background-radius: 13px;
+    -fx-background-radius: 10px;
 }
 
 /* Estilos para el TextField cuando está enfocado */

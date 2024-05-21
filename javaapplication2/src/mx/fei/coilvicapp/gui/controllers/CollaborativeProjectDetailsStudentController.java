@@ -2,13 +2,11 @@ package mx.fei.coilvicapp.gui.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -72,6 +70,9 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
     @FXML
     private TextField universityTwoTextField;
 
+    @FXML
+    private Button exitButton;
+
     private Student student;
     private CollaborativeProject collaborativeProject;
 
@@ -87,26 +88,16 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
             if (certificateCreator.templateExists()) {
                 try {
                     certificateCreator.generateCertificate(student.getName(), new FileManager().selectDirectoryPath(backgroundVBox.getScene().getWindow()));
-                    wasRegisteredConfirmation();
+                    DialogController.getInformativeConfirmationDialog("Aviso", "La constancia se descargó con éxito");
                 } catch (IOException exception) {
                     handleIOException(exception);
                 }
             } else {
-                inform("No se encontraron los recuros para genera la constancia");
+                DialogController.getInformativeConfirmationDialog("Aviso", "No se encontraron los recuros para genera la constancia");
             }
         } else {
-            inform("Es necesario completar la retroalimentación para descargar la constancia");
+            DialogController.getInformativeConfirmationDialog("Aviso", "Es necesario completar la retroalimentación para descargar la constancia");
         }
-
-    }
-
-    private void inform(String message) {
-        DialogController.getInformativeConfirmationDialog("Aviso", message);
-    }
-
-    private boolean wasRegisteredConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Aviso", "La constancia se descargó con éxito");
-        return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
     private void handleIOException(IOException exception) {
@@ -120,21 +111,28 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
 
     @FXML
     void startFeedBackIsPressed(ActionEvent event) {
-        if (collaborativeProject.getStatus().equals("Aceptado")) {
+        if (collaborativeProject.getStatus().equals("Pendiente")) {
             IFeedback feedbackDAO = new FeedbackDAO();
             try {
                 if (feedbackDAO.areThereStudentQuestions()) {
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/FeedbackOnCollaborativeProject");
                 } else {
-                    Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Lo sentimos", "No "
-                            + "es posible realizar la retroalimentación debido a que aún no hay preguntas para el estudiante");
+                    DialogController.getInformativeConfirmationDialog("Lo sentimos", "No es posible realizar la retroalimentación debido a que aún no hay preguntas para el estudiante");
                 }
             } catch (DAOException exception) {
                 handleDAOException(exception);
-                Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(exception.getMessage(), exception);
             } catch (IOException exception) {
                 Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(exception.getMessage(), exception);
             }
+        }
+    }
+
+    @FXML
+    void exitButtonIsPressed(ActionEvent event) {
+        try {
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
+        } catch (IOException exception) {
+            Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -168,5 +166,4 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
             Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(ioException.getMessage(), exception);
         }
     }
-
 }

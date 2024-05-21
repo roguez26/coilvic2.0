@@ -10,6 +10,7 @@ public class Assignment {
     
     private int idColaborativeProject;
     
+    private int idAssignment = 0;
     private String name;
     private String description;
     private String date;
@@ -28,6 +29,14 @@ public class Assignment {
         this.idColaborativeProject = idColaborativeProject;
     }
     
+    public int getIdAssignment() {
+        return idAssignment;
+    }
+    
+    public void setIdAssignment(int idAssignment) {
+        this.idAssignment = idAssignment;
+    }
+    
     public String getName() {
         return name;
     }
@@ -44,12 +53,6 @@ public class Assignment {
     public void setDescription(String description) {
         fieldValidator.checkLongRange(description);
         this.description = description;
-    }
-    
-    public void checkFields() {
-        FieldValidator fieldValidator = new FieldValidator();
-        fieldValidator.checkShortRange(name);
-        fieldValidator.checkLongRange(description);
     }
     
     public String getDate() {

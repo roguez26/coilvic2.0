@@ -17,6 +17,7 @@ import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.logic.collaborativeproject.ICollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
+import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.IProfessor;
@@ -33,6 +34,9 @@ import mx.fei.coilvicapp.logic.user.UserDAO;
  * @author ivanr
  */
 public class LoginParticipantController implements Initializable {
+
+    @FXML
+    private Button showButton;
 
     @FXML
     private TextField emailTextField;
@@ -59,9 +63,10 @@ public class LoginParticipantController implements Initializable {
     private final IStudent STUDENT_DAO = new StudentDAO();
     private final IUser USER_DAO = new UserDAO();
     private final ICollaborativeProject COLLABORATIVE_PROJECT_DAO = new CollaborativeProjectDAO();
+    private String passwordForShow;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL URL, ResourceBundle resourceBundle) {
 
     }
 
@@ -109,13 +114,21 @@ public class LoginParticipantController implements Initializable {
             DialogController.getInformativeConfirmationDialog("Estudiante no encontrado", "No se encontró ningún registro con el correo: " + emailTextField.getText());
         }
     }
-    
-    private void invokeAuthenticateProfessor() throws DAOException {
+
+    private void invokeAuthenticateProfessor() throws DAOException, IOException {
         Professor professor = new Professor();
+        FieldValidator fieldValidator = new FieldValidator();
 
         professor.setEmail(emailTextField.getText());
+        fieldValidator.checkPassword(identifierPasswordField.getText());
         if (USER_DAO.authenticateUser(emailTextField.getText(), identifierPasswordField.getText())) {
             professor = PROFESSOR_DAO.getProfessorByEmail(emailTextField.getText());
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/RegisterCourse.fxml"));
+
+        MainApp.changeView(fxmlLoader);
+        RegisterCourseController collaborativeProjectDetailsStudentController = fxmlLoader.getController();
+        collaborativeProjectDetailsStudentController.setProfessorSesion(professor);
+
         }
     }
 
@@ -153,5 +166,20 @@ public class LoginParticipantController implements Initializable {
         } catch (IOException ioException) {
             Log.getLogger(LoginParticipantController.class).error(ioException.getMessage(), ioException);
         }
+    }
+
+    @FXML
+    private void showButtonIsPressed() {
+        if (identifierPasswordField != null) {
+            passwordForShow = identifierPasswordField.getText();
+            identifierPasswordField.clear();
+            identifierPasswordField.setPromptText(passwordForShow);
+        }
+    }
+
+    @FXML
+    private void showButtonIsReleased() {
+        identifierPasswordField.setText(passwordForShow);
+        identifierPasswordField.setPromptText(null);
     }
 }

@@ -14,7 +14,6 @@ import mx.fei.coilvicapp.logic.country.ICountry;
 import mx.fei.coilvicapp.logic.country.Country;
 import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
-import mx.fei.coilvicapp.logic.implementations.Status;
 import java.io.IOException;
 import java.util.Optional;
 import javafx.collections.FXCollections;
@@ -22,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonType;
 import main.MainApp;
 import javafx.scene.layout.VBox;
+import log.Log;
 
 /**
  * FXML Controller class
@@ -82,11 +82,6 @@ public class RegisterUniversityController implements Initializable {
         return (response.get() == DialogController.BUTTON_YES);
     }
 
-    private boolean wasRegisteredConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Registrada", "La universidad fue registrada con exito");
-        return response.get() == DialogController.BUTTON_ACCEPT;
-    }
-
     @FXML
     private void acceptButtonIsPressed(ActionEvent event) throws IOException {
         try {
@@ -102,7 +97,7 @@ public class RegisterUniversityController implements Initializable {
         University university = initializeUniversity();
         if (confirmRegistration()) {
             if (UniversityDAO.registerUniversity(university) > 0) {
-                wasRegisteredConfirmation();
+                DialogController.getInformativeConfirmationDialog("Registrada", "La universidad fue registrada con exito");
                 cleanFields();
             }
         }
@@ -136,7 +131,7 @@ public class RegisterUniversityController implements Initializable {
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-
+            Log.getLogger(RegisterUniversityController.class).error(ioException.getMessage(), ioException);
         }
     }
 

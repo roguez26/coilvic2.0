@@ -6,9 +6,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.ArrayList;
+import log.Log;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 
@@ -17,10 +16,6 @@ import mx.fei.coilvicapp.logic.implementations.Status;
  * @author ivanr
  */
 public class FeedbackDAO implements IFeedback {
-
-    public FeedbackDAO() {
-
-    }
 
     private boolean checkQuestionDuplication(Question question) throws DAOException {
         Question instance;
@@ -36,6 +31,54 @@ public class FeedbackDAO implements IFeedback {
             throw new DAOException("La pregunta ya se encuentra registrada", Status.WARNING);
         }
         return false;
+    }
+
+    @Override
+    public int updateQuestionTransaction(Question question) throws DAOException {
+        int result = -1;
+        String statement = "UPDATE Pregunta SET pregunta=?, tipo = ? WHERE idPregunta=?";
+
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
+            preparedStatement.setString(1, question.getQuestionText());
+            preparedStatement.setString(2, question.getQuestionType());
+            preparedStatement.setInt(3, question.getIdQuestion());
+            result = preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible actualizar la pregunta", Status.ERROR);
+        }
+        return result;
+    }
+
+    @Override
+    public ArrayList<Question> getQuestionByType(String type) throws DAOException {
+        ArrayList<Question> questionsList = new ArrayList<>();
+        String statement;
+
+        if (type.equals("Estudiante")) {
+            statement = "SELECT * FROM pregunta WHERE tipo LIKE 'Estudiante-%'";
+        } else {
+            statement = "SELECT * FROM pregunta WHERE tipo=?";
+        }
+
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+            if (!type.equals("Estudiante")) {
+                preparedStatement.setString(1, type);
+            }
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Question question = new Question();
+                    question.setIdQuestion(resultSet.getInt("idPregunta"));
+                    question.setQuestionText(resultSet.getString("pregunta"));
+                    question.setQuestionType(resultSet.getString("tipo"));
+                    questionsList.add(question);
+                }
+            }
+        } catch (SQLException exception) {
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible obtener las preguntas por tipo", Status.ERROR);
+        }
+        return questionsList;
     }
 
     @Override
@@ -68,146 +111,70 @@ public class FeedbackDAO implements IFeedback {
     public boolean areThereStudentQuestions() throws DAOException {
         boolean result = false;
         DatabaseManager databaseManager = new DatabaseManager();
-        String statement = "SELECT 1 FROM pregunta WHERE tipo = 'E' LIMIT 1";
+        String statement = "SELECT 1 FROM pregunta WHERE tipo LIKE 'Estudiante-%' LIMIT 1";
 
         try (Connection connection = databaseManager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement); ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
                 result = 1 == resultSet.getInt(1);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible validar si hay preguntas para el estudiante", Status.ERROR);
         }
-
         return result;
     }
 
     public int insertQuestionTransaction(Question question) throws DAOException {
         int result = -1;
-        Connection connection;
-        ResultSet resultSet = null;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
         String statement = "INSERT INTO pregunta (pregunta, tipo) VALUES (?, ?)";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);) {
             preparedStatement.setString(1, question.getQuestionText());
             preparedStatement.setString(2, question.getQuestionType());
             result = preparedStatement.executeUpdate();
-            resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                result = resultSet.getInt(1);
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    result = resultSet.getInt(1);
+                }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible registrar la pregunta", Status.ERROR);
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
-        }
-        return result;
-    }
-
-    @Override
-    public int updateQuestionTransaction(Question question) throws DAOException {
-        int result = -1;
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
-        String statement = "UPDATE Pregunta SET pregunta=?, tipo = ? WHERE idPregunta=?";
-
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
-            preparedStatement.setString(1, question.getQuestionText());
-            preparedStatement.setString(2, question.getQuestionType());
-            preparedStatement.setInt(3, question.getIdQuestion());
-            result = preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible actualizar la pregunta", Status.ERROR);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
         }
         return result;
     }
 
     public int deleteQuestionTransaction(Question question) throws DAOException {
         int result = -1;
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
         String statement = "DELETE FROM Pregunta WHERE idPregunta=?";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
             preparedStatement.setInt(1, question.getIdQuestion());
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible eliminar la pregunta", Status.ERROR);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
         }
         return result;
     }
 
     public int insertStudentResponsesTransaction(ArrayList<Response> responses) throws DAOException {
         int result = -1;
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
         String statement = configureInsertResponsesStatement(responses.size());
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
             int aux = 0;
             for (int i = 0; i < responses.size(); i++) {
                 preparedStatement.setString(1 + aux, responses.get(i).getResponseText());
                 preparedStatement.setInt(2 + aux, responses.get(i).getIdQuestion());
                 preparedStatement.setInt(3 + aux, responses.get(i).getIdStudent());
                 preparedStatement.setInt(4 + aux, responses.get(i).getIdCollaborativeProject());
-                aux = aux + 4;
+                aux += 4;
             }
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible registrar las respuestas", Status.ERROR);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
         }
         return result;
     }
@@ -223,126 +190,48 @@ public class FeedbackDAO implements IFeedback {
         return statement;
     }
 
-    //Esta se mostrara para que llenen el formulario
-    @Override
-    public ArrayList<Question> getQuestionByType(String type) throws DAOException {
-        ArrayList<Question> questionsList = new ArrayList<>();
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
-        ResultSet resultSet = null;
-         String statement = "SELECT * FROM pregunta WHERE tipo=?";
-
-        if (type.equals("Estudiante")) {
-            statement = "SELECT * FROM pregunta WHERE tipo LIKE 'Estudiante-%'";
-        } 
-        
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
-            if (!type.equals("Estudiante")) {
-                preparedStatement.setString(1, type);
-            }
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Question question = new Question();
-                question.setIdQuestion(resultSet.getInt("idPregunta"));
-                question.setQuestionText(resultSet.getString("pregunta"));
-                question.setQuestionType(resultSet.getString("tipo"));
-                questionsList.add(question);
-            }
-        } catch (SQLException exception) {
-            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-        }
-        return questionsList;
-    }
-
     public ArrayList<Response> getResponsesByIdQuestionAndIdCollaborativeProject(int idQuestion, int idCollaborativeProject) throws DAOException {
         ArrayList<Response> responses = new ArrayList<>();
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
-        ResultSet resultSet = null;
         String statement = "SELECT * FROM respuesta WHERE idpregunta=? and idproyectocolaborativo=?";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
             preparedStatement.setInt(1, idQuestion);
             preparedStatement.setInt(2, idCollaborativeProject);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Response instance = new Response();
-                instance.setIdResponse(resultSet.getInt("idRespuesta"));
-                instance.setResponseText(resultSet.getString("respuesta"));
-                instance.setIdQuestion(resultSet.getInt("idpregunta"));
-                instance.setIdStudent(resultSet.getInt("idestudiante"));
-                instance.setIdCollaborativeProject(resultSet.getInt("idProyectoColaborativo"));
-                responses.add(instance);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Response response = new Response();
+                    response.setIdResponse(resultSet.getInt("idRespuesta"));
+                    response.setResponseText(resultSet.getString("respuesta"));
+                    response.setIdQuestion(resultSet.getInt("idpregunta"));
+                    response.setIdStudent(resultSet.getInt("idestudiante"));
+                    response.setIdCollaborativeProject(resultSet.getInt("idProyectoColaborativo"));
+                    responses.add(response);
+                }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible obtener las respuestas", Status.ERROR);
         }
         return responses;
     }
 
     public Question getQuestionByQuestionText(String questionText) throws DAOException {
         Question question = new Question();
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         String statement = "SELECT * FROM pregunta WHERE pregunta=?";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
             preparedStatement.setString(1, questionText);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                question.setIdQuestion(resultSet.getInt("idPregunta"));
-                question.setQuestionText(resultSet.getString("pregunta"));
-                question.setQuestionType(resultSet.getString("tipo"));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    question.setIdQuestion(resultSet.getInt("idPregunta"));
+                    question.setQuestionText(resultSet.getString("pregunta"));
+                    question.setQuestionType(resultSet.getString("tipo"));
+                }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener la pregunta", Status.ERROR);
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
         }
         return question;
     }
-
 }

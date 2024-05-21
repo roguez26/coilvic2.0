@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import main.MainApp;
+import mx.fei.coilvicapp.logic.course.Course;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
@@ -44,6 +45,7 @@ public class UniversityManagerController implements Initializable {
 
     @FXML
     private TableColumn countryTableColumn;
+   
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -69,7 +71,7 @@ public class UniversityManagerController implements Initializable {
 
     @FXML
     private void registerButton(ActionEvent event) throws IOException {
-        MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityRegistrationFXML");
+        MainApp.changeView("/mx/fei/coilvicapp/gui/views/registerUniversity");
     }
 
     @FXML

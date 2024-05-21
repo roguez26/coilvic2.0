@@ -119,16 +119,16 @@ public class CountryDAOGettersTest {
         }
         assertTrue(result.getIdCountry() > 0);
     }
-//    
-//    @After
-//    public void tearDown() {
-//        try {
-//            for (int i = 0; i < countriesQuantity; i++) {
-//                COUNTRY_DAO.deleteCountry(COUNTRIES_FOR_TESTING.get(i).getIdCountry());
-//            }
-//        } catch (DAOException exception) {
-//            Logger.getLogger(CountryDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
-//        }
-//    }
+    
+    @After
+    public void tearDown() {
+        try {
+            for (int i = 0; i < countriesQuantity; i++) {
+                COUNTRY_DAO.deleteCountry(COUNTRIES_FOR_TESTING.get(i).getIdCountry());
+            }
+        } catch (DAOException exception) {
+            Logger.getLogger(CountryDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
+    }
 
 }

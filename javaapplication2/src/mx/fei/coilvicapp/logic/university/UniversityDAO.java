@@ -12,9 +12,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.ArrayList;
+import log.Log;
 
 /**
  *
@@ -22,49 +21,16 @@ import java.util.ArrayList;
  */
 public class UniversityDAO implements IUniversity {
 
-    public UniversityDAO() {
-
-    }
-
-    private boolean checkNameDuplication(University university) throws DAOException {
-        University universityForCheck;
-
-        try {
-            universityForCheck = getUniversityByName(university.getName());
-        } catch (DAOException exception) {
-            throw new DAOException("No fue posible realizar la validacion, intente mas tarde", Status.ERROR);
-        }
-        if (universityForCheck.getIdUniversity() != university.getIdUniversity() && universityForCheck.getIdUniversity() > 0) {
-            throw new DAOException("El nombre de esta universidad ya esta registrado", Status.WARNING);
-        }
-        return false;
-    }
-
     @Override
     public int registerUniversity(University university) throws DAOException {
         int result = 0;
 
         if (!checkNameDuplication(university)) {
-            if (checkCountryExistence(university.getIdCountry())) {
+            if (checkCountryExistence(university.getCountry().getIdCountry())) {
                 result = insertUniversityTransaction(university);
             }
         }
         return result;
-    }
-
-    public boolean checkCountryExistence(int idCountry) throws DAOException {
-        CountryDAO countryDAO = new CountryDAO();
-        Country country;
-
-        try {
-            country = countryDAO.getCountryById(idCountry);
-        } catch (DAOException exception) {
-            throw new DAOException("No se pudo hacer la validacion para registrar la universidad", Status.ERROR);
-        }
-        if (country.getIdCountry() <= 0) {
-            throw new DAOException("Este pais aun no se encuentra registrado", Status.WARNING);
-        }
-        return true;
     }
 
     @Override
@@ -87,17 +53,46 @@ public class UniversityDAO implements IUniversity {
         return result;
     }
 
-    public boolean validateUniversityForDelete(int idUniversity) throws DAOException {
-        InstitutionalRepresentativeDAO instanceDAO = new InstitutionalRepresentativeDAO();
-        InstitutionalRepresentative instance = new InstitutionalRepresentative();
+    private boolean checkNameDuplication(University university) throws DAOException {
+        University universityForCheck;
 
         try {
-            instance = instanceDAO.getInstitutionalRepresentativeByUniversityId(idUniversity);
+            universityForCheck = getUniversityByName(university.getName());
         } catch (DAOException exception) {
-            Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible realizar la validacion, intente mas tarde", Status.ERROR);
+        }
+        if (universityForCheck.getIdUniversity() != university.getIdUniversity() && universityForCheck.getIdUniversity() > 0) {
+            throw new DAOException("El nombre de esta universidad ya esta registrado", Status.WARNING);
+        }
+        return false;
+    }
+
+    public boolean checkCountryExistence(int idCountry) throws DAOException {
+        CountryDAO countryDAO = new CountryDAO();
+        Country country;
+
+        try {
+            country = countryDAO.getCountryById(idCountry);
+        } catch (DAOException exception) {
+            throw new DAOException("No se pudo hacer la validacion para registrar la universidad", Status.ERROR);
+        }
+        if (country.getIdCountry() <= 0) {
+            throw new DAOException("Este pais aun no se encuentra registrado", Status.WARNING);
+        }
+        return true;
+    }
+
+    public boolean validateUniversityForDelete(int idUniversity) throws DAOException {
+        InstitutionalRepresentativeDAO institutionalRepresentativeDAO = new InstitutionalRepresentativeDAO();
+        InstitutionalRepresentative intitutionalRepresentative = new InstitutionalRepresentative();
+
+        try {
+            intitutionalRepresentative = institutionalRepresentativeDAO.getInstitutionalRepresentativeByUniversityId(idUniversity);
+        } catch (DAOException exception) {
+            Log.getLogger(UniversityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible realizar la validacion para eliminar la universidad", Status.ERROR);
         }
-        if (instance.getIdInstitutionalRepresentative() > 0) {
+        if (intitutionalRepresentative.getIdInstitutionalRepresentative() > 0) {
             throw new DAOException("No se pudo eliminar la universidad debido a que existen representates relacionados con esta universidad", Status.WARNING);
         }
         return true;
@@ -115,234 +110,118 @@ public class UniversityDAO implements IUniversity {
 
     public int insertUniversityTransaction(University university) throws DAOException {
         int result = -1;
-        Connection connection;
-        ResultSet resultSet = null;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
-        String statement = "INSERT INTO Universidad(nombre, acronimo, jurisdiccion, ciudad, idPais) "
-                + "values (?, ?, ?, ?, ?)";
+        String statement = "INSERT INTO Universidad(nombre, acronimo, jurisdiccion, ciudad, idPais) values (?, ?, ?, ?, ?)";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = initializeStatement(connection, statement, university);
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = initializeStatement(connection, statement, university);) {
             result = preparedStatement.executeUpdate();
-            resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                result = resultSet.getInt(1);
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    result = resultSet.getInt(1);
+                }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(UniversityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible registrar la universidad", Status.ERROR);
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
         }
         return result;
     }
 
     public int updateUniversityTransaction(University university) throws DAOException {
         int result = -1;
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
         String statement = "UPDATE Universidad SET nombre = ?, acronimo = ?, jurisdiccion = ?, ciudad = ?, "
                 + "idPais = ? WHERE idUniversidad = ?";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = initializeStatement(connection, statement, university);
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = initializeStatement(connection, statement, university)) {
             preparedStatement.setInt(6, university.getIdUniversity());
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(UniversityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible actualizar la universidad", Status.ERROR);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
         }
         return result;
     }
 
     public int deleteUniversityTransaction(int idUniversity) throws DAOException {
         int result = -1;
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
         String statement = "DELETE FROM Universidad where idUniversidad=?";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
             preparedStatement.setInt(1, idUniversity);
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(UniversityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible eliminar la universidad", Status.ERROR);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
         }
         return result;
     }
 
     @Override
     public ArrayList<University> getAllUniversities() throws DAOException {
-        Connection connection;
         ArrayList<University> universitiesList = new ArrayList<>();
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        DatabaseManager databaseManager = new DatabaseManager();
         String statement = "SELECT * FROM Universidad";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareCall(statement);
-            resultSet = preparedStatement.executeQuery();
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareCall(statement); ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 universitiesList.add(initializeUniversity(resultSet));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(UniversityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener las universidades", Status.ERROR);
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
         }
         return universitiesList;
     }
 
     public University getUniversityById(int idUniversity) throws DAOException {
-        Connection connection;
         University university = new University();
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        DatabaseManager databaseManager = new DatabaseManager();
         String statement = "SELECT * FROM Universidad WHERE idUniversidad=?";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareCall(statement);
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareCall(statement)) {
             preparedStatement.setInt(1, idUniversity);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet != null && resultSet.next()) {
-                university = initializeUniversity(resultSet);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    university = initializeUniversity(resultSet);
+                }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(UniversityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener la universidad", Status.ERROR);
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
         }
         return university;
     }
 
     public University getUniversityByCountryId(int idCountry) throws DAOException {
-        Connection connection;
         University university = new University();
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        DatabaseManager databaseManager = new DatabaseManager();
         String statement = "SELECT * FROM Universidad WHERE idPais=?";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareCall(statement);
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareCall(statement);) {
             preparedStatement.setInt(1, idCountry);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet != null && resultSet.next()) {
-                university = initializeUniversity(resultSet);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    university = initializeUniversity(resultSet);
+                }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(UniversityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener la universidad", Status.ERROR);
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
         }
         return university;
     }
 
     @Override
     public University getUniversityByName(String universityName) throws DAOException {
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         University university = new University();
-        DatabaseManager databaseManager = new DatabaseManager();
         String statement = "SELECT * FROM Universidad WHERE nombre=?";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
             preparedStatement.setString(1, universityName);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet != null && resultSet.next()) {
-                university = initializeUniversity(resultSet);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    university = initializeUniversity(resultSet);
+                }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(UniversityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener la universidad", Status.ERROR);
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
         }
         return university;
     }
@@ -370,7 +249,7 @@ public class UniversityDAO implements IUniversity {
             university.setCity(resultSet.getString("Ciudad"));
             university.setCountry(countryDAO.getCountryById(resultSet.getInt("IdPais")));
         } catch (SQLException exception) {
-            Logger.getLogger(UniversityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(UniversityDAO.class).error(exception.getMessage(), exception);
         }
         return university;
     }

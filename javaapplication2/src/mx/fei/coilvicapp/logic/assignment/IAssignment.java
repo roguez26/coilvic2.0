@@ -1,7 +1,7 @@
 package mx.fei.coilvicapp.logic.assignment;
 
-import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 
 /* 
@@ -10,8 +10,8 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 
 public interface IAssignment {
     
-    public int insertAssignment(Assignment assignment) throws DAOException;    
-    public List<Assignment> getAssignmentsByIdProjectColaborative(int idColaborativeProject) throws DAOException;
-    public int updateAssignment(Assignment assignment) throws DAOException;
-    public int deleteAssignmentByIdAssignment(int idAssignment) throws DAOException;
+    public int registerAssignment(Assignment assignment, CollaborativeProject collaborativeProject) throws DAOException;
+    public ArrayList<Assignment> getAssignmentsByIdProjectColaborative(int idColaborativeProject) throws DAOException;
+    public int updateAssignment(Assignment assignment, CollaborativeProject collaborativeProject) throws DAOException;
+    public int deleteAssignment(int idAssignment, CollaborativeProject collaborativeProject) throws DAOException;
 }

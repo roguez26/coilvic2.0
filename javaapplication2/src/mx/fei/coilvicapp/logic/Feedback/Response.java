@@ -1,4 +1,5 @@
 package mx.fei.coilvicapp.logic.feedback;
+
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 /**
@@ -36,7 +37,6 @@ public class Response {
     public int getIdCollaborativeProject() {
         return idCollaborativeProject;
     }
-
     
     public void setIdResponse(int idResponse) {
         this.idResponse = idResponse;

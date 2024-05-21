@@ -69,7 +69,7 @@ public class ProfessorDAO implements IProfessor {
             }
             
         } catch (SQLException exception) {
-            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
+            Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No fue posible registrar al profesor", Status.ERROR);
         } finally {
             try {
@@ -94,7 +94,7 @@ public class ProfessorDAO implements IProfessor {
         int result = 0;
 
         if (!checkEmailDuplication(newProfessorInformation)) {
-            result = updateProfessor(newProfessorInformation);
+            result = updateProfessorTransaction(newProfessorInformation);
         }
         return result;          
     }
@@ -119,7 +119,7 @@ public class ProfessorDAO implements IProfessor {
             preparedStatement.setInt(7, newProfessorInformation.getIdProfessor());
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
-            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
+            Logger.getLogger(ProfessorDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No fue posible actualizar al profesor", Status.ERROR);
         } finally {
             try {

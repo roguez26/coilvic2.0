@@ -3,6 +3,7 @@ package mx.fei.coilvicapp.logic.university;
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.country.Country;
+
 /**
  *
  * @author ivanr
@@ -69,11 +70,11 @@ public class University {
         fieldValidator.checkName(city);
         this.city = city;
     }
-    
+
     public Country getCountry() {
         return country;
     }
-    
+
     public void setCountry(Country country) {
         if (country == null) {
             throw new IllegalArgumentException("Debe asignarle un país a la universidad");
@@ -84,7 +85,7 @@ public class University {
     public int getIdCountry() {
         return country.getIdCountry();
     }
-    
+
     public void setIdCountry(int idCountry) {
         country.setIdCountry(idCountry);
     }
@@ -92,30 +93,31 @@ public class University {
     @Override
     public boolean equals(Object object) {
         boolean isEqual = false;
-        
+
         if (this == object) {
             isEqual = true;
         } else if (object != null && getClass() == object.getClass()) {
             University toCompare = (University) object;
             isEqual = idUniversity == toCompare.idUniversity
-                && Objects.equals(country, toCompare.country)
-                && Objects.equals(name, toCompare.name)
-                && Objects.equals(jurisdiction, toCompare.jurisdiction)
-                && Objects.equals(city, toCompare.city);
+                    && Objects.equals(country, toCompare.country)
+                    && Objects.equals(name, toCompare.name)
+                    && Objects.equals(jurisdiction, toCompare.jurisdiction)
+                    && Objects.equals(city, toCompare.city)
+                    && Objects.equals(acronym, toCompare.acronym);
         }
         return isEqual;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUniversity, name, jurisdiction, city, country);
+        return Objects.hash(idUniversity, acronym, name, jurisdiction, city, country);
     }
 
     @Override
     public String toString() {
         return name;
     }
-    
+
     public University copy() {
         University copy = new University();
         copy.setIdUniversity(this.idUniversity);

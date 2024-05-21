@@ -1,4 +1,5 @@
 package mx.fei.coilvicapp.logic.feedback;
+
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 /**

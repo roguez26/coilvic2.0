@@ -23,10 +23,6 @@ public class FileManager {
     File file;
     String destinationDirectory;
 
-    public FileManager() {
-
-    }
-
     public void setFile(File file) {
         this.file = file;
     }
@@ -64,18 +60,24 @@ public class FileManager {
         }
         return result;
     }
-    
+
     public File selectPDF(Window window) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf");
         fileChooser.getExtensionFilters().add(pdfFilter);
         return fileChooser.showOpenDialog(window.getScene().getWindow());
     }
-    
+
     public String selectDirectoryPath(Window window) {
+        String directoryPath = "";
+
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        return directoryChooser.showDialog(window.getScene().getWindow()).getAbsolutePath();
-    
+        File selectedDirectory = directoryChooser.showDialog(window.getScene().getWindow());
+        if (selectedDirectory != null) {
+            directoryPath = selectedDirectory.getAbsolutePath();
+        }
+        return directoryPath;
+
     }
 
     private boolean fileExists(String filePath) {

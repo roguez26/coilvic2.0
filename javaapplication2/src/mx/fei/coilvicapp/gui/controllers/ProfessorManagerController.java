@@ -99,7 +99,7 @@ public class ProfessorManagerController implements Initializable {
         if (professor != null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorDetails.fxml"));
             MainApp.changeView(fxmlLoader);
-            ProfessorDetailsController professorDetailsController = fxmlLoader.getController();
+            ProfessorDetailsController1 professorDetailsController = fxmlLoader.getController();
             professorDetailsController.setProfessor(professor);
         } else {
             

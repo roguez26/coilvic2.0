@@ -4,44 +4,53 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheet/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.UpdateUniversityController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.UpdateUniversityController">
     <children>
-        <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="87.0" prefWidth="490.0" spacing="120.0">
-            <children>
-                <Button fx:id="backButton" cancelButton="true" mnemonicParsing="false" onAction="#backButtonIsPressed" stylesheets="@../../../../../stylesheet/buttonback.css" text="❮" />
-                <Label lineSpacing="10.0" stylesheets="@../../../../../stylesheet/title.css" text="Detalles Universidad">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Label>
-            </children>
-        </HBox>
-        <VBox fillWidth="false" maxWidth="-Infinity" prefHeight="430.0" prefWidth="286.0" spacing="10.0">
-            <children>
-                <Label fx:id="nameLabel" stylesheets="@../../../../../stylesheet/label.css" text="Nombre:" />
-                <TextField fx:id="nameTextField" editable="false" prefHeight="26.0" prefWidth="308.0" stylesheets="@../../../../../stylesheet/textField.css" />
-                <Label fx:id="acronymLabel" stylesheets="@../../../../../stylesheet/label.css" text="Acrónimo:" />
-                <TextField fx:id="acronymTextField" editable="false" prefHeight="26.0" prefWidth="295.0" stylesheets="@../../../../../stylesheet/textField.css" />
-                <Label fx:id="jurisdictionLabel" stylesheets="@../../../../../stylesheet/label.css" text="Jurisdicción:" />
-                <TextField fx:id="jurisdictionTextField" editable="false" prefHeight="26.0" prefWidth="322.0" stylesheets="@../../../../../stylesheet/textField.css" />
-                <Label fx:id="cityLabel" stylesheets="@../../../../../stylesheet/label.css" text="Ciudad:" />
-                <TextField fx:id="cityTextField" editable="false" prefHeight="26.0" prefWidth="298.0" stylesheets="@../../../../../stylesheet/textField.css" />
-                <Label fx:id="countryLabel" stylesheets="@../../../../../stylesheet/label.css" text="País:" />
-                <TextField fx:id="countryTextField" editable="false" prefHeight="26.0" prefWidth="290.0" stylesheets="@../../../../../stylesheet/textField.css" />
-                <ComboBox fx:id="countriesCombobox" onAction="#optionIsSelected" prefWidth="150.0" styleClass="combo-box" stylesheets="@../../../../../stylesheet/combobox.css" visible="false" visibleRowCount="5" />
-            </children>
-        </VBox>
-        <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="82.0" prefWidth="614.0" spacing="15.0">
-            <children>
-                <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonIsPressed" prefHeight="26.0" prefWidth="70.0" stylesheets="@../../../../../stylesheet/buttongray.css" text="Cancelar" visible="false" />
-                <Button fx:id="acceptButton" lineSpacing="5.0" mnemonicParsing="false" onAction="#acceptButtonIsPressed" prefHeight="26.0" prefWidth="70.0" stylesheets="@../../../../../stylesheet/buttonblue.css" text="Aceptar" visible="false" />
-                <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonIsPressed" prefHeight="26.0" prefWidth="70.0" stylesheets="@../../../../../stylesheet/buttonred.css" text="Eliminar" />
-                <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateButtonIsPressed" prefHeight="26.0" prefWidth="70.0" stylesheets="@../../../../../stylesheet/buttonblue.css" text="Actualizar" />
-            </children>
-        </HBox>
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="578.0" prefWidth="447.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
+         <children>
+              <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="87.0" prefWidth="409.0" spacing="55.0">
+                  <children>
+                      <Button fx:id="backButton" cancelButton="true" mnemonicParsing="false" onAction="#backButtonIsPressed" stylesheets="@../../../../../stylesheets/backButton.css" text="❮" />
+                      <Label lineSpacing="10.0" prefHeight="26.0" prefWidth="167.0" stylesheets="@../../../../../stylesheets/titleLabel.css" text="Detalles Universidad">
+                          <font>
+                              <Font name="System Bold" size="14.0" />
+                          </font>
+                      </Label>
+                  <ImageView fitHeight="49.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../stylesheets/Imagen1.png" />
+                     </image>
+                  </ImageView>
+                  </children>
+              </HBox>
+              <VBox fillWidth="false" maxWidth="-Infinity" prefHeight="391.0" prefWidth="286.0" spacing="10.0">
+                  <children>
+                      <Label fx:id="nameLabel" stylesheets="@../../../../../stylesheets/label.css" text="Nombre:" />
+                      <TextField fx:id="nameTextField" editable="false" prefHeight="26.0" prefWidth="308.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                      <Label fx:id="acronymLabel" stylesheets="@../../../../../stylesheets/label.css" text="Acrónimo:" />
+                      <TextField fx:id="acronymTextField" editable="false" prefHeight="26.0" prefWidth="295.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                      <Label fx:id="jurisdictionLabel" stylesheets="@../../../../../stylesheets/label.css" text="Jurisdicción:" />
+                      <TextField fx:id="jurisdictionTextField" editable="false" prefHeight="26.0" prefWidth="322.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                      <Label fx:id="cityLabel" stylesheets="@../../../../../stylesheets/label.css" text="Ciudad:" />
+                      <TextField fx:id="cityTextField" editable="false" prefHeight="26.0" prefWidth="298.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                      <ComboBox fx:id="countriesCombobox" disable="true" prefHeight="26.0" prefWidth="250.0" styleClass="combo-box" stylesheets="@../../../../../stylesheets/combobox.css" visibleRowCount="5" />
+                  </children>
+              </VBox>
+              <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="63.0" prefWidth="395.0" spacing="15.0">
+                  <children>
+                      <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" visible="false" />
+                      <Button fx:id="acceptButton" lineSpacing="5.0" mnemonicParsing="false" onAction="#acceptButtonIsPressed" prefHeight="26.0" prefWidth="70.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" visible="false" />
+                      <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonIsPressed" prefHeight="26.0" prefWidth="70.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Eliminar" />
+                      <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Actualizar" />
+                  </children>
+              </HBox>
+         </children>
+      </VBox>
     </children>
 </VBox>

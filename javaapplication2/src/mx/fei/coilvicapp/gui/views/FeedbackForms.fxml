@@ -6,45 +6,63 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.FeedbackFormsController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" spacing="5.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.FeedbackFormsController">
    <children>
-      <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="98.0" prefWidth="622.0" spacing="130.0">
+      <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="98.0" prefWidth="754.0" spacing="140.0">
          <children>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonback.css" text="&lt;" />
-            <Label fx:id="titleLabel" stylesheets="@../../../../../stylesheets/title.css" text="Formularios para retroalimentación" />
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonIsPressed" stylesheets="@../../../../../stylesheets/backButton.css" text="❮" />
+            <Label fx:id="titleLabel" maxWidth="-Infinity" prefHeight="26.0" prefWidth="285.0" stylesheets="@../../../../../stylesheets/titleLabel.css" text="Formularios para retroalimentación" />
+            <ImageView fitHeight="55.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../stylesheets/Imagen1.png" />
+               </image>
+            </ImageView>
          </children>
       </HBox>
-      <HBox alignment="CENTER" fillHeight="false" maxWidth="-Infinity" prefHeight="410.0" prefWidth="722.0" spacing="30.0">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="471.0" prefWidth="804.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
          <children>
-            <TableView fx:id="professorQuestionsTableView" prefHeight="410.0" prefWidth="330.0" stylesheets="@../../../../../stylesheets/tableview.css">
-              <columns>
-                <TableColumn fx:id="professorQuestionsTableColumn" prefWidth="329.59998759031294" text="Preguntas profesor" />
-              </columns>
-            </TableView>
-            <TableView fx:id="studentQuestionsTableView" prefHeight="410.0" prefWidth="348.0" stylesheets="@../../../../../stylesheets/tableview.css">
-              <columns>
-                <TableColumn fx:id="studentQuestionsTableColumn" prefWidth="252.79997557401657" text="Preguntas estudiante" />
-                <TableColumn fx:id="typeTableColumn" prefWidth="95.199951171875" text="Tipo" />
-              </columns>
-            </TableView>
+            <HBox alignment="CENTER" fillHeight="false" maxWidth="-Infinity" prefHeight="410.0" prefWidth="733.0" spacing="30.0">
+               <children>
+                  <TableView fx:id="professorQuestionsTableView" prefHeight="410.0" prefWidth="330.0" stylesheets="@../../../../../stylesheets/tableview.css">
+                    <columns>
+                      <TableColumn fx:id="professorQuestionsTableColumn" prefWidth="329.59998759031294" text="Preguntas profesor" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <TableView fx:id="studentQuestionsTableView" prefHeight="410.0" prefWidth="348.0" stylesheets="@../../../../../stylesheets/tableview.css">
+                    <columns>
+                      <TableColumn fx:id="studentQuestionsTableColumn" prefWidth="240.80001211166382" resizable="false" text="Preguntas estudiante" />
+                      <TableColumn fx:id="typeTableColumn" prefWidth="99.20001220703125" resizable="false" text="Tipo" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="0.0" prefWidth="678.0" />
+      <HBox alignment="BOTTOM_RIGHT" maxWidth="-Infinity" prefHeight="10.0" prefWidth="674.0" spacing="10.0">
+         <children>
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Eliminar" />
+            <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Editar" />
+            <Button fx:id="addQuestionButton" maxWidth="-Infinity" mnemonicParsing="false" onAction="#addQuestionIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Añadir" />
          </children>
       </HBox>
-      <HBox alignment="BOTTOM_RIGHT" maxWidth="-Infinity" prefHeight="79.0" prefWidth="674.0" spacing="10.0">
+      <HBox alignment="BOTTOM_CENTER" maxWidth="-Infinity" prefHeight="10.0" prefWidth="670.0" spacing="10.0">
          <children>
-            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonred.css" text="Eliminar" />
-            <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButtonIsPressed" stylesheets="@../../../../../stylesheets/buttongray.css" text="Editar" />
-         </children>
-      </HBox>
-      <HBox alignment="BOTTOM_CENTER" maxWidth="-Infinity" prefHeight="46.0" prefWidth="670.0" spacing="10.0">
-         <children>
-            <ComboBox fx:id="typeCombobox" prefWidth="150.0" promptText="Tipo" stylesheets="@../../../../../stylesheets/combobox.css" visible="false" />
+            <ComboBox fx:id="typeCombobox" prefHeight="26.0" prefWidth="83.0" promptText="Tipo" stylesheets="@../../../../../stylesheets/combobox.css" visible="false" />
             <TextField fx:id="questionTextField" prefHeight="28.0" prefWidth="334.0" promptText="Escribe aquí la nueva pregunta" stylesheets="@../../../../../stylesheets/textField.css" visible="false" />
-            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonIsPressed" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" visible="false" />
+            <Button fx:id="cancelButton" maxWidth="-Infinity" mnemonicParsing="false" onAction="#cancelButtonIsPressed" prefHeight="27.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" visible="false" />
             <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" visible="false" />
-            <Button fx:id="addQuestionButton" maxWidth="-Infinity" mnemonicParsing="false" onAction="#addQuestionIsPressed" prefHeight="27.0" prefWidth="192.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Añadir pregunta" />
          </children>
       </HBox>
    </children>

@@ -9,16 +9,13 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import log.Log;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import mx.fei.coilvicapp.logic.university.University;
 
 public class CountryDAO implements ICountry {
-
-    public CountryDAO() {
-
-    }
 
     private boolean checkNameDuplication(Country country) throws DAOException {
         Country countryforCheck;
@@ -30,157 +27,112 @@ public class CountryDAO implements ICountry {
         } catch (DAOException exception) {
             throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", Status.ERROR);
         }
-        if(idCountry != country.getIdCountry() && idCountry > 0) {
+        if (idCountry != country.getIdCountry() && idCountry > 0) {
             throw new DAOException("El nombre ya se encuentra registrado", Status.WARNING);
         }
         return false;
     }
-    
+
     @Override
     public int registerCountry(Country country) throws DAOException {
         int result = 0;
-        
-        if(!checkNameDuplication(country)) {
+
+        if (!checkNameDuplication(country)) {
             result = insertCountryTransaction(country);
         }
         return result;
     }
-    
+
     @Override
     public int updateCountry(Country country) throws DAOException {
         int result = 0;
-        
+
         if (validateCountryForUpdate(country)) {
             result = updateCountryTransaction(country);
         }
         return result;
     }
-    
+
     @Override
     public int deleteCountry(int idCountry) throws DAOException {
         int result = 0;
-        
-        if(validateCountryForDelete(idCountry)) {
+
+        if (validateCountryForDelete(idCountry)) {
             result = deleteCountryTransaction(idCountry);
         }
         return result;
     }
-    
+
     public boolean validateCountryForDelete(int idCountry) throws DAOException {
         UniversityDAO universityDAO = new UniversityDAO();
         University university = new University();
-        
+
         try {
             university = universityDAO.getUniversityByCountryId(idCountry);
         } catch (DAOException exception) {
             Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No fue posible realizar la validacion para eliminar el pais", Status.ERROR);
         }
-        if(university.getIdUniversity() > 0) {
-            throw new DAOException ("No se pudo eliminar el pais debido a que existen aun universidades relacionadas a este pais", Status.WARNING);
-        }        
+        if (university.getIdUniversity() > 0) {
+            throw new DAOException("No se pudo eliminar el pais debido a que existen aun universidades relacionadas a este pais", Status.WARNING);
+        }
         return true;
     }
-    
+
     public boolean validateCountryForUpdate(Country country) throws DAOException {
         Country oldCountry = getCountryById(country.getIdCountry());
         boolean result = true;
-        
-        if(!oldCountry.getName().equals(country.getName())) {
+
+        if (!oldCountry.getName().equals(country.getName())) {
             result = !checkNameDuplication(country);
         }
         return result;
     }
-    
-    public int insertCountryTransaction (Country country) throws DAOException {
+
+    public int insertCountryTransaction(Country country) throws DAOException {
         int result = -1;
-        Connection connection;
-        ResultSet resultSet = null;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
         String statement = "INSERT INTO Pais (nombre) VALUES (?)";
-        
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement,Statement.RETURN_GENERATED_KEYS);
+
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);) {
             preparedStatement.setString(1, country.getName());
             result = preparedStatement.executeUpdate();
-            resultSet = preparedStatement.getGeneratedKeys();
-            if(resultSet.next()) {
-                result = resultSet.getInt(1);
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    result = resultSet.getInt(1);
+                }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible registrar el pais", Status.ERROR);
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
+            Log.getLogger(CountryDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible registrar el país", Status.ERROR);
         }
         return result;
     }
-    
+
     public int updateCountryTransaction(Country country) throws DAOException {
         int result = -1;
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
         String statement = "UPDATE Pais SET nombre=? WHERE idPais=?";
-        
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
             preparedStatement.setString(1, country.getName());
             preparedStatement.setInt(2, country.getIdCountry());
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible actualizar el pais", Status.ERROR);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
+            Log.getLogger(CountryDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible actualizar el país", Status.ERROR);
         }
         return result;
     }
-    
+
     public int deleteCountryTransaction(int idCountry) throws DAOException {
         int result = -1;
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
         String statement = "DELETE FROM Pais WHERE idPais=?";
-        
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
             preparedStatement.setInt(1, idCountry);
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible eliminar el pais", Status.ERROR);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
+            Log.getLogger(CountryDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible eliminar el país", Status.ERROR);
         }
         return result;
     }
@@ -188,37 +140,18 @@ public class CountryDAO implements ICountry {
     @Override
     public ArrayList<Country> getAllCountries() throws DAOException {
         ArrayList<Country> countries = new ArrayList<>();
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
-        ResultSet resultSet = null;
         String statement = "SELECT * FROM Pais";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
-            resultSet = preparedStatement.executeQuery();
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement); ResultSet resultSet = preparedStatement.executeQuery();) {
             while (resultSet.next()) {
                 Country country = new Country();
                 country.setIdCountry(resultSet.getInt("IdPais"));
                 country.setName(resultSet.getString("Nombre"));
                 countries.add(country);
             }
-
         } catch (SQLException exception) {
             Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
+            throw new DAOException("No fue posible obtener los países", Status.ERROR);
         }
         return countries;
     }
@@ -226,69 +159,37 @@ public class CountryDAO implements ICountry {
     @Override
     public Country getCountryById(int idCountry) throws DAOException {
         Country country = new Country();
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        DatabaseManager databaseManager = new DatabaseManager();
-        ResultSet resultSet = null;
         String statement = "SELECT * FROM Pais WHERE idPais=?";
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
             preparedStatement.setInt(1, idCountry);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                country.setIdCountry(resultSet.getInt("IdPais"));
-                country.setName(resultSet.getString("Nombre"));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    country.setIdCountry(resultSet.getInt("IdPais"));
+                    country.setName(resultSet.getString("Nombre"));
+                }
             }
         } catch (SQLException exception) {
             Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
         }
         return country;
     }
 
     public Country getCountryByName(String countryName) throws DAOException {
         Country country = new Country();
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         String statement = "SELECT * FROM Pais WHERE nombre=?";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
             preparedStatement.setString(1, countryName);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                country.setIdCountry(resultSet.getInt("idPais"));
-                country.setName(resultSet.getString("nombre"));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    country.setIdCountry(resultSet.getInt("idPais"));
+                    country.setName(resultSet.getString("nombre"));
+                }
             }
         } catch (SQLException exception) {
             Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible obtener el pais", Status.ERROR);
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-            databaseManager.closeConnection();
+            throw new DAOException("No fue posible obtener el país", Status.ERROR);
         }
         return country;
     }

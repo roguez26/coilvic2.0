@@ -12,21 +12,24 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.time.LocalDate;
+import log.Log;
 
 public class PDFCreator {
 
-    private final String certificateTemplatePath = "files\\template\\certificate.pdf";
+    private final String CERTIFICATE_TEMPLATE_PATH = "files\\template\\certificate.pdf";
 
     public void generateCertificate(String name, String certificateDestination) throws IOException {
         LocalDate date = LocalDate.now();
+        
+        if (certificateDestination == null || certificateDestination.equals("")) {
+            throw new IOException ("Es necesario especificar la ruta para iniciar la descarga");
+        }
+
         try {
-            try (
-                    PdfReader reader = new PdfReader(certificateTemplatePath)) {
-                PdfWriter writer = new PdfWriter(certificateDestination + "\\" + date + "_" + name + ".pdf");
-                try (PdfDocument pdfDoc = new PdfDocument(reader, writer); Document document = new Document(pdfDoc)) {
+            try (PdfReader reader = new PdfReader(CERTIFICATE_TEMPLATE_PATH)) {
+                PdfWriter writer = new PdfWriter(certificateDestination + "\\" + date + "-" + name + "-constancia.pdf");
+                try (PdfDocument pdfDocument = new PdfDocument(reader, writer); Document document = new Document(pdfDocument)) {
                     Paragraph paragraph = new Paragraph(name);
                     paragraph.setFixedPosition(0, 335, 855);
                     paragraph.setTextAlignment(TextAlignment.CENTER);
@@ -37,14 +40,12 @@ public class PDFCreator {
                 }
             }
         } catch (IOException exception) {
-            Logger.getLogger(PDFCreator.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(PDFCreator.class).error(exception.getMessage(), exception);
             throw new IOException("No fue posible generar la constancia");
         }
-
     }
 
     public boolean templateExists() {
-        File file = new File(certificateTemplatePath);
-        return file.exists();
+        return new File(CERTIFICATE_TEMPLATE_PATH).exists();
     }
 }

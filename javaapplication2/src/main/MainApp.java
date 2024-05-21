@@ -13,48 +13,47 @@ import javafx.scene.paint.Color;
  * @author ivanr
  */
 public class MainApp extends Application {
+
     private static Scene scene;
-    private static final int WIDTH = 800;
+    private static final int WIDTH = 1000;
     private static final int HEIGHT = 700;
-    
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/UploadAssignment"));
+        scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsManagment"));
         stage.setScene(scene);
         stage.setWidth(WIDTH);
         stage.setHeight(HEIGHT);
         scene.setFill(Color.BLUE);
         stage.show();
     }
-    
+
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
-    
+
     private static void configureStage(Stage stage) {
-        stage.setWidth(WIDTH);
-        stage.setHeight(HEIGHT);
-        stage.centerOnScreen();
+        //stage.setWidth(WIDTH);
+        //stage.setHeight(HEIGHT);
     }
-    
+
     public static void changeView(FXMLLoader loader) throws IOException {
         Stage currentStage = (Stage) scene.getWindow();
         scene.setRoot(loader.load());
         configureStage(currentStage);
     }
-    
+
     public static void changeView(String URL) throws IOException {
         Stage currentStage = (Stage) scene.getWindow();
         configureStage(currentStage);
         MainApp.setRoot(URL);
     }
-    
+
     private static Parent loadFXML(String FXML) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource(FXML + ".fxml"));
         return fxmlLoader.load();
     }
-    
+
     public static void main(String[] args) {
         launch();
     }

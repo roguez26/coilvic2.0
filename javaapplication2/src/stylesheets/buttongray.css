@@ -1,11 +1,11 @@
 .button {
-    -fx-background-color: #f3f3f3; /* Color de fondo azul */
+    -fx-background-color: #ffffff; /* Color de fondo azul */
     -fx-text-fill:  rgb(60, 60, 60);
     -fx-font-family: "Roboto"; /* Fuente Arial */
-    -fx-font-size: 12px; /* Tamaño de fuente */
+    -fx-font-size: 10px; /* Tamaño de fuente */
     -fx-padding: 5px 10px; /* Espaciado interno del botón ajustado */
     -fx-background-radius: 13px; /* Bordes redondeados */
-    -fx-min-width: 90px; /* Ancho mínimo del botón */
+    -fx-min-width: 26px; /* Ancho mínimo del botón */
     -fx-min-height: 26px;
     -fx-font-weight: bold;
 }

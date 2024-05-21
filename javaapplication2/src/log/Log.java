@@ -15,7 +15,7 @@ public class Log {
     public static Logger getLogger(Class name) {
         try {
             LOG = Logger.getLogger(name);
-            String logfile = "C:\\Users\\axel_\\OneDrive\\Escritorio\\coilpull\\coilvic\\javaapplication2\\logs\\filelog.";
+            String logfile = "C:\\Users\\ivanr\\OneDrive\\Escritorio\\ConstruccionCoilVic\\JavaApplication2\\logs\\filelog.";
             Date fecha = new Date();
             
             SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
