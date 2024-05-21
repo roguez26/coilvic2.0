@@ -1,0 +1,18 @@
+.button {
+    -fx-background-color: #d02727; /* Color de fondo azul */
+    -fx-text-fill:  white;
+ 
+    -fx-font-size: 10px; /* Tamaño de fuente */
+    -fx-padding: 5px 10px; /* Espaciado interno del botón ajustado */
+    -fx-background-radius: 13px; /* Bordes redondeados */
+    -fx-min-width: 90px; /* Ancho mínimo del botón */
+    -fx-min-height: 26px;
+    -fx-font-weight: bold;
+}
+
+/* Estilos para el botón cuando es presionado */
+.button:pressed {
+    -fx-text-fill: #f3f3f3;
+    -fx-background-color: rgb(37, 6, 6); /* Cambia el color de fondo al presionar */
+    -fx-padding: 6px 11px; /* Ajusta el espaciado al presionar */
+}
