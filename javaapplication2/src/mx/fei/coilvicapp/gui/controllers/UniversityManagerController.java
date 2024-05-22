@@ -15,8 +15,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import log.Log;
 import main.MainApp;
-import mx.fei.coilvicapp.logic.course.Course;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
@@ -48,7 +48,7 @@ public class UniversityManagerController implements Initializable {
    
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL URL, ResourceBundle resourceBundle) {
         ArrayList<University> universitiesList = new ArrayList<>();
         
         try {
@@ -96,7 +96,7 @@ public class UniversityManagerController implements Initializable {
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-
+            Log.getLogger(UniversityManagerController.class).error(exception.getMessage(), exception);
         }
     }
 }

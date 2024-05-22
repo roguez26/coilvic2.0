@@ -58,7 +58,7 @@ public class CollaborativeProjectDAO implements ICollaborativeProject{
         String statement = "INSERT INTO ProyectoColaborativo"
         + " (idCursoSolicitante, idCursoSolicitado, idModalidad,"
         + " nombre, descripcion, objetivoGeneral, codigo, rutaSyllabus)"
-        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";        
+        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";        
         int result = -1;
         
         try {
@@ -116,6 +116,7 @@ public class CollaborativeProjectDAO implements ICollaborativeProject{
             collaborativeProject.setGeneralObjective(resultSet.getString("objetivoGeneral"));       
             collaborativeProject.setCode(resultSet.getString("codigo"));
             collaborativeProject.setSyllabusPath(resultSet.getString("rutaSyllabus"));
+            
         } catch (SQLException exception) {
             Logger.getLogger(CollaborativeProjectDAO.class.getName()).log(Level.SEVERE, null, exception);            
         }

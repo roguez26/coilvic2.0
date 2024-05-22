@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import log.Log;
 import main.MainApp;
 
@@ -51,8 +52,11 @@ public class ProfessorDetailsController1 implements Initializable {
     }
 
     @FXML
-    void showHistoryButtonIsPressed(ActionEvent event) {
-
+    void showHistoryButtonIsPressed(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsHistory.fxml"));
+        MainApp.changeView(fxmlLoader);
+        CollaborativeProjectsHistoryController collaborativeProjectsHistoryController = fxmlLoader.getController();
+        collaborativeProjectsHistoryController.setProfessor(professor);
     }
 
     @FXML
@@ -65,7 +69,7 @@ public class ProfessorDetailsController1 implements Initializable {
         professor = new Professor();
         professor.setEmail("aaren@uv.mx");
         professor.setGender("Mujer");
-        professor.setIdProfessor(2);
+        professor.setIdProfessor(5);
         professor.setIdUniversity(3);
         professor.setMaternalSurname("Valdes");
         professor.setName("Maria");

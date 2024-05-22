@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,18 +36,23 @@ public class AssignmentDAO implements IAssignment {
         PreparedStatement preparedStatement = null;
         String statement = "insert into Actividad (idProyectoColaborativo, nombre, descripcion, ruta) values (?, ?, ?, ?)";
         DatabaseManager databaseManager = new DatabaseManager();
-        int rowsAffected = -1;
+        int result = -1;
 
         try {
             connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setInt(1, collaborativeProject.getIdCollaborativeProject());
             preparedStatement.setString(2, assignment.getName());
             preparedStatement.setString(3, assignment.getDescription());
             preparedStatement.setString(4, assignment.getPath());
 
-            rowsAffected = preparedStatement.executeUpdate();
+            result = preparedStatement.executeUpdate();
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    result = resultSet.getInt(1);
+                }
+            }
         } catch (SQLException exception) {
             Logger.getLogger(AssignmentDAO.class.getName()).log(Level.SEVERE, null, exception);
             throw new DAOException("No fue posible registrar la actividad", Status.WARNING);
@@ -62,7 +68,7 @@ public class AssignmentDAO implements IAssignment {
                 Logger.getLogger(AssignmentDAO.class.getName()).log(Level.SEVERE, null, exception);
             }
         }
-        return rowsAffected;
+        return result;
     }
 
     private Assignment initializeAssignment(ResultSet resultSet) throws DAOException { 

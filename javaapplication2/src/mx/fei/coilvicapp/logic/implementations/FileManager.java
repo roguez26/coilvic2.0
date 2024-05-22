@@ -1,5 +1,6 @@
 package mx.fei.coilvicapp.logic.implementations;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,6 +9,8 @@ import java.nio.file.Paths;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import log.Log;
+import mx.fei.coilvicapp.gui.controllers.ValidateCollaborativeProjectController;
 
 /**
  *
@@ -97,6 +100,30 @@ public class FileManager {
 
     private boolean isFileLenghtValid(File forValidate) {
         return forValidate.length() <= MAX_SIZE_BYTES;
+    }
+
+    public void openFile(String filePath) throws IOException {
+        File fileForOpen = new File(filePath);
+
+        if (!fileForOpen.exists()) {
+            throw new IllegalArgumentException("El archivo del syllabus ya no existe");
+        }
+
+        if (!Desktop.isDesktopSupported()) {
+            throw new IllegalArgumentException("La apertura de archivos no es compatible con este sistema.");
+        }
+
+        Desktop desktop = Desktop.getDesktop();
+        if (!desktop.isSupported(Desktop.Action.OPEN)) {
+            throw new IllegalArgumentException("La apertura de archivos no es compatible con este sistema.");
+        }
+
+        try {
+            desktop.open(fileForOpen);
+        } catch (IOException exception) {
+            Log.getLogger(FileManager.class).error(exception.getMessage(), exception);
+            throw new IOException("Ocurrio un error al intentar abrir el archivo");
+        }
     }
 
 }

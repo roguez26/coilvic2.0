@@ -1,12 +1,14 @@
 package main;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 
 /**
  *
@@ -20,7 +22,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsManagment"));
+        scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/ProfessorDetails1"));
         stage.setScene(scene);
         stage.setWidth(WIDTH);
         stage.setHeight(HEIGHT);
@@ -56,5 +58,33 @@ public class MainApp extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public static void changeView(String fxml, Consumer<Object> controllerSetup) throws IOException {
+    FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource(fxml + ".fxml"));
+    Parent root = fxmlLoader.load();
+    Scene scenem = new Scene(root);
+    Stage stage = new Stage();
+
+    stage.setScene(scenem);
+    stage.initModality(Modality.APPLICATION_MODAL); // Hacer que la ventana sea modal
+    
+    if (controllerSetup != null) {
+        controllerSetup.accept(fxmlLoader.getController());
+    }
+
+    stage.setOnCloseRequest(event -> {
+        // Mostrar nuevamente la ventana principal al cerrar la ventana modal
+        Stage mainStage = (Stage) scenem.getWindow();
+        mainStage.show();
+    });
+
+    stage.showAndWait();
+}
+
+    @FunctionalInterface
+    public interface ControllerSetup {
+
+        void setup(Object controller);
     }
 }

@@ -30,12 +30,13 @@ import org.junit.After;
  * @author ivanr
  */
 public class AssignmentRegistrationTest {
+
     private static final LanguageDAO LANGUAGE_DAO = new LanguageDAO();
     private static final Language AUX_LANGUAGE = new Language();
-    
+
     private static final TermDAO TERM_DAO = new TermDAO();
     private static final Term AUX_TERM = new Term();
-    
+
     private static final ModalityDAO MODALITY_DAO = new ModalityDAO();
     private static final Modality AUX_MODALITY = new Modality();
 
@@ -66,59 +67,90 @@ public class AssignmentRegistrationTest {
         initializeCountries();
         initializeUniversities();
         initializeProfessors();
+        initializeLanguage();
+        initializeTerm();
         intializeCourses();
+        initializeModality();
         initializeCollaborativeProject();
         initializeAssignment();
     }
-    
+
     @Test
-    public void insertAssignmentSuccess() {
+    public void registerAssignmentSuccess() {
         int idAssignment = 0;
         try {
             idAssignment = ASSIGNMENT_DAO.registerAssignment(ASSIGNMENT_FOR_TESTING, AUX_COLLABORATIVE_PROJECT);
-            COLLABORATIVE_PROJECT_DAO.deleteCollaborativeProjectByidCollaborativeProject(AUX_COLLABORATIVE_PROJECT.getIdCollaborativeProject());
-            COURSE_DAO.deleteCourseByIdCourse(AUX_COURSE_ONE.getIdCourse());
-            COURSE_DAO.deleteCourseByIdCourse(AUX_COURSE_TWO.getIdCourse());
-            PROFESSOR_DAO.deleteProfessorByID(AUX_PROFESSOR_ONE.getIdProfessor());
-            PROFESSOR_DAO.deleteProfessorByID(AUX_PROFESSOR_TWO.getIdProfessor());
-            UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY_ONE.getIdUniversity());
-            UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY_TWO.getIdUniversity());
-            COUNTRY_DAO.deleteCountry(AUX_COUNTRY_ONE.getIdCountry());
-            COUNTRY_DAO.deleteCountry(AUX_COUNTRY_TWO.getIdCountry());
+            ASSIGNMENT_FOR_TESTING.setIdAssignment(idAssignment);
         } catch (DAOException exception) {
             Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
         }
         assertTrue(idAssignment > 0);
     }
     
+    @Test
+    public void registerAssignmentFailByInappropiateState() {
+        int idAssignment = 0;
+        AUX_COLLABORATIVE_PROJECT.setStatus("Rechazado");
+        try {
+            idAssignment = ASSIGNMENT_DAO.registerAssignment(ASSIGNMENT_FOR_TESTING, AUX_COLLABORATIVE_PROJECT);
+            ASSIGNMENT_FOR_TESTING.setIdAssignment(idAssignment);
+        } catch (DAOException exception) {
+            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
+        }
+        assertTrue(idAssignment > 0);
+    }
+
 //    @After
 //    public void tearDown() {
 //        try {
 //            ASSIGNMENT_DAO.deleteAssignmentByIdAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment());
+//            COLLABORATIVE_PROJECT_DAO.deleteCollaborativeProjectByidCollaborativeProject(AUX_COLLABORATIVE_PROJECT.getIdCollaborativeProject());
+//            MODALITY_DAO.deleteModality(AUX_MODALITY.getIdModality());
+//            COURSE_DAO.deleteCourseByIdCourse(AUX_COURSE_ONE.getIdCourse());
+//            COURSE_DAO.deleteCourseByIdCourse(AUX_COURSE_TWO.getIdCourse());
+//            LANGUAGE_DAO.deleteLanguage(AUX_LANGUAGE.getIdLanguage());
+//            TERM_DAO.deleteTerm(AUX_TERM.getIdTerm());
+//            PROFESSOR_DAO.deleteProfessorByID(AUX_PROFESSOR_ONE.getIdProfessor());
+//            PROFESSOR_DAO.deleteProfessorByID(AUX_PROFESSOR_TWO.getIdProfessor());
+//            UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY_ONE.getIdUniversity());
+//            UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY_TWO.getIdUniversity());
+//            COUNTRY_DAO.deleteCountry(AUX_COUNTRY_ONE.getIdCountry());
+//            COUNTRY_DAO.deleteCountry(AUX_COUNTRY_TWO.getIdCountry());
 //        } catch (DAOException exception) {
 //            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
 //        }
 //    }
-
     
-    private void initializeAuxiliarLanguage() {
+    private void initializeLanguage() {
         AUX_LANGUAGE.setName("Inglés");
-        
+
         try {
             AUX_LANGUAGE.setIdLanguage(LANGUAGE_DAO.registerLanguage(AUX_LANGUAGE));
         } catch (DAOException exception) {
-            
+            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
         }
     }
-    
-    private void initializeAuxiliarTerm() {
-        AUX_TERM.setName("Febrero-Junio 2024");   
-        
-//        try {
-//            //AUX_TERM.setIdTerm();
-//        }
+
+    private void initializeTerm() {
+        AUX_TERM.setName("Febrero-Junio 2024");
+
+        try {
+            AUX_TERM.setIdTerm(TERM_DAO.registerTerm(AUX_TERM));
+        } catch (DAOException exception) {
+            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
+        }
     }
-    
+
+    private void initializeModality() {
+        AUX_MODALITY.setName("Clase espejo");
+
+        try {
+            AUX_MODALITY.setIdModality(MODALITY_DAO.registerModality(AUX_MODALITY));
+        } catch (DAOException exception) {
+            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
+        }
+    }
+
     private void initializeCountries() {
         AUX_COUNTRY_ONE.setName("México");
         AUX_COUNTRY_TWO.setName("Venezuela");
@@ -182,8 +214,8 @@ public class AssignmentRegistrationTest {
         AUX_COURSE_ONE.setTopicsInterest("Abstraccion, Herencia, Polimorfismo");
         AUX_COURSE_ONE.setNumberStudents(35);
         AUX_COURSE_ONE.setStudentsProfile("Ingenieria de software");
-       // AUX_COURSE_ONE.setTerm("Febrero-Junio 2024");
-       // AUX_COURSE_ONE.setLanguage("Inglés");
+         AUX_COURSE_ONE.setTerm(AUX_TERM);
+         AUX_COURSE_ONE.setLanguage(AUX_LANGUAGE);
         AUX_COURSE_ONE.setAdditionalInformation("Ademas de la programacion"
                 + " orientada a objetos veremos el paradigma funcional");
         AUX_COURSE_ONE.setProfessor(AUX_PROFESSOR_ONE);
@@ -194,26 +226,26 @@ public class AssignmentRegistrationTest {
         AUX_COURSE_TWO.setTopicsInterest("Modelado de datos, SQL, Normalización");
         AUX_COURSE_TWO.setNumberStudents(40);
         AUX_COURSE_TWO.setStudentsProfile("Ingeniería en Sistemas Computacionales");
-       // AUX_COURSE_TWO.setTerm("Agosto-Diciembre 2024");
-      //  AUX_COURSE_TWO.setLanguage("Español");
+         AUX_COURSE_TWO.setTerm(AUX_TERM);
+          AUX_COURSE_TWO.setLanguage(AUX_LANGUAGE);
         AUX_COURSE_TWO.setAdditionalInformation("Además de bases de datos relacionales, "
                 + "se introducirá a bases de datos NoSQL y técnicas avanzadas de optimización.");
         AUX_COURSE_TWO.setProfessor(AUX_PROFESSOR_TWO);
-//        try {
-//          //  AUX_COURSE_ONE.setIdCourse(COURSE_DAO.insertCourse(AUX_COURSE_ONE));
-//            //AUX_COURSE_TWO.setIdCourse(COURSE_DAO.insertCourse(AUX_COURSE_TWO));
-//        } catch (DAOException exception) {
-//            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
-//        }
+        try {
+             AUX_COURSE_TWO.setIdCourse(COURSE_DAO.registerCourse(AUX_COURSE_TWO));
+            AUX_COURSE_ONE.setIdCourse(COURSE_DAO.registerCourse(AUX_COURSE_ONE));
+        } catch (DAOException exception) {
+            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
+        }
     }
 
     private void initializeCollaborativeProject() {
         AUX_COLLABORATIVE_PROJECT.setName("Programación y Bases de Datos");
-        AUX_COLLABORATIVE_PROJECT.setStatus("Activo");
+        AUX_COLLABORATIVE_PROJECT.setStatus("Aceptado");
         AUX_COLLABORATIVE_PROJECT.setDescription("Este proyecto combina los conocimientos de programación orientada a objetos y bases de datos "
                 + "para desarrollar una aplicación completa que gestione información de manera eficiente.");
         AUX_COLLABORATIVE_PROJECT.setGeneralObjective("Integrar conceptos de programación y bases de datos para desarrollar una solución software completa.");
-       // AUX_COLLABORATIVE_PROJECT.setModality("COIL-VIC");
+        AUX_COLLABORATIVE_PROJECT.setModality(AUX_MODALITY);
         AUX_COLLABORATIVE_PROJECT.setCode("PROG-BASDAT-2024");
         AUX_COLLABORATIVE_PROJECT.setSyllabusPath("/syllabus/proyecto_integrador.pdf");
         AUX_COLLABORATIVE_PROJECT.setRequestedCourse(AUX_COURSE_ONE);
@@ -231,5 +263,4 @@ public class AssignmentRegistrationTest {
         ASSIGNMENT_FOR_TESTING.setPath("/files/id/Rompehielos.pdf");
         ASSIGNMENT_FOR_TESTING.setIdColaborativeProject(AUX_COLLABORATIVE_PROJECT.getIdCollaborativeProject());
     }
-
 }

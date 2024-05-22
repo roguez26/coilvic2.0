@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.assignment.Assignment;
 import mx.fei.coilvicapp.logic.assignment.AssignmentDAO;
@@ -67,7 +68,9 @@ public class UploadAssignmentController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-
+        collaborativeProject = new CollaborativeProject();
+        collaborativeProject.setIdCollaborativeProject(1);
+        collaborativeProject.setStatus("Aceptado");
     }
 
     @FXML
@@ -100,7 +103,7 @@ public class UploadAssignmentController implements Initializable {
 
         assignment.setPath(newPath);
         if (asigmentDAO.registerAssignment(assignment, collaborativeProject) > 0) {
-            wasUploadedConfirmation();
+            DialogController.getInformativeConfirmationDialog("Subida", "La actividad fue subida con éxito");
             cleanFields();
         }
     }
@@ -134,12 +137,12 @@ public class UploadAssignmentController implements Initializable {
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-
+            Log.getLogger(UploadAssignmentController.class).error(exception.getMessage(), exception);
         }
     }
 
     private boolean confirmUpload() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("", "¿Deseas subir esta nueva actividad?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas subir esta nueva actividad?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
@@ -156,12 +159,6 @@ public class UploadAssignmentController implements Initializable {
 
     private void handleValidationException(IllegalArgumentException exception) {
         DialogController.getInvalidDataDialog(exception.getMessage());
-    }
-
-    private boolean wasUploadedConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Subida", "La actividad fue subida con éxito");
-
-        return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
