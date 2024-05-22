@@ -12,16 +12,15 @@ import mx.fei.coilvicapp.logic.emailSender.EmailSenderDAO;
 import mx.fei.coilvicapp.logic.emailSender.EmailSender;
 import mx.fei.coilvicapp.logic.emailSender.IEmailSender;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
-import mx.fei.coilvicapp.logic.implementations.Status;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonType;
 import main.MainApp;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javax.mail.MessagingException;
+import log.Log;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
@@ -50,20 +49,20 @@ public class NotifyProfessorController implements Initializable {
     private TextField subjectTextField;
 
     private final IEmailSender emailSenderDAO = new EmailSenderDAO();
-    private final Professor professor = new Professor();
+    private Professor professor = new Professor();
     private final EmailSender emailSender = new EmailSender();
+    private String lastView;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-        professor.setEmail("ivanxspoti@gmail.com");
-        professor.setIdProfessor(8);
-        showEmail(professor.getEmail());
+
     }
 
     @FXML
     void sendButtonIsPressed(ActionEvent event) {
         try {
             invokeSendEmail();
+            closeWindow();
         } catch (IllegalArgumentException iaException) {
             handleValidationException(iaException);
         } catch (DAOException daoException) {
@@ -78,7 +77,7 @@ public class NotifyProfessorController implements Initializable {
         if (confirmNotification()) {
             emailSender.createEmail();
             if (emailSender.sendEmail()) {
-                wasSentConfirmation();
+                DialogController.getInformativeConfirmationDialog("Enviado", "El correo fue enviado con exito");
                 emailSenderDAO.registerEmail(emailSender);
             }
         }
@@ -93,28 +92,23 @@ public class NotifyProfessorController implements Initializable {
     @FXML
     void cancelButtonIsPressed(ActionEvent event) throws IOException {
         if (confirmCancelation()) {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");
+            closeWindow();
         }
-    }
-
-    private boolean wasSentConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("", "El correo fue enviado con exito");
-        return (response.get() == DialogController.BUTTON_YES);
     }
 
     private boolean confirmNotification() {
         Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar notificación", "¿Deseas notificar al profesor?");
-        return (response.get() == DialogController.BUTTON_YES);
+        return (response.isPresent() && response.get() == DialogController.BUTTON_YES);
     }
 
     private boolean confirmCancelation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", "¿Deseas cancelar la notificacion?");
-        return (response.get() == DialogController.BUTTON_YES);
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", "Si cancelas el profesor no será notificado ¿Deseas cancelar la notificacion?");
+        return (response.isPresent() && response.get() == DialogController.BUTTON_YES);
     }
 
     public void setProfessor(Professor professor) {
-        //this.professor = professor;
-        // showEmail(professor.getEmail());
+        this.professor = professor;
+        showEmail(professor.getEmail());
     }
 
     public void showEmail(String email) {
@@ -131,7 +125,7 @@ public class NotifyProfessorController implements Initializable {
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-
+            Log.getLogger(NotifyProfessorController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -141,6 +135,24 @@ public class NotifyProfessorController implements Initializable {
 
     private void handleMessagingException(MessagingException exception) {
         DialogController.getNotSentMessageDialog(exception.getMessage());
+    }
+
+    public void setLastView(String lastView) {
+        this.lastView = lastView;
+    }
+
+    private void goBack() {
+       // FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/" + lastView + ".fxml"));
+        try {
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/" + lastView);
+        } catch (IOException exception) {
+            Log.getLogger(NotifyProfessorController.class).error(exception.getMessage(), exception);
+        }
+    }
+    
+    private void closeWindow() {
+        Stage stage = (Stage) sendButton.getScene().getWindow();
+        stage.close();
     }
 
 }
