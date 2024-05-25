@@ -42,14 +42,14 @@ public class ProfessorUserAssignmentTest {
         PROFESSOR_FOR_TESTING.setEmail("roberto@gmail.com");
         PROFESSOR_FOR_TESTING.setGender("M");
         PROFESSOR_FOR_TESTING.setPhoneNumber("2283728394");
-        PROFESSOR_FOR_TESTING.setIdUniversity(3);
+        PROFESSOR_FOR_TESTING.setIdUniversity(5);
     }
     
     @Test
     public void testUserRegistration() {
         int result = 0;
-        String password = "n";
-        PROFESSOR_FOR_TESTING.setIdProfessor(1);
+        String password = "rHRJFfff334$$$!";
+        PROFESSOR_FOR_TESTING.setIdProfessor(6);
         try {
             result = PROFESSOR_DAO.assignUser(PROFESSOR_FOR_TESTING, password);
         } catch (DAOException exception) {

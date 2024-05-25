@@ -9,15 +9,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.university.University;
-import java.util.ArrayList;
 import java.io.IOException;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import log.Log;
 import main.MainApp;
 
-public class ProfessorDetailsController1 implements Initializable {
+public class ProfessorDetailsController implements Initializable {
 
     @FXML
     private Button backButton;
@@ -45,6 +43,7 @@ public class ProfessorDetailsController1 implements Initializable {
 
     @FXML
     private ComboBox<University> universitiesComboBox;
+    private Professor professor;
 
     @FXML
     void backButtonIsPressed(ActionEvent event) {
@@ -59,11 +58,6 @@ public class ProfessorDetailsController1 implements Initializable {
         collaborativeProjectsHistoryController.setProfessor(professor);
     }
 
-    @FXML
-    private Professor professor;
-    
-    
-
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
         professor = new Professor();
@@ -75,9 +69,10 @@ public class ProfessorDetailsController1 implements Initializable {
         professor.setName("Maria");
         professor.setPaternalSurname("Arenas");
         professor.setPhoneNumber("1234567890");
-        
+        University university = new University();
+        university.setName("Universidad Veracruzana");
+        professor.setUniversity(university);
         initializeTextFields();
-        
     }
 
     @FXML
@@ -85,7 +80,7 @@ public class ProfessorDetailsController1 implements Initializable {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
         } catch (IOException exception) {
-            Log.getLogger(ProfessorDetailsController1.class).error(exception.getMessage(), exception);
+            Log.getLogger(ProfessorDetailsController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -95,6 +90,7 @@ public class ProfessorDetailsController1 implements Initializable {
         maternalSurnameTextField.setText(professor.getMaternalSurname());
         emailTextField.setText(professor.getEmail());
         telefonoTextField.setText(professor.getPhoneNumber());
+        universitiesComboBox.setValue(professor.getUniversity());
     }
 
     private void initializeTextFields() {
@@ -104,21 +100,12 @@ public class ProfessorDetailsController1 implements Initializable {
         emailTextField.setText(professor.getEmail());
         telefonoTextField.setText(professor.getPhoneNumber());
         gendersComboBox.setValue(professor.getGender());
-    }
-
-    private void initializeGenderComboBox(Professor professor) {
-        ArrayList<String> genders = new ArrayList<>();
-        genders.add("Hombre");
-        genders.add("Mujer");
-        genders.add("Otro");
-        gendersComboBox.setItems(FXCollections.observableArrayList(genders));
-        gendersComboBox.setValue(professor.getGender());
+        universitiesComboBox.setValue(professor.getUniversity());
     }
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
         initializeTextFields(professor);
-        initializeGenderComboBox(professor);
-        universitiesComboBox.setValue(professor.getUniversity());
+        
     }
 }

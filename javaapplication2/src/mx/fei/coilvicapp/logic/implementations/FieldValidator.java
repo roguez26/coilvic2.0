@@ -97,7 +97,7 @@ public class FieldValidator {
             }
         }
         throw new IllegalArgumentException("La matricula debe comenzar por S "
-                        + "mayuscula y estar seguida de 8 numeros");
+                + "mayuscula y estar seguida de 8 numeros");
     }
 
     public void checkPassword(String password) {
@@ -109,10 +109,9 @@ public class FieldValidator {
             }
         }
         throw new IllegalArgumentException("La contraseña debe tener las siguientes características:\n"
-                + "1.- Debe contener al menos 8 caracteres.\n"
-                + "2.- Debe contener al menos una letra minúscula.\n"
-                + "3.- Debe contener al menos una letra mayúscula.\n"
-                + "4.- Debe contener al menos un número.\n"
-                + "5.- Debe contener  al menos un carácter especial.");
+                + "1.- Debe contener al menos 8 caracteres (mayúsculas y minúsculas).\n"
+                + "2.- Debe contener  al menos un carácter especial (@, $, !, %, *, ? o &.\n"
+                + "3.- Debe contener al menos un número.\n");
+
     }
 }

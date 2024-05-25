@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.CollaborativeProjectsHistoryController">
    <children>
       <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="106.0" prefWidth="397.0" spacing="70.0">
@@ -16,9 +15,9 @@
             <Label stylesheets="@../../../../../stylesheets/titleLabel.css" text="Historial de Colaboraciones" />
          </children>
       </HBox>
-      <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="494.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
+      <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="534.0" prefWidth="494.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
          <children>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="508.0" prefWidth="438.0">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="482.0" prefWidth="438.0">
                <children>
                   <TableView fx:id="collaborativeProjectsTableView" prefHeight="405.0" prefWidth="438.0" stylesheets="@../../../../../stylesheets/tableview.css">
                     <columns>

@@ -57,7 +57,7 @@
             <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="47.0" prefWidth="345.0" spacing="20.0">
                <children>
                   <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonIsPressed" prefHeight="27.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" />
-                  <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" />
+                  <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" />
                </children>
             </HBox>
          </children>

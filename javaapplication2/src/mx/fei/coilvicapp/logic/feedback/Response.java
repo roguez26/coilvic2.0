@@ -12,10 +12,9 @@ public class Response {
     private Question question;
     private int idStudent;
     private int idCollaborativeProject;
-    private FieldValidator fieldValidator;
 
     public Response() {
-        fieldValidator = new FieldValidator();
+
     }
 
     public int getIdResponse() {
@@ -43,6 +42,7 @@ public class Response {
     }
 
     public void setResponseText(String responseText) {
+        FieldValidator fieldValidator = new FieldValidator();
         fieldValidator.checkLongRange(responseText);
         this.responseText = responseText;
     }
