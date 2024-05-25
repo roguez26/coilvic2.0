@@ -64,8 +64,10 @@ public class Student {
     }
     
     public void setMaternalSurname(String maternalSurname) { 
-        FieldValidator fieldValidator = new FieldValidator();
-        fieldValidator.checkName(name);
+        if(!maternalSurname.isEmpty()) {
+            FieldValidator fieldValidator = new FieldValidator();
+            fieldValidator.checkName(name);
+        }
         this.maternalSurname = maternalSurname;
     }
     
@@ -84,7 +86,7 @@ public class Student {
     }
     
     public void setGender (String gender) {
-        if(gender == null) {
+        if(gender.isEmpty()) {
             throw new IllegalArgumentException("El campo del género no puede ser nulo");
         }
         this.gender = gender;
@@ -95,7 +97,7 @@ public class Student {
     }
     
     public void setLineage (String lineage) {
-        if(lineage == null) {
+        if(lineage.isEmpty()) {
             throw new IllegalArgumentException("El campo del linaje no puede ser nulo");
         }
         this.lineage = lineage;
@@ -136,12 +138,13 @@ public class Student {
                 Objects.equals(maternalSurname, toCompare.getMaternalSurname()) &&
                 Objects.equals(email, toCompare.getEmail()) &&
                 Objects.equals(gender, toCompare.getGender()) &&
-                Objects.equals(lineage, toCompare.getLineage());
+                Objects.equals(lineage, toCompare.getLineage()) &&
+                Objects.equals(university, toCompare.getUniversity());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idStudent, name, paternalSurname, maternalSurname, email, gender, lineage);
+        return Objects.hash(idStudent, name, paternalSurname, maternalSurname, email, gender, lineage, university);
     }
         
 }

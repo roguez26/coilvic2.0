@@ -1,5 +1,6 @@
 package mx.fei.coilvicapp.logic.student;
 
+import java.util.Objects;
 import mx.fei.coilvicapp.logic.academicarea.AcademicArea;
 import mx.fei.coilvicapp.logic.region.Region;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
@@ -74,5 +75,29 @@ public class StudentUV extends Student {
     public int getIdRegion() {
         return region.getIdRegion();
     }
+    
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        if (!super.equals(object)) {
+            return false;
+        }
+
+        StudentUV toCompare = (StudentUV) object;
+        return Objects.equals(enrollment, toCompare.getEnrollment()) &&
+                Objects.equals(academicArea, toCompare.getAcademicArea()) &&
+                Objects.equals(region, toCompare.getRegion());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), enrollment, academicArea, region);
+    }
+
 
 }

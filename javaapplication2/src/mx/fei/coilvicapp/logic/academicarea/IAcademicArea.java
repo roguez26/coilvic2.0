@@ -5,6 +5,7 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 
 public interface IAcademicArea {
     
+    public boolean isThereAtLeastOneAcademicArea() throws DAOException;
     public int registerAcademicArea(AcademicArea academicArea) throws DAOException;
     public int updateAcademicArea(AcademicArea newAcademicAreaInformation) throws DAOException;
     public int deleteAcademicArea(int idAcademicArea) throws DAOException;

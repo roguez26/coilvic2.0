@@ -42,7 +42,6 @@ public class ProfessorMainMenuController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-
     }
 
     @FXML
@@ -76,12 +75,16 @@ public class ProfessorMainMenuController implements Initializable {
 
     @FXML
     void userInformationLabelIsPressed(MouseEvent event) {
-
+        try {
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorValidate");
+        } catch (IOException exception) {
+            Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+        }
     }
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
-        userInformationLabel.setText(professor.toString());
+        userInformationLabel.setText(professor.getName() + " " + professor.getPaternalSurname());
     }
 
 }

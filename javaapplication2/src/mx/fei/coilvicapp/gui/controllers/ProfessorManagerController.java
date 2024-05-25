@@ -5,27 +5,20 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
-import mx.fei.coilvicapp.logic.university.UniversityDAO;
-import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.professor.Professor;
-import mx.fei.coilvicapp.logic.professor.IProfessor;
 import mx.fei.coilvicapp.logic.professor.ProfessorDAO;
-import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
-import mx.fei.coilvicapp.logic.implementations.Status;
 import java.io.IOException;
 import java.util.Optional;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonType;
+import log.Log;
 import main.MainApp;
 
 public class ProfessorManagerController implements Initializable {
@@ -79,11 +72,9 @@ public class ProfessorManagerController implements Initializable {
     }
 
     @FXML
-    private void back(ActionEvent event) throws IOException {
-        if (event.getSource() == backButton) {
-            if (backConfirmation()) {
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");   
-            }            
+    private void backButtonIsPressed(ActionEvent event) throws IOException {
+        if (backConfirmation()) {
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");   
         }
     }
     
@@ -94,13 +85,13 @@ public class ProfessorManagerController implements Initializable {
     }
        
     @FXML
-    private void seeDetails(ActionEvent event) throws IOException {
+    private void seeDetailsButtonIsPressed (ActionEvent event) throws IOException {
         Professor professor = (Professor) professorsTableView.getSelectionModel().getSelectedItem();
         if (professor != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorDetails.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorValidate.fxml"));
             MainApp.changeView(fxmlLoader);
-            ProfessorDetailsController professorDetailsController = fxmlLoader.getController();
-            professorDetailsController.setProfessor(professor);
+            ProfessorValidateController professorValidateController = fxmlLoader.getController();
+            professorValidateController.setProfessor(professor);
         } else {
             
         }
@@ -118,7 +109,7 @@ public class ProfessorManagerController implements Initializable {
         try {
             professors = professorDAO.getAllProfessors();
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorManagerController.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorManagerController.class).error(exception.getMessage(), exception);
         }
         return professors;
     }

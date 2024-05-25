@@ -46,8 +46,8 @@
       </VBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
          <children>
-            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" stylesheets="@../../../../../stylesheets/buttonred.css" text="Cancelar" />
-            <Button fx:id="acceptButton" lineSpacing="40.0" mnemonicParsing="false" onAction="#accept" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonIsPressed" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Cancelar" />
+            <Button fx:id="acceptButton" lineSpacing="40.0" mnemonicParsing="false" onAction="#acceptButtonIsPressed" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" />
          </children>
       </HBox>
    </children>

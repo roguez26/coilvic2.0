@@ -4,16 +4,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
-import mx.fei.coilvicapp.logic.university.IUniversity;
-import mx.fei.coilvicapp.logic.university.UniversityDAO;
-import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.professor.Professor;
-import mx.fei.coilvicapp.logic.professor.IProfessor;
 import mx.fei.coilvicapp.logic.professor.ProfessorDAO;
 import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
@@ -25,12 +19,11 @@ import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonType;
+import log.Log;
+import mx.fei.coilvicapp.logic.implementations.XLSXCreator;
 import main.MainApp;
 
 public class ProfessorRegisterController implements Initializable {
-
-    private UniversityDAO universityDAO;
-    private ProfessorDAO professorDAO;
 
     @FXML
     private TextField nameTextField;
@@ -66,16 +59,31 @@ public class ProfessorRegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Inicializando");
         genderComboBox.setItems(FXCollections.observableArrayList(initializeGendersArrayForComboBox()));
-        universitiesComboBox.setItems(FXCollections.observableArrayList(initializeUniversitiesArrayForComboBox()));
-        
+        universitiesComboBox.setItems(FXCollections.observableArrayList(initializeUniversitiesArrayForComboBox()));     
     }
     
+    private ArrayList<University> initializeUniversitiesArrayForComboBox() {
+        ArrayList<University> universities = new ArrayList<>();
+        try {
+            universities = UNIVERSITY_DAO.getAllUniversities();
+        } catch(DAOException exception) {
+            Log.getLogger(ProfessorRegisterController.class).error(exception.getMessage(), exception);
+        }
+        return universities;
+    }        
+    
+    private ArrayList<String> initializeGendersArrayForComboBox() {
+        ArrayList<String> genders = new ArrayList<>();
+        genders.add("Hombre");
+        genders.add("Mujer");
+        genders.add("Otro");
+        return genders;
+    }    
+    
     @FXML
-    private void cancel(ActionEvent event) throws IOException {
-        if (event.getSource() == cancelButton) {
-            if (confirmCancelation()) {
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
-            }
+    private void cancelButtonIsPressed(ActionEvent event) throws IOException {
+        if (confirmCancelation()) {
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
         }
     }
    
@@ -83,54 +91,36 @@ public class ProfessorRegisterController implements Initializable {
         Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", "¿Deseas cancelar el registro?");
         return (response.get() == DialogController.BUTTON_YES);
     }
-
-    private ArrayList<University> initializeUniversitiesArrayForComboBox() {
-        ArrayList<University> universities = new ArrayList<>();
-        try {
-            universities = UNIVERSITY_DAO.getAllUniversities();
-        } catch(DAOException exception) {
-            Logger.getLogger(ProfessorRegisterController.class.getName()).log(Level.SEVERE, null, exception);
-        }
-        return universities;
-    }
-    
-    private boolean wasRegisteredConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
-        ("Registrado","El profesor se ha registrado con exito");
-        return response.get() == DialogController.BUTTON_ACCEPT;
-    }
-    
-    private boolean emptyFieldsConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
-        ("Campos vacios","Asegurese de llenar todos los campos con *");
-        return response.get() == DialogController.BUTTON_ACCEPT;
-    }
     
     @FXML
-    private void accept(ActionEvent event) throws IOException {
-        if (event.getSource() == acceptButton) {
-            try {
-                invokeProfessorRegistration();
-            } catch (IllegalArgumentException exception) {
-                handleValidationException(exception);
-            } catch (DAOException exception) {
-                handleDAOException(exception);
-            }
-        }
+    private void acceptButtonIsPressed (ActionEvent event) throws IOException {
+        try {
+            invokeProfessorRegistration();
+        } catch (IllegalArgumentException exception) {
+            handleValidationException(exception);
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        } catch (IOException exception) {
+            Log.getLogger(ProfessorRegisterController.class).error(exception.getMessage(), exception);
+        } 
     }
 
     
-    private void invokeProfessorRegistration() throws DAOException {
+    private void invokeProfessorRegistration() throws DAOException, IOException {
+        XLSXCreator xslxCreator = new XLSXCreator();
         if (!fieldsAreEmpty()) {
-            System.out.println("campos no vacios");
-            int idProfessor = PROFESSOR_DAO.registerProfessor(initializeProfessor());
+            Professor professor = initializeProfessor();
+            int idProfessor = PROFESSOR_DAO.registerProfessor(professor);
+            xslxCreator.addProfessorIntoXLSX(professor);
             if(idProfessor > 0) {
-                wasRegisteredConfirmation();
+                DialogController.getInformativeConfirmationDialog
+                    ("Registrado","Se ha registrado su información con éxito, se le notificara cuando se haya validado su información");
                 cleanFields();
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
             }
         } else {
-            System.out.println("campos vacios");
-            emptyFieldsConfirmation();
+            DialogController.getInformativeConfirmationDialog(
+                    "Campos vacios","Asegurese de llenar todos los campos con *");
         }
     }
     
@@ -139,16 +129,11 @@ public class ProfessorRegisterController implements Initializable {
         paternalSurnameTextField.setText("");
         maternalSurnameTextField.setText("");
         emailTextField.setText("");
-        
+        genderComboBox.setValue("");
+        phoneNumberTextField.setText("");
+        universitiesComboBox.setValue(null);             
     }
-    
-    private ArrayList<String> initializeGendersArrayForComboBox() {
-        ArrayList<String> genders = new ArrayList<>();
-        genders.add("Hombre");
-        genders.add("Mujer");
-        genders.add("Otro");
-        return genders;
-    }
+
     
     private boolean fieldsAreEmpty() {
         boolean emptyFieldsCheck = false;
@@ -163,9 +148,8 @@ public class ProfessorRegisterController implements Initializable {
 
         return emptyFieldsCheck;
     }
-
     
-    private Professor initializeProfessor() {
+    private Professor initializeProfessor() throws DAOException{
         Professor professor = new Professor();
         professor.setName(nameTextField.getText());
         professor.setPaternalSurname(paternalSurnameTextField.getText());
@@ -173,7 +157,8 @@ public class ProfessorRegisterController implements Initializable {
         professor.setEmail(emailTextField.getText());
         professor.setGender(genderComboBox.getValue());
         professor.setPhoneNumber(phoneNumberTextField.getText());
-        professor.setIdUniversity(universitiesComboBox.getValue().getIdUniversity());
+        professor.setUniversity(UNIVERSITY_DAO.getUniversityById(
+                universitiesComboBox.getValue().getIdUniversity()));
         return professor;
     }
     
