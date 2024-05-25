@@ -5,7 +5,7 @@
     -fx-font-size: 12px; /* Tamaño de fuente */
     -fx-padding: 5px 10px;
     -fx-background-radius: 13px; /* Bordes redondeados */
-    -fx-min-width: 450px; /* Ancho mínimo del botón */
+   
     -fx-min-height: 26px;
     -fx-font-weight: bold;
 }

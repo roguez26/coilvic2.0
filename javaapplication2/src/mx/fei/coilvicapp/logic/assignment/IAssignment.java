@@ -14,4 +14,5 @@ public interface IAssignment {
     public ArrayList<Assignment> getAssignmentsByIdProjectColaborative(int idColaborativeProject) throws DAOException;
     public int updateAssignment(Assignment assignment, CollaborativeProject collaborativeProject) throws DAOException;
     public int deleteAssignment(int idAssignment, CollaborativeProject collaborativeProject) throws DAOException;
+   
 }

@@ -51,7 +51,7 @@ public class FeedBackRegistrationsTest {
         Response instance = new Response();
         instance.setResponseText(RESPONSE_TEXT);
         instance.setIdCollaborativeProject(AUX_ID_COLLABORATIVE_PROJECT);
-        instance.setIdStudent(AUX_ID_STUDENTE);
+        instance.setIdParticipant(AUX_ID_STUDENTE);
         
         
         try {

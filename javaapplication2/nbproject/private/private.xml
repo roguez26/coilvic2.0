@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/axel_/OneDrive/Escritorio/coilvic/coilvic2.0/javaapplication2/test/unit/test/ProfessorUVDAO/ProfessorUVTest.java</file>
             <file>file:/C:/Users/axel_/OneDrive/Escritorio/coilvic/coilvic2.0/javaapplication2/src/mx/fei/coilvicapp/gui/controllers/ProfessorRegisterController.java</file>
             <file>file:/C:/Users/axel_/OneDrive/Escritorio/coilvic/coilvic2.0/javaapplication2/test/unit/test/ProfessorDAO/ProfessorUserAssignmentTest.java</file>
@@ -11,6 +12,15 @@
             <file>file:/C:/Users/axel_/OneDrive/Escritorio/coilvic/coilvic2.0/javaapplication2/src/main/MainApp.java</file>
             <file>file:/C:/Users/axel_/OneDrive/Escritorio/coilvic/coilvic2.0/javaapplication2/test/unit/test/StudentDAO/StudentUVTest.java</file>
             <file>file:/C:/Users/axel_/OneDrive/Escritorio/coilvic/coilvic2.0/javaapplication2/src/mx/fei/coilvicapp/logic/professor/ProfessorUV.java</file>
+=======
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/InstitutionalRepresentativeDAO/InstitutionalRepresentativeRegistrationTest.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/InstitutionalRepresentativeDAO/InstitutionalRepresentativeUpdateTest.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/InstitutionalRepresentativeDAO/InstitutionalRepresentativeTest.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/CountryDAO/CountryTest.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/InstitutionalRepresentativeDAO/InstitutionalRepresentativeDeleteTest.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/InstitutionalRepresentativeDAO/InstitutionalRepresentativeDAOGettersTest.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/test/unit/test/UniversityDAO/UniversityTest.java</file>
+>>>>>>> 82cf3d34376d5a68539ec3184acfa185b1a0e2b9
         </group>
     </open-files>
 </project-private>

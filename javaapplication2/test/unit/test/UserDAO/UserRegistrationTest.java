@@ -140,7 +140,8 @@ public class UserRegistrationTest {
     @Test
     public void testGetUserByIdSuccess() {
         User auxUser = new User();
-
+        
+        
         try {
             auxUser = USER_DAO.getUserById(TEST_USER.getIdUser());
         } catch (DAOException exception) {

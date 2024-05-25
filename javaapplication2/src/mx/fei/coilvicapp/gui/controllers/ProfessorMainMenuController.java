@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -70,7 +71,14 @@ public class ProfessorMainMenuController implements Initializable {
 
     @FXML
     void projectsButtonIsPressed(ActionEvent event) {
-
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsProfessor.fxml"));
+        try {
+            MainApp.changeView(fxmlLoader);
+            CollaborativeProjectsProfessorController collaborativeProjectsProfessorController = fxmlLoader.getController();
+            collaborativeProjectsProfessorController.setProfessor(professor);
+        } catch (IOException exception) {
+            Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+        }
     }
 
     @FXML

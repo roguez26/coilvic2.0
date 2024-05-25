@@ -85,7 +85,7 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
         universityTwoTableColumn.setCellValueFactory(cellData
                 -> new SimpleStringProperty(cellData.getValue().getRequestedCourse().getProfessor().getUniversity().getName()));
-        if(!collaborativeProjectsList.isEmpty()) {
+        if (!collaborativeProjectsList.isEmpty()) {
             collaborativeProjecsTableView.getItems().addAll(collaborativeProjectsList);
         }
     }
@@ -178,10 +178,6 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
     @FXML
     void searchButtonIsPressed(ActionEvent event) {
-
-    }
-
-    private void goBack() {
 
     }
 

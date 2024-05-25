@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -10,72 +12,77 @@
 
 <VBox fx:id="backgroundVBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.ValidateCollaborativeProjectController">
    <children>
-      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="91.0" prefWidth="772.0">
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="91.0" prefWidth="772.0" spacing="200.0">
          <children>
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonIsPressed" stylesheets="@../../../../../stylesheets/backButton.css" text="❮" />
-         </children></HBox>
-      <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="512.0" prefWidth="598.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
+            <Label fx:id="titleLabel" stylesheets="@../../../../../stylesheets/titleLabel.css" text="Validar Proyecto Colaborativo" />
+            <ImageView fitHeight="46.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../stylesheets/Imagen1.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="502.0" prefWidth="875.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
          <children>
-            <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="102.0" prefWidth="504.0" spacing="70.0">
+            <HBox alignment="BOTTOM_LEFT" spacing="30.0">
                <children>
-                  <Label fx:id="titleLabel" stylesheets="@../../../../../stylesheets/titleLabel.css" text="Validar Proyecto Colaborativo" />
-                  <ImageView fitHeight="46.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../stylesheets/Imagen1.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
-            <VBox alignment="CENTER_LEFT" fillWidth="false" maxWidth="-Infinity" prefHeight="345.0" prefWidth="526.0" spacing="10.0">
-               <children>
-                  <Label fx:id="collaborativeProjectNameLabel" stylesheets="@../../../../../stylesheets/label.css" text="Nombre del Proyecto:" />
-                  <TextField fx:id="collaborativeProjectNameTextField" editable="false" prefHeight="28.0" prefWidth="537.0" stylesheets="@../../../../../stylesheets/textField.css" />
-                  <HBox alignment="CENTER" prefHeight="62.0" prefWidth="550.0">
+                  <VBox alignment="CENTER_LEFT" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="395.0" prefWidth="386.0" spacing="10.0">
                      <children>
-                        <VBox fillWidth="false" prefHeight="62.0" prefWidth="329.0" spacing="10.0">
+                        <Label fx:id="collaborativeProjectNameLabel" stylesheets="@../../../../../stylesheets/label.css" text="Nombre" />
+                        <TextField fx:id="nameTextField" editable="false" prefHeight="28.0" prefWidth="537.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="550.0">
                            <children>
-                              <Label fx:id="professorOneLabel" stylesheets="@../../../../../stylesheets/label.css" text="Profesor 1:" />
-                              <TextField fx:id="professorOneTextField" editable="false" prefHeight="26.0" prefWidth="256.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                              <VBox fillWidth="false" prefHeight="58.0" prefWidth="484.0" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="professorOneLabel" stylesheets="@../../../../../stylesheets/label.css" text="Profesores" />
+                                    <TextField fx:id="professorOneTextField" editable="false" prefHeight="27.0" prefWidth="472.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
-                        <VBox fillWidth="false" prefHeight="114.0" prefWidth="314.0" spacing="10.0">
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="13.0" prefWidth="450.0">
                            <children>
-                              <Label fx:id="universityOneLabel" stylesheets="@../../../../../stylesheets/label.css" text="Universidad 1:" />
-                              <TextField fx:id="universityOneTextField" editable="false" prefHeight="26.0" prefWidth="255.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                              <TextField fx:id="professorTwoTextField" editable="false" prefHeight="27.0" prefWidth="482.0" stylesheets="@../../../../../stylesheets/textField.css" />
                            </children>
-                        </VBox>
+                        </HBox>
+                        
+                        <!-- Additional TextFields and TextAreas -->
+                        <Label fx:id="courseOneLabel" stylesheets="@../../../../../stylesheets/label.css" text="Cursos" />
+                        <TextField fx:id="courseOneTextField" editable="false" prefHeight="28.0" prefWidth="537.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                        <TextField fx:id="courseTwoTextField" editable="false" prefHeight="28.0" prefWidth="537.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                        
+                        <Label fx:id="modalityLabel" stylesheets="@../../../../../stylesheets/label.css" text="Modalidad:" />
+                        <TextField fx:id="modalityTextField" editable="false" prefHeight="28.0" prefWidth="537.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                        
                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="62.0" prefWidth="550.0">
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="369.0" prefWidth="402.0" spacing="10.0">
                      <children>
-                        <VBox fillWidth="false" prefHeight="100.0" prefWidth="306.0" spacing="10.0">
-                           <children>
-                              <Label fx:id="professorTwoLabel" stylesheets="@../../../../../stylesheets/label.css" text="Profesor 2:" />
-                              <TextField fx:id="professorTwoTextField" editable="false" prefHeight="26.0" prefWidth="256.0" stylesheets="@../../../../../stylesheets/textField.css" />
-                           </children>
-                        </VBox>
-                        <VBox fillWidth="false" prefHeight="100.0" prefWidth="294.0" spacing="10.0">
-                           <children>
-                              <Label fx:id="universityTwoLabel" stylesheets="@../../../../../stylesheets/label.css" text="Universidad 2:" />
-                              <TextField fx:id="universityTwoTextField" editable="false" prefHeight="26.0" prefWidth="256.0" stylesheets="@../../../../../stylesheets/textField.css" />
-                           </children>
-                        </VBox>
+                        
+                        <Label fx:id="generalObjectiveLabel" stylesheets="@../../../../../stylesheets/label.css" text="Objetivo General:" />
+                        <TextArea fx:id="generalObjectiveTextArea" editable="false" maxWidth="-Infinity" prefHeight="46.0" prefWidth="461.0" stylesheets="@../../../../../stylesheets/textArea.css" />
+                        
+                        <Label fx:id="descriptionLabel" stylesheets="@../../../../../stylesheets/label.css" text="Descripción:" />
+                        <TextArea fx:id="descriptionTextArea" editable="false" maxHeight="-Infinity" prefHeight="198.0" prefWidth="282.0" stylesheets="@../../../../../stylesheets/textArea.css" />
+                        
+                        <Label fx:id="codeLabel" stylesheets="@../../../../../stylesheets/label.css" text="Código:" />
+                        <TextField fx:id="codeTextField" editable="false" prefHeight="28.0" prefWidth="537.0" stylesheets="@../../../../../stylesheets/textField.css" />
                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="27.0" prefWidth="558.0">
-                     <children>
-                        <Button fx:id="openSyllabusButton" mnemonicParsing="false" onAction="#openSyllabusButtonIsPressed" prefHeight="27.0" prefWidth="518.0" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Ver syllabus" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="42.0" prefWidth="523.0" spacing="15.0">
-               <children>
-                  <Button fx:id="rejectButton" mnemonicParsing="false" onAction="#rejectButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonred.css" text="Rechazar" />
-                  <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" />
+                  </VBox>
                </children>
             </HBox>
          </children>
+         <padding>
+            <Insets left="30.0" />
+         </padding>
       </VBox>
+      <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="78.0" prefWidth="878.0" spacing="15.0">
+         <children>
+            <Button fx:id="openSyllabusButton" mnemonicParsing="false" onAction="#openSyllabusButtonIsPressed" prefHeight="27.0" prefWidth="518.0" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Ver syllabus" />
+            <Button fx:id="rejectButton" mnemonicParsing="false" onAction="#rejectButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonred.css" text="Rechazar" />
+            <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" />
+         </children>
+      </HBox>
    </children>
 </VBox>
