@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package mx.fei.coilvicapp.logic.feedback;
 
 import java.util.ArrayList;
@@ -22,11 +18,15 @@ public interface IFeedback {
     
     public int registerStudentResponses(ArrayList<Response> responses) throws DAOException;
     
+    public int registerProfessorResponses(ArrayList<Response> responses) throws DAOException;
+    
     public int updateQuestionTransaction(Question question) throws DAOException;
     
     public ArrayList<Question> getQuestionByType(String type) throws DAOException;
     
     public boolean areThereStudentQuestions() throws DAOException;
+    
+    public boolean areThereProfessorQuestions() throws DAOException;
     
     public boolean hasCompletedPreForm(Student student, CollaborativeProject collaborativeProject) throws DAOException;
     

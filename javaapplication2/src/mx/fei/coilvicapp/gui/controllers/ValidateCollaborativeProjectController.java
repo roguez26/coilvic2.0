@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import log.Log;
@@ -28,9 +29,24 @@ import mx.fei.coilvicapp.logic.professor.Professor;
  * @author ivanr
  */
 public class ValidateCollaborativeProjectController implements Initializable {
+    
+    @FXML
+    private TextField nameTextField;
+
+    @FXML
+    private Button acceptButton;
+
+    @FXML
+    private Button backButton;
 
     @FXML
     private VBox backgroundVBox;
+
+    @FXML
+    private Label codeLabel;
+
+    @FXML
+    private TextField codeTextField;
 
     @FXML
     private Label collaborativeProjectNameLabel;
@@ -39,14 +55,37 @@ public class ValidateCollaborativeProjectController implements Initializable {
     private TextField collaborativeProjectNameTextField;
 
     @FXML
-    private Button openSyllabusButton;
+    private Label courseOneLabel;
 
     @FXML
-    private Button rejectButton;
+    private TextField courseOneTextField;
+
     @FXML
-    private Button acceptButton;
+    private Label courseTwoLabel;
+
     @FXML
-    private Button backButton;
+    private TextField courseTwoTextField;
+
+    @FXML
+    private Label descriptionLabel;
+
+    @FXML
+    private TextArea descriptionTextArea;
+
+    @FXML
+    private Label generalObjectiveLabel;
+
+    @FXML
+    private TextArea generalObjectiveTextArea;
+
+    @FXML
+    private Label modalityLabel;
+
+    @FXML
+    private TextField modalityTextField;
+
+    @FXML
+    private Button openSyllabusButton;
 
     @FXML
     private Label professorOneLabel;
@@ -59,6 +98,9 @@ public class ValidateCollaborativeProjectController implements Initializable {
 
     @FXML
     private TextField professorTwoTextField;
+
+    @FXML
+    private Button rejectButton;
 
     @FXML
     private Label titleLabel;
@@ -115,10 +157,10 @@ public class ValidateCollaborativeProjectController implements Initializable {
             }
         }
     }
-    
+
     private void wasValidatedConfirmation() {
-         DialogController.getInformativeConfirmationDialog("Proyecto Validado", "El proyecto colaborativo fue validado con éxito");
-         goBack();
+        DialogController.getInformativeConfirmationDialog("Proyecto Validado", "El proyecto colaborativo fue validado con éxito");
+        goBack();
     }
 
     private boolean confirmReject() {
@@ -159,7 +201,7 @@ public class ValidateCollaborativeProjectController implements Initializable {
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-            Log.getLogger(RegisterStudentController.class).error(exception.getMessage(), exception);
+            Log.getLogger(ValidateCollaborativeProjectController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -172,22 +214,29 @@ public class ValidateCollaborativeProjectController implements Initializable {
         } catch (IOException exception) {
             Log.getLogger(LoginParticipantController.class).error(exception.getMessage(), exception);
         }
-
     }
 
-    private void fillTextFields(CollaborativeProject collaborativeProject) {
-        collaborativeProjectNameTextField.setText(collaborativeProject.getName());
-        professorOneTextField.setText(collaborativeProject.getRequestedCourse().getProfessor().getName());
-        professorTwoTextField.setText(collaborativeProject.getRequesterCourse().getProfessor().getName());
-        universityOneTextField.setText(collaborativeProject.getRequestedCourse().getProfessor().getUniversity().getName());
-        universityTwoTextField.setText(collaborativeProject.getRequesterCourse().getProfessor().getUniversity().getName());
-    }
 
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
-        fillTextFields(collaborativeProject);
+        initializeFields(collaborativeProject);
     }
-    
+
+    public void initializeFields(CollaborativeProject collaborativeProject) {
+        if (collaborativeProject != null) {
+            codeTextField.setText(collaborativeProject.getCode());
+            courseOneTextField.setText(collaborativeProject.getRequesterCourse().toString());
+            courseTwoTextField.setText(collaborativeProject.getRequestedCourse().toString());
+            descriptionTextArea.setText(collaborativeProject.getDescription());
+            generalObjectiveTextArea.setText(collaborativeProject.getGeneralObjective());
+            modalityTextField.setText(collaborativeProject.getModality().toString());
+            nameTextField.setText(collaborativeProject.getName());
+            professorOneTextField.setText(collaborativeProject.getRequesterCourse().getProfessor().toString());
+            professorTwoTextField.setText(collaborativeProject.getRequestedCourse().getProfessor().toString());
+        }
+
+    }
+
     private void goBack() {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsManagement");

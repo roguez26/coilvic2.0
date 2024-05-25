@@ -106,7 +106,7 @@ public class FileManager {
         File fileForOpen = new File(filePath);
 
         if (!fileForOpen.exists()) {
-            throw new IllegalArgumentException("El archivo del syllabus ya no existe");
+            throw new IllegalArgumentException("No se encontro el archivo");
         }
 
         if (!Desktop.isDesktopSupported()) {
