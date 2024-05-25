@@ -10,7 +10,7 @@ public class Response {
     private int idResponse = 0;
     private String responseText;
     private Question question;
-    private int idStudent;
+    private int idParticipant;
     private int idCollaborativeProject;
 
     public Response() {
@@ -29,8 +29,8 @@ public class Response {
         return question.getIdQuestion();
     }
 
-    public int getIdStudent() {
-        return idStudent;
+    public int getIdParticipant() {
+        return idParticipant;
     }
 
     public int getIdCollaborativeProject() {
@@ -51,8 +51,8 @@ public class Response {
         this.question.setIdQuestion(idQuestion);
     }
 
-    public void setIdStudent(int idStudent) {
-        this.idStudent = idStudent;
+    public void setIdParticipant(int idStudent) {
+        this.idParticipant = idStudent;
     }
 
     public void setIdCollaborativeProject(int idCollaborativeProject) {
@@ -74,7 +74,7 @@ public class Response {
         Response response = (Response) toCompare;
         return idResponse == response.idResponse &&
                question.equals(toCompare) &&
-               idStudent == response.idStudent &&
+               idParticipant == response.idParticipant &&
                idCollaborativeProject == response.idCollaborativeProject &&
                Objects.equals(responseText, response.responseText);
     }
@@ -85,7 +85,7 @@ public class Response {
         hash = 59 * hash + this.idResponse;
         hash = 59 * hash + Objects.hashCode(this.responseText);
         hash = 59 * hash + Objects.hashCode(this.question);
-        hash = 59 * hash + this.idStudent;
+        hash = 59 * hash + this.idParticipant;
         hash = 59 * hash + this.idCollaborativeProject;
         return hash;
     }
@@ -97,7 +97,7 @@ public class Response {
                 "idResponse=" + idResponse +
                 ", responseText='" + responseText + '\'' +
                 ", idQuestion=" + question +
-                ", idStudent=" + idStudent +
+                ", idStudent=" + idParticipant +
                 ", idCollaborativeProject=" + idCollaborativeProject +
                 '}';
     }

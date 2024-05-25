@@ -38,7 +38,7 @@ public class FeedBackDAOGettersTest {
         REPONSE_FOR_TESTING.setIdResponse(1);
         REPONSE_FOR_TESTING.setResponseText(RESPONSE_TEXT);
         REPONSE_FOR_TESTING.setIdQuestion(ID_QUESTION);
-        REPONSE_FOR_TESTING.setIdStudent(ID_STUDENT);
+        REPONSE_FOR_TESTING.setIdParticipant(ID_STUDENT);
         REPONSE_FOR_TESTING.setIdCollaborativeProject(ID_COLLABORATIVE_PROJECT);
         
         REPONSES_FOR_TESTING.add(REPONSE_FOR_TESTING);

@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
@@ -60,8 +61,8 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
     private final ArrayList<Response> responsesList = new ArrayList<>();
     private int currentQuestion;
     private String questionType;
-    private Professor professor;
-    private Student student;
+    private Professor professor = null;
+    private Student student = null;
     CollaborativeProject collaborativeProject;
 
     @Override
@@ -91,7 +92,7 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
         for (int i = 0; i < questionsList.size(); i++) {
             Response response = new Response();
             response.setQuestion(questionsList.get(i));
-            response.setIdStudent(idParticipant);
+            response.setIdParticipant(idParticipant);
             response.setIdCollaborativeProject(collaborativeProject.getIdCollaborativeProject());
             responsesList.add(response);
         }
@@ -118,6 +119,9 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
                 if (student != null) {
                     FEEDBACK_DAO.registerStudentResponses(responsesList);
                     changeToCollaborativeProjectDetailsStudent();
+                } else if (professor != null) {
+                    FEEDBACK_DAO.registerProfessorResponses(responsesList);
+                    closeWindow();
                 }
             }
         } catch (DAOException exception) {
@@ -132,6 +136,8 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
         if (cancelConfirmation()) {
             if (student != null) {
                 changeToCollaborativeProjectDetailsStudent();
+            } else if (professor != null) {
+                closeWindow();
             }
         }
     }
@@ -185,6 +191,8 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
                 case ERROR -> {
                     if (student != null) {
                         changeToCollaborativeProjectDetailsStudent();
+                    } else if (professor != null) {
+                        closeWindow();
                     }
                 }
                 case FATAL ->
@@ -205,7 +213,11 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
         } catch (IOException exception) {
             Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(exception.getMessage(), exception);
         }
+    }
 
+    private void closeWindow() {
+        Stage stage = (Stage) finishButton.getScene().getWindow();
+        stage.close();
     }
 
     public void setStudent(Student student) {
@@ -218,6 +230,7 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
     }
 
     public void setProfessor(Professor professor) {
+        System.out.println(professor.getName());
         this.professor = professor;
     }
 

@@ -48,8 +48,8 @@ public class ProfessorUserAssignmentTest {
     @Test
     public void testUserRegistration() {
         int result = 0;
-        String password = "rHRJFfff334$$$!";
-        PROFESSOR_FOR_TESTING.setIdProfessor(6);
+        String password = "Contra123!";
+        PROFESSOR_FOR_TESTING.setIdProfessor(2);
         try {
             result = PROFESSOR_DAO.assignUser(PROFESSOR_FOR_TESTING, password);
         } catch (DAOException exception) {

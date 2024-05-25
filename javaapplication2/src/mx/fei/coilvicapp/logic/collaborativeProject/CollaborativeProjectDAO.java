@@ -156,7 +156,7 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
             throw new DAOException("No hay proyectos colaborativos rechazados", Status.WARNING);
         }
     }
-    
+
     @Override
     public ArrayList<CollaborativeProject> getAllFinishedCollaborativeProjects() throws DAOException {
         ArrayList<CollaborativeProject> collaborativeProjects;
@@ -459,15 +459,20 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
         int result = -1;
 
         if (collaborativeProject.getStatus().equals("Aceptado")) {
-            if (countAssigments(collaborativeProject) >= 3) {
-                result = updateCollaborativeProjectStatusByCollaborativeProject(collaborativeProject, "Finalizado");
-            } else {
-                throw new DAOException("No puede finalizar un proyecto colaborativo con menos de tres actividades", Status.WARNING);
-            }
+            result = updateCollaborativeProjectStatusByCollaborativeProject(collaborativeProject, "Finalizado");
         } else {
             throw new DAOException("No puede finalizar un proyecto colaborativo que no fue aceptado", Status.WARNING);
         }
         return result;
+    }
+
+    @Override
+    public boolean hasThreeActivitiesAtLeast(CollaborativeProject collaborativeProject) throws DAOException{
+        if (countAssigments(collaborativeProject) >= 3) {
+            return true;
+        } else {
+            throw new DAOException("No puede finalizar un proyecto colaborativo con menos de tres actividades", Status.WARNING);
+        }
     }
 
     private int countAssigments(CollaborativeProject collaborativeProject) throws DAOException {
