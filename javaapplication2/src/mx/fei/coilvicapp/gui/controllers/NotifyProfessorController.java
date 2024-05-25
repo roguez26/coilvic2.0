@@ -142,7 +142,6 @@ public class NotifyProfessorController implements Initializable {
     }
 
     private void goBack() {
-       // FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/" + lastView + ".fxml"));
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/" + lastView);
         } catch (IOException exception) {

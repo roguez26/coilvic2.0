@@ -5,7 +5,10 @@
 package mx.fei.coilvicapp.logic.feedback;
 
 import java.util.ArrayList;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
+import mx.fei.coilvicapp.logic.professor.Professor;
+import mx.fei.coilvicapp.logic.student.Student;
 
 /**
  *
@@ -25,4 +28,9 @@ public interface IFeedback {
     
     public boolean areThereStudentQuestions() throws DAOException;
     
+    public boolean hasCompletedPreForm(Student student, CollaborativeProject collaborativeProject) throws DAOException;
+    
+    public boolean hasCompletedPostForm(Student student, CollaborativeProject collaborativeProject) throws DAOException;
+    
+    public boolean hasCompletedProfessorForm(Professor professor, CollaborativeProject collaborativeProject) throws DAOException;
 }

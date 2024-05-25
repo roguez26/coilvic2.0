@@ -6,6 +6,7 @@ import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.user.User;
 
 public class Professor {
+
     private int idProfessor = 0;
     private String name;
     private String paternalSurname;
@@ -16,11 +17,11 @@ public class Professor {
     private String state;
     private University university;
     private User user;
-    
+
     public Professor() {
         university = new University();
     }
-    
+
     public Professor(String name, String paternalSurname, String maternalSurname,
             String email, String gender, String phoneNumber) {
         this.name = name;
@@ -30,7 +31,7 @@ public class Professor {
         this.gender = gender;
         this.phoneNumber = phoneNumber;
     }
-    
+
     public int getIdProfessor() {
         return idProfessor;
     }
@@ -38,7 +39,7 @@ public class Professor {
     public void setIdProfessor(int idProfessor) {
         this.idProfessor = idProfessor;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -86,7 +87,7 @@ public class Professor {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {        
+    public void setPhoneNumber(String phoneNumber) {
         FieldValidator fieldValidator = new FieldValidator();
         fieldValidator.checkPhoneNumber(phoneNumber);
         this.phoneNumber = phoneNumber;
@@ -99,31 +100,31 @@ public class Professor {
     public void setState(String state) {
         this.state = state;
     }
-    
+
     public void setUniversity(University university) {
         this.university = university;
     }
-    
+
     public University getUniversity() {
         return university;
     }
-    
+
     public void setIdUniversity(int idUniversity) {
         this.university.setIdUniversity(idUniversity);
     }
-    
+
     public int getIdUniversity() {
         return university.getIdUniversity();
     }
-    
+
     public User getUser() {
         return user;
     }
-    
+
     public void setUser(User user) {
         this.user = user;
     }
-    
+
     @Override
     public boolean equals(Object object) {
         if (object == null || getClass() != object.getClass()) {
@@ -134,19 +135,24 @@ public class Professor {
         }
 
         Professor toCompare = (Professor) object;
-        return idProfessor == toCompare.getIdProfessor() &&
-                Objects.equals(name, toCompare.getName()) &&
-                Objects.equals(paternalSurname, toCompare.getPaternalSurname()) &&
-                Objects.equals(maternalSurname, toCompare.getMaternalSurname()) &&
-                Objects.equals(email, toCompare.getEmail()) &&
-                Objects.equals(gender, toCompare.getGender()) &&
-                Objects.equals(phoneNumber, toCompare.getPhoneNumber()) &&
-                Objects.equals(state, toCompare.getState());
+        return idProfessor == toCompare.getIdProfessor()
+                && Objects.equals(name, toCompare.getName())
+                && Objects.equals(paternalSurname, toCompare.getPaternalSurname())
+                && Objects.equals(maternalSurname, toCompare.getMaternalSurname())
+                && Objects.equals(email, toCompare.getEmail())
+                && Objects.equals(gender, toCompare.getGender())
+                && Objects.equals(phoneNumber, toCompare.getPhoneNumber())
+                && Objects.equals(state, toCompare.getState());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(idProfessor, name, paternalSurname, maternalSurname, email, gender, phoneNumber, state);
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + paternalSurname + " " + maternalSurname;
     }
 
 }

@@ -8,8 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import log.Log;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
+import mx.fei.coilvicapp.logic.professor.Professor;
+import mx.fei.coilvicapp.logic.student.Student;
 
 /**
  *
@@ -31,6 +34,52 @@ public class FeedbackDAO implements IFeedback {
             throw new DAOException("La pregunta ya se encuentra registrada", Status.WARNING);
         }
         return false;
+    }
+
+    @Override
+    public boolean hasCompletedPreForm(Student student, CollaborativeProject collaborativeProject) throws DAOException {
+        return checkIsFormDone(student.getIdStudent(), collaborativeProject.getIdCollaborativeProject(), "Estudiante-PRE");
+    }
+
+    @Override
+    public boolean hasCompletedPostForm(Student student, CollaborativeProject collaborativeProject) throws DAOException {
+        return checkIsFormDone(student.getIdStudent(), collaborativeProject.getIdCollaborativeProject(), "Estudiante-POST");
+    }
+
+    @Override
+    public boolean hasCompletedProfessorForm(Professor professor, CollaborativeProject collaborativeProject) throws DAOException {
+        return checkIsFormDone(professor.getIdProfessor(), collaborativeProject.getIdCollaborativeProject(), "Profesor");
+    }
+
+    private boolean checkIsFormDone(int idParticipant, int idCollaborativeProject, String type) throws DAOException {
+        boolean result = false;
+        String tableName = "RespuestaEstudiante";
+        String idType = "idEstudiante";
+
+        if (type.equals("Profesor")) {
+            tableName = "RespuestaProfessor";
+            idType = "idProfesor";
+        }
+
+        String statement = "SELECT 1 FROM " + tableName + " re "
+                + "JOIN Pregunta p ON re.idPregunta = p.idPregunta "
+                + "WHERE " + idType + " = ? "
+                + "AND re.idProyectoColaborativo = ? "
+                + "AND p.tipo = ? "
+                + "LIMIT 1";
+
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+            preparedStatement.setInt(1, idParticipant);
+            preparedStatement.setInt(2, idCollaborativeProject);
+            preparedStatement.setString(3, type);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                result = resultSet.next();
+            }
+        } catch (SQLException exception) {
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible hacer la verificacion", Status.ERROR);
+        }
+        return result;
     }
 
     @Override

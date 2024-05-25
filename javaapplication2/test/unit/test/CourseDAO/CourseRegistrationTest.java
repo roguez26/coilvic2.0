@@ -20,7 +20,7 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 
-public class CourseDAORegistrationTest {
+public class CourseRegistrationTest {
     
     private static final CourseDAO COURSE_DAO = new CourseDAO();
     private static final Course COURSE_FOR_TESTING = new Course();
@@ -67,7 +67,7 @@ public class CourseDAORegistrationTest {
             idLanguage = LANGUAGE_DAO.registerLanguage(AUX_LANGUAGE);
             idTerm = TERM_DAO.registerTerm(AUX_TERM);                                          
         } catch (DAOException exception) {
-            Logger.getLogger(CourseDAORegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(CourseRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         AUX_COUNTRY.setIdCountry(idCountry);
         AUX_UNIVERSITY.setIdUniversity(idUniversity);
@@ -141,7 +141,7 @@ public class CourseDAORegistrationTest {
         try {
             idAuxCourse = COURSE_DAO.registerCourse(AUX_COURSE); 
         } catch (DAOException exception) {
-            Logger.getLogger(CourseDAORegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(CourseRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         return idAuxCourse;
     }
@@ -154,7 +154,7 @@ public class CourseDAORegistrationTest {
             result = COURSE_DAO.registerCourse(COURSE_FOR_TESTING);
             COURSE_FOR_TESTING.setIdCourse(result);
         } catch (DAOException exception) {
-            Logger.getLogger(CourseDAORegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(CourseRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }        
         assertTrue(result > 0);     
     }
@@ -166,7 +166,7 @@ public class CourseDAORegistrationTest {
         try {
             result = COURSE_DAO.registerCourse(COURSE_FOR_TESTING);            
         } catch (DAOException exception) {
-            Logger.getLogger(CourseDAORegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(CourseRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());
         }
         COURSE_FOR_TESTING.setIdCourse(result);
@@ -183,7 +183,7 @@ public class CourseDAORegistrationTest {
         try {
             result = COURSE_DAO.registerCourse(COURSE_FOR_TESTING);            
         } catch(DAOException exception) {
-            Logger.getLogger(CourseDAORegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(CourseRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());
         }        
         COURSE_FOR_TESTING.setIdCourse(result);        
@@ -201,7 +201,7 @@ public class CourseDAORegistrationTest {
         try {
             result = COURSE_DAO.registerCourse(COURSE_FOR_TESTING);            
         } catch(DAOException exception) {
-            Logger.getLogger(CourseDAORegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(CourseRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());
         }        
         COURSE_FOR_TESTING.setIdCourse(result);
@@ -220,7 +220,7 @@ public class CourseDAORegistrationTest {
             //LANGUAGE_DAO.deleteLanguage(AUX_LANGUAGE.getIdLanguage());
             //TERM_DAO.deleteTerm(AUX_TERM.getIdTerm());
         } catch (DAOException exception) {
-            Logger.getLogger(CourseDAORegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(CourseRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }
     }
 }
