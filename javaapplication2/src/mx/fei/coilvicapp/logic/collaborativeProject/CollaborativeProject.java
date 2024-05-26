@@ -103,6 +103,4 @@ public class CollaborativeProject {
     public void setSyllabusPath(String syllabusPath) {
         this.syllabusPath = syllabusPath;
     }
-    
-    
 }

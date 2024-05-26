@@ -1,6 +1,5 @@
 package mx.fei.coilvicapp.logic.collaborativeproject;
 
-
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
@@ -58,7 +57,7 @@ public class CollaborativeProjectDAO implements ICollaborativeProject{
         String statement = "INSERT INTO ProyectoColaborativo"
         + " (idCursoSolicitante, idCursoSolicitado, idModalidad,"
         + " nombre, descripcion, objetivoGeneral, codigo, rutaSyllabus)"
-        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";        
+        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";        
         int result = -1;
         
         try {
@@ -116,7 +115,6 @@ public class CollaborativeProjectDAO implements ICollaborativeProject{
             collaborativeProject.setGeneralObjective(resultSet.getString("objetivoGeneral"));       
             collaborativeProject.setCode(resultSet.getString("codigo"));
             collaborativeProject.setSyllabusPath(resultSet.getString("rutaSyllabus"));
-            
         } catch (SQLException exception) {
             Logger.getLogger(CollaborativeProjectDAO.class.getName()).log(Level.SEVERE, null, exception);            
         }
@@ -187,7 +185,7 @@ public class CollaborativeProjectDAO implements ICollaborativeProject{
     }
     
     @Override
-    public ArrayList<CollaborativeProject> getPendingCollaborativeProjectsByProfessor(int idProfessor, String status) throws DAOException {
+    public ArrayList<CollaborativeProject> getPendingCollaborativeProjectsByProfessor(int idProfessor) throws DAOException {
         ArrayList<CollaborativeProject> collaborativeProjects;
         collaborativeProjects = getCollaborativeProjectsByidProfessorAndStatus(idProfessor, "Pendiente");
         
@@ -199,7 +197,70 @@ public class CollaborativeProjectDAO implements ICollaborativeProject{
     }
     
     @Override
-    public ArrayList<CollaborativeProject> getAcceptedCollaborativeProjectsByProfessor(int idProfessor, String status) throws DAOException {
+    public ArrayList<CollaborativeProject> getCollaborativeProjectsByProfessor(int idProfessor) throws DAOException {
+        ArrayList<CollaborativeProject> collaborativeProjects;
+        collaborativeProjects = getCollaborativeProjectsByidProfessor(idProfessor);
+        
+        if (!collaborativeProjects.isEmpty()) {
+            return collaborativeProjects;
+        } else {
+            throw new DAOException("No hay registros de proyecto colaborativo", Status.WARNING);
+        }
+    }
+    
+    private ArrayList<CollaborativeProject> getCollaborativeProjectsByidProfessor(int idProfessor) throws DAOException {
+        ArrayList<CollaborativeProject> collaborativeProjects = new ArrayList<>();
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String statement = "SELECT ProyectoColaborativo.*"
+        + " FROM ProyectoColaborativo"
+        + " LEFT JOIN Curso AS CursoSolicitante ON"
+        + " ProyectoColaborativo.idCursoSolicitante = CursoSolicitante.idCurso"
+        + " LEFT JOIN Profesor AS ProfesorSolicitante ON"
+        + " CursoSolicitante.idProfesor = ProfesorSolicitante.idProfesor"
+        + " LEFT JOIN Curso AS CursoSolicitado ON"
+        + " ProyectoColaborativo.idCursoSolicitado = CursoSolicitado.idCurso"
+        + " LEFT JOIN Profesor AS ProfesorSolicitado ON"
+        + " CursoSolicitado.idProfesor = ProfesorSolicitado.idProfesor"
+        + " WHERE ProfesorSolicitante.idProfesor = ? OR ProfesorSolicitado.idProfesor = ?";
+        
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
+            
+            preparedStatement.setInt(1,idProfessor);
+            preparedStatement.setInt(2,idProfessor);            
+            
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                collaborativeProjects.add(initializeCollaborativeProject(resultSet));
+            }
+        } catch (SQLException exception) {
+            Logger.getLogger(CollaborativeProjectDAO.class.getName()).log(Level.SEVERE, null, exception);
+            throw new DAOException("No fue posible recuperar los proyectos colaborativos", Status.WARNING);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException exception){
+                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+            }
+        }
+        return collaborativeProjects;
+    }
+    
+    
+    @Override
+    public ArrayList<CollaborativeProject> getAcceptedCollaborativeProjectsByProfessor(int idProfessor) throws DAOException {
         ArrayList<CollaborativeProject> collaborativeProjects;
         collaborativeProjects = getCollaborativeProjectsByidProfessorAndStatus(idProfessor, "Aceptado");
         
@@ -211,7 +272,7 @@ public class CollaborativeProjectDAO implements ICollaborativeProject{
     }
     
     @Override 
-    public ArrayList<CollaborativeProject> getRejectedCollaborativeProjectsByProfessor(int idProfessor, String status) throws DAOException {
+    public ArrayList<CollaborativeProject> getRejectedCollaborativeProjectsByProfessor(int idProfessor) throws DAOException {
         ArrayList<CollaborativeProject> collaborativeProjects;
         collaborativeProjects = getCollaborativeProjectsByidProfessorAndStatus(idProfessor, "Rechazado");
         
@@ -223,7 +284,7 @@ public class CollaborativeProjectDAO implements ICollaborativeProject{
     }
     
     @Override
-    public ArrayList<CollaborativeProject> getFinishedCollaborativeProjectsByProfessor(int idProfessor, String status) throws DAOException {
+    public ArrayList<CollaborativeProject> getFinishedCollaborativeProjectsByProfessor(int idProfessor) throws DAOException {
         ArrayList<CollaborativeProject> collaborativeProjects;
         collaborativeProjects = getCollaborativeProjectsByidProfessorAndStatus(idProfessor, "Finalizado");
         

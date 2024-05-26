@@ -27,6 +27,13 @@ public class CollaborativeProjectRequest {
     }
     
     public void setRequesterCourse(Course requesterCourse) {
+        if (requesterCourse == null) {
+            throw new IllegalArgumentException("Debe sleecionar uno de sus cursos para enviar la solicitud");
+        }
+        if (requestedCourse != null && requesterCourse.getProfessor().getIdProfessor() == 
+        requestedCourse.getProfessor().getIdProfessor()) {
+            throw new IllegalArgumentException("No puede enviar una solicitud a si mismo");
+        }
         this.requesterCourse = requesterCourse;
     }
     
@@ -35,6 +42,13 @@ public class CollaborativeProjectRequest {
     }
     
     public void setRequestedCourse(Course requestedCourse) {
+        if (requestedCourse == null) {
+            throw new IllegalArgumentException("Debe sleecionar un curso al que enviar solicitud");
+        }
+        if (requesterCourse != null && requestedCourse.getProfessor().getIdProfessor() == 
+        requesterCourse.getProfessor().getIdProfessor()) {
+            throw new IllegalArgumentException("No puede enviar una solicitud a si mismo");
+        }
         this.requestedCourse = requestedCourse;
     }
     

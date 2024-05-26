@@ -127,7 +127,7 @@ public class LoginParticipantController implements Initializable {
 
         MainApp.changeView(fxmlLoader);
         RegisterCourseController collaborativeProjectDetailsStudentController = fxmlLoader.getController();
-        collaborativeProjectDetailsStudentController.setProfessorSesion(professor);
+        collaborativeProjectDetailsStudentController.setProfessor(professor);
 
         }
     }

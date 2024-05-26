@@ -143,10 +143,14 @@ public class Professor {
                 Objects.equals(phoneNumber, toCompare.getPhoneNumber()) &&
                 Objects.equals(state, toCompare.getState());
     }
+    
+    @Override
+    public String toString() {
+        return name +" "+ paternalSurname +" "+ maternalSurname;
+    }
 
     @Override
     public int hashCode() {
         return Objects.hash(idProfessor, name, paternalSurname, maternalSurname, email, gender, phoneNumber, state);
     }
-
 }

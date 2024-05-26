@@ -16,8 +16,8 @@ public class DatabaseManager {
 
     private Connection connection;
     private static final String DATABASE_URL = "jdbc:mysql://127.0.0.1/coilvicdb";
-    private static final String DATABASE_USER = "vic";
-    private static final String DATABASE_PASSWORD = "vic123";
+    private static final String DATABASE_USER = "root";
+    private static final String DATABASE_PASSWORD = "MontielAcosta03";
 
     public DatabaseManager() {
 

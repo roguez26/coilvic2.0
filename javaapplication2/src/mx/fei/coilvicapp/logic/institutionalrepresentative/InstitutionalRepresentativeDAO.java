@@ -1,4 +1,4 @@
-package mx.fei.coilvicapp.logic.institutionalRepresentative;
+package mx.fei.coilvicapp.logic.institutionalrepresentative;
 
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.implementations.DAOException;

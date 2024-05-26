@@ -174,7 +174,7 @@ public class ProfessorDAO implements IProfessor {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String statement = "SELECT * FROM profesor WHERE idProfesor = ?";
+        String statement = "SELECT * FROM Profesor WHERE idProfesor = ?";
 
         try {
             connection = databaseManager.getConnection();

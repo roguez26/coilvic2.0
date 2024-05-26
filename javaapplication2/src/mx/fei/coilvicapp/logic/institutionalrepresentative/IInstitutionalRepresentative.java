@@ -1,4 +1,4 @@
-package mx.fei.coilvicapp.logic.institutionalRepresentative;
+package mx.fei.coilvicapp.logic.institutionalrepresentative;
 
 import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;

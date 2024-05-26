@@ -65,7 +65,7 @@ public class CollaborativeProjectsHistoryController implements Initializable {
         ArrayList<CollaborativeProject> collaborativeProjectList = new ArrayList<>();
 
         try {
-            collaborativeProjectList = COLLABORATIVE_PROJECT_DAO.getFinishedCollaborativeProjectsByProfessor(professor.getIdProfessor(), "Finalizado");
+            collaborativeProjectList = COLLABORATIVE_PROJECT_DAO.getFinishedCollaborativeProjectsByProfessor(professor.getIdProfessor());
         } catch (DAOException exception) {
             Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), exception);
         }
