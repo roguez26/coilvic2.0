@@ -47,4 +47,9 @@ public class AcademicArea {
         return Objects.hash(idAreaAcademica, name);
     }
     
+    @Override
+    public String toString() {
+        return name;
+    }
+    
 }

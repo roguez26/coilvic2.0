@@ -115,7 +115,6 @@ public class RegionDAO implements IRegion {
     @Override
     public ArrayList<Region> getRegions() throws DAOException {
         ArrayList<Region> regions = new ArrayList<>();
-        Region region = new Region();
         DatabaseManager databaseManager = new DatabaseManager();    
         String statement = "SELECT * FROM region";
         
@@ -123,6 +122,7 @@ public class RegionDAO implements IRegion {
             PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
+                    Region region = new Region();                    
                     region.setIdRegion(resultSet.getInt("idRegion"));
                     region.setName(resultSet.getString("nombre"));
                     regions.add(region);

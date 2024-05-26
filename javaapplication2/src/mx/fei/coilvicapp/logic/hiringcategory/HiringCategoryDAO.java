@@ -115,14 +115,14 @@ public class HiringCategoryDAO implements IHiringCategory{
     @Override
     public ArrayList<HiringCategory> getHiringCategories() throws DAOException {
         ArrayList<HiringCategory> hiringCategories = new ArrayList<>();
-        HiringCategory hiringCategory = new HiringCategory();
         DatabaseManager databaseManager = new DatabaseManager();
         String statement = "SELECT * FROM categoriacontratación";
         
         try (Connection connection = databaseManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
+                while (resultSet.next()) {                    
+                    HiringCategory hiringCategory = new HiringCategory();
                     hiringCategory.setIdHiringCategory(resultSet.getInt("idCategoriaContratación"));
                     hiringCategory.setName(resultSet.getString("nombre"));
                     hiringCategories.add(hiringCategory);

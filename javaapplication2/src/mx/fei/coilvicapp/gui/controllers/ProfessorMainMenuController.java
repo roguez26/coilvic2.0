@@ -84,7 +84,14 @@ public class ProfessorMainMenuController implements Initializable {
     @FXML
     void userInformationLabelIsPressed(MouseEvent event) {
         try {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorValidate");
+            if (professor != null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorValidate.fxml"));
+                MainApp.changeView(fxmlLoader);
+                ProfessorValidateController professorValidateController = fxmlLoader.getController();
+                professorValidateController.setProfessorForUpdate(professor);
+            } else {
+                System.out.println("NUlO");
+            }   
         } catch (IOException exception) {
             Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
         }

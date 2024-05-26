@@ -115,8 +115,7 @@ public class AcademicAreaDAO implements IAcademicArea{
     
     @Override
     public ArrayList<AcademicArea> getAcademicAreas() throws DAOException {
-        ArrayList<AcademicArea> academicAreas = new ArrayList<>();
-        AcademicArea academicArea = new AcademicArea();
+        ArrayList<AcademicArea> academicAreas = new ArrayList<>();        
         DatabaseManager databaseManager = new DatabaseManager();      
         String statement = "SELECT * FROM AreaAcademica";
         
@@ -124,6 +123,7 @@ public class AcademicAreaDAO implements IAcademicArea{
             PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
+                    AcademicArea academicArea = new AcademicArea();
                     academicArea.setIdAreaAcademica(resultSet.getInt("idAreaAcademica"));
                     academicArea.setName(resultSet.getString("nombre"));
                     academicAreas.add(academicArea);

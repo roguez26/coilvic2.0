@@ -107,7 +107,6 @@ public class ProfessorDAO implements IProfessor {
         int idProfessor = -1;
         String statement = "{CALL registrar_profesor_uv(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         DatabaseManager databaseManager = new DatabaseManager();
-        System.out.println(professorUV.toString());
         try (Connection connection = databaseManager.getConnection();
                 CallableStatement callableStatement = connection.prepareCall(statement)) {
             callableStatement.setString(1, professorUV.getName());
@@ -474,7 +473,8 @@ public class ProfessorDAO implements IProfessor {
     
     private Professor initializeProfessor(ResultSet resultSet) throws SQLException {        
         Professor professor = new Professor();
-        UniversityDAO universityDAO = new UniversityDAO();
+        UniversityDAO universityDAO = new UniversityDAO();        
+        UserDAO userDAO = new UserDAO();
         
         professor.setIdProfessor(resultSet.getInt("idProfesor"));
         professor.setName(resultSet.getString("nombre"));
@@ -485,11 +485,15 @@ public class ProfessorDAO implements IProfessor {
         professor.setPhoneNumber(resultSet.getString("telefono"));
         professor.setState(resultSet.getString("estado"));
         int idUniversity = resultSet.getInt("IdUniversidad");
+        int idUser = resultSet.getInt("idUsuario");
+        System.out.println(idUser);
         try {
+            professor.setUser(userDAO.getUserById(idUser));
             professor.setUniversity(universityDAO.getUniversityById(idUniversity));
         } catch (DAOException exception) {
             Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
         }
+        System.out.println(professor.getUser().getPassword() + " DAO");
         return professor;  
     }
     

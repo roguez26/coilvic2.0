@@ -149,5 +149,5 @@ public class Professor {
     public int hashCode() {
         return Objects.hash(idProfessor, name, paternalSurname, maternalSurname, email, gender, phoneNumber, state);
     }
-
+    
 }

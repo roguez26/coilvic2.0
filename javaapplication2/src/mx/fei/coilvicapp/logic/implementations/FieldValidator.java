@@ -16,6 +16,7 @@ public class FieldValidator {
     private final String LONG_RANGE = "^.{3,255}$";
     private final String PHONE_NUMBER_REGEX = "^\\d{10}$";
     private final String ENROLLMENT_REGEX = "^S\\d{8}$";
+    private final String UV_PERSONAL_NUMBER = "^\\d{5}$";
 
     public void checkEmail(String eMail) {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
@@ -112,6 +113,19 @@ public class FieldValidator {
                 + "1.- Debe contener al menos 8 caracteres (mayúsculas y minúsculas).\n"
                 + "2.- Debe contener  al menos un carácter especial (@, $, !, %, *, ? o &.\n"
                 + "3.- Debe contener al menos un número.\n");
-
     }
+    
+    public void checkUvPersonalNumber(int uvPersonalNumber) {
+        String uvString = String.valueOf(uvPersonalNumber);
+        Pattern pattern = Pattern.compile(UV_PERSONAL_NUMBER);
+        if (uvString != null) {
+            Matcher matcher = pattern.matcher(uvString);
+            if (matcher.matches()) {
+                return;
+            }
+        }
+        throw new IllegalArgumentException("El numero de personal UV debe tener las siguientes caracteristicas:\n"
+                + "1.- Debe contener 5 numeros.\n");
+    }    
+    
 }

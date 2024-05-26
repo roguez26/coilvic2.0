@@ -19,8 +19,16 @@ import java.io.IOException;
 import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.input.MouseEvent;
+import log.Log;
 import main.MainApp;
+import mx.fei.coilvicapp.logic.implementations.Status;
+import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
+import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
 public class ProfessorValidateController implements Initializable {
 
@@ -46,20 +54,35 @@ public class ProfessorValidateController implements Initializable {
     private TextField telefonoTextField;
     
     @FXML
+    private Label universityLabel;    
+    
+    @FXML
     private ComboBox<University> universitiesComboBox;    
     
     @FXML
-    private Button updateProfessorButton;
+    private Label passwordLabel;    
     
     @FXML
-    private Button cancelButton;
+    private PasswordField identifierPasswordField;
     
     @FXML
-    private Button validateButton;
+    private Button showButton;    
     
     @FXML
-    private Button updateButton;    
+    private Button rejectButton;   
+
+    @FXML
+    private Button cancelButton;    
     
+    @FXML
+    private Button updateButton;   
+    
+    @FXML
+    private Button saveButton;    
+    
+    @FXML
+    private Button acceptButton;      
+
     @FXML
     private Professor professor;
     
@@ -71,35 +94,84 @@ public class ProfessorValidateController implements Initializable {
     }
     
     @FXML
-    private void back(ActionEvent event) throws IOException {
-        if (event.getSource() == backButton) {
-            if (backConfirmation()) {
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");   
-            }            
-        }
+    private void backButtonIsPressed(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
+        if (backConfirmation()) {
+            try {   
+                MainApp.changeView(fxmlLoader);
+                ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
+                professorMainMenuController.setProfessor(professor);
+            } catch (IOException exception) {
+                Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
+            }
+        }            
+    }  
+    
+    @FXML
+    private void rejectButtonIsPressed(ActionEvent event) throws  IOException {
+        
     }
     
     @FXML
-    private boolean backConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar a la ventana profesores", "¿Deseas regresar a la ventana profesores?");
-        return (response.get() == DialogController.BUTTON_YES);
-    }    
+    private void cancelButtonIsPressed(ActionEvent event) throws IOException {
+        if(cancelConfirmation()) {
+            changeComponentsEditabilityFalseForUpdate();
+            initializeTextFields();
+        } 
+    }      
         
     @FXML
-    private void updateProfessor(ActionEvent event) throws IOException {
-        if (event.getSource() == updateProfessorButton) {
-            changeComponentsEditabilityTrue();
+    private void updateButtonIsPressed(ActionEvent event) throws IOException {
+        changeComponentsEditabilityTrueForUpdate();
+    } 
+    
+    @FXML
+    private void saveButtonIsPressed(ActionEvent event) {
+        int rowsAffected = -1;
+        if(updateConfirmation()) {
+            try {
+                rowsAffected = professorDAO.updateProfessor(initializeProfessor());
+            } catch (DAOException exception) {
+                handleDAOException(exception);
+                Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
+            }      
         }
+        if (rowsAffected > 0) {
+            if (wasUpdatedConfirmation()) {
+                try {   
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
+                } catch (IOException exception) {
+                    Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
+                }
+            } else {
+                wasNotUpdatedConfirmation();
+            }
+        } 
+    } 
+
+    @FXML
+    private void acceptButtonIsPressed(ActionEvent event) {
+        
     }
     
-    private void changeComponentsEditabilityTrue() {
-        updateProfessorButton.setVisible(false);
-        validateButton.setVisible(false);
+    @FXML
+    private void showButtonIsPressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    private void showButtonIsReleased(MouseEvent event) {
+
+    }    
+    
+    private void changeComponentsEditabilityTrueForUpdate() {
         cancelButton.setVisible(true);
-        cancelButton.setDisable(false);
-        updateButton.setVisible(true);
-        updateButton.setDisable(false);
-        gendersComboBox.setDisable(false);
+        updateButton.setVisible(false);
+        saveButton.setVisible(true);
+        
+        cancelButton.setManaged(true);
+        updateButton.setManaged(false);
+        saveButton.setManaged(true);
         
         nombreTextField.setEditable(true);
         paternalSurnameTextField.setEditable(true);
@@ -107,63 +179,76 @@ public class ProfessorValidateController implements Initializable {
         emailTextField.setEditable(true);
         gendersComboBox.setDisable(false);
         telefonoTextField.setEditable(true);
-    }
+        passwordLabel.setVisible(true);
+        passwordLabel.setManaged(true);
+        identifierPasswordField.setEditable(true);
+        identifierPasswordField.setVisible(true);
+        identifierPasswordField.setManaged(true);
+        showButton.setVisible(true);
+        showButton.setManaged(true);
+    }   
     
-    @FXML
-    private void cancel(ActionEvent event) throws IOException {
-        if (event.getSource() == cancelButton) {
-            if(cancelConfirmation()) {
-                changeComponentsEditabilityFalse();
-                initializeTextFields();
-            } 
-        } 
-    } 
-    
-    private void changeComponentsEditabilityFalse() {
-        updateProfessorButton.setVisible(true);
-        validateButton.setVisible(true);
+    private void changeComponentsEditabilityFalseForUpdate() {
         cancelButton.setVisible(false);
-        updateButton.setVisible(false);
-        gendersComboBox.setDisable(true);
-        
+        updateButton.setVisible(true);
+        saveButton.setVisible(false);
+        cancelButton.setManaged(false);
+        updateButton.setManaged(true);
+        saveButton.setManaged(false);
         nombreTextField.setEditable(false);
         paternalSurnameTextField.setEditable(false);
         maternalSurnameTextField.setEditable(false);
         emailTextField.setEditable(false);
-        gendersComboBox.setDisable(false);
+        gendersComboBox.setDisable(true);
         telefonoTextField.setEditable(false);
+        
+        passwordLabel.setVisible(false);
+        passwordLabel.setManaged(false);
+        identifierPasswordField.setEditable(false);
+        identifierPasswordField.setVisible(false);
+        identifierPasswordField.setManaged(false);
+        showButton.setVisible(false);
+        showButton.setManaged(false);
     }    
+    
+    private void changeComponentsVisibilityTrueForValidation() {
+        universityLabel.setVisible(true);
+        universityLabel.setManaged(true);
+        universitiesComboBox.setVisible(true);
+        universitiesComboBox.setManaged(true);
+        
+        updateButton.setVisible(false);
+        updateButton.setManaged(false);
+        acceptButton.setVisible(true);
+        acceptButton.setManaged(true);
+        rejectButton.setVisible(true);
+        rejectButton.setManaged(true);
+    }
+    
+   private void changeComponentsVisibilityFalseForValidation() {
+        universityLabel.setVisible(false);
+        universityLabel.setManaged(false);
+        universitiesComboBox.setVisible(false);
+        universitiesComboBox.setManaged(false);
+        
+        updateButton.setVisible(true);
+        updateButton.setManaged(true);
+        acceptButton.setVisible(false);
+        acceptButton.setManaged(false);
+        rejectButton.setVisible(false);
+        rejectButton.setManaged(false);
+    }    
+         
+    
+    private boolean backConfirmation() {
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar a la ventana profesores", "¿Deseas regresar a la ventana profesores?");
+        return (response.get() == DialogController.BUTTON_YES);
+    }   
     
     private boolean cancelConfirmation() {
         Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar a los detalles del profesor", "¿Desea deshacer los cambios y regresar?");
         return (response.get() == DialogController.BUTTON_YES);        
     }
-    
-    @FXML
-    private void validate(ActionEvent event) throws IOException {
-        
-    }
-    
-    @FXML
-    private void update(ActionEvent event) throws IOException {
-        int rowsAffected = -1;
-        if (event.getSource() == updateButton) {
-            if(updateConfirmation()) {
-                try {
-                    rowsAffected = professorDAO.updateProfessor(initializeProfessor());
-                } catch (DAOException exception) {
-                    Logger.getLogger(ProfessorValidateController.class.getName()).log(Level.SEVERE, null, exception);
-                }      
-            }
-            if (rowsAffected > 0) {
-                if (wasUpdatedConfirmation()) {
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");   
-                } else {
-                    wasNotUpdatedConfirmation();
-                }
-            } 
-        }               
-    }  
     
     private boolean wasNotUpdatedConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Informacion no actualizada", "Los cambios no se pudieron realizar");
@@ -198,7 +283,7 @@ public class ProfessorValidateController implements Initializable {
         paternalSurnameTextField.setText(professor.getPaternalSurname());
         maternalSurnameTextField.setText(professor.getMaternalSurname());
         emailTextField.setText(professor.getEmail());
-        telefonoTextField.setText(professor.getPhoneNumber());        
+        telefonoTextField.setText(professor.getPhoneNumber());            
     }    
     
     private void initializeTextFields() {
@@ -207,7 +292,8 @@ public class ProfessorValidateController implements Initializable {
         maternalSurnameTextField.setText(professor.getMaternalSurname());
         emailTextField.setText(professor.getEmail());
         telefonoTextField.setText(professor.getPhoneNumber());
-        gendersComboBox.setValue(professor.getGender());        
+        gendersComboBox.setValue(professor.getGender());     
+        identifierPasswordField.setText("");
     }
     
     private void initializeGenderComboBox(Professor professor) {
@@ -219,15 +305,40 @@ public class ProfessorValidateController implements Initializable {
         gendersComboBox.setValue(professor.getGender());
     }
         
-    public void setProfessor(Professor professor) {
+    public void setProfessorForUpdate(Professor professor) {
         this.professor = professor;
         initializeTextFields(professor);
         initializeGenderComboBox(professor);
         universitiesComboBox.setValue(professor.getUniversity());    
     }
     
+    public void setProfessorForValidation(Professor professor) {
+        this.professor = professor;
+        initializeTextFields(professor);
+        initializeGenderComboBox(professor);
+        universitiesComboBox.setValue(professor.getUniversity());    
+        changeComponentsVisibilityTrueForValidation();
+    }    
+    
     public Professor getProfessor() {
         return professor;
     }
+    
+    private void handleDAOException(DAOException exception) {
+        try {
+            DialogController.getDialog(new AlertMessage (exception.getMessage(), exception.getStatus()));
+            switch (exception.getStatus()) {
+                case ERROR -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/MainApp");
+                case FATAL -> MainApp.changeView("/main/MainApp");
+                
+            }
+        } catch (IOException ioException) {
+            Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
+        }
+    }
+    
+    private void handleValidationException(IllegalArgumentException ex) {
+        DialogController.getDialog(new AlertMessage( ex.getMessage(), Status.WARNING));
+    }    
     
 }

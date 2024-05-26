@@ -3,6 +3,7 @@ package mx.fei.coilvicapp.logic.professor;
 import mx.fei.coilvicapp.logic.academicarea.AcademicArea;
 import mx.fei.coilvicapp.logic.hiringcategory.HiringCategory;
 import mx.fei.coilvicapp.logic.hiringtype.HiringType;
+import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.region.Region;
 
 public class ProfessorUV extends Professor {
@@ -26,6 +27,8 @@ public class ProfessorUV extends Professor {
     }
     
     public void setPersonalNumber(int personalNumber) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkUvPersonalNumber(personalNumber);
         this.personalNumber = personalNumber;
     }
     

@@ -1,6 +1,9 @@
+package unit.test.HiringCategoryDAO;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import log.Log;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,12 +43,12 @@ public class HiringCategoryTest {
         HiringCategory hiringCategory = new HiringCategory();
         int idHiringCategory = 0;
         
-        hiringCategory.setName("Investigador TC");               
+        hiringCategory.setName("Investigador T40C");               
         try {            
             idHiringCategory = HIRING_CATEGORY_DAO.registerHiringCategory(hiringCategory);
             HIRING_CATEGORY_DAO.deleteHiringCategory(idHiringCategory);
         } catch (DAOException exception) {
-            Logger.getLogger(HiringCategoryTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
         }    
         Assert.assertTrue(idHiringCategory > 0);
     } 

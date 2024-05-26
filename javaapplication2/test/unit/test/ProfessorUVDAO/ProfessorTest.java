@@ -38,20 +38,20 @@ public class ProfessorTest {
         }                  
     }
     
-//    @After
-//    public void tearDown() {
-//        int idProfessor = TEST_PROFESSOR.getIdProfessor();
-//        int idUniversity = TEST_PROFESSOR.getIdUniversity();
-//        int idCountry = TEST_PROFESSOR.getUniversity().getIdCountry();
-//        
-//        try {
-//            PROFESSOR_DAO.deleteProfessorByID(idProfessor);
-//            UNIVERSITY_DAO.deleteUniversity(idUniversity);
-//            COUNTRY_DAO.deleteCountry(idCountry);
-//        } catch (DAOException exception) {
-//            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
-//        }      
-//    }
+    @After
+    public void tearDown() {
+        int idProfessor = TEST_PROFESSOR.getIdProfessor();
+        int idUniversity = TEST_PROFESSOR.getIdUniversity();
+        int idCountry = TEST_PROFESSOR.getUniversity().getIdCountry();
+        
+        try {
+            PROFESSOR_DAO.deleteProfessorByID(idProfessor);
+            UNIVERSITY_DAO.deleteUniversity(idUniversity);
+            COUNTRY_DAO.deleteCountry(idCountry);
+        } catch (DAOException exception) {
+            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+        }      
+    }
     
     @Test
     public void testSuccessRegisterProfessor() {
@@ -218,7 +218,6 @@ public class ProfessorTest {
         TEST_PROFESSOR.setGender("Mujer");
         TEST_PROFESSOR.setPhoneNumber("1234567890");
         TEST_PROFESSOR.setUniversity(initializeUniversity());
-
     }
     
     private void initializeAuxTestProfessor() {        

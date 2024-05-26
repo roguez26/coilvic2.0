@@ -7,15 +7,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import log.Log;
 import mx.fei.coilvicapp.logic.professor.Professor;
 
 public class XLSXCreator {
     
-    private static final String FILE_PATH = "C:\\Users\\axel_\\OneDrive"
-            + "\\Escritorio\\ProyectoCOIL\\coilvic\\javaapplication2\\files\\xlsx\\ProfesoresValidados.xlsx";
+    private static final String FILE_PATH = "files\\xlsx\\ProfesoresValidados.xlsx";
     
-    public void addProfessorIntoXLSX(Professor professor) throws IOException {
+    public static void addProfessorIntoXLSX(Professor professor) throws IOException {
         Workbook workbook;
         Sheet sheet;
 
@@ -54,6 +54,15 @@ public class XLSXCreator {
         } catch (IOException exception) {
             Log.getLogger(XLSXCreator.class).error(exception.getMessage(), exception);
         }
+    }
+    
+    public static void copyFileToDestination(String destinationPath) throws IOException {
+        Files.copy(Paths.get(FILE_PATH), Paths.get(destinationPath, "ProfesoresValidados.xlsx"),
+                StandardCopyOption.REPLACE_EXISTING);
+    }    
+    
+    public String getFilePath() {
+        return FILE_PATH;
     }
     
 }

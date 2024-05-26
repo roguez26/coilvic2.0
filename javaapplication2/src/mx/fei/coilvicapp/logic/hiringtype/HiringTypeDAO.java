@@ -114,8 +114,7 @@ public class HiringTypeDAO implements IHiringType{
     
     @Override
     public ArrayList<HiringType> getHiringTypes() throws DAOException {
-        ArrayList<HiringType> hiringTypes = new ArrayList<>();
-        HiringType hiringType = new HiringType();
+        ArrayList<HiringType> hiringTypes = new ArrayList<>();        
         DatabaseManager databaseManager = new DatabaseManager();
         String statement = "SELECT * FROM tipocontratación";
         
@@ -123,6 +122,7 @@ public class HiringTypeDAO implements IHiringType{
             PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
+                    HiringType hiringType = new HiringType();
                     hiringType.setIdHiringType(resultSet.getInt("idTipoContratación"));
                     hiringType.setName(resultSet.getString("nombre"));
                     hiringTypes.add(hiringType);

@@ -16,10 +16,15 @@ import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Window;
 import log.Log;
 import main.MainApp;
+import mx.fei.coilvicapp.logic.implementations.FileManager;
 
 public class ProfessorManagerController implements Initializable {
     
@@ -85,18 +90,33 @@ public class ProfessorManagerController implements Initializable {
     }
        
     @FXML
-    private void seeDetailsButtonIsPressed (ActionEvent event) throws IOException {
+    private void seeDetailsButtonIsPressed(ActionEvent event) throws IOException {
         Professor professor = (Professor) professorsTableView.getSelectionModel().getSelectedItem();
         if (professor != null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorValidate.fxml"));
             MainApp.changeView(fxmlLoader);
             ProfessorValidateController professorValidateController = fxmlLoader.getController();
-            professorValidateController.setProfessor(professor);
+            professorValidateController.setProfessorForValidation(professor);
         } else {
             
         }
     }
 
+    @FXML
+    private void exportValidatedProfessorsButtonIsPressed(ActionEvent event) {
+        FileManager fileManager = new FileManager();
+        Window window = ((Node) event.getSource()).getScene().getWindow();
+        try {     
+            fileManager.copyXLSXToSelectedDirectory(window);
+        } catch (IOException exception) {
+            handleIOException(exception);
+            Log.getLogger(ProfessorManagerController.class).error(exception.getMessage(), exception);
+        } catch (IllegalArgumentException exception) {
+            handleValidationException(exception);
+            Log.getLogger(ProfessorManagerController.class).error(exception.getMessage(), exception);
+        }
+    }
+    
     @FXML
     private void register(ActionEvent event) throws IOException {
         if (event.getSource() == registerButton) {
@@ -113,5 +133,13 @@ public class ProfessorManagerController implements Initializable {
         }
         return professors;
     }
+    
+    private void handleValidationException(IllegalArgumentException exception) {
+        DialogController.getInvalidDataDialog(exception.getMessage());
+    }    
+    
+    private void handleIOException(IOException exception) {
+        DialogController.getInformativeConfirmationDialog("Lo sentimos", "No fue posible exportar los profesores validados");
+    }    
     
 }
