@@ -1,6 +1,9 @@
 package mx.fei.coilvicapp.logic.implementations;
 
 import java.security.SecureRandom;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import mx.fei.coilvicapp.logic.user.UserDAO;
 
 public class PasswordGenerator {
 
@@ -32,5 +35,5 @@ public class PasswordGenerator {
         int index = secureRandom.nextInt(characterSet.length());
         return characterSet.charAt(index);
     }
-    
+        
 }

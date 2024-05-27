@@ -1,4 +1,4 @@
-package unit.test.ProfessorUVDAO;
+package unit.test.ProfessorDAO;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +21,6 @@ public class ProfessorTest {
     private static final Professor TEST_PROFESSOR = new Professor();
     private static final Professor AUX_TEST_PROFESSOR = new Professor();
     private static final ProfessorDAO PROFESSOR_DAO = new ProfessorDAO();
-    private static final ArrayList<Professor> TEST_PROFESSORS = new ArrayList<>();
     private static final UniversityDAO UNIVERSITY_DAO = new UniversityDAO();
     private static final CountryDAO COUNTRY_DAO = new CountryDAO();
     
