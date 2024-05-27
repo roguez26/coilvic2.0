@@ -59,7 +59,6 @@ public class CollaborativeProjectsHistoryController implements Initializable {
         } catch (IOException exception) {
             Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), exception);
         }
-
     }
 
     @FXML

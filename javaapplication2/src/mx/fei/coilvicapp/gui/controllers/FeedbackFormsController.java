@@ -54,22 +54,22 @@ public class FeedbackFormsController implements Initializable {
     private TextField questionTextField;
 
     @FXML
-    private TableView studentQuestionsTableView;
+    private TableView<Question> studentQuestionsTableView;
 
     @FXML
     private Label titleLabel;
 
     @FXML
-    private TableColumn studentQuestionsTableColumn;
+    private TableColumn<Question, String> studentQuestionsTableColumn;
 
     @FXML
-    private TableColumn professorQuestionsTableColumn;
+    private TableColumn<Question, String> professorQuestionsTableColumn;
 
     @FXML
-    private TableColumn typeTableColumn;
+    private TableColumn<Question, String> typeTableColumn;
 
     @FXML
-    private ComboBox typeCombobox;
+    private ComboBox<String> typeCombobox;
     private final IFeedback FEEDBACK_DAO = new FeedbackDAO();
     private ArrayList<Question> professorQuestions = new ArrayList<>();
     private ArrayList<Question> studentQuestions = new ArrayList<>();
@@ -230,7 +230,6 @@ public class FeedbackFormsController implements Initializable {
     @FXML
     void deleteButtonIsPressed(ActionEvent event) {
         selectedQuestion = getSelectedQuestion();
-        System.out.println(selectedQuestion.getIdQuestion());
         if (selectedQuestion.getIdQuestion() > 0) {
             if (confirmDelete()) {
                 try {
@@ -283,5 +282,5 @@ public class FeedbackFormsController implements Initializable {
             Log.getLogger(FeedbackFormsController.class).error(exception.getMessage(), exception);
         }
     }
-    
+
 }

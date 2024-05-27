@@ -1,6 +1,7 @@
 package mx.fei.coilvicapp.logic.course;
 
 import java.util.Objects;
+import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.language.Language;
 import mx.fei.coilvicapp.logic.professor.*;
 import mx.fei.coilvicapp.logic.term.Term;
@@ -29,8 +30,11 @@ public class Course {
     public Professor getProfessor() {
         return professor;
     }
-
+    
     public void setProfessor(Professor professor) {
+        if (professor == null) {
+            throw new IllegalArgumentException("No se encontro su información");
+        }
         this.professor = professor;
     }
 
@@ -39,6 +43,9 @@ public class Course {
     }
 
     public void setLanguage(Language language) {
+        if (language == null) {
+            throw new IllegalArgumentException("Debe seleccionar un idioma");
+        }
         this.language = language;
     }
 
@@ -47,6 +54,9 @@ public class Course {
     }
 
     public void setTerm(Term term) {
+        if (term == null) {
+            throw new IllegalArgumentException("Debe seleccionar un periodo");
+        }
         this.term = term;
     }
 
@@ -63,6 +73,8 @@ public class Course {
     }
 
     public void setName(String name) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkName(name);
         this.name = name;
     }
 
@@ -79,6 +91,8 @@ public class Course {
     }
 
     public void setGeneralObjective(String generalObjective) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkText(generalObjective);
         this.generalObjective = generalObjective;
     }
 
@@ -87,6 +101,8 @@ public class Course {
     }
 
     public void setTopicsInterest(String topicsInterest) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkText(topicsInterest);
         this.topicsInterest = topicsInterest;
     }
 
@@ -95,6 +111,8 @@ public class Course {
     }
 
     public void setNumberStudents(int numberStudents) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkNumbers(numberStudents);
         this.numberStudents = numberStudents;
     }
 
@@ -103,6 +121,8 @@ public class Course {
     }
 
     public void setStudentsProfile(String studentsProfile) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkText(studentsProfile);
         this.studentsProfile = studentsProfile;
     }
 
@@ -111,6 +131,8 @@ public class Course {
     }
 
     public void setAdditionalInformation(String additionalInformation) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkText(additionalInformation);
         this.additionalInformation = additionalInformation;
     }
 
@@ -137,6 +159,5 @@ public class Course {
                 && Objects.equals(numberStudents, toCompare.getNumberStudents())
                 && Objects.equals(studentsProfile, toCompare.getStudentsProfile())
                 && Objects.equals(additionalInformation, toCompare.getAdditionalInformation());
-    }
-
+    }  
 }

@@ -8,4 +8,5 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 public interface IEmailSender {
     
     public int registerEmail (EmailSender emailSender) throws DAOException;
+    
 }

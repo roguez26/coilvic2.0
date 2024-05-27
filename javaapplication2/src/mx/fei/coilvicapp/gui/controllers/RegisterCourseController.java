@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.course.*;
@@ -41,13 +42,13 @@ public class RegisterCourseController implements Initializable {
     private TextField topicsInterestTextField;
     
     @FXML
-    private ComboBox numberStudentsComboBox;
+    private ComboBox<Integer> numberStudentsComboBox;
     
     @FXML
-    private ComboBox termComboBox;
+    private ComboBox<Term> termComboBox;
     
     @FXML
-    private ComboBox languageComboBox;
+    private ComboBox<Language> languageComboBox;
     
     @FXML
     private TextField studentsProfileTextField;
@@ -60,32 +61,35 @@ public class RegisterCourseController implements Initializable {
     
     @FXML
     private Button saveButton;
-        
+    
+    private Professor professor = new Professor();
     private final CourseDAO COURSE_DAO = new CourseDAO();
     private final TermDAO TERM_DAO = new TermDAO();
-    private final LanguageDAO LANGUAGE_DAO = new LanguageDAO();
-    private Professor professorSesion = new Professor();
+    private final LanguageDAO LANGUAGE_DAO = new LanguageDAO();    
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {        
+    public void initialize(URL url, ResourceBundle rb) {           
         numberStudentsComboBox.setItems(FXCollections.observableArrayList(initializeNumberStudentsArrayForComboBox()));
         termComboBox.setItems(FXCollections.observableArrayList(initializeTermsArrayForComboBox()));
-        languageComboBox.setItems(FXCollections.observableArrayList(initializeLanguageArrayForComboBox()));
+        languageComboBox.setItems(FXCollections.observableArrayList(initializeLanguagesArrayForComboBox()));
     }
     
-    public Professor getProfessorSesion() {
-        return professorSesion;
+    public Professor getProfessor() {
+        return professor;
     }
     
-    public void setProfessorSesion(Professor profesor) {
-        this.professorSesion = profesor;
+    public void setProfessor(Professor professor) {
+        this.professor = professor;        
     }
     
     @FXML
     private void cancelButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == cancelButton) {
             if (confirmCancelation()) {
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/CourseManagment");
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorCourseManagement.fxml"));
+                MainApp.changeView(fxmlLoader);
+                ProfessorCourseManagementController professorCourseManagementController = fxmlLoader.getController();
+                professorCourseManagementController.setProfessor(professor);                
             }
         }
     }
@@ -97,12 +101,11 @@ public class RegisterCourseController implements Initializable {
     
     private ArrayList<Integer> initializeNumberStudentsArrayForComboBox() {
         ArrayList<Integer> numberStudents = new ArrayList<>();
-        int number = 1;
         
-        while (number <= 50) {
+        for (int number = 1; number <= 50; number++) {
             numberStudents.add(number);
-            number++;
         }
+        
         return numberStudents;
     }
     
@@ -116,7 +119,7 @@ public class RegisterCourseController implements Initializable {
         return terms;
     }
     
-    private ArrayList<Language> initializeLanguageArrayForComboBox() {
+    private ArrayList<Language> initializeLanguagesArrayForComboBox() {
         ArrayList<Language> languages = new ArrayList<>();
         try {
             languages = LANGUAGE_DAO.getLanguages();
@@ -142,7 +145,7 @@ public class RegisterCourseController implements Initializable {
     private void saveButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == saveButton) {
             try {
-                invokeCourseRegistration();
+                invokeCourseRegistration();                
             } catch (IllegalArgumentException exception) {
                 handleValidationException(exception);
             } catch (DAOException exception) {
@@ -151,12 +154,16 @@ public class RegisterCourseController implements Initializable {
         }
     }
     
-    private void invokeCourseRegistration() throws DAOException {
+    private void invokeCourseRegistration() throws DAOException, IOException {
         if (!fieldsAreEmpty()) {            
             int idCourse = COURSE_DAO.registerCourse(initializeCourse());
             if (idCourse > 0) {
                 wasRegisteredConfirmation();
                 cleanFields();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorCourseManagement.fxml"));
+                MainApp.changeView(fxmlLoader);
+                ProfessorCourseManagementController professorCourseManagementController = fxmlLoader.getController();
+                professorCourseManagementController.setProfessor(professor);
             }
         } else {
             emptyFieldsConfirmation();
@@ -187,6 +194,7 @@ public class RegisterCourseController implements Initializable {
 
     private Course initializeCourse() {
         Course course = new Course();
+        course.setProfessor(professor);
         course.setName(nameTextField.getText());
         course.setGeneralObjective(generalObjectiveTextArea.getText());
         course.setTopicsInterest(topicsInterestTextField.getText());
