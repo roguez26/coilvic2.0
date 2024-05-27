@@ -1,10 +1,6 @@
 package unit.test.UserDAO;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import log.Log;
-import mx.fei.coilvicapp.logic.country.Country;
-import mx.fei.coilvicapp.logic.country.CountryDAO;
 import mx.fei.coilvicapp.logic.user.User;
 import mx.fei.coilvicapp.logic.user.UserDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;

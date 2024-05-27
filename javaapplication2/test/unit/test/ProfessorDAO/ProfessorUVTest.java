@@ -1,7 +1,5 @@
-package unit.test.ProfessorUVDAO;
+package unit.test.ProfessorDAO;
 
-
-import java.util.ArrayList;
 import log.Log;
 import mx.fei.coilvicapp.logic.academicarea.AcademicArea;
 import mx.fei.coilvicapp.logic.academicarea.AcademicAreaDAO;
