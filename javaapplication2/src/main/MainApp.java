@@ -22,7 +22,8 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/ProfessorDetails1"));
+        //scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/LoginParticipant"));
+        scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/mainCoordination"));
         stage.setScene(scene);
         stage.setWidth(WIDTH);
         stage.setHeight(HEIGHT);
@@ -34,20 +35,13 @@ public class MainApp extends Application {
         scene.setRoot(loadFXML(fxml));
     }
 
-    private static void configureStage(Stage stage) {
-        //stage.setWidth(WIDTH);
-        //stage.setHeight(HEIGHT);
-    }
-
     public static void changeView(FXMLLoader loader) throws IOException {
         Stage currentStage = (Stage) scene.getWindow();
         scene.setRoot(loader.load());
-        configureStage(currentStage);
     }
 
     public static void changeView(String URL) throws IOException {
         Stage currentStage = (Stage) scene.getWindow();
-        configureStage(currentStage);
         MainApp.setRoot(URL);
     }
 
@@ -61,30 +55,28 @@ public class MainApp extends Application {
     }
 
     public static void changeView(String fxml, Consumer<Object> controllerSetup) throws IOException {
-    FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource(fxml + ".fxml"));
-    Parent root = fxmlLoader.load();
-    Scene scenem = new Scene(root);
-    Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource(fxml + ".fxml"));
+        Parent root = fxmlLoader.load();
+        Scene scenem = new Scene(root);
+        Stage stage = new Stage();
 
-    stage.setScene(scenem);
-    stage.initModality(Modality.APPLICATION_MODAL); // Hacer que la ventana sea modal
-    
-    if (controllerSetup != null) {
-        controllerSetup.accept(fxmlLoader.getController());
+        stage.setScene(scenem);
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        if (controllerSetup != null) {
+            controllerSetup.accept(fxmlLoader.getController());
+        }
+
+        stage.setOnCloseRequest(event -> {
+            Stage mainStage = (Stage) scenem.getWindow();
+            mainStage.show();
+        });
+
+        stage.showAndWait();
     }
-
-    stage.setOnCloseRequest(event -> {
-        // Mostrar nuevamente la ventana principal al cerrar la ventana modal
-        Stage mainStage = (Stage) scenem.getWindow();
-        mainStage.show();
-    });
-
-    stage.showAndWait();
-}
 
     @FunctionalInterface
     public interface ControllerSetup {
-
         void setup(Object controller);
     }
 }

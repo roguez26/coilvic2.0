@@ -1,5 +1,8 @@
 package mx.fei.coilvicapp.logic.feedback;
 
+import mx.fei.coilvicapp.logic.feedback.Feedback;
+import mx.fei.coilvicapp.logic.feedback.Question;
+import mx.fei.coilvicapp.logic.feedback.Response;
 import java.util.ArrayList;
 import java.util.Objects;
 /**

@@ -15,12 +15,17 @@ import mx.fei.coilvicapp.logic.feedback.Question;
 import mx.fei.coilvicapp.logic.feedback.Response;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 import log.Log;
 import main.MainApp;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
+import mx.fei.coilvicapp.logic.professor.Professor;
+import mx.fei.coilvicapp.logic.student.Student;
 
 /**
  *
@@ -55,16 +60,22 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
     private final IFeedback FEEDBACK_DAO = new FeedbackDAO();
     private final ArrayList<Response> responsesList = new ArrayList<>();
     private int currentQuestion;
+    private String questionType;
+    private Professor professor = null;
+    private Student student = null;
+    CollaborativeProject collaborativeProject;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-        
-        
+
+    }
+
+    private void initializeQuestions(String questionType) {
         ArrayList<Question> questionsList = new ArrayList<>();
         try {
-            questionsList = FEEDBACK_DAO.getQuestionByType("E");
+            questionsList = FEEDBACK_DAO.getQuestionByType(questionType);
         } catch (DAOException exception) {
-
+            handleDAOException(exception);
         }
         initializeResponses(questionsList);
         updateQuestion();
@@ -72,11 +83,17 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
     }
 
     public void initializeResponses(ArrayList<Question> questionsList) {
+        int idParticipant = 0;
+        if (student != null) {
+            idParticipant = student.getIdStudent();
+        } else if (professor != null) {
+            idParticipant = professor.getIdProfessor();
+        }
         for (int i = 0; i < questionsList.size(); i++) {
             Response response = new Response();
             response.setQuestion(questionsList.get(i));
-            response.setIdStudent(1);
-            response.setIdCollaborativeProject(1);
+            response.setIdParticipant(idParticipant);
+            response.setIdCollaborativeProject(collaborativeProject.getIdCollaborativeProject());
             responsesList.add(response);
         }
     }
@@ -99,26 +116,28 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
         try {
             getResponseText();
             if (finishConfirmation()) {
-                FEEDBACK_DAO.registerStudentResponses(responsesList);
-                wasRegisteredConfirmation();
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent");
+                if (student != null) {
+                    FEEDBACK_DAO.registerStudentResponses(responsesList);
+                    changeToCollaborativeProjectDetailsStudent();
+                } else if (professor != null) {
+                    FEEDBACK_DAO.registerProfessorResponses(responsesList);
+                    closeWindow();
+                }
             }
         } catch (DAOException exception) {
             handleDAOException(exception);
         } catch (IllegalArgumentException exception) {
             handleValidationException(exception);
-        } catch (IOException exception) {
-            Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(exception.getMessage(), exception);
         }
     }
 
     @FXML
     void cancelButtonIsPressed(ActionEvent event) {
         if (cancelConfirmation()) {
-            try {
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent");
-            } catch (IOException exception) {
-                Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(exception.getMessage(), exception);
+            if (student != null) {
+                changeToCollaborativeProjectDetailsStudent();
+            } else if (professor != null) {
+                closeWindow();
             }
         }
     }
@@ -161,11 +180,6 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
         nextButton.setVisible(!(currentQuestion == responsesList.size() - 1));
     }
 
-    private boolean wasRegisteredConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Aviso", "El proceso de retroalimentación ha salida con éxito");
-        return response.get() == DialogController.BUTTON_ACCEPT;
-    }
-
     private void handleValidationException(IllegalArgumentException exception) {
         DialogController.getInvalidDataDialog(exception.getMessage());
     }
@@ -174,13 +188,54 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
         try {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
-                case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
+                case ERROR -> {
+                    if (student != null) {
+                        changeToCollaborativeProjectDetailsStudent();
+                    } else if (professor != null) {
+                        closeWindow();
+                    }
+                }
                 case FATAL ->
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
             }
         } catch (IOException ioException) {
             Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(ioException.getMessage(), ioException);
         }
+    }
+
+    private void changeToCollaborativeProjectDetailsStudent() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent.fxml"));
+        try {
+            MainApp.changeView(fxmlLoader);
+            CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController = fxmlLoader.getController();
+            collaborativeProjectDetailsStudentController.setStudent(student);
+            collaborativeProjectDetailsStudentController.setCollaborativeProject(collaborativeProject);
+        } catch (IOException exception) {
+            Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(exception.getMessage(), exception);
+        }
+    }
+
+    private void closeWindow() {
+        Stage stage = (Stage) finishButton.getScene().getWindow();
+        stage.close();
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public void setTypeQuestiones(String questionType) {
+        this.questionType = questionType;
+        initializeQuestions(questionType);
+    }
+
+    public void setProfessor(Professor professor) {
+        System.out.println(professor.getName());
+        this.professor = professor;
+    }
+
+    public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
+        this.collaborativeProject = collaborativeProject;
+        System.out.println(collaborativeProject);
     }
 }

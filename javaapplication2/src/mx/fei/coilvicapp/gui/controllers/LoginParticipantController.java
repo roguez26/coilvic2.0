@@ -123,13 +123,13 @@ public class LoginParticipantController implements Initializable {
         fieldValidator.checkPassword(identifierPasswordField.getText());
         if (USER_DAO.authenticateUser(emailTextField.getText(), identifierPasswordField.getText())) {
             professor = PROFESSOR_DAO.getProfessorByEmail(emailTextField.getText());
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/RegisterCourse.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
 
-        MainApp.changeView(fxmlLoader);
-        RegisterCourseController collaborativeProjectDetailsStudentController = fxmlLoader.getController();
-        collaborativeProjectDetailsStudentController.setProfessor(professor);
+            MainApp.changeView(fxmlLoader);
+            ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
+            professorMainMenuController.setProfessor(professor);
 
-        }
+        } 
     }
 
     private void changeViewForStudent(Student student, CollaborativeProject collaborativeProject) throws IOException {

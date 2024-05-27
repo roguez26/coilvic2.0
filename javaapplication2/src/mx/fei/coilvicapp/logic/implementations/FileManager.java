@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
@@ -19,6 +20,7 @@ import mx.fei.coilvicapp.gui.controllers.ValidateCollaborativeProjectController;
 public class FileManager {
 
     private static final long MAX_SIZE_BYTES = 10 * 1024 * 1024;
+    private static final String FILE_PATH = "files\\xlsx\\ProfesoresValidados.xlsx";
     String activitiesDestination = "files\\activities";
     Path destination;
     Path fileDestination;
@@ -70,7 +72,37 @@ public class FileManager {
         fileChooser.getExtensionFilters().add(pdfFilter);
         return fileChooser.showOpenDialog(window.getScene().getWindow());
     }
+    
+    public File selectXLSXFile(Window window) {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter xlsxFilter = new FileChooser.ExtensionFilter("Archivos XLSX (*.xlsx)", "*.xlsx");
+        fileChooser.getExtensionFilters().add(xlsxFilter);
+        return fileChooser.showOpenDialog(window.getScene().getWindow());
+    }
 
+    public static void copyFileToDestination(String destinationPath) throws IOException {
+        Files.copy(Paths.get(FILE_PATH), Paths.get(destinationPath, "ProfesoresValidados.xlsx"),
+                StandardCopyOption.REPLACE_EXISTING);
+    }
+     
+    public boolean copyXLSXToSelectedDirectory(Window window) throws IOException,IllegalArgumentException {
+        Path sourcePath = Paths.get(FILE_PATH);
+        
+        if (!Files.exists(sourcePath)) {
+            throw new IllegalArgumentException("Debe validar profesores");
+        }
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(window);
+
+        if (selectedDirectory != null) {
+            Path destinationPath = selectedDirectory.toPath().resolve(sourcePath.getFileName().toString());
+            Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+        } else {
+            throw new IllegalArgumentException("Debe seleccionar un directorio");
+        }
+        return true;
+    }
+    
     public String selectDirectoryPath(Window window) {
         String directoryPath = "";
 
@@ -78,6 +110,8 @@ public class FileManager {
         File selectedDirectory = directoryChooser.showDialog(window.getScene().getWindow());
         if (selectedDirectory != null) {
             directoryPath = selectedDirectory.getAbsolutePath();
+        } else {
+            throw new IllegalArgumentException("El archivo no puede estar vacio");
         }
         return directoryPath;
 
@@ -106,7 +140,7 @@ public class FileManager {
         File fileForOpen = new File(filePath);
 
         if (!fileForOpen.exists()) {
-            throw new IllegalArgumentException("El archivo del syllabus ya no existe");
+            throw new IllegalArgumentException("No se encontro el archivo");
         }
 
         if (!Desktop.isDesktopSupported()) {

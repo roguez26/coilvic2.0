@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public interface IRegion {
     
+    public boolean isThereAtLeastOneRegion() throws DAOException;
     public int registerRegion(Region region) throws DAOException;
     public int updateRegion(Region newRegionInformation) throws DAOException;
     public int deleteRegion(int idRegion) throws DAOException;

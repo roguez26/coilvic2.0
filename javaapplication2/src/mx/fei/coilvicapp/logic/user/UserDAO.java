@@ -31,7 +31,9 @@ public class UserDAO implements IUser {
         } catch (DAOException exception) {
             throw new DAOException("No fue posible hacer la validacion", Status.WARNING);
         }
-
+        System.out.println(professor.getUser().getPassword() + " recuperada by email");
+        String pw = encryptPassword(password);
+        System.out.println(pw + " la encriptada");
         if (professor.getIdProfessor() > 0) {
             if (professor.getUser().getPassword().equals(encryptPassword(password))) {
                 result = true;
@@ -46,27 +48,24 @@ public class UserDAO implements IUser {
 
     @Override
     public int registerUser(User user) throws DAOException {
-        int result = 0;
-        String encryptedPassword = encryptPassword(user.getPassword());
-
-        user.setPassword(encryptedPassword);
-
-        result = insertUserTransaction(user);
+        int result = insertUserTransaction(user);
 
         return result;
     }
 
     @Override
-    public int deleteUser(int idProfessor) throws DAOException {
+    public int deleteUser(int idUser) throws DAOException {
 
-        return deleteUserTransaction(idProfessor);
+        return deleteUserTransaction(idUser);
     }
 
     public int insertUserTransaction(User user) throws DAOException {
         int result = -1;
-        String statement = "INSERT INTO usuario(contraseña, tipo) VALUES (?, ?)";
+        String statement = "INSERT INTO usuario(contrasenia, tipo) VALUES (?, ?)";
+        String encryptedPassword = encryptPassword(user.getPassword());
+        
         try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);) {
-            preparedStatement.setString(1, user.getPassword());
+            preparedStatement.setString(1, encryptedPassword);
             preparedStatement.setString(2, user.getType());
             result = preparedStatement.executeUpdate();
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
@@ -81,12 +80,12 @@ public class UserDAO implements IUser {
         return result;
     }
 
-    public int deleteUserTransaction(int idProfessor) throws DAOException {
+    public int deleteUserTransaction(int idUser) throws DAOException {
         int result = -1;
-        String statement = "DELETE FROM usuario WHERE idProfessor = ?";
+        String statement = "DELETE FROM usuario WHERE idUsuario = ?";
 
         try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);) {
-            preparedStatement.setInt(1, idProfessor);
+            preparedStatement.setInt(1, idUser);
             result = preparedStatement.executeUpdate();
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 if (resultSet.next()) {
@@ -120,16 +119,39 @@ public class UserDAO implements IUser {
         }
         return encryptedPassword;
     }
+    
+    @Override
+    public int updateUserPassword(User user) throws DAOException {
+        int rowsAffected = -1;
+        String statement = "UPDATE usuario SET contrasenia = ? WHERE idUsuario = ?";
 
+        try (Connection connection = new DatabaseManager().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+
+            preparedStatement.setString(1, encryptPassword(user.getPassword()));
+            preparedStatement.setInt(2, user.getIdUser());
+
+            rowsAffected = preparedStatement.executeUpdate();
+
+        } catch (SQLException exception) {
+            Log.getLogger(UserDAO.class).error("No fue posible actualizar la contrasenia", exception);
+            throw new DAOException("No fue posible actualizar la contrasenia", Status.ERROR);
+        }
+
+        return rowsAffected;
+    }
+    
+    @Override
     public User getUserById(int idUser) throws DAOException {
         User user = new User();
-        String statement = "SELECT * FROM usuario WHERE idusuario=?";
+        String statement = "SELECT * FROM usuario WHERE idUsuario=?";
 
         try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
             preparedStatement.setInt(1, idUser);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    user.setPassword(resultSet.getString("Contraseña"));
+                    user.setIdUser(resultSet.getInt("idUsuario"));
+                    user.setPassword(resultSet.getString("Contrasenia"));
                     user.setType(resultSet.getString("Tipo"));
                 }
             }

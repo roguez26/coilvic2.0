@@ -11,15 +11,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.logic.collaborativeproject.ICollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
+import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
+import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
 /**
  *
@@ -81,46 +85,66 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
         universityTwoTableColumn.setCellValueFactory(cellData
                 -> new SimpleStringProperty(cellData.getValue().getRequestedCourse().getProfessor().getUniversity().getName()));
-        collaborativeProjecsTableView.getItems().addAll(collaborativeProjectsList);
+        if (!collaborativeProjectsList.isEmpty()) {
+            collaborativeProjecsTableView.getItems().addAll(collaborativeProjectsList);
+        }
     }
 
     @FXML
     void seeDetailsButton(ActionEvent event) {
-        if(collaborativeProjecsTableView.getSelectionModel().getSelectedItem() != null) {
-            
+        if (collaborativeProjecsTableView.getSelectionModel().getSelectedItem() != null) {
+            //pendiente
         } else {
             DialogController.getInformativeConfirmationDialog("Sin proyecto seleccionado", "Necesita seleccionar un proyecto para poder ver sus detalles");
         }
-
     }
 
     @FXML
     void pendingMenuButtonIsSelected(ActionEvent event) {
-        setValidateMode(true);
+        statusMenuButton.setText(((MenuItem) event.getSource()).getText());
         try {
             collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectsProposals();
+            setValidateMode(true);
+            updateTableView();
         } catch (DAOException exception) {
-
+            handleDAOException(exception);
         }
-        collaborativeProjecsTableView.getItems().clear();
-        collaborativeProjecsTableView.getItems().addAll(collaborativeProjectsList);
-
     }
 
     @FXML
     void acceptedMenuButtonIsSelected(ActionEvent event) {
-        setValidateMode(false);
-
+        statusMenuButton.setText(((MenuItem) event.getSource()).getText());
+        try {
+            collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getAllAcceptedCollaborativeProjects();
+            setValidateMode(false);
+            updateTableView();
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
     }
 
     @FXML
     void rejectedMenuButtonIsSelected(ActionEvent event) {
-        setValidateMode(false);
+        statusMenuButton.setText(((MenuItem) event.getSource()).getText());
+        try {
+            collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getAllRejectedCollaborativeProjects();
+            setValidateMode(false);
+            updateTableView();
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
     }
 
     @FXML
     void finishedMenuButtonIsSelected(ActionEvent event) {
-        setValidateMode(false);
+        statusMenuButton.setText(((MenuItem) event.getSource()).getText());
+        try {
+            collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getAllFinishedCollaborativeProjects();
+            setValidateMode(false);
+            updateTableView();
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
     }
 
     private void setValidateMode(boolean isVisible) {
@@ -129,12 +153,16 @@ public class CollaborativeProjectsManagementController implements Initializable 
         seeDetailsButton.setVisible(!isVisible);
     }
 
+    private void updateTableView() {
+        collaborativeProjecsTableView.getItems().clear();
+        collaborativeProjecsTableView.getItems().addAll(collaborativeProjectsList);
+    }
+
     @FXML
     void validateButtonIsPressed(ActionEvent event) throws IOException {
         CollaborativeProject selectedCollaborativeProject = collaborativeProjecsTableView.getSelectionModel().getSelectedItem();
         if (selectedCollaborativeProject != null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ValidateCollaborativeProject.fxml"));
-
             MainApp.changeView(fxmlLoader);
             ValidateCollaborativeProjectController collaborativeProjectDetailsStudentController = fxmlLoader.getController();
             collaborativeProjectDetailsStudentController.setCollaborativeProject(selectedCollaborativeProject);
@@ -153,8 +181,19 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
     }
 
-    private void goBack() {
-
+    private void handleDAOException(DAOException exception) {
+        collaborativeProjecsTableView.getItems().clear();
+        try {
+            DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
+            switch (exception.getStatus()) {
+                case ERROR ->
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                case FATAL ->
+                    MainApp.changeView("/main/MainApp");
+            }
+        } catch (IOException ioException) {
+            Log.getLogger(NotifyProfessorController.class).error(exception.getMessage(), exception);
+        }
     }
 
 }

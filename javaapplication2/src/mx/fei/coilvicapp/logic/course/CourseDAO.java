@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
+
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 

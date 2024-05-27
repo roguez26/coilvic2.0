@@ -1,5 +1,6 @@
 package mx.fei.coilvicapp.gui.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -7,11 +8,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import log.Log;
+import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.logic.collaborativeproject.ICollaborativeProject;
@@ -48,7 +51,14 @@ public class CollaborativeProjectsHistoryController implements Initializable {
 
     @FXML
     void backButtonIsPressed(ActionEvent event) {
-
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorDetails.fxml"));
+        try {
+            MainApp.changeView(fxmlLoader);
+            ProfessorDetailsController professorDetailsController = fxmlLoader.getController();
+            professorDetailsController.setProfessor(professor);
+        } catch (IOException exception) {
+            Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), exception);
+        }
     }
 
     @FXML
@@ -73,7 +83,7 @@ public class CollaborativeProjectsHistoryController implements Initializable {
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         termTableColumn.setCellValueFactory(cellData
                 -> new SimpleStringProperty(cellData.getValue().getRequesterCourse().getTerm().toString()));
-       
+
         collaborativeProjectsTableView.getItems().addAll(collaborativeProjectList);
     }
 }

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -93,7 +94,7 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
                     handleIOException(exception);
                 }
             } else {
-                DialogController.getInformativeConfirmationDialog("Aviso", "No se encontraron los recuros para genera la constancia");
+                DialogController.getInformativeConfirmationDialog("Aviso", "No se encontraron los recursos para generar la constancia");
             }
         } else {
             DialogController.getInformativeConfirmationDialog("Aviso", "Es necesario completar la retroalimentación para descargar la constancia");
@@ -105,25 +106,51 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
     }
 
     private boolean isFeedbackDone() {
-
-        return true;
+        boolean result = false;
+        IFeedback feedbackDAO = new FeedbackDAO();
+        try {
+            result = (feedbackDAO.hasCompletedPreForm(student, collaborativeProject) && feedbackDAO.hasCompletedPostForm(student, collaborativeProject));
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
+        return result;
     }
 
     @FXML
     void startFeedBackIsPressed(ActionEvent event) {
-        if (collaborativeProject.getStatus().equals("Pendiente")) {
-            IFeedback feedbackDAO = new FeedbackDAO();
-            try {
-                if (feedbackDAO.areThereStudentQuestions()) {
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/FeedbackOnCollaborativeProject");
+        IFeedback feedbackDAO = new FeedbackDAO();
+        String questionTypeForResponse;
+        try {
+            if (feedbackDAO.areThereStudentQuestions()) {
+                if (!feedbackDAO.hasCompletedPreForm(student, collaborativeProject)) {
+                    feedbackOnCollaborativeProject("Estudiante-PRE");
+                } else if (!feedbackDAO.hasCompletedPostForm(student, collaborativeProject)) {
+                    if (collaborativeProject.getStatus().equals("Finalizado")) {
+                        feedbackOnCollaborativeProject("Estudiante-POST");
+                    } else {
+                        DialogController.getInformativeConfirmationDialog("Aviso", "Podrás realizar la POST-Retroalimentación cuando la colaboración haya finalizado");
+                    }
                 } else {
-                    DialogController.getInformativeConfirmationDialog("Lo sentimos", "No es posible realizar la retroalimentación debido a que aún no hay preguntas para el estudiante");
+                    DialogController.getInformativeConfirmationDialog("Aviso", "Ya has completado el proceso de retroalimentación");
                 }
-            } catch (DAOException exception) {
-                handleDAOException(exception);
-            } catch (IOException exception) {
-                Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(exception.getMessage(), exception);
+            } else {
+                DialogController.getInformativeConfirmationDialog("Lo sentimos", "No es posible realizar la retroalimentación debido a que aún no hay preguntas para el estudiante");
             }
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
+    }
+
+    private void feedbackOnCollaborativeProject(String type) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/FeedbackOnCollaborativeProject.fxml"));
+        try {
+            MainApp.changeView(fxmlLoader);
+            FeedbackOnCollaborativeProjectController feedbackOnCollaborativeProjectController = fxmlLoader.getController();
+            feedbackOnCollaborativeProjectController.setCollaborativeProject(collaborativeProject);
+            feedbackOnCollaborativeProjectController.setStudent(student);
+            feedbackOnCollaborativeProjectController.setTypeQuestiones(type);
+        } catch (IOException exception) {
+            Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -158,7 +185,7 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipantController");
                 case FATAL ->
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipantController");
             }

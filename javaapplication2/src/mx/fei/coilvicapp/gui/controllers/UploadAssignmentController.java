@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.assignment.Assignment;
@@ -68,15 +69,14 @@ public class UploadAssignmentController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-        collaborativeProject = new CollaborativeProject();
-        collaborativeProject.setIdCollaborativeProject(1);
-        collaborativeProject.setStatus("Aceptado");
+        
     }
 
     @FXML
     void acceptButtonIsPressed(ActionEvent event) {
         try {
             invokeSaveAssignment();
+            closeWindow();
         } catch (IllegalArgumentException exception) {
             handleValidationException(exception);
         } catch (DAOException exception) {
@@ -111,12 +111,12 @@ public class UploadAssignmentController implements Initializable {
     private void initializeAssignment() {
         assignment.setName(nameTextField.getText());
         assignment.setDescription(descriptionTextArea.getText());
-        assignment.setIdColaborativeProject(1);
+        assignment.setIdColaborativeProject(collaborativeProject.getIdCollaborativeProject());
     }
 
     @FXML
     void cancelButtonIsPressed(ActionEvent event) throws Throwable {
-
+        closeWindow();
     }
 
     @FXML
@@ -163,6 +163,11 @@ public class UploadAssignmentController implements Initializable {
 
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
+    }
+
+    private void closeWindow() {
+        Stage stage = (Stage) backgroundVBox.getScene().getWindow();
+        stage.close();
     }
 
 }

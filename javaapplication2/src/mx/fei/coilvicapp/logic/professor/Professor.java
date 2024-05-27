@@ -20,17 +20,7 @@ public class Professor {
     public Professor() {
         university = new University();
     }
-    
-    public Professor(String name, String paternalSurname, String maternalSurname,
-            String email, String gender, String phoneNumber) {
-        this.name = name;
-        this.paternalSurname = paternalSurname;
-        this.maternalSurname = maternalSurname;
-        this.email = email;
-        this.gender = gender;
-        this.phoneNumber = phoneNumber;
-    }
-    
+        
     public int getIdProfessor() {
         return idProfessor;
     }
@@ -45,6 +35,8 @@ public class Professor {
 
     public void setName(String name) {
         FieldValidator fieldValidator = new FieldValidator();
+        
+        fieldValidator.checkName(name);
         this.name = name;
     }
 
@@ -53,6 +45,9 @@ public class Professor {
     }
 
     public void setPaternalSurname(String paternalSurname) {
+        FieldValidator fieldValidator = new FieldValidator();
+        
+        fieldValidator.checkName(paternalSurname);        
         this.paternalSurname = paternalSurname;
     }
 
@@ -60,7 +55,11 @@ public class Professor {
         return maternalSurname;
     }
 
-    public void setMaternalSurname(String maternalSurname) {
+    public void setMaternalSurname(String maternalSurname) { 
+        if(!maternalSurname.isEmpty()) {
+            FieldValidator fieldValidator = new FieldValidator();        
+            fieldValidator.checkName(paternalSurname);   
+        }
         this.maternalSurname = maternalSurname;
     }
 
@@ -70,6 +69,7 @@ public class Professor {
 
     public void setEmail(String email) {
         FieldValidator fieldValidator = new FieldValidator();
+        
         fieldValidator.checkEmail(email);
         this.email = email;
     }
@@ -88,6 +88,7 @@ public class Professor {
 
     public void setPhoneNumber(String phoneNumber) {        
         FieldValidator fieldValidator = new FieldValidator();
+        
         fieldValidator.checkPhoneNumber(phoneNumber);
         this.phoneNumber = phoneNumber;
     }
@@ -143,14 +144,10 @@ public class Professor {
                 Objects.equals(phoneNumber, toCompare.getPhoneNumber()) &&
                 Objects.equals(state, toCompare.getState());
     }
-    
-    @Override
-    public String toString() {
-        return name +" "+ paternalSurname +" "+ maternalSurname;
-    }
 
     @Override
     public int hashCode() {
         return Objects.hash(idProfessor, name, paternalSurname, maternalSurname, email, gender, phoneNumber, state);
     }
+    
 }

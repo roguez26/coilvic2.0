@@ -1,5 +1,9 @@
 package mx.fei.coilvicapp.logic.feedback;
 
+import mx.fei.coilvicapp.logic.feedback.FeedbackDAO;
+import mx.fei.coilvicapp.logic.feedback.Question;
+import mx.fei.coilvicapp.logic.feedback.IFeedback;
+import mx.fei.coilvicapp.logic.feedback.Response;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
@@ -8,8 +12,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import log.Log;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
+import mx.fei.coilvicapp.logic.professor.Professor;
+import mx.fei.coilvicapp.logic.student.Student;
 
 /**
  *
@@ -31,6 +38,52 @@ public class FeedbackDAO implements IFeedback {
             throw new DAOException("La pregunta ya se encuentra registrada", Status.WARNING);
         }
         return false;
+    }
+
+    @Override
+    public boolean hasCompletedPreForm(Student student, CollaborativeProject collaborativeProject) throws DAOException {
+        return checkIsFormDone(student.getIdStudent(), collaborativeProject.getIdCollaborativeProject(), "Estudiante-PRE");
+    }
+
+    @Override
+    public boolean hasCompletedPostForm(Student student, CollaborativeProject collaborativeProject) throws DAOException {
+        return checkIsFormDone(student.getIdStudent(), collaborativeProject.getIdCollaborativeProject(), "Estudiante-POST");
+    }
+
+    @Override
+    public boolean hasCompletedProfessorForm(Professor professor, CollaborativeProject collaborativeProject) throws DAOException {
+        return checkIsFormDone(professor.getIdProfessor(), collaborativeProject.getIdCollaborativeProject(), "Profesor");
+    }
+
+    private boolean checkIsFormDone(int idParticipant, int idCollaborativeProject, String type) throws DAOException {
+        boolean result = false;
+        String tableName = "RespuestaEstudiante";
+        String idType = "idEstudiante";
+
+        if (type.equals("Profesor")) {
+            tableName = "RespuestaProfesor";
+            idType = "idProfesor";
+        }
+
+        String statement = "SELECT 1 FROM " + tableName + " re "
+                + "JOIN Pregunta p ON re.idPregunta = p.idPregunta "
+                + "WHERE " + idType + " = ? "
+                + "AND re.idProyectoColaborativo = ? "
+                + "AND p.tipo = ? "
+                + "LIMIT 1";
+
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+            preparedStatement.setInt(1, idParticipant);
+            preparedStatement.setInt(2, idCollaborativeProject);
+            preparedStatement.setString(3, type);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                result = resultSet.next();
+            }
+        } catch (SQLException exception) {
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible hacer la verificacion", Status.ERROR);
+        }
+        return result;
     }
 
     @Override
@@ -106,12 +159,37 @@ public class FeedbackDAO implements IFeedback {
         result = insertStudentResponsesTransaction(responses);
         return result;
     }
+    
+    @Override
+    public int registerProfessorResponses(ArrayList<Response> responses) throws DAOException {
+        int result;
+
+        result = insertProfessorResponsesTransaction(responses);
+        return result;
+    }
 
     @Override
     public boolean areThereStudentQuestions() throws DAOException {
         boolean result = false;
         DatabaseManager databaseManager = new DatabaseManager();
         String statement = "SELECT 1 FROM pregunta WHERE tipo LIKE 'Estudiante-%' LIMIT 1";
+
+        try (Connection connection = databaseManager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement); ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                result = 1 == resultSet.getInt(1);
+            }
+        } catch (SQLException exception) {
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible validar si hay preguntas para el estudiante", Status.ERROR);
+        }
+        return result;
+    }
+    
+    @Override
+    public boolean areThereProfessorQuestions() throws DAOException {
+        boolean result = false;
+        DatabaseManager databaseManager = new DatabaseManager();
+        String statement = "SELECT 1 FROM pregunta WHERE tipo LIKE 'Profesor' LIMIT 1";
 
         try (Connection connection = databaseManager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement); ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
@@ -158,18 +236,18 @@ public class FeedbackDAO implements IFeedback {
         return result;
     }
 
-    public int insertStudentResponsesTransaction(ArrayList<Response> responses) throws DAOException {
+    private int insertStudentResponsesTransaction(ArrayList<Response> responses) throws DAOException {
         int result = -1;
-        String statement = configureInsertResponsesStatement(responses.size());
+        String statement = configureStudentInsertResponsesStatement(responses.size());
 
         try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
-            int aux = 0;
+            int auxCounter = 0;
             for (int i = 0; i < responses.size(); i++) {
-                preparedStatement.setString(1 + aux, responses.get(i).getResponseText());
-                preparedStatement.setInt(2 + aux, responses.get(i).getIdQuestion());
-                preparedStatement.setInt(3 + aux, responses.get(i).getIdStudent());
-                preparedStatement.setInt(4 + aux, responses.get(i).getIdCollaborativeProject());
-                aux += 4;
+                preparedStatement.setString(1 + auxCounter, responses.get(i).getResponseText());
+                preparedStatement.setInt(2 + auxCounter, responses.get(i).getIdQuestion());
+                preparedStatement.setInt(3 + auxCounter, responses.get(i).getIdParticipant());
+                preparedStatement.setInt(4 + auxCounter, responses.get(i).getIdCollaborativeProject());
+                auxCounter += 4;
             }
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
@@ -178,8 +256,40 @@ public class FeedbackDAO implements IFeedback {
         }
         return result;
     }
+    
+    public int insertProfessorResponsesTransaction(ArrayList<Response> responses) throws DAOException {
+        int result = -1;
+        String statement = configureProfessorInsertResponsesStatement(responses.size());
 
-    private String configureInsertResponsesStatement(int size) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
+            int auxCounter = 0;
+            for (int i = 0; i < responses.size(); i++) {
+                preparedStatement.setString(1 + auxCounter, responses.get(i).getResponseText());
+                preparedStatement.setInt(2 + auxCounter, responses.get(i).getIdQuestion());
+                preparedStatement.setInt(3 + auxCounter, responses.get(i).getIdParticipant());
+                preparedStatement.setInt(4 + auxCounter, responses.get(i).getIdCollaborativeProject());
+                auxCounter += 4;
+            }
+            result = preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible registrar las respuestas", Status.ERROR);
+        }
+        return result;
+    }
+    
+    private String configureProfessorInsertResponsesStatement(int size) {
+        String statement = "INSERT INTO respuestaProfesor (respuesta, idpregunta, idprofesor, idproyectocolaborativo) VALUES ";
+        for (int i = 0; i < size; i++) {
+            statement += "(?, ?, ?, ?)";
+            if (i != size - 1) {
+                statement += ",";
+            }
+        }
+        return statement;
+    }
+
+    private String configureStudentInsertResponsesStatement(int size) {
         String statement = "INSERT INTO respuestaestudiante (respuesta, idpregunta, idestudiante, idproyectocolaborativo) VALUES ";
         for (int i = 0; i < size; i++) {
             statement += "(?, ?, ?, ?)";
@@ -203,7 +313,7 @@ public class FeedbackDAO implements IFeedback {
                     response.setIdResponse(resultSet.getInt("idRespuesta"));
                     response.setResponseText(resultSet.getString("respuesta"));
                     response.setIdQuestion(resultSet.getInt("idpregunta"));
-                    response.setIdStudent(resultSet.getInt("idestudiante"));
+                    response.setIdParticipant(resultSet.getInt("idestudiante"));
                     response.setIdCollaborativeProject(resultSet.getInt("idProyectoColaborativo"));
                     responses.add(response);
                 }

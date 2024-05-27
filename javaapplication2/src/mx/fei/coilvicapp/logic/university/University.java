@@ -1,8 +1,8 @@
 package mx.fei.coilvicapp.logic.university;
 
 import java.util.Objects;
-import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.country.Country;
+import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 
 /**
  *

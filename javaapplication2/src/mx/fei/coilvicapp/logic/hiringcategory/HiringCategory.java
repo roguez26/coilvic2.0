@@ -47,4 +47,9 @@ public class HiringCategory {
         return Objects.hash(idHiringCategory, name);
     }
     
+    @Override
+    public String toString() {
+        return name;
+    }    
+    
 }

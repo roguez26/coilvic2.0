@@ -5,13 +5,31 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import log.Log;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 
 public class RegionDAO implements IRegion {
+        
+    @Override
+    public boolean isThereAtLeastOneRegion() throws DAOException {
+        boolean result = false;
+        String statement = "SELECT EXISTS(SELECT 1 FROM region LIMIT 1) AS hay_registros;";
+        DatabaseManager databaseManager = new DatabaseManager();
+        
+        try (Connection connection = databaseManager.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(statement);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                result = resultSet.getBoolean("hay_registros");
+            }
+        } catch (SQLException exception) {
+            Log.getLogger(RegionDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible verificar que haya regiones", Status.ERROR);
+        }
+        return result;
+    }
         
     @Override
     public int registerRegion(Region region) throws DAOException {
@@ -36,30 +54,16 @@ public class RegionDAO implements IRegion {
     @Override
     public int deleteRegion(int idRegion) throws DAOException {
         int result = -1;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
         String statement = "DELETE FROM region WHERE idRegion = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+        try (Connection connection = databaseManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(statement)) {            
             preparedStatement.setInt(1, idRegion);            
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
-            Logger.getLogger(RegionDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible eliminar la región", Status.ERROR);
-        } finally {            
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }               
-            } catch (SQLException exception) {
-                Logger.getLogger(RegionDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
         } 
         return result;
     }
@@ -67,39 +71,22 @@ public class RegionDAO implements IRegion {
     @Override
     public Region getRegionByName(String regionName) throws DAOException {
         Region region = new Region();
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;        
-        ResultSet resultSet = null;        
+        DatabaseManager databaseManager = new DatabaseManager();    
         String statement = "SELECT * FROM region WHERE nombre = ?";
         
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+        try (Connection connection = databaseManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);) {            
             preparedStatement.setString(1, regionName);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                region.setIdRegion(resultSet.getInt("idRegion"));
-                region.setName(resultSet.getString("nombre"));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    region.setIdRegion(resultSet.getInt("idRegion"));
+                    region.setName(resultSet.getString("nombre"));
+                }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(RegionDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener la región", Status.ERROR);
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(RegionDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-        }
+        } 
         return region;
     }
     
@@ -107,37 +94,20 @@ public class RegionDAO implements IRegion {
     public Region getRegionById(int idRegion) throws DAOException {
         Region region = new Region();
         DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;        
-        ResultSet resultSet = null;        
         String statement = "SELECT * FROM region WHERE idRegion = ?";
         
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+        try (Connection connection = databaseManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);) {            
             preparedStatement.setInt(1, idRegion);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                region.setIdRegion(resultSet.getInt("idRegion"));
-                region.setName(resultSet.getString("nombre"));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    region.setIdRegion(resultSet.getInt("idRegion"));
+                    region.setName(resultSet.getString("nombre"));
+                }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(RegionDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener la región", Status.ERROR);
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(RegionDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
         }
         return region;
     }    
@@ -145,40 +115,23 @@ public class RegionDAO implements IRegion {
     @Override
     public ArrayList<Region> getRegions() throws DAOException {
         ArrayList<Region> regions = new ArrayList<>();
-        Region region = new Region();
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;        
-        ResultSet resultSet = null;        
+        DatabaseManager databaseManager = new DatabaseManager();    
         String statement = "SELECT * FROM region";
         
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                region.setIdRegion(resultSet.getInt("idRegion"));
-                region.setName(resultSet.getString("nombre"));
-                regions.add(region);
+        try (Connection connection = databaseManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Region region = new Region();                    
+                    region.setIdRegion(resultSet.getInt("idRegion"));
+                    region.setName(resultSet.getString("nombre"));
+                    regions.add(region);
+                }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(RegionDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener las regiones", Status.ERROR);
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(RegionDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-        }
+        } 
         return regions;
     }
     
@@ -200,69 +153,38 @@ public class RegionDAO implements IRegion {
     
     private int insertRegionTransaction(Region region) throws DAOException {
         int result = -1;
-        ResultSet resultSet = null;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
         String statement = "INSERT INTO region(nombre) VALUES(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareCall(statement);
+        try (Connection connection = databaseManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(statement, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, region.getName());
             preparedStatement.executeUpdate();   
-            resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                result = resultSet.getInt(1);
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    result = resultSet.getInt(1);
+                }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(RegionDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible registrar la región", Status.ERROR);
-        } finally {
-            try {
-                if(resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }               
-            } catch (SQLException exception) {
-                Logger.getLogger(RegionDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
         }
         return result;
     }
     
     private int updateRegionTransaction(Region newRegionInformation) throws DAOException {
         int result = -1;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
         String statement = "UPDATE region SET nombre = ? WHERE idRegion = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+        try (Connection connection = databaseManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
             preparedStatement.setString(1, newRegionInformation.getName());
             preparedStatement.setInt(2, newRegionInformation.getIdRegion());         
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
-            Logger.getLogger(RegionDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible actualizar la región", Status.ERROR);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }               
-            } catch (SQLException exception) {
-                Logger.getLogger(RegionDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
         }
         return result;
     }

@@ -195,7 +195,7 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
                 courses = COURSE_DAO.getCourseOfferings();
             }            
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorCourseManagementController.class.getName()).log(Level.SEVERE, null, exception);
+            handleDAOException(exception);
         }
         return courses;
     }
