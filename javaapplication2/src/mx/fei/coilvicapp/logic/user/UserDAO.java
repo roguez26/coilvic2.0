@@ -120,6 +120,7 @@ public class UserDAO implements IUser {
         return encryptedPassword;
     }
     
+    @Override
     public int updateUserPassword(User user) throws DAOException {
         int rowsAffected = -1;
         String statement = "UPDATE usuario SET contrasenia = ? WHERE idUsuario = ?";

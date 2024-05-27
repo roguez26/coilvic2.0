@@ -16,6 +16,10 @@ public class FieldValidator {
     private final String LONG_RANGE = "^.{3,255}$";
     private final String PHONE_NUMBER_REGEX = "^\\d{10}$";
     private final String ENROLLMENT_REGEX = "^S\\d{8}$";
+    private final String UV_PERSONAL_NUMBER = "^\\d{5}$";
+    private final String TEXT_REGEX = "^[\\p{L}0-9\\s,\\.\\:]+$";
+    private final String TERM_REGEX = "^(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)\\"
+            + "d{4}-(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)\\d{4}$";
 
     public void checkEmail(String eMail) {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
@@ -112,6 +116,47 @@ public class FieldValidator {
                 + "1.- Debe contener al menos 8 caracteres (mayúsculas y minúsculas).\n"
                 + "2.- Debe contener  al menos un carácter especial (@, $, !, %, *, ? o &.\n"
                 + "3.- Debe contener al menos un número.\n");
+    }
 
+    public void checkUvPersonalNumber(int uvPersonalNumber) {
+        String uvString = String.valueOf(uvPersonalNumber);
+        Pattern pattern = Pattern.compile(UV_PERSONAL_NUMBER);
+        if (uvString != null) {
+            Matcher matcher = pattern.matcher(uvString);
+            if (matcher.matches()) {
+                return;
+            }
+        }
+        throw new IllegalArgumentException("El numero de personal UV debe tener las siguientes caracteristicas:\n"
+                + "1.- Debe contener 5 numeros.\n");
+    }
+
+    public boolean checkNumbers(int number) {
+        return number >= 1 && number <= 100;
+    }
+
+    public void checkText(String text) {
+        Pattern pattern = Pattern.compile(TEXT_REGEX);
+        if (text != null) {
+            Matcher matcher = pattern.matcher(text);
+            if (matcher.matches()) {
+                return; // No se necesita verificar el rango de longitud
+            }
+        }
+        throw new IllegalArgumentException("El texto debe tener las siguientes características:\n"
+                + "1.- Puede contener letras, números, espacios, comas, puntos y dos puntos.\n"
+                + "2.- No puede contener más de 2 espacios en blanco juntos\n"
+                + "3.- No puede tener solo espacios en blanco\n"
+                + "4.- No debe contener los siguientes símbolos: (!, \", #, $, %, &, ', (, ), *,"
+                + " +, -, /, ;, <, =, >, ?, @, [, \\, ], ^, _, `, {, |, }, ~)\n");
+    }
+
+    public boolean checkTerm(String term) {
+        Pattern pattern = Pattern.compile(TERM_REGEX);
+        Matcher matcher = pattern.matcher(term);
+        if (!matcher.matches()) {
+            throw new IllegalArgumentException("El periodo debe tener el formato: 'MesAño–MesAño' (Ej., 'Agosto2024–Enero2025')");
+        }
+        return true;
     }
 }

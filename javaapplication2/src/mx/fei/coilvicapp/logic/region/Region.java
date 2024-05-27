@@ -47,4 +47,9 @@ public class Region {
         return Objects.hash(idRegion, name);
     }    
     
+    @Override
+    public String toString() {
+        return name;
+    }    
+    
 }

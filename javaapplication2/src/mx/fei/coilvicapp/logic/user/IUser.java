@@ -17,4 +17,5 @@ public interface IUser {
     public int updateUserPassword(User user) throws DAOException;
 
     public User getUserById(int idUser) throws DAOException;
+
 }

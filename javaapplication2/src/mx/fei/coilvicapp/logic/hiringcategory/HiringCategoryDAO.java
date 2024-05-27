@@ -5,14 +5,32 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import log.Log;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 
 public class HiringCategoryDAO implements IHiringCategory{
        
+    @Override
+    public boolean isThereAtLeastOneHiringCategory() throws DAOException {
+        boolean result = false;
+        String statement = "SELECT EXISTS(SELECT 1 FROM categoriacontratación LIMIT 1) AS hay_registros;";
+        DatabaseManager databaseManager = new DatabaseManager();
+        
+        try (Connection connection = databaseManager.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(statement);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                result = resultSet.getBoolean("hay_registros");
+            }
+        } catch (SQLException exception) {
+            Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible verificar que haya categorias de contratacion", Status.ERROR);
+        }
+        return result;
+    }
+    
     @Override
     public int registerHiringCategory(HiringCategory hiringCategory) throws DAOException {
         int result = 0;
@@ -36,32 +54,17 @@ public class HiringCategoryDAO implements IHiringCategory{
     @Override
     public int deleteHiringCategory(int idHiringCategory) throws DAOException {
         int result = -1;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
         String statement = "DELETE FROM categoriacontratación WHERE idCategoriaContratación = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
-            preparedStatement.setInt(1, idHiringCategory);
-            
+        try (Connection connection = databaseManager.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(statement)) {            
+            preparedStatement.setInt(1, idHiringCategory);            
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
-            Logger.getLogger(HiringCategoryDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible eliminar la categoria academica", Status.ERROR);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }               
-            } catch (SQLException exception) {
-                Logger.getLogger(HiringCategoryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-        } 
+        }
         return result;
     }
     
@@ -69,117 +72,88 @@ public class HiringCategoryDAO implements IHiringCategory{
     public HiringCategory getHiringCategoryByName(String academicAreaName) throws DAOException {
         HiringCategory hiringCategory = new HiringCategory();
         DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         String statement = "SELECT * FROM categoriacontratación WHERE nombre = ?";
 
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+        try (Connection connection = databaseManager.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
             preparedStatement.setString(1, academicAreaName);
-
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                hiringCategory.setIdHiringCategory(resultSet.getInt("idCategoriaContratación"));
-                hiringCategory.setName(resultSet.getString("nombre"));
-            }
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    hiringCategory.setIdHiringCategory(resultSet.getInt("idCategoriaContratación"));
+                    hiringCategory.setName(resultSet.getString("nombre"));
+                }
+            } 
         } catch (SQLException exception) {
-            Logger.getLogger(HiringCategoryDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener la categoria de contratacion", Status.ERROR);
-        } finally {         
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }               
-            } catch (SQLException exception) {
-                Logger.getLogger(HiringCategoryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-        }
+        } 
         return hiringCategory;         
     }
     
     @Override
-    public ArrayList<HiringCategory> getHiringCategories() throws DAOException {
-        ArrayList<HiringCategory> hiringCategories = new ArrayList<>();
+    public HiringCategory getHiringCategoryById(int idAcademicArea) throws DAOException {
         HiringCategory hiringCategory = new HiringCategory();
         DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;        
-        ResultSet resultSet = null;
+        String statement = "SELECT * FROM categoriacontratación WHERE idCategoriaContratación = ?";
+
+        try (Connection connection = databaseManager.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+            preparedStatement.setInt(1, idAcademicArea);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    hiringCategory.setIdHiringCategory(resultSet.getInt("idCategoriaContratación"));
+                    hiringCategory.setName(resultSet.getString("nombre"));
+                }
+            } 
+        } catch (SQLException exception) {
+            Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible obtener la categoria de contratacion", Status.ERROR);
+        } 
+        return hiringCategory;         
+    }    
+    
+    @Override
+    public ArrayList<HiringCategory> getHiringCategories() throws DAOException {
+        ArrayList<HiringCategory> hiringCategories = new ArrayList<>();
+        DatabaseManager databaseManager = new DatabaseManager();
         String statement = "SELECT * FROM categoriacontratación";
         
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet != null && resultSet.next()) {
-                hiringCategory.setIdHiringCategory(resultSet.getInt("idCategoriaContratación"));
-                hiringCategory.setName(resultSet.getString("nombre"));
-                hiringCategories.add(hiringCategory);
+        try (Connection connection = databaseManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {                    
+                    HiringCategory hiringCategory = new HiringCategory();
+                    hiringCategory.setIdHiringCategory(resultSet.getInt("idCategoriaContratación"));
+                    hiringCategory.setName(resultSet.getString("nombre"));
+                    hiringCategories.add(hiringCategory);
+                }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(HiringCategoryDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener las categorias de contratacion", Status.ERROR);
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException exception) {
-                Logger.getLogger(HiringCategoryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
-        }
+        } 
         return hiringCategories;
     }
     
     private int insertHiringCategoryTransaction(HiringCategory hiringCategory) throws DAOException {
         int result = -1;
-        ResultSet resultSet = null;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
         String statement = "INSERT INTO categoriacontratación(nombre) VALUES(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareCall(statement);
+        try (Connection connection = databaseManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(statement, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, hiringCategory.getName());
             preparedStatement.executeUpdate();   
-            resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                result = resultSet.getInt(1);
-            }   
-        } catch (SQLException exception) {
-            Logger.getLogger(HiringCategoryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible registrar la categoria de contratacion", Status.ERROR);
-        } finally {
-            try {
-                if(resultSet != null) {
-                    resultSet.close();
-                }                
-                if (preparedStatement != null) {
-                    preparedStatement.close();
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    result = resultSet.getInt(1);
+                    System.out.println(result);
                 }
-                if (connection != null) {
-                    connection.close();
-                }               
-            } catch (SQLException exception) {
-                Logger.getLogger(HiringCategoryDAO.class.getName()).log(Level.SEVERE, null, exception);
             }
-        }
+        } catch (SQLException exception) {
+            Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible registrar la categoria de contratacion", Status.ERROR);
+        } 
         return result;
     }
 
@@ -201,32 +175,17 @@ public class HiringCategoryDAO implements IHiringCategory{
     
     private int updateHiringCategoryTransaction(HiringCategory newHiringCategory) throws DAOException {
         int result = -1;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
         String statement = "UPDATE categoriacontratación SET nombre = ? WHERE idCategoriaContratación = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         
-        try {
-            connection = databaseManager.getConnection();
-            preparedStatement = connection.prepareStatement(statement);
+        try (Connection connection = databaseManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
             preparedStatement.setString(1, newHiringCategory.getName());
-            preparedStatement.setInt(2, newHiringCategory.getIdHiringCategory());
-            
+            preparedStatement.setInt(2, newHiringCategory.getIdHiringCategory());            
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
-            Logger.getLogger(HiringCategoryDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible actualizar la categoria de contratacion", Status.ERROR);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }               
-            } catch (SQLException exception) {
-                Logger.getLogger(HiringCategoryDAO.class.getName()).log(Level.SEVERE, null, exception);
-            }
         }
         return result;
     }

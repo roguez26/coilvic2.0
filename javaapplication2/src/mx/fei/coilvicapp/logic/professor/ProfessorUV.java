@@ -3,8 +3,8 @@ package mx.fei.coilvicapp.logic.professor;
 import mx.fei.coilvicapp.logic.academicarea.AcademicArea;
 import mx.fei.coilvicapp.logic.hiringcategory.HiringCategory;
 import mx.fei.coilvicapp.logic.hiringtype.HiringType;
+import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.region.Region;
-import mx.fei.coilvicapp.logic.university.University;
 
 public class ProfessorUV extends Professor {
     
@@ -14,16 +14,21 @@ public class ProfessorUV extends Professor {
     private AcademicArea academicArea;
     private Region region;    
     
-    //public ProfessorUV(Professor professor, int idUniversity) {
-    //    super(professor.getName(), professor.getPaternalSurname(), professor.getMaternalSurname(),
-    //            professor.getEmail(), professor.getGender(), professor.getPhoneNumber(), idUniversity);
-    //}
+    public ProfessorUV() {
+        hiringCategory = new HiringCategory();
+        hiringType = new HiringType();
+        academicArea = new AcademicArea();
+        region = new Region();
+        
+    }
     
     public int getPersonalNumber() {
         return personalNumber;
     }
     
     public void setPersonalNumber(int personalNumber) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkUvPersonalNumber(personalNumber);
         this.personalNumber = personalNumber;
     }
     
@@ -35,6 +40,14 @@ public class ProfessorUV extends Professor {
         this.hiringCategory = hiringCategory;
     }
     
+    public int getIdHiringCategory() {
+        return this.hiringCategory.getIdHiringCategory();
+    }
+    
+    public void setIdHiringCategory(int idHiringCategory) {
+        this.hiringCategory.setIdHiringCategory(idHiringCategory);
+    }    
+    
     public HiringType getHiringType() {
         return hiringType;
     }
@@ -42,6 +55,14 @@ public class ProfessorUV extends Professor {
     public void setHiringType(HiringType hiringType) {
         this.hiringType = hiringType;
     }
+    
+    public int getIdHiringType() {
+        return this.hiringType.getIdHiringType();
+    }
+    
+    public void setIdHiringType(int idHiringType) {
+        this.hiringType.setIdHiringType(idHiringType);
+    }      
     
     public AcademicArea getAcademicArea() {
         return academicArea;
@@ -51,6 +72,14 @@ public class ProfessorUV extends Professor {
         this.academicArea = academicArea;
     }
     
+    public int getIdAcademicArea() {
+        return this.academicArea.getIdAreaAcademica();
+    }
+    
+    public void setIdAcademicArea(int idAcademicArea) {
+        this.academicArea.setIdAreaAcademica(idAcademicArea);
+    }
+    
     public Region getRegion() {
         return region;
     }    
@@ -58,5 +87,25 @@ public class ProfessorUV extends Professor {
     public void setRegion(Region region) {
         this.region = region;
     }
+    
+    public int getIdRegion() {
+        return this.region.getIdRegion();
+    }
+    
+    public void setIdRegion(int idRegion) {
+        this.region.setIdRegion(idRegion);
+    }
+    
+    @Override
+    public String toString() {
+        return "ClassName{" +
+                "personalNumber=" + personalNumber +
+                ", hiringCategory=" + hiringCategory.getIdHiringCategory() +
+                ", hiringType=" + hiringType.getIdHiringType() +
+                ", academicArea=" + academicArea.getIdAreaAcademica() +
+                ", region=" + region.getIdRegion() +
+                '}';
+    }
+
     
 }

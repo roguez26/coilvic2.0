@@ -1,8 +1,0 @@
-/* Estilos para el Label como título */
-.label {
-    -fx-font-size: 17px; /* Tamaño de fuente */
-    -fx-font-family: "Roboto";
-    -fx-text-fill: white; /* Color de texto blanco */
-    -fx-font-weight: bold; /* Texto en negrita */
-    -fx-effect: dropshadow(three-pass-box, #000000, 0, 20, 1, 2);
-}
