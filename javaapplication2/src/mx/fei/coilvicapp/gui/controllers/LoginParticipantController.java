@@ -3,8 +3,6 @@ package mx.fei.coilvicapp.gui.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +27,7 @@ import mx.fei.coilvicapp.logic.student.IStudent;
 import mx.fei.coilvicapp.logic.student.Student;
 import mx.fei.coilvicapp.logic.student.StudentDAO;
 import mx.fei.coilvicapp.logic.user.IUser;
+import mx.fei.coilvicapp.logic.user.User;
 import mx.fei.coilvicapp.logic.user.UserDAO;
 
 public class LoginParticipantController implements Initializable {
@@ -36,6 +35,9 @@ public class LoginParticipantController implements Initializable {
     @FXML
     private Button showButton;
 
+    @FXML
+    private Label emailLabel;
+    
     @FXML
     private TextField emailTextField;
 
@@ -70,22 +72,39 @@ public class LoginParticipantController implements Initializable {
 
     @FXML
     void roleButtonIsPressed(ActionEvent event) {
-        if (roleButton.getText().equals("Profesor")) {
-            roleButton.setText("Estudiante");
-            identifierLabel.setText("Código de proyecto:");
-        } else {
-            roleButton.setText("Profesor");
-            identifierLabel.setText("Contraseña: ");
+        switch (roleButton.getText()) {
+            case "Profesor":
+                roleButton.setText("Estudiante");
+                identifierLabel.setText("Código de proyecto:");
+                break;
+            case "Estudiante":
+                emailLabel.setText("Usuario:");
+                emailTextField.setPromptText("Ej. 22106");
+                roleButton.setText("Administrativo");
+                registerButton.setVisible(false);
+                identifierLabel.setText("Contraseña:");
+                break;
+            case "Administrativo":
+                emailLabel.setText("Correo:");
+                emailTextField.setText("Ej. coilvic@gmail.com");
+                roleButton.setText("Profesor");
+                registerButton.setVisible(true);
+                identifierLabel.setText("Contraseña:");
+                break;
+            default:
+                break;
         }
-    }
+    }    
 
     @FXML
     void startButtonIsPressed(ActionEvent event) {
         try {
-            if (roleButton.getText().equals("Profesor")) {
-                invokeAuthenticateProfessor();
-            } else {
-                invokeAuthenticateStudentAndCollaborativeProject();
+            switch (roleButton.getText()) {
+                    case "Profesor" -> invokeAuthenticateProfessor();
+                    case "Estudiante" -> invokeAuthenticateStudentAndCollaborativeProject();
+                    case "Administrativo" -> invokeAuthenticateAdministrative();
+                    default -> {
+                }
             }
         } catch (IllegalArgumentException exception) {
             DialogController.getInvalidDataDialog(exception.getMessage());
@@ -102,14 +121,17 @@ public class LoginParticipantController implements Initializable {
         student.setEmail(emailTextField.getText());
         student = STUDENT_DAO.getStudentByEmail(emailTextField.getText());
         if (student.getIdStudent() > 0) {
-            CollaborativeProject collaborativeProject = COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectByCode(identifierPasswordField.getText());
+            CollaborativeProject collaborativeProject = 
+                    COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectByCode(identifierPasswordField.getText());
             if (collaborativeProject.getIdCollaborativeProject() > 0) {
                 changeViewForStudent(student, collaborativeProject);
             } else {
-                DialogController.getInformativeConfirmationDialog("Proyecto no encontrado", "No se encontró ningún proyecto con el codigo: " + identifierPasswordField.getText());
+                DialogController.getInformativeConfirmationDialog("Proyecto no encontrado",
+                        "No se encontró ningún proyecto con el codigo: " + identifierPasswordField.getText());
             }
         } else {
-            DialogController.getInformativeConfirmationDialog("Estudiante no encontrado", "No se encontró ningún registro con el correo: " + emailTextField.getText());
+            DialogController.getInformativeConfirmationDialog("Estudiante no encontrado",
+                    "No se encontró ningún registro con el correo: " + emailTextField.getText());
         }
     }
 
@@ -129,9 +151,28 @@ public class LoginParticipantController implements Initializable {
 
         } 
     }
+    
+    private void invokeAuthenticateAdministrative() throws DAOException, IOException {
+        User user = new User();
+        FieldValidator fieldValidator = new FieldValidator();
+        int idUser = Integer.parseInt(emailTextField.getText());
+        
+
+        fieldValidator.checkPassword(identifierPasswordField.getText());
+        if (USER_DAO.authenticateAdministrativeUser(idUser, identifierPasswordField.getText())) {
+            user = USER_DAO.getUserById(idUser);
+            if (user.getType().equalsIgnoreCase("C")) {
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
+            } else if (user.getType().equalsIgnoreCase("A")) {
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
+            }
+
+        } 
+    }    
 
     private void changeViewForStudent(Student student, CollaborativeProject collaborativeProject) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                "/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent.fxml"));
 
         MainApp.changeView(fxmlLoader);
         CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController = fxmlLoader.getController();
