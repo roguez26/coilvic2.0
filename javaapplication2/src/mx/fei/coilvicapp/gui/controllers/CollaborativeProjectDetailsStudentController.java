@@ -94,7 +94,7 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
                     handleIOException(exception);
                 }
             } else {
-                DialogController.getInformativeConfirmationDialog("Aviso", "No se encontraron los recuros para generar la constancia");
+                DialogController.getInformativeConfirmationDialog("Aviso", "No se encontraron los recursos para generar la constancia");
             }
         } else {
             DialogController.getInformativeConfirmationDialog("Aviso", "Es necesario completar la retroalimentación para descargar la constancia");

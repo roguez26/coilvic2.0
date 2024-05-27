@@ -70,7 +70,6 @@ public class UploadAssignmentController implements Initializable {
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
         
-
     }
 
     @FXML
