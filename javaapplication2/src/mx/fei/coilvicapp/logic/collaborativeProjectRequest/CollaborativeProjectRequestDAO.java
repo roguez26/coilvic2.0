@@ -22,30 +22,25 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
       
     @Override
     public int registerCollaborativeProjectRequest(CollaborativeProjectRequest collaborativeProjectRequest) throws DAOException {
-        int result = -1;
-        if (collaborativeProjectRequest.getRequesterCourse().getProfessor().getIdProfessor() != 
-           collaborativeProjectRequest.getRequestedCourse().getProfessor().getIdProfessor()) {
-            if (checkCollaborativeProjectRequestsSent(collaborativeProjectRequest) == 0) {
-                switch (collaborativeProjectRequest.getRequesterCourse().getStatus()) {
-                    case "Aceptado" -> {
-                    switch (collaborativeProjectRequest.getRequestedCourse().getStatus()) {
-                        case "Aceptado" -> result = insertCollaborativeProjectRequest(collaborativeProjectRequest);
-                        case "Pendiente" -> throw new DAOException("No se pudo enviar la solicitud, el curso que solicitó aun no ha sido aceptado", Status.WARNING);
-                        case "Rechazado" -> throw new DAOException("No se pudo enviar la solicitud, el curso que solicitó fue rechazado", Status.WARNING);
-                        case "Colaboracion" -> throw new DAOException("No se pudo enviar la solicitud, el curso que solicitó ya forma parte de un proyecto colaborativo", Status.WARNING);
-                        default -> {}
-                    }
-                    }
-                    case "Pendiente" -> throw new DAOException("No se pudo enviar la solicitud, su curso aun no ha sido aceptado", Status.WARNING);
-                    case "Rechazado" -> throw new DAOException("No se pudo enviar la solicitud, su curso fue rechazado", Status.WARNING);
-                    case "Colaboracion" -> throw new DAOException("No se pudo enviar la solicitud, el curso ya forma parte de un proyecto colaborativo", Status.WARNING);
+        int result = -1;        
+        if (checkCollaborativeProjectRequestsSent(collaborativeProjectRequest) == 0) {
+            switch (collaborativeProjectRequest.getRequesterCourse().getStatus()) {
+                case "Aceptado" -> {
+                switch (collaborativeProjectRequest.getRequestedCourse().getStatus()) {
+                    case "Aceptado" -> result = insertCollaborativeProjectRequest(collaborativeProjectRequest);
+                    case "Pendiente" -> throw new DAOException("No se pudo enviar la solicitud, el curso que solicitó aun no ha sido aceptado", Status.WARNING);
+                    case "Rechazado" -> throw new DAOException("No se pudo enviar la solicitud, el curso que solicitó fue rechazado", Status.WARNING);
+                    case "Colaboracion" -> throw new DAOException("No se pudo enviar la solicitud, el curso que solicitó ya forma parte de un proyecto colaborativo", Status.WARNING);
                     default -> {}
                 }
-            } else {
-                throw new DAOException("No puedes enviar mas de una solicitud de proyecto colaborativo con el mismo curso", Status.WARNING);
+                }
+                case "Pendiente" -> throw new DAOException("No se pudo enviar la solicitud, su curso aun no ha sido aceptado", Status.WARNING);
+                case "Rechazado" -> throw new DAOException("No se pudo enviar la solicitud, su curso fue rechazado", Status.WARNING);
+                case "Colaboracion" -> throw new DAOException("No se pudo enviar la solicitud, el curso ya forma parte de un proyecto colaborativo", Status.WARNING);
+                default -> {}
             }
         } else {
-            throw new DAOException("No puedes enviar una solicitud de proyecto colaborativo a tu propio curso", Status.WARNING);
+            throw new DAOException("No puedes enviar mas de una solicitud de proyecto colaborativo con el mismo curso", Status.WARNING);
         }
         return result;
     }
@@ -54,8 +49,9 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String statement = "SELECT * FROM SolicitudProyectoColaborativo"
-        + " WHERE idCursoSolicitante = ? and (estado = 'Pendiente' OR"
+        ResultSet resultSet = null;
+        String statement = "SELECT COUNT(*) FROM SolicitudProyectoColaborativo"
+        + " WHERE idCursoSolicitante = ? AND (estado = 'Pendiente' OR"
         + " estado = 'Aceptado')";
         int result = -1;
         
@@ -65,11 +61,17 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
             
             preparedStatement.setInt(1,collaborativeProjectRequest.getRequesterCourse().getIdCourse());
             
-            result = preparedStatement.executeUpdate();
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                result = resultSet.getInt(1);
+            }            
         } catch (SQLException exception) {
             Logger.getLogger(CollaborativeProjectRequestDAO.class.getName()).log(Level.SEVERE, null, exception);
         } finally {
             try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }                
                 if (preparedStatement != null) {
                     preparedStatement.close();
                 }

@@ -98,13 +98,13 @@ public class FeedbackFormsController implements Initializable {
 
         typeCombobox.setItems(types);
 
-        professorQuestionsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        professorQuestionsTableView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 studentQuestionsTableView.getSelectionModel().clearSelection();
             }
         });
 
-        studentQuestionsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        studentQuestionsTableView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 professorQuestionsTableView.getSelectionModel().clearSelection();
             }
@@ -228,7 +228,6 @@ public class FeedbackFormsController implements Initializable {
     @FXML
     void deleteButtonIsPressed(ActionEvent event) {
         selectedQuestion = getSelectedQuestion();
-        System.out.println(selectedQuestion.getIdQuestion());
         if (selectedQuestion.getIdQuestion() > 0) {
             if (confirmDelete()) {
                 try {
