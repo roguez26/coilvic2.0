@@ -131,7 +131,7 @@ public class ProfessorValidateController implements Initializable {
             }     
             if (rowsAffected > 0) {
                 try {
-                    XLSXCreator.addProfessorIntoXLSX(professor);
+//                    XLSXCreator.addProfessorIntoXLSX(professor);
                     DialogController.getInformativeConfirmationDialog(
                             "Validacion exitosa", "Se ha validado y enviado el usuario y contraseña del profesor con exito");
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");

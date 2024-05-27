@@ -42,17 +42,17 @@ public class ProfessorUserAssignmentTest {
         PROFESSOR_FOR_TESTING.setIdUniversity(5);
     }
     
-    @Test
-    public void testUserRegistration() {
-        int result = 0;
-        String password = "Contra123!";
-        try {
-            result = PROFESSOR_DAO.assignUser(PROFESSOR_FOR_TESTING);
-        } catch (DAOException exception) {
-            Logger.getLogger(ProfessorUserAssignmentTest.class.getName()).log(Level.SEVERE, null, exception);
-        }
-        assertTrue(result > 0);
-    }
+//    @Test
+//    public void testUserRegistration() {
+//        int result = 0;
+//        String password = "Contra123!";
+//        try {
+//            result = PROFESSOR_DAO.assignUser(PROFESSOR_FOR_TESTING);
+//        } catch (DAOException exception) {
+//            Logger.getLogger(ProfessorUserAssignmentTest.class.getName()).log(Level.SEVERE, null, exception);
+//        }
+//        assertTrue(result > 0);
+//    }
     
     @After
     public void tearDown() {

@@ -215,6 +215,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         preparedStatement.setString(3, institutionalRepresentative.getMaternalSurname());
         preparedStatement.setString(4, institutionalRepresentative.getEmail());
         preparedStatement.setString(5, institutionalRepresentative.getPhoneNumber());
+        preparedStatement.setInt(6, institutionalRepresentative.getIdUniversity());
         return preparedStatement;
     }
 

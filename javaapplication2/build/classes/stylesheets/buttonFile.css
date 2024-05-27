@@ -1,0 +1,18 @@
+.button {
+    -fx-background-color: rgb(28, 170, 80); /* Color de fondo azul */
+    -fx-text-fill: white; /* Color del texto blanco */
+    -fx-font-family: "Roboto"; /* Fuente Arial */
+    -fx-font-size: 12px; /* Tamaño de fuente */
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 13px; /* Bordes redondeados */
+   
+    -fx-min-height: 26px;
+    -fx-font-weight: bold;
+}
+
+/* Estilos para el botón cuando es presionado */
+.button:pressed {
+    -fx-background-color: rgb(19, 122, 57); /* Cambia el color de fondo al presionar */
+    -fx-text-fill: white;
+    -fx-padding: 6px 11px; /* Ajusta el espaciado al presionar */
+}
