@@ -9,27 +9,23 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
-import mx.fei.coilvicapp.logic.university.UniversityDAO;
-import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.institutionalRepresentative.InstitutionalRepresentative;
 import mx.fei.coilvicapp.logic.institutionalRepresentative.InstitutionalRepresentativeDAO;
-import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
-import mx.fei.coilvicapp.logic.implementations.Status;
 import java.io.IOException;
-import java.util.Optional;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.scene.control.ButtonType;
 import log.Log;
 import main.MainApp;
+import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
+import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
 public class InstitutionalRepresentativeManagerController implements Initializable {
     
     private UniversityDAO universityDAO = new UniversityDAO();
-    private InstitutionalRepresentativeDAO institutionalRepresentativeDAO = new InstitutionalRepresentativeDAO();
+    private InstitutionalRepresentativeDAO institutionalRepresentativeDAO = 
+            new InstitutionalRepresentativeDAO();
     
     @FXML
     private Button backButton;
@@ -73,34 +69,43 @@ public class InstitutionalRepresentativeManagerController implements Initializab
     }
 
     @FXML
-    private void backButtonIsPressed(ActionEvent event) throws IOException {
-        if (backConfirmation()) {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");   
+    private void backButtonIsPressed(ActionEvent event) {
+        try {   
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
+        } catch (IOException exception) {
+            Log.getLogger(InstitutionalRepresentativeManagerController.class).error(exception.getMessage(),
+                    exception);
         }
     }
-    
+           
     @FXML
-    private boolean backConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar al menu principal", "¿Deseas regresar al menu principal?");
-        return (response.get() == DialogController.BUTTON_YES);
-    }
-       
-    @FXML
-    private void seeDetailsButtonIsPressed (ActionEvent event) throws IOException {
-        InstitutionalRepresentative institutionalRepresentative = (InstitutionalRepresentative) professorsTableView.getSelectionModel().getSelectedItem();
+    private void seeDetailsButtonIsPressed (ActionEvent event) {
+        InstitutionalRepresentative institutionalRepresentative = 
+                (InstitutionalRepresentative) professorsTableView.getSelectionModel().getSelectedItem();
         if (institutionalRepresentative != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeDetails.fxml"));
-            MainApp.changeView(fxmlLoader);
-            InstitutionalRepresentativeDetailsController institutionalRepresentativeDetailsController = fxmlLoader.getController();
-            institutionalRepresentativeDetailsController.setInstitutionalRepresentativeDetailsController(institutionalRepresentative);
-        } else {
-            
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                        "/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeDetails.fxml"));
+                MainApp.changeView(fxmlLoader);
+                InstitutionalRepresentativeDetailsController
+                        institutionalRepresentativeDetailsController = fxmlLoader.getController();
+                institutionalRepresentativeDetailsController.setInstitutionalRepresentativeDetailsController(
+                        institutionalRepresentative);
+            } catch (IOException exception) {
+                Log.getLogger(InstitutionalRepresentativeManagerController.class).error(exception.getMessage(),
+                        exception);
+            }
         }
     }
 
     @FXML
-    private void registerButtonIsPressed(ActionEvent event) throws IOException {
-        MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeRegister");
+    private void registerButtonIsPressed(ActionEvent event) {
+        try {
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeRegister");
+        } catch (IOException exception) {
+            Log.getLogger(InstitutionalRepresentativeManagerController.class).error(exception.getMessage(), 
+                    exception);
+        }
     }    
     
     private ArrayList<InstitutionalRepresentative> initializeInstitutionalRepresentativeArray() {
@@ -108,9 +113,23 @@ public class InstitutionalRepresentativeManagerController implements Initializab
         try {
             institutionalRepresentatives = institutionalRepresentativeDAO.getAllInstitutionalRepresentatives();
         } catch (DAOException exception) {
-            Log.getLogger(InstitutionalRepresentativeManagerController.class).error(exception.getMessage(), exception);
+            handleDAOException(exception);
         }
         return institutionalRepresentatives;
     }
+    
+    private void handleDAOException(DAOException exception) {
+        try {
+            DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
+            switch (exception.getStatus()) {
+                case ERROR ->
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
+                case FATAL ->
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
+            }
+        } catch (IOException ioException) {
+            Log.getLogger(FeedbackFormsController.class).error(exception.getMessage(), exception);
+        }
+    }    
     
 }

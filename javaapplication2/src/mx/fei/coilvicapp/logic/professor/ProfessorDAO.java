@@ -6,10 +6,13 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.mail.MessagingException;
 import log.Log;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import mx.fei.coilvicapp.logic.academicarea.AcademicAreaDAO;
+import mx.fei.coilvicapp.logic.emailSender.EmailSender;
+import mx.fei.coilvicapp.logic.emailSender.EmailSenderDAO;
 import mx.fei.coilvicapp.logic.hiringcategory.HiringCategoryDAO;
 import mx.fei.coilvicapp.logic.hiringtype.HiringTypeDAO;
 import mx.fei.coilvicapp.logic.region.RegionDAO;
@@ -21,6 +24,21 @@ import mx.fei.coilvicapp.logic.user.UserDAO;
 
 public class ProfessorDAO implements IProfessor {
            
+    @Override
+    public boolean checkPreconditions() throws DAOException{
+        UniversityDAO universityDAO = new UniversityDAO();
+        AcademicAreaDAO academicAreaDAO = new AcademicAreaDAO();
+        HiringCategoryDAO hiringCategoryDAO = new HiringCategoryDAO();
+        HiringTypeDAO hiringTypeDAO = new HiringTypeDAO();
+        RegionDAO regionDAO = new RegionDAO();
+        
+        return universityDAO.isThereAtLeastOneUniversity() &&
+                academicAreaDAO.isThereAtLeastOneAcademicArea() &&
+                hiringCategoryDAO.isThereAtLeastOneHiringCategory() &&
+                hiringTypeDAO.isThereAtLeastOneHiringType() &&
+                regionDAO.isThereAtLeastOneRegion();
+    }     
+    
     private boolean checkEmailDuplication(Professor professor) throws DAOException {
         Professor professorAux;
         int idProfessor = 0;
@@ -228,7 +246,7 @@ public class ProfessorDAO implements IProfessor {
         int result = -1;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String statement = "DELETE FROM profesor WHERE idProfesor = ?";
+        String statement = "DELETE FROM profesoruv WHERE idProfesor = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         
         try {
@@ -331,7 +349,7 @@ public class ProfessorDAO implements IProfessor {
         }
         return professor;          
     }
-//CORREGIR    
+    
     @Override
     public ProfessorUV getProfessorUVByPersonalNumber(int personalNumber) throws DAOException {
         ProfessorUV professorUV = new ProfessorUV();
@@ -436,21 +454,28 @@ public class ProfessorDAO implements IProfessor {
     
     @Override
     public int acceptProfessor(Professor professor) throws DAOException {
-        int result;
-        int idUser;
+        int result = -1;
+        User user = new User();
         DatabaseManager databaseManager = new DatabaseManager();
         String statement = "UPDATE profesor set estado = 'Aceptado', idUsuario = ? where idProfesor = ?;";
         
         try (Connection connection = databaseManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-            idUser = assignUser(professor);
-            preparedStatement.setInt(1, idUser);
+            user = assignUser(professor);
+            preparedStatement.setInt(1, user.getIdUser());
             preparedStatement.setInt(2, professor.getIdProfessor());
             result = preparedStatement.executeUpdate(); 
+            professor.setUser(user);
+            if (result > 0) {
+                invokeSendEmail(professor);
+            }
         } catch (SQLException exception) {
             Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible aceptar al profesor", Status.ERROR);
-        } 
+        } catch (MessagingException exception) { 
+            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible mandar el correo", Status.ERROR);
+        }
         return result;
     }
     
@@ -486,14 +511,12 @@ public class ProfessorDAO implements IProfessor {
         professor.setState(resultSet.getString("estado"));
         int idUniversity = resultSet.getInt("IdUniversidad");
         int idUser = resultSet.getInt("idUsuario");
-        System.out.println(idUser);
         try {
             professor.setUser(userDAO.getUserById(idUser));
             professor.setUniversity(universityDAO.getUniversityById(idUniversity));
         } catch (DAOException exception) {
             Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
         }
-        System.out.println(professor.getUser().getPassword() + " DAO");
         return professor;  
     }
     
@@ -529,17 +552,16 @@ public class ProfessorDAO implements IProfessor {
         return professorUV;
     }
     
-    public int assignUser(Professor professor) throws DAOException {
+    public User assignUser(Professor professor) throws DAOException {
         int result = 0;
         User user = new User();
         UserDAO userDAO = new UserDAO();
         
         user.setType("P");
-        user.setPassword(PasswordGenerator.generatePassword());
-        
+        user.setPassword(PasswordGenerator.generatePassword());        
         result = userDAO.registerUser(user);
-        
-        return result;
+        user.setIdUser(result);
+        return user;
     }
     
     public int deleteUser(Professor professor) throws DAOException {
@@ -550,7 +572,22 @@ public class ProfessorDAO implements IProfessor {
         
         return result;
     }
-       
     
+    private void invokeSendEmail(Professor professor) throws DAOException, MessagingException {
+        EmailSenderDAO emailSenderDAO = new EmailSenderDAO();
+        EmailSender emailSender = initializeEmailSender(professor);
+        emailSender.createEmail();
+        emailSender.sendEmail();
+    }
+
+    private EmailSender initializeEmailSender(Professor professor) {
+        EmailSender emailSender = new EmailSender();
+        emailSender.setSubject("Aceptacion en COIL VIC");
+        emailSender.setMessage("Ha sido aceptado en el proyecto COIL VIC,"
+                + " se le ha asignado un usuario y contraseña.\n Usuario: " + professor.getEmail() 
+                + "\nContraseña: " + professor.getUser().getPassword());
+        emailSender.setReceiver(professor);
+        return emailSender;
+    }   
     
 }

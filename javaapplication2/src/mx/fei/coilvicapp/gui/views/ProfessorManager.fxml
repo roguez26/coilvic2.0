@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.ProfessorManagerController">
+<VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.ProfessorManagerController">
    <children>
       <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="103.0" prefWidth="745.0" spacing="200.0">
          <children>
@@ -25,36 +25,36 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <ImageView fitHeight="84.0" fitWidth="121.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../stylesheets/Imagen1.png" />
                </image>
             </ImageView>
          </children>
       </HBox>
-      <VBox alignment="TOP_CENTER" prefHeight="532.0" prefWidth="800.0">
+      <VBox alignment="CENTER" fillWidth="false" prefHeight="549.0" prefWidth="758.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
          <children>
-            <TableView fx:id="professorsTableView" accessibleRole="CONTEXT_MENU" cache="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="516.0" prefWidth="750.0" styleClass="table-view-container" stylesheets="@../../../../../stylesheets/tableview.css" VBox.vgrow="ALWAYS">
+            <TableView fx:id="professorsTableView" accessibleRole="CONTEXT_MENU" cache="true" maxHeight="-Infinity" maxWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="458.0" prefWidth="712.0" styleClass="table-view-container" stylesheets="@../../../../../stylesheets/tableview.css" VBox.vgrow="ALWAYS">
                <columns>
-                  <TableColumn fx:id="nameTableColumn" prefWidth="93.59997254610062" text="Nombre" />
-                  <TableColumn fx:id="paternalSurnameTableColumn" prefWidth="128.80001831054688" text="Apellido Paterno" />
-                  <TableColumn fx:id="maternalSurnameTableColumn" prefWidth="120.80000305175781" text="Apellido Materno" />
-                  <TableColumn fx:id="emailTableColumn" prefWidth="120.800048828125" text="Correo" />
-                  <TableColumn fx:id="genderTableColumn" prefWidth="73.5999755859375" text="Genero" />
-                  <TableColumn fx:id="phoneNumberTableColumn" prefWidth="104.79998779296875" text="Telefono" />
-                  <TableColumn fx:id="universityTableColumn" prefWidth="109.60003662109375" text="Universidad" />
+                  <TableColumn fx:id="nameTableColumn" prefWidth="86.39999294281006" text="Nombre" />
+                  <TableColumn fx:id="paternalSurnameTableColumn" prefWidth="118.4000244140625" text="Apellido Paterno" />
+                  <TableColumn fx:id="maternalSurnameTableColumn" prefWidth="122.39996337890625" text="Apellido Materno" />
+                  <TableColumn fx:id="emailTableColumn" prefWidth="87.20001220703125" text="Correo" />
+                  <TableColumn fx:id="genderTableColumn" prefWidth="92.00006103515625" text="Genero" />
+                  <TableColumn fx:id="phoneNumberTableColumn" prefWidth="91.20001220703125" text="Telefono" />
+                  <TableColumn fx:id="universityTableColumn" prefWidth="104.0001220703125" text="Universidad" />
                </columns>
                <effect>
                   <ColorAdjust />
                </effect>
             </TableView>
+            <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="70.0" prefWidth="694.0" spacing="10.0">
+               <children>
+                  <Button fx:id="exportValidatedProfessorsButton" mnemonicParsing="false" onAction="#exportValidatedProfessorsButtonIsPressed" stylesheets="@../../../../../stylesheets/buttongray.css" text="Exportar profesores validados" />
+                  <Button fx:id="seeDetailsButton" mnemonicParsing="false" onAction="#seeDetailsButtonIsPressed" prefHeight="26.0" prefWidth="80.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Ver detalles" />
+               </children>
+            </HBox>
          </children>
       </VBox>
-      <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="46.0" prefWidth="750.0" spacing="10.0">
-         <children>
-            <Button fx:id="exportValidatedProfessorsButton" mnemonicParsing="false" onAction="#exportValidatedProfessorsButtonIsPressed" stylesheets="@../../../../../stylesheets/buttongray.css" text="Exportar profesores validados" />
-            <Button fx:id="seeDetailsButton" mnemonicParsing="false" onAction="#seeDetailsButtonIsPressed" prefHeight="26.0" prefWidth="80.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Ver detalles" />
-         </children>
-      </HBox>
    </children>
 </VBox>

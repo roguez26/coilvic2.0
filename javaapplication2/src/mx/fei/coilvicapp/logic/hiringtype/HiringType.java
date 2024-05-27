@@ -12,6 +12,10 @@ public class HiringType {
         
     }
     
+    public HiringType(String name) {
+        this.name = name;
+    }
+    
     public int getIdHiringType() {
         return idHiringType;
     }

@@ -4,8 +4,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
@@ -17,18 +15,23 @@ import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.input.MouseEvent;
 import log.Log;
 import main.MainApp;
+import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.implementations.Status;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
+import mx.fei.coilvicapp.logic.implementations.XLSXCreator;
+import mx.fei.coilvicapp.logic.user.User;
+import mx.fei.coilvicapp.logic.user.UserDAO;
 
 public class ProfessorValidateController implements Initializable {
 
@@ -88,6 +91,9 @@ public class ProfessorValidateController implements Initializable {
     
     private ProfessorDAO professorDAO = new ProfessorDAO();
     private UniversityDAO universityDAO = new UniversityDAO();
+    private UserDAO userDAO = new UserDAO();
+    private String passwordForShow;
+    private boolean isForValidation;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -95,25 +101,77 @@ public class ProfessorValidateController implements Initializable {
     
     @FXML
     private void backButtonIsPressed(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
         if (backConfirmation()) {
-            try {   
-                MainApp.changeView(fxmlLoader);
-                ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
-                professorMainMenuController.setProfessor(professor);
+            try {                  
+                if(isForValidation) {
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
+                } else {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
+                    MainApp.changeView(fxmlLoader);
+                    ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
+                    professorMainMenuController.setProfessor(professor);
+                }
             } catch (IOException exception) {
                 Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
             }
         }            
     }  
     
+
     @FXML
-    private void rejectButtonIsPressed(ActionEvent event) throws  IOException {
+    private void acceptButtonIsPressed(ActionEvent event) {
+        int rowsAffected = -1;
         
+        if (validationConfirmation("aceptar")) {
+            try {
+                rowsAffected = professorDAO.acceptProfessor(professor);
+            } catch (DAOException exception) {
+                Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
+                handleDAOException(exception);
+            }     
+            if (rowsAffected > 0) {
+                try {
+                    XLSXCreator.addProfessorIntoXLSX(professor);
+                    DialogController.getInformativeConfirmationDialog(
+                            "Validacion exitosa", "Se ha validado y enviado el usuario y contraseña del profesor con exito");
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
+                } catch (IOException exception) {
+                    Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
+                }
+            } else {
+                DialogController.getInformativeConfirmationDialog(
+                        "Validacion fallida", "No se ha podido validar al profesor");
+            }
+        }
+    }    
+    
+    @FXML
+    private void rejectButtonIsPressed(ActionEvent event) {
+        int rowsAffected = -1;
+        
+        if (validationConfirmation("rechazar")) {
+            try {
+                rowsAffected = professorDAO.rejectProfessor(professor);
+                if (rowsAffected > 0) {
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
+                        NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                        notifyProfessorController.setProfessor(professor);
+                    });
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
+                } else {                 
+                    DialogController.getInformativeConfirmationDialog(
+                            "Validacion fallida", "No se ha podido validar al profesor");
+                }
+            } catch (IOException exception) {
+                Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
+            } catch (DAOException exception) {
+                Logger.getLogger(ProfessorValidateController.class.getName()).log(Level.SEVERE, null, exception);
+            }
+        }
     }
     
     @FXML
-    private void cancelButtonIsPressed(ActionEvent event) throws IOException {
+    private void cancelButtonIsPressed(ActionEvent event) {
         if(cancelConfirmation()) {
             changeComponentsEditabilityFalseForUpdate();
             initializeTextFields();
@@ -121,48 +179,61 @@ public class ProfessorValidateController implements Initializable {
     }      
         
     @FXML
-    private void updateButtonIsPressed(ActionEvent event) throws IOException {
+    private void updateButtonIsPressed(ActionEvent event) {
         changeComponentsEditabilityTrueForUpdate();
     } 
     
     @FXML
     private void saveButtonIsPressed(ActionEvent event) {
-        int rowsAffected = -1;
-        if(updateConfirmation()) {
-            try {
-                rowsAffected = professorDAO.updateProfessor(initializeProfessor());
-            } catch (DAOException exception) {
-                handleDAOException(exception);
-                Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
-            }      
+        try {
+            invokeUpdateProfessor();            
+        } catch (IllegalArgumentException exception) {
+            handleValidationException(exception);
+        } catch (DAOException exception) {
+            handleDAOException(exception);       
+        } catch (IOException exception) {
+            Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
         }
-        if (rowsAffected > 0) {
+    } 
+    
+    private void invokeUpdateProfessor() throws DAOException, IOException  {
+        int professorUpdateRowsAffected = -1;
+        int passwordUpdateRowsAffected = -1;
+        FieldValidator fieldValidator = new FieldValidator();
+        
+        if(updateConfirmation()) {
+            if (!identifierPasswordField.getText().isEmpty()) {
+                User user = professor.getUser();
+                fieldValidator.checkPassword(identifierPasswordField.getText());
+                user.setPassword(identifierPasswordField.getText());
+                passwordUpdateRowsAffected = userDAO.updateUserPassword(user);
+            }
+            professorUpdateRowsAffected = professorDAO.updateProfessor(initializeProfessor());    
+        }
+        if (professorUpdateRowsAffected > 0 || passwordUpdateRowsAffected > 0) {
             if (wasUpdatedConfirmation()) {
-                try {   
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
-                } catch (IOException exception) {
-                    Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
-                }
+                professor = professorDAO.getProfessorById(professor.getIdProfessor());
+                changeComponentsEditabilityFalseForUpdate();
             } else {
                 wasNotUpdatedConfirmation();
             }
-        } 
-    } 
-
-    @FXML
-    private void acceptButtonIsPressed(ActionEvent event) {
-        
+        }         
     }
     
     @FXML
-    private void showButtonIsPressed(MouseEvent event) {
-
+    private void showButtonIsPressed() {
+        if (identifierPasswordField != null) {
+            passwordForShow = identifierPasswordField.getText();
+            identifierPasswordField.clear();
+            identifierPasswordField.setPromptText(passwordForShow);
+        }
     }
 
     @FXML
-    private void showButtonIsReleased(MouseEvent event) {
-
-    }    
+    private void showButtonIsReleased() {
+        identifierPasswordField.setText(passwordForShow);
+        identifierPasswordField.setPromptText(null);
+    } 
     
     private void changeComponentsEditabilityTrueForUpdate() {
         cancelButton.setVisible(true);
@@ -239,29 +310,38 @@ public class ProfessorValidateController implements Initializable {
         rejectButton.setManaged(false);
     }    
          
-    
+    private boolean validationConfirmation(String validationAction) {
+        Optional<ButtonType> response = DialogController.getConfirmationDialog(
+                "Validacion del profesor", "¿Desea " + validationAction + " al profesor?");
+        return (response.get() == DialogController.BUTTON_YES);
+    }      
+   
     private boolean backConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar a la ventana profesores", "¿Deseas regresar a la ventana profesores?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar", "¿Desea regresar?");
         return (response.get() == DialogController.BUTTON_YES);
     }   
     
     private boolean cancelConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar a los detalles del profesor", "¿Desea deshacer los cambios y regresar?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog(
+                "Regresar a los detalles del profesor", "¿Desea deshacer los cambios y regresar?");
         return (response.get() == DialogController.BUTTON_YES);        
     }
     
     private boolean wasNotUpdatedConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Informacion no actualizada", "Los cambios no se pudieron realizar");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(
+                "Informacion no actualizada", "Los cambios no se pudieron realizar");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }    
     
     private boolean wasUpdatedConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Informacion actualizada", "Los cambios fueron realizados con exito");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(
+                "Informacion actualizada", "Los cambios fueron realizados con exito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
     
     private boolean updateConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cambios", "¿Desea realizar los cambios?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog(
+                "Confirmar cambios", "¿Desea realizar los cambios?");
         return (response.get() == DialogController.BUTTON_YES);        
     }    
     
@@ -310,6 +390,7 @@ public class ProfessorValidateController implements Initializable {
         initializeTextFields(professor);
         initializeGenderComboBox(professor);
         universitiesComboBox.setValue(professor.getUniversity());    
+        isForValidation = false;
     }
     
     public void setProfessorForValidation(Professor professor) {
@@ -318,6 +399,7 @@ public class ProfessorValidateController implements Initializable {
         initializeGenderComboBox(professor);
         universitiesComboBox.setValue(professor.getUniversity());    
         changeComponentsVisibilityTrueForValidation();
+        isForValidation = true;
     }    
     
     public Professor getProfessor() {

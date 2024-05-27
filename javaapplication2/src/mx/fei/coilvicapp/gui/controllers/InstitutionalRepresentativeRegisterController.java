@@ -107,7 +107,6 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
     
     private void invokeInstitutionalRepresentativeRegistration() throws DAOException, IOException {
         if (!fieldsAreEmpty()) {
-            System.out.println("campos no vacios");
             InstitutionalRepresentative institutionalRepresentative = initializeInstitutionalRepresentative();
             int idInstitutionalRepresentative = INSTITUTIONAL_REPRESENTATIVE_DAO.registerInstitutionalRepresentative(institutionalRepresentative);
             if(idInstitutionalRepresentative > 0) {
@@ -116,7 +115,6 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeManager");
             }
         } else {
-            System.out.println("camposvacios======");
             emptyFieldsConfirmation();
         }
     }    

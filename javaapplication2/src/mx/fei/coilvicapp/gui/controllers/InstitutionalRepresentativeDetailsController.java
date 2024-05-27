@@ -4,8 +4,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
@@ -13,12 +11,9 @@ import mx.fei.coilvicapp.logic.institutionalRepresentative.InstitutionalRepresen
 import mx.fei.coilvicapp.logic.institutionalRepresentative.InstitutionalRepresentative;
 import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
-import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
-import mx.fei.coilvicapp.logic.implementations.Status;
 import java.io.IOException;
 import java.util.Optional;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonType;
 import log.Log;
@@ -72,17 +67,13 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
     }
     
     @FXML
-    private void backButtonIsPressed(ActionEvent event) throws IOException {
-        if (backConfirmation()) {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeManager");   
-        }            
-    }
-    
-    @FXML
-    private boolean backConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog(
-                "Regresar a la ventana representantes institucionales", "¿Deseas regresar a la ventana representantes institucionales?");
-        return (response.get() == DialogController.BUTTON_YES);
+    private void backButtonIsPressed(ActionEvent event) {
+        try {   
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeManager");
+        } catch (IOException exception) {
+            Log.getLogger(InstitutionalRepresentativeDetailsController.class).error(exception.getMessage(), 
+                    exception);
+        }         
     }    
         
     @FXML
@@ -92,11 +83,13 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
     
     private void changeComponentsEditabilityTrue() {
         updateRepresentativeButton.setVisible(false);
+        updateRepresentativeButton.setManaged(false);
         deleteButton.setVisible(false);
+        deleteButton.setManaged(false);
         cancelButton.setVisible(true);
-        cancelButton.setDisable(false);
+        cancelButton.setManaged(true);
         saveButton.setVisible(true);
-        saveButton.setDisable(false);
+        saveButton.setManaged(true);
         
         nombreTextField.setEditable(true);
         paternalSurnameTextField.setEditable(true);
@@ -106,7 +99,7 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
     }
     
     @FXML
-    private void cancelButtonIsPressed(ActionEvent event) throws IOException {
+    private void cancelButtonIsPressed(ActionEvent event) {
         if(cancelConfirmation()) {
             changeComponentsEditabilityFalse();
             initializeTextFields();
@@ -115,9 +108,13 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
     
     private void changeComponentsEditabilityFalse() {
         updateRepresentativeButton.setVisible(true);
+        updateRepresentativeButton.setManaged(true);
         deleteButton.setVisible(true);
+        deleteButton.setManaged(true);
         cancelButton.setVisible(false);
+        cancelButton.setManaged(false);
         saveButton.setVisible(false);
+        saveButton.setManaged(false);
         
         nombreTextField.setEditable(false);
         paternalSurnameTextField.setEditable(false);
@@ -127,12 +124,13 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
     }    
     
     private boolean cancelConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar a los detalles del representante institucional", "¿Desea deshacer los cambios y regresar?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog(
+                "Regresar", "¿Desea deshacer los cambios y regresar?");
         return (response.get() == DialogController.BUTTON_YES);        
     }
     
     @FXML
-    private void deleteButtonIsPressed(ActionEvent event) throws IOException {
+    private void deleteButtonIsPressed(ActionEvent event) {
         if (deleteConfirmation()) {
             try {
                 institutionalRepresentativeDAO.deleteInstitutionalRepresentative(institutionalRepresentative);
@@ -140,34 +138,48 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
                 handleDAOException(exception);
             }            
             if (wasDeleted()) {
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeManager");   
+                try {   
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeManager");
+                } catch (IOException exception) {
+                    Log.getLogger(InstitutionalRepresentativeDetailsController.class).error(exception.getMessage(), 
+                            exception);
+                }
             }
         }
     }
     
     private boolean deleteConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Eliminar representante institucional", "¿Desea eliminar al representante institucional?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog(
+                "Eliminar representante institucional", "¿Desea eliminar al representante institucional?");
         return (response.get() == DialogController.BUTTON_YES);         
     }
     
     private boolean wasDeleted() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Eliminar representante institucional", "El representante institucional fue eliminado con exito");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog(
+                "Eliminar representante institucional", "El representante institucional fue eliminado con exito");
         return (response.get() == DialogController.BUTTON_YES);         
     }    
     
     @FXML
-    private void saveButtonIsPressed(ActionEvent event) throws IOException {
+    private void saveButtonIsPressed(ActionEvent event) {
         int rowsAffected = -1;
         if (updateConfirmation()) {
             try {
-                rowsAffected = institutionalRepresentativeDAO.updateInstitutionalRepresentative(initializeInstitutionalRepresentative());
+                rowsAffected = institutionalRepresentativeDAO.updateInstitutionalRepresentative(
+                        initializeInstitutionalRepresentative());
             } catch (DAOException exception) {
-                Log.getLogger(InstitutionalRepresentativeDetailsController.class).error(exception.getMessage(), exception);
+                Log.getLogger(InstitutionalRepresentativeDetailsController.class).error(exception.getMessage(), 
+                        exception);
             }      
         }
         if (rowsAffected > 0) {
             if (wasUpdatedConfirmation()) {
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeManager");   
+                try {   
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeManager");
+                } catch (IOException exception) {
+                    Log.getLogger(InstitutionalRepresentativeDetailsController.class).error(exception.getMessage(), 
+                            exception);
+                }
             } else {
                 wasNotUpdatedConfirmation();
             }
@@ -175,17 +187,20 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
     }  
     
     private boolean wasNotUpdatedConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Informacion no actualizada", "Los cambios no se pudieron realizar");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(
+                "Informacion no actualizada", "Los cambios no se pudieron realizar");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }    
     
     private boolean wasUpdatedConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Informacion actualizada", "Los cambios fueron realizados con exito");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(
+                "Informacion actualizada", "Los cambios fueron realizados con exito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
     
     private boolean updateConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cambios", "¿Desea realizar los cambios?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog(
+                "Confirmar cambios", "¿Desea realizar los cambios?");
         return (response.get() == DialogController.BUTTON_YES);        
     }    
     
@@ -199,7 +214,7 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
         newInstitutionalRepresentativeInformation.setPaternalSurname(paternalSurnameTextField.getText());
         newInstitutionalRepresentativeInformation.setMaternalSurname(maternalSurnameTextField.getText());
         newInstitutionalRepresentativeInformation.setEmail(emailTextField.getText());
-        newInstitutionalRepresentativeInformation.setPhoneNumber(telefonoTextField.getText());        
+        newInstitutionalRepresentativeInformation.setPhoneNumber(telefonoTextField.getText());
         return newInstitutionalRepresentativeInformation;
     }
     
@@ -223,16 +238,18 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
         try {
             DialogController.getDialog(new AlertMessage (exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
-                case ERROR -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/MainApp");
-                case FATAL -> MainApp.changeView("/main/MainApp");
+                case ERROR -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeManager");
+                case FATAL -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
                 
             }
         } catch (IOException ioException) {
-            Log.getLogger(InstitutionalRepresentativeDetailsController.class).error(exception.getMessage(), ioException);
+            Log.getLogger(InstitutionalRepresentativeDetailsController.class).error(
+                    exception.getMessage(), ioException);
         }
     }    
         
-    public void setInstitutionalRepresentativeDetailsController(InstitutionalRepresentative institutionalRepresentative) {
+    public void setInstitutionalRepresentativeDetailsController(InstitutionalRepresentative 
+            institutionalRepresentative) {
         this.institutionalRepresentative = institutionalRepresentative;
         initializeTextFields(institutionalRepresentative);
         universitiesComboBox.setValue(institutionalRepresentative.getUniversity());    

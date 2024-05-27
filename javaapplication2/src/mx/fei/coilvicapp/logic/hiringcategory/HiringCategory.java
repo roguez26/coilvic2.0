@@ -8,8 +8,12 @@ public class HiringCategory {
     private int idHiringCategory = 0;
     private String name;
     
-    public HiringCategory() {
+    public HiringCategory() { 
         
+    }
+    
+    public HiringCategory(String name) {
+        this.name = name;
     }
     
     public int getIdHiringCategory () {

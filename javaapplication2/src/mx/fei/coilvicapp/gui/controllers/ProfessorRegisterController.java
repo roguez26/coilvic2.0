@@ -170,7 +170,6 @@ public class ProfessorRegisterController implements Initializable {
                 idRegisteredProfessor = PROFESSOR_DAO.registerProfessor(professor);
             }
             if(idRegisteredProfessor > 0) {
-                XLSXCreator.addProfessorIntoXLSX(professor);
                 DialogController.getInformativeConfirmationDialog("Registrado",
                         "Se ha registrado su información con éxito, se le notificara cuando se haya validado su información");
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");

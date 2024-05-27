@@ -15,12 +15,12 @@ public class XLSXCreator {
     
     private static final String FILE_PATH = "files\\xlsx\\ProfesoresValidados.xlsx";
     
-    public static void addProfessorIntoXLSX(Professor professor) throws IOException {
+    public static void addProfessorIntoXLSX(Professor professor) {
         Workbook workbook;
         Sheet sheet;
 
-        Files.createDirectories(Paths.get(FILE_PATH).getParent());
         try (FileInputStream fileInputStream = new FileInputStream(FILE_PATH)) {
+            Files.createDirectories(Paths.get(FILE_PATH).getParent());
             workbook = new XSSFWorkbook(fileInputStream);
             sheet = workbook.getSheetAt(0);
         } catch (IOException exception) {

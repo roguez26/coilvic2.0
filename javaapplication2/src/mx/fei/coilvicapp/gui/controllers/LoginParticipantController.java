@@ -3,6 +3,8 @@ package mx.fei.coilvicapp.gui.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,10 +31,6 @@ import mx.fei.coilvicapp.logic.student.StudentDAO;
 import mx.fei.coilvicapp.logic.user.IUser;
 import mx.fei.coilvicapp.logic.user.UserDAO;
 
-/**
- *
- * @author ivanr
- */
 public class LoginParticipantController implements Initializable {
 
     @FXML
@@ -145,7 +143,16 @@ public class LoginParticipantController implements Initializable {
     void registerButtonIsPressed(ActionEvent event) {
         try {
             if (roleButton.getText().equals("Profesor")) {
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorRegister");
+                try {
+                    if (PROFESSOR_DAO.checkPreconditions()) {   
+                        MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorRegister");
+                    } else {
+                        DialogController.getInformativeConfirmationDialog("Recursos no disponibles", 
+                                "No contamos con los recursos para realizar su registro");
+                    }
+                } catch (DAOException exception) {
+                    handleDAOException(exception);
+                }
             } else {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/RegisterStudent");
             }
@@ -159,9 +166,9 @@ public class LoginParticipantController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
             }
         } catch (IOException ioException) {
             Log.getLogger(LoginParticipantController.class).error(ioException.getMessage(), ioException);

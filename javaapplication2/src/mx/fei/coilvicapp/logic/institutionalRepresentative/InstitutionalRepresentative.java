@@ -65,7 +65,7 @@ public class InstitutionalRepresentative {
     }
 
     public void setMaternalSurname(String maternalSurname) {
-        if (maternalSurname != null) {
+        if (!maternalSurname.isEmpty()) {
             FieldValidator fieldValidator = new FieldValidator();
             fieldValidator.checkName(maternalSurname);
         }

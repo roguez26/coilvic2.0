@@ -27,10 +27,6 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
-/**
- *
- * @author ivanr
- */
 public class FeedbackFormsController implements Initializable {
 
     @FXML
@@ -94,17 +90,20 @@ public class FeedbackFormsController implements Initializable {
         professorQuestionsTableColumn.setCellValueFactory(new PropertyValueFactory<>("questionText"));
         studentQuestionsTableView.getItems().addAll(studentQuestions);
         professorQuestionsTableView.getItems().addAll(professorQuestions);
-        ObservableList<String> types = FXCollections.observableArrayList("Profesor", "Estudiante-PRE", "Estudiante-POST");
+        ObservableList<String> types = FXCollections.observableArrayList(
+                "Profesor", "Estudiante-PRE", "Estudiante-POST");
 
         typeCombobox.setItems(types);
 
-        professorQuestionsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        professorQuestionsTableView.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 studentQuestionsTableView.getSelectionModel().clearSelection();
             }
         });
 
-        studentQuestionsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        studentQuestionsTableView.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 professorQuestionsTableView.getSelectionModel().clearSelection();
             }
@@ -137,7 +136,8 @@ public class FeedbackFormsController implements Initializable {
         Question question = initializeQuestion();
         int idQuestion = FEEDBACK_DAO.registerQuestion(question);
         if (idQuestion > 0) {
-            DialogController.getInformativeConfirmationDialog("Pregunta añadida", "La pregunta se agregó con éxito");
+            DialogController.getInformativeConfirmationDialog("Pregunta añadida", 
+                    "La pregunta se agregó con éxito");
             question.setIdQuestion(idQuestion);
             if (question.getQuestionType().equals("Profesor")) {
                 professorQuestionsTableView.getItems().addAll(question);
@@ -153,7 +153,8 @@ public class FeedbackFormsController implements Initializable {
         if (!newQuestion.equals(selectedQuestion)) {
             System.out.println(newQuestion.getIdQuestion());
             if (FEEDBACK_DAO.updateQuestionTransaction(newQuestion) > 0) {
-                DialogController.getInformativeConfirmationDialog("Pregunta actualizada", "La pregunta se actualizó con éxito");
+                DialogController.getInformativeConfirmationDialog("Pregunta actualizada", 
+                        "La pregunta se actualizó con éxito");
                 updateTableViewForUpdate(newQuestion, selectedQuestion);
                 cleanFields();
             }
@@ -191,7 +192,7 @@ public class FeedbackFormsController implements Initializable {
     @FXML
     void backButtonIsPressed(ActionEvent event) {
         try {
-            MainApp.changeView("mx/fei/coilvicapp/gui/views/LoginParticipant");
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
         } catch (IOException exception) {
             Log.getLogger(FeedbackFormsController.class).error(exception.getMessage(), exception);
         }
@@ -210,7 +211,8 @@ public class FeedbackFormsController implements Initializable {
         } else if (studentQuestionsTableView.getSelectionModel().getSelectedItem() != null) {
             question = (Question) studentQuestionsTableView.getSelectionModel().getSelectedItem();
         } else {
-            DialogController.getInformativeConfirmationDialog("Seleccione una pregunta", "Debe seleccionar una pregunta para poder modificarla");
+            DialogController.getInformativeConfirmationDialog("Seleccione una pregunta", 
+                    "Debe seleccionar una pregunta para poder modificarla");
         }
         return question;
     }
@@ -252,7 +254,8 @@ public class FeedbackFormsController implements Initializable {
     }
 
     private boolean confirmDelete() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar eliminación", "¿Deseas eliminar esta pregunta?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog(
+                "Confirmar eliminación", "¿Deseas eliminar esta pregunta?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
@@ -272,12 +275,13 @@ public class FeedbackFormsController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
             }
         } catch (IOException ioException) {
             Log.getLogger(FeedbackFormsController.class).error(exception.getMessage(), exception);
         }
     }
+    
 }

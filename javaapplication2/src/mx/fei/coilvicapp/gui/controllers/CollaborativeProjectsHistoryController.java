@@ -63,8 +63,7 @@ public class CollaborativeProjectsHistoryController implements Initializable {
     }
 
     @FXML
-    void seeDetailsButtonIsPressed(ActionEvent event
-    ) {
+    void seeDetailsButtonIsPressed(ActionEvent event) {
 
     }
 

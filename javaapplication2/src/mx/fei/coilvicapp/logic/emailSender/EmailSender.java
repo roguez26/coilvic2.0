@@ -97,8 +97,8 @@ public class EmailSender {
     }
 
     public void setMessage(String message) {
-        FieldValidator fieldValidator = new FieldValidator();
-        fieldValidator.checkLongRange(message);
+//        FieldValidator fieldValidator = new FieldValidator();
+//        fieldValidator.checkLongRange(message);
         this.message = message;
     }
 

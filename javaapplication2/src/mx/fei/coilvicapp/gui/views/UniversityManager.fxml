@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="backgroundVBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.UniversityManagerController">
+<VBox fx:id="backgroundVBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.UniversityManagerController">
    <children>
       <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="106.0" prefWidth="722.0" spacing="190.0">
          <children>
-            <Button fx:id="backButton" lineSpacing="50.0" mnemonicParsing="false" stylesheets="@../../../../../stylesheets/backButton.css" text="❮">
+            <Button fx:id="backButton" onAction="#backButtonIsPressed" lineSpacing="50.0" mnemonicParsing="false" stylesheets="@../../../../../stylesheets/backButton.css" text="❮">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

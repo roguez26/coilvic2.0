@@ -31,9 +31,6 @@ public class UserDAO implements IUser {
         } catch (DAOException exception) {
             throw new DAOException("No fue posible hacer la validacion", Status.WARNING);
         }
-        System.out.println(professor.getUser().getPassword() + " recuperada by email");
-        String pw = encryptPassword(password);
-        System.out.println(pw + " la encriptada");
         if (professor.getIdProfessor() > 0) {
             if (professor.getUser().getPassword().equals(encryptPassword(password))) {
                 result = true;

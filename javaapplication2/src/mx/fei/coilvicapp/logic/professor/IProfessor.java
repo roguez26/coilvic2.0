@@ -5,6 +5,7 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 
 public interface IProfessor {
     
+    public boolean checkPreconditions() throws DAOException;
     public int registerProfessor(Professor professor) throws DAOException;
     public int registerProfessorUV(ProfessorUV professorUV) throws DAOException;
     public int updateProfessor(Professor newProfessorInformation) throws DAOException;
