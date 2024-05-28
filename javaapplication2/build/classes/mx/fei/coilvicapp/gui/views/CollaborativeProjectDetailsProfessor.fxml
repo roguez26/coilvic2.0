@@ -49,13 +49,10 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="66.0" prefWidth="863.0" spacing="15.0">
          <children>
-<<<<<<< HEAD
-            <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishButtonIsPressed" prefHeight="26.0" prefWidth="200.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Concluir" />
-=======
-            <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishButtonIsPressed" prefHeight="26.0" prefWidth="200.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Concluir" visible="false" />
->>>>>>> 74f1c431a8e176e00a8919216262520e57d1ae04
-            <Button fx:id="seeActivitiesButton" mnemonicParsing="false" onAction="#seeActivitiesButtonIsPressed" prefHeight="26.0" prefWidth="200.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Ver actividades" />
-            <Button fx:id="seeSyllabusButton" minWidth="200.0" mnemonicParsing="false" onAction="#seeSyllabusButtonIsPressed" prefHeight="27.0" prefWidth="200.0" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Ver syllabus" />
+            <Button fx:id="seeFeedbackButton" mnemonicParsing="false" onAction="#seeFeedbackButtonIsPressed" prefHeight="26.0" prefWidth="150.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Ver retroalimentación" />
+            <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishButtonIsPressed" prefHeight="26.0" prefWidth="150.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Concluir" visible="false" />
+            <Button fx:id="seeActivitiesButton" mnemonicParsing="false" onAction="#seeActivitiesButtonIsPressed" prefHeight="26.0" prefWidth="150.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Ver actividades" />
+            <Button fx:id="seeSyllabusButton" minWidth="150.0" mnemonicParsing="false" onAction="#seeSyllabusButtonIsPressed" prefHeight="27.0" prefWidth="150.0" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Ver syllabus" />
          </children>
       </HBox>
    </children>

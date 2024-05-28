@@ -6,12 +6,16 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<<<<<<< HEAD
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.CollaborativeProjectsProfessorController">
+
+=======
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.CollaborativeProjectsProfessorController">
+>>>>>>> 65199fce5d52735f691e16a24f99bb07fac771b7
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="190.0" prefWidth="774.0" spacing="260.0">
          <children>
@@ -23,8 +27,6 @@
          <children>
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="147.0" prefWidth="728.0" spacing="10.0">
                <children>
-                  <TextField fx:id="searchTextField" prefHeight="27.0" prefWidth="305.0" promptText="Buscar por nombre" stylesheets="@../../../../../stylesheets/textField.css" />
-                  <Button fx:id="searchButton" minWidth="35.0" mnemonicParsing="false" onAction="#searchButtonIsPressed" prefHeight="26.0" prefWidth="35.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="🔍" />
                   <MenuButton fx:id="statusMenuButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" stylesheets="@../../../../../stylesheets/menuButton.css" text="Pendientes">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#pendingMenuButtonIsSelected" text="Pendientes" />

@@ -18,7 +18,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="462.0" spacing="100.0">
                <children>
-                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonIsPressed" stylesheets="@../../../../../stylesheets/backButton.css" text="&lt;" />
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonIsPressed" stylesheets="@../../../../../stylesheets/backButton.css" text="❮" />
                   <Label lineSpacing="20.0" stylesheets="@../../../../../stylesheets/titleLabel.css" text="Detalles del profesor">
                      <font>
                         <Font name="System Bold" size="14.0" />

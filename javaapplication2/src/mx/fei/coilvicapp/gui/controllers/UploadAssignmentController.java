@@ -63,8 +63,8 @@ public class UploadAssignmentController implements Initializable {
     private Label titleLabel;
 
     private File selectedFile;
-    private final Assignment assignment = new Assignment();
-    private final FileManager fileManager = new FileManager();
+    private final Assignment ASSIGNMENT = new Assignment();
+    private final FileManager FILE_MANAGER = new FileManager();
     private CollaborativeProject collaborativeProject;
 
     @Override
@@ -81,37 +81,37 @@ public class UploadAssignmentController implements Initializable {
             handleValidationException(exception);
         } catch (DAOException exception) {
             handleDAOException(exception);
-            fileManager.undoSaveAssignment();
+            FILE_MANAGER.undoSaveAssignment();
         } catch (IOException exception) {
             handleIOException(exception);
-            fileManager.undoSaveAssignment();
+            FILE_MANAGER.undoSaveAssignment();
         }
     }
 
     private void invokeSaveAssignment() throws DAOException, IOException {
         initializeAssignment();
-        fileManager.setFile(selectedFile);
-        fileManager.setDestinationDirectory(assignment.getIdColaborativeProject());
-        fileManager.isValidFileForSave();
+        FILE_MANAGER.setFile(selectedFile);
+        FILE_MANAGER.setDestinationDirectory(ASSIGNMENT.getIdColaborativeProject());
+        FILE_MANAGER.isValidFileForSave();
         if (confirmUpload()) {
-            invokeRegisterAssignment(fileManager.saveAssignment());
+            invokeRegisterAssignment(FILE_MANAGER.saveAssignment());
         }
     }
 
     private void invokeRegisterAssignment(String newPath) throws DAOException, IOException {
         IAssignment asigmentDAO = new AssignmentDAO();
 
-        assignment.setPath(newPath);
-        if (asigmentDAO.registerAssignment(assignment, collaborativeProject) > 0) {
+        ASSIGNMENT.setPath(newPath);
+        if (asigmentDAO.registerAssignment(ASSIGNMENT, collaborativeProject) > 0) {
             DialogController.getInformativeConfirmationDialog("Subida", "La actividad fue subida con éxito");
             cleanFields();
         }
     }
 
     private void initializeAssignment() {
-        assignment.setName(nameTextField.getText());
-        assignment.setDescription(descriptionTextArea.getText());
-        assignment.setIdColaborativeProject(collaborativeProject.getIdCollaborativeProject());
+        ASSIGNMENT.setName(nameTextField.getText());
+        ASSIGNMENT.setDescription(descriptionTextArea.getText());
+        ASSIGNMENT.setIdColaborativeProject(collaborativeProject.getIdCollaborativeProject());
     }
 
     @FXML
@@ -121,7 +121,7 @@ public class UploadAssignmentController implements Initializable {
 
     @FXML
     void selectFileButtonIsPressed(ActionEvent event) {
-        selectedFile = fileManager.selectPDF(backgroundVBox.getScene().getWindow());
+        selectedFile = FILE_MANAGER.selectPDF(backgroundVBox.getScene().getWindow());
         if (selectedFile != null) {
             fileTextField.setText(selectedFile.getName());
         }

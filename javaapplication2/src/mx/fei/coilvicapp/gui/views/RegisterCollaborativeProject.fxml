@@ -9,15 +9,19 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<<<<<<< HEAD
+<VBox fx:id="backgroundVBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.RegisterCollaborativeProjectController">
+=======
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.RegisterCollaborativeProjectController">
+>>>>>>> 65199fce5d52735f691e16a24f99bb07fac771b7
    <children>
-      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="111.0" prefWidth="742.0" spacing="260.0">
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="74.0" prefWidth="742.0" spacing="260.0">
          <children>
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonIsPressed" stylesheets="@../../../../../stylesheets/backButton.css" text="❮" />
             <Label stylesheets="@../../../../../stylesheets/titleLabel.css" text="Crear Proyecto Colaborativo" />
          </children>
       </HBox>
-      <HBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="910.0" spacing="30.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
+      <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="910.0" spacing="30.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
          <children>
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="470.0" prefWidth="381.0" spacing="10.0">
                <children>
@@ -28,19 +32,22 @@
                   <TextField fx:id="courseOneTextField" editable="false" stylesheets="@../../../../../stylesheets/textField.css" />
                   <TextField fx:id="courseTwoTextField" editable="false" stylesheets="@../../../../../stylesheets/textField.css" />
                   <Label layoutX="10.0" layoutY="271.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" stylesheets="@../../../../../stylesheets/label.css" text="Curso de solicitud aceptada" />
-                  <ComboBox prefHeight="27.0" prefWidth="190.0" stylesheets="@../../../../../stylesheets/combobox.css" />
+                  <ComboBox fx:id="acceptedRequestesComboBox" onAction="#requestIsSelected" prefHeight="27.0" prefWidth="190.0" stylesheets="@../../../../../stylesheets/combobox.css" />
                </children>
             </VBox>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="467.0" prefWidth="395.0" spacing="10.0">
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="507.0" prefWidth="395.0" spacing="10.0">
                <children>
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Nombre" />
-                  <TextField fx:id="nameTextField" promptText="Ej." stylesheets="@../../../../../stylesheets/textField.css" />
+                  <TextField fx:id="nameTextField" promptText="Ej. El arte en la programación" stylesheets="@../../../../../stylesheets/textField.css" />
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Objetivo General" />
                   <TextArea fx:id="generalObjetiveTextArea" prefHeight="74.0" prefWidth="514.0" promptText="Ej." stylesheets="@../../../../../stylesheets/textArea.css" />
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Descripción" />
-                  <TextArea fx:id="descriptionTextArea" prefHeight="156.0" prefWidth="395.0" promptText="Ej." stylesheets="@../../../../../stylesheets/textArea.css" />
+                  <TextArea fx:id="descriptionTextArea" prefHeight="115.0" prefWidth="395.0" promptText="Ej." stylesheets="@../../../../../stylesheets/textArea.css" />
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Código" />
                   <TextField fx:id="codeTextField" promptText="Ej." stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label stylesheets="@../../../../../stylesheets/label.css" text="Modalidad" />
+                  <ComboBox fx:id="modalitiesComboBox" onAction="#modalityIsSelected" prefWidth="150.0" stylesheets="@../../../../../stylesheets/combobox.css" />
+                  <TextField fx:id="syllabusPathTextField" disable="true" editable="false" promptText="Seleccione un archivo de syllabus" stylesheets="@../../../../../stylesheets/textField.css" />
                </children>
             </VBox>
          </children>
@@ -48,21 +55,15 @@
             <Insets top="20.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="66.0" prefWidth="910.0" spacing="90.0">
+      <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="66.0" prefWidth="910.0" spacing="15.0">
          <children>
-            <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishButtonIsPressed" prefHeight="26.0" prefWidth="200.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Concluir" visible="false" />
             <HBox alignment="CENTER_LEFT" minWidth="-Infinity" prefHeight="66.0" prefWidth="166.0">
                <children>
-                  <Button fx:id="seeActivitiesButton" minWidth="-Infinity" mnemonicParsing="false" onAction="#seeActivitiesButtonIsPressed" prefHeight="26.0" prefWidth="150.0" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Subir Syllabus" />
+                  <Button fx:id="uploadSyllabusButton" minWidth="-Infinity" mnemonicParsing="false" onAction="#uploadSyllabusButtonIsPressed" prefHeight="26.0" prefWidth="150.0" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Subir Syllabus" />
                </children>
             </HBox>
-            <HBox minWidth="-Infinity" prefHeight="66.0" prefWidth="111.0" />
-            <HBox alignment="CENTER_RIGHT" minWidth="-Infinity" prefHeight="66.0" prefWidth="263.0" spacing="40.0">
-               <children>
-                  <Button fx:id="seeSyllabusButton" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="200.0" mnemonicParsing="false" onAction="#seeSyllabusButtonIsPressed" prefHeight="27.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" />
-                  <Button fx:id="seeSyllabusButton1" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#seeSyllabusButtonIsPressed" prefHeight="27.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Guardar" />
-               </children>
-            </HBox>
+            <Button fx:id="cancelButton" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="200.0" mnemonicParsing="false" onAction="#cancelButtonIsPressed" prefHeight="27.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" />
+            <Button fx:id="saveButton" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveButtonIsPressed" prefHeight="27.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Guardar" />
          </children>
       </HBox>
    </children>

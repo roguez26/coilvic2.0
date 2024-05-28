@@ -57,7 +57,7 @@ public class FeedbackDAO implements IFeedback {
         String idType = "idEstudiante";
 
         if (type.equals("Profesor")) {
-            tableName = "RespuestaProfesor";
+            tableName = "RespuestaProfessor";
             idType = "idProfesor";
         }
 
@@ -143,8 +143,34 @@ public class FeedbackDAO implements IFeedback {
     @Override
     public int deleteQuestion(Question question) throws DAOException {
         int result;
+        if (!hasBeenUsed(question)) {
+            result = deleteQuestionTransaction(question);
+        } else {
+            throw new DAOException("No es posible eliminar la pregunta debido a que ya ha sido respondida por los participantes", Status.WARNING);
+        }
+        
+        return result;
+    }
 
-        result = deleteQuestionTransaction(question);
+    public boolean hasBeenUsed(Question question) throws DAOException {
+        boolean result = false;
+        DatabaseManager databaseManager = new DatabaseManager();
+        String statement = "SELECT EXISTS (SELECT 1 FROM respuestaestudiante WHERE idPregunta = ?) OR EXISTS (SELECT 1 FROM respuestaprofessor WHERE idPregunta = ?) AS usada";
+
+        try (Connection connection = databaseManager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+
+            preparedStatement.setInt(1, question.getIdQuestion());
+            preparedStatement.setInt(2, question.getIdQuestion());
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    result = resultSet.getBoolean("usada");
+                }
+            }
+        } catch (SQLException exception) {
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No se pudo hacer la verificacion para ver si la pregunta fue usada", Status.ERROR);
+        }
         return result;
     }
 
@@ -155,7 +181,7 @@ public class FeedbackDAO implements IFeedback {
         result = insertStudentResponsesTransaction(responses);
         return result;
     }
-    
+
     @Override
     public int registerProfessorResponses(ArrayList<Response> responses) throws DAOException {
         int result;
@@ -180,7 +206,7 @@ public class FeedbackDAO implements IFeedback {
         }
         return result;
     }
-    
+
     @Override
     public boolean areThereProfessorQuestions() throws DAOException {
         boolean result = false;
@@ -252,7 +278,7 @@ public class FeedbackDAO implements IFeedback {
         }
         return result;
     }
-    
+
     public int insertProfessorResponsesTransaction(ArrayList<Response> responses) throws DAOException {
         int result = -1;
         String statement = configureProfessorInsertResponsesStatement(responses.size());
@@ -273,9 +299,9 @@ public class FeedbackDAO implements IFeedback {
         }
         return result;
     }
-    
+
     private String configureProfessorInsertResponsesStatement(int size) {
-        String statement = "INSERT INTO respuestaProfesor (respuesta, idpregunta, idprofesor, idproyectocolaborativo) VALUES ";
+        String statement = "INSERT INTO respuestaProfessor (respuesta, idpregunta, idprofesor, idproyectocolaborativo) VALUES ";
         for (int i = 0; i < size; i++) {
             statement += "(?, ?, ?, ?)";
             if (i != size - 1) {
@@ -296,20 +322,30 @@ public class FeedbackDAO implements IFeedback {
         return statement;
     }
 
-    public ArrayList<Response> getResponsesByIdQuestionAndIdCollaborativeProject(int idQuestion, int idCollaborativeProject) throws DAOException {
+    @Override
+    public ArrayList<Response> getResponsesByQuestionAndIdCollaborativeProject(Question question, int idCollaborativeProject) throws DAOException {
         ArrayList<Response> responses = new ArrayList<>();
-        String statement = "SELECT * FROM respuesta WHERE idpregunta=? and idproyectocolaborativo=?";
+        String statement;
+        String idResponse = "IdRespuesta";
+        String idParticipant = "idEstudiante";
+        if (question.getQuestionType().equals("Profesor")) {
+            statement = "SELECT * FROM respuestaprofessor WHERE idpregunta=? and idproyectocolaborativo=?";
+            idResponse = "IdRespuestaProfessor";
+            idParticipant = "idProfesor";
+        } else {
+            statement = "SELECT * FROM respuestaestudiante WHERE idpregunta=? and idproyectocolaborativo=?";
+        }
 
         try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-            preparedStatement.setInt(1, idQuestion);
+            preparedStatement.setInt(1, question.getIdQuestion());
             preparedStatement.setInt(2, idCollaborativeProject);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Response response = new Response();
-                    response.setIdResponse(resultSet.getInt("idRespuesta"));
+                    response.setIdResponse(resultSet.getInt(idResponse));
                     response.setResponseText(resultSet.getString("respuesta"));
                     response.setIdQuestion(resultSet.getInt("idpregunta"));
-                    response.setIdParticipant(resultSet.getInt("idestudiante"));
+                    response.setIdParticipant(resultSet.getInt(idParticipant));
                     response.setIdCollaborativeProject(resultSet.getInt("idProyectoColaborativo"));
                     responses.add(response);
                 }

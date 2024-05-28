@@ -14,7 +14,7 @@ public class Response {
     private int idCollaborativeProject;
 
     public Response() {
-
+        question = new Question();
     }
 
     public int getIdResponse() {

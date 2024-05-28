@@ -71,7 +71,7 @@ public class AssignmentRegistrationTest {
         initializeTerm();
         intializeCourses();
         initializeModality();
-        initializeCollaborativeProject();
+      //  initializeCollaborativeProject();
         initializeAssignment();
     }
 
@@ -239,23 +239,23 @@ public class AssignmentRegistrationTest {
         }
     }
 
-    private void initializeCollaborativeProject() {
-        AUX_COLLABORATIVE_PROJECT.setName("Programación y Bases de Datos");
-        AUX_COLLABORATIVE_PROJECT.setStatus("Aceptado");
-        AUX_COLLABORATIVE_PROJECT.setDescription("Este proyecto combina los conocimientos de programación orientada a objetos y bases de datos "
-                + "para desarrollar una aplicación completa que gestione información de manera eficiente.");
-        AUX_COLLABORATIVE_PROJECT.setGeneralObjective("Integrar conceptos de programación y bases de datos para desarrollar una solución software completa.");
-        AUX_COLLABORATIVE_PROJECT.setModality(AUX_MODALITY);
-        AUX_COLLABORATIVE_PROJECT.setCode("PROG-BASDAT-2024");
-        AUX_COLLABORATIVE_PROJECT.setSyllabusPath("/syllabus/proyecto_integrador.pdf");
-        AUX_COLLABORATIVE_PROJECT.setRequestedCourse(AUX_COURSE_ONE);
-        AUX_COLLABORATIVE_PROJECT.setRequesterCourse(AUX_COURSE_TWO);
-        try {
-            AUX_COLLABORATIVE_PROJECT.setIdCollaborativeProject(COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject(AUX_COLLABORATIVE_PROJECT));
-        } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
-        }
-    }
+//    private void initializeCollaborativeProject() {
+//        AUX_COLLABORATIVE_PROJECT.setName("Programación y Bases de Datos");
+//        AUX_COLLABORATIVE_PROJECT.setStatus("Aceptado");
+//        AUX_COLLABORATIVE_PROJECT.setDescription("Este proyecto combina los conocimientos de programación orientada a objetos y bases de datos "
+//                + "para desarrollar una aplicación completa que gestione información de manera eficiente.");
+//        AUX_COLLABORATIVE_PROJECT.setGeneralObjective("Integrar conceptos de programación y bases de datos para desarrollar una solución software completa.");
+//        AUX_COLLABORATIVE_PROJECT.setModality(AUX_MODALITY);
+//        AUX_COLLABORATIVE_PROJECT.setCode("PROG-BASDAT-2024");
+//        AUX_COLLABORATIVE_PROJECT.setSyllabusPath("/syllabus/proyecto_integrador.pdf");
+//        AUX_COLLABORATIVE_PROJECT.setRequestedCourse(AUX_COURSE_ONE);
+//        AUX_COLLABORATIVE_PROJECT.setRequesterCourse(AUX_COURSE_TWO);
+//        try {
+//            AUX_COLLABORATIVE_PROJECT.setIdCollaborativeProject(COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject(AUX_COLLABORATIVE_PROJECT));
+//        } catch (DAOException exception) {
+//            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
+//        }
+//    }
 
     private void initializeAssignment() {
         ASSIGNMENT_FOR_TESTING.setName("Rompehielos");

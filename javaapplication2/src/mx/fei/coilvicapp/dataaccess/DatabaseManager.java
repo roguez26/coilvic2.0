@@ -25,7 +25,7 @@ public class DatabaseManager {
             }
         } catch (SQLException exception) {
             Log.getLogger(DatabaseManager.class).error(exception.getMessage(), exception);
-            throw new DAOException("No se pudo realizar la conexion a la base de datos", Status.FATAL);
+            throw new DAOException("No se pudo realizar la conexión a la base de datos", Status.FATAL);
         }
         return connection;
     }

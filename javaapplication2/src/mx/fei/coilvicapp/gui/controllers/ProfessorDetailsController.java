@@ -44,28 +44,24 @@ public class ProfessorDetailsController implements Initializable {
     @FXML
     private ComboBox<University> universitiesComboBox;
     private Professor professor;
-    private boolean justViewMode;
+    private Professor professorSession;
 
-    @FXML
-    void backButtonIsPressed(ActionEvent event) {
-
-    }
-
-    @FXML
-    void showHistoryButtonIsPressed(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsHistory.fxml"));
-        MainApp.changeView(fxmlLoader);
-        CollaborativeProjectsHistoryController collaborativeProjectsHistoryController = fxmlLoader.getController();
-        collaborativeProjectsHistoryController.setProfessor(professor);
-    }
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
 
     }
-
+    
     @FXML
-    private void back(ActionEvent event) {
+    void backButtonIsPressed(ActionEvent event) {
+        if (professorSession == null) {
+            changeToProfessorManager();
+        } else {
+            changeToProfessorManagerAsProfessor();
+        }
+    }
+    
+    private void changeToProfessorManager() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorManager.fxml"));
 
@@ -75,6 +71,30 @@ public class ProfessorDetailsController implements Initializable {
         } catch (IOException exception) {
             Log.getLogger(ProfessorDetailsController.class).error(exception.getMessage(), exception);
         }
+    }
+    
+    private void changeToProfessorManagerAsProfessor() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorManager.fxml"));
+
+            MainApp.changeView(fxmlLoader);
+            ProfessorManagerController professorManagerController = fxmlLoader.getController();
+            professorManagerController.setAllProfessorsMode(true);
+            professorManagerController.setProfessorSession(professorSession);
+        } catch (IOException exception) {
+            Log.getLogger(ProfessorDetailsController.class).error(exception.getMessage(), exception);
+        }
+    }
+
+    @FXML
+    void showHistoryButtonIsPressed(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsHistory.fxml"));
+        MainApp.changeView(fxmlLoader);
+        CollaborativeProjectsHistoryController collaborativeProjectsHistoryController = fxmlLoader.getController();
+        if (professorSession != null) {
+            collaborativeProjectsHistoryController.setProfessorSession(professorSession);
+        }
+        collaborativeProjectsHistoryController.setProfessor(professor);
     }
 
     private void initializeTextFields(Professor professor) {
@@ -101,9 +121,8 @@ public class ProfessorDetailsController implements Initializable {
         initializeTextFields(professor);
 
     }
-    
-    public void setJustViewMode(boolean isJustVisible) {
-        this.justViewMode = isJustVisible;
-        
+
+    public void setProfessorSession(Professor professor) {
+        this.professorSession = professor;
     }
 }

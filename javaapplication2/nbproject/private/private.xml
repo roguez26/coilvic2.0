@@ -3,21 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/edgar/Desktop/Construcción%20COIL-VIC/coilvic2.0/javaapplication2/src/main/MainApp.java</file>
-            <file>file:/C:/Users/edgar/Desktop/Construcción%20COIL-VIC/coilvic2.0/javaapplication2/src/mx/fei/coilvicapp/gui/controllers/CollaborativeProjectRequestDetailsController.java</file>
-            <file>file:/C:/Users/edgar/Desktop/Construcción%20COIL-VIC/coilvic2.0/javaapplication2/src/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestDetails.fxml</file>
-            <file>file:/C:/Users/edgar/Desktop/Construcción%20COIL-VIC/coilvic2.0/javaapplication2/src/mx/fei/coilvicapp/gui/controllers/CollaborativeProjectRequestsManagementController.java</file>
-=======
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/RegisterCourseController.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/user/UserDAO.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/region/RegionDAO.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/CourseOffersOrProposalsManagementController.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/course/Course.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/course/CourseDAO.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/student/StudentDAO.java</file>
-            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/implementations/FieldValidator.java</file>
->>>>>>> 74f1c431a8e176e00a8919216262520e57d1ae04
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/LoginParticipantController.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/ProfessorMainMenuController.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/ProfessorManagerController.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/CollaborativeProjectDetailsController.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/ProfessorDetailsController.java</file>
+            <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/gui/controllers/CollaborativeProjectsHistoryController.java</file>
         </group>
     </open-files>
 </project-private>
