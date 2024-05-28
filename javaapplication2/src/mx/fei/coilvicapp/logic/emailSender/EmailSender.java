@@ -1,6 +1,5 @@
 package mx.fei.coilvicapp.logic.emailSender;
 
-import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;

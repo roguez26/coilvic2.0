@@ -17,8 +17,8 @@ import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
-import mx.fei.coilvicapp.logic.institutionalRepresentative.InstitutionalRepresentative;
-import mx.fei.coilvicapp.logic.institutionalRepresentative.InstitutionalRepresentativeDAO;
+import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentative;
+import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentativeDAO;
 import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 

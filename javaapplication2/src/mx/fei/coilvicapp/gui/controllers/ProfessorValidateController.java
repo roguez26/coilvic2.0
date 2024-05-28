@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -165,7 +163,7 @@ public class ProfessorValidateController implements Initializable {
             } catch (IOException exception) {
                 Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
             } catch (DAOException exception) {
-                Logger.getLogger(ProfessorValidateController.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
             }
         }
     }

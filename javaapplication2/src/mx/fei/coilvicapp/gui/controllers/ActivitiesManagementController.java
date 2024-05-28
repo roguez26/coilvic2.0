@@ -26,10 +26,6 @@ import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.implementations.FileManager;
 
-/**
- *
- * @author ivanr
- */
 public class ActivitiesManagementController implements Initializable {
 
     @FXML
@@ -52,6 +48,7 @@ public class ActivitiesManagementController implements Initializable {
 
     @FXML
     private Button seeActivityButton;
+    
     private CollaborativeProject collaborativeProject;
     private final IAssignment ASSIGNMENT_DAO = new AssignmentDAO();
     private Professor professorSession;
@@ -80,7 +77,6 @@ public class ActivitiesManagementController implements Initializable {
     }
 
     private void goBack() {
-       
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsProfessor.fxml"));
             MainApp.changeView(fxmlLoader);
@@ -110,7 +106,6 @@ public class ActivitiesManagementController implements Initializable {
             }
         } else {
             DialogController.getInformativeConfirmationDialog("Sin actividad", "Seleccione una actividad para poder ver sus detalles");
-
         }
     }
 
@@ -136,7 +131,7 @@ public class ActivitiesManagementController implements Initializable {
         this.justVisibleMode = isJustVisible;
     }
 
-    private void fillActivitiesTable(CollaborativeProject collabortiveProject) {
+    private void fillActivitiesTable(CollaborativeProject collaborativeProject) {
         ArrayList<Assignment> assignmentsList = new ArrayList<>();
         activitiesTableView.getItems().clear();
         try {

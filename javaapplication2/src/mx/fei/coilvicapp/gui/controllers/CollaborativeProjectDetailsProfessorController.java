@@ -1,5 +1,6 @@
 package mx.fei.coilvicapp.gui.controllers;
 
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -17,7 +18,6 @@ import javafx.scene.control.TextField;
 import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
-import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.logic.collaborativeproject.ICollaborativeProject;
 import mx.fei.coilvicapp.logic.feedback.FeedbackDAO;
 import mx.fei.coilvicapp.logic.feedback.IFeedback;
@@ -68,12 +68,9 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
     @FXML
     private Button finishButton;
-    
-   
 
     private CollaborativeProject collaborativeProject;
     private Professor professor = null;
-    
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
@@ -144,6 +141,7 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
         } catch (IOException exception) {
             DialogController.getInformativeConfirmationDialog("Algo salio mal", exception.getMessage());
         }
+
     }
 
     @FXML
@@ -190,11 +188,7 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
             professorOneTextField.setText(collaborativeProject.getRequesterCourse().getProfessor().toString());
             professorTwoTextField.setText(collaborativeProject.getRequestedCourse().getProfessor().toString());
         }
-    }
 
-    @FXML
-    void backButtonIsPressed(ActionEvent event) {
-        goBack();
     }
 
     private void goBack() {

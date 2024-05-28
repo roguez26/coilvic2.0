@@ -1,4 +1,4 @@
-package mx.fei.coilvicapp.logic.institutionalRepresentative;
+package mx.fei.coilvicapp.logic.institutionalrepresentative;
 
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;

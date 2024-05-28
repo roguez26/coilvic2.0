@@ -1,9 +1,5 @@
 package unit.test.CourseDAO;
 
-/*
- * @author d0ubl3_d
- */
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mx.fei.coilvicapp.logic.course.*;
@@ -103,7 +99,7 @@ public class CourseRegistrationTest {
     }
     
     private void initializeAuxiliarTerm() {
-        AUX_TERM.setName("Agosto2024–Enero2025");       
+        AUX_TERM.setName("Agosto2024-Enero2025");       
     }
     
     private void intializeCourse() {
@@ -209,7 +205,7 @@ public class CourseRegistrationTest {
         assertTrue(result > 0);
     }
     
-    @After
+    /*@After
     public void tearDown() {
         try {
             COURSE_DAO.deleteCourseByIdCourse(COURSE_FOR_TESTING.getIdCourse());
@@ -217,10 +213,10 @@ public class CourseRegistrationTest {
             PROFESSOR_DAO.deleteProfessorByID(AUX_PROFESSOR.getIdProfessor());
             UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY.getIdUniversity());
             COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
-            //LANGUAGE_DAO.deleteLanguage(AUX_LANGUAGE.getIdLanguage());
-            //TERM_DAO.deleteTerm(AUX_TERM.getIdTerm());
+            LANGUAGE_DAO.deleteLanguage(AUX_LANGUAGE.getIdLanguage());
+            TERM_DAO.deleteTerm(AUX_TERM.getIdTerm());
         } catch (DAOException exception) {
             Logger.getLogger(CourseRegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }
-    }
+    }*/
 }

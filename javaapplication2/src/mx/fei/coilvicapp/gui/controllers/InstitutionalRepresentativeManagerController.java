@@ -9,8 +9,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
-import mx.fei.coilvicapp.logic.institutionalRepresentative.InstitutionalRepresentative;
-import mx.fei.coilvicapp.logic.institutionalRepresentative.InstitutionalRepresentativeDAO;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
@@ -20,6 +18,8 @@ import log.Log;
 import main.MainApp;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
+import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentative;
+import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentativeDAO;
 
 public class InstitutionalRepresentativeManagerController implements Initializable {
     

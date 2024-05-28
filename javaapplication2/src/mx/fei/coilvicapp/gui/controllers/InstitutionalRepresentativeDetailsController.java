@@ -7,9 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
-import mx.fei.coilvicapp.logic.institutionalRepresentative.InstitutionalRepresentativeDAO;
-import mx.fei.coilvicapp.logic.institutionalRepresentative.InstitutionalRepresentative;
-import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.io.IOException;
@@ -20,6 +17,9 @@ import log.Log;
 import main.MainApp;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
+import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentative;
+import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentativeDAO;
+import mx.fei.coilvicapp.logic.university.University;
 
 public class InstitutionalRepresentativeDetailsController implements Initializable {
 

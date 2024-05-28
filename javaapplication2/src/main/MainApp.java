@@ -50,6 +50,7 @@ public class MainApp extends Application {
     }
 
     public static void main(String[] args) {
+
         launch();
     }
 
@@ -76,6 +77,7 @@ public class MainApp extends Application {
 
     @FunctionalInterface
     public interface ControllerSetup {
+
         void setup(Object controller);
     }
 }

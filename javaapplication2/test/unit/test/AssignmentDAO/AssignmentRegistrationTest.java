@@ -1,10 +1,10 @@
 package unit.test.AssignmentDAO;
 
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import log.Log;
 import mx.fei.coilvicapp.logic.assignment.Assignment;
 import mx.fei.coilvicapp.logic.assignment.AssignmentDAO;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
-import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.logic.country.Country;
 import mx.fei.coilvicapp.logic.country.CountryDAO;
 import mx.fei.coilvicapp.logic.course.Course;

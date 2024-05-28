@@ -1,3 +1,4 @@
+
 package mx.fei.coilvicapp.logic.feedback;
 
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
@@ -57,7 +58,7 @@ public class FeedbackDAO implements IFeedback {
         String idType = "idEstudiante";
 
         if (type.equals("Profesor")) {
-            tableName = "RespuestaProfessor";
+            tableName = "RespuestaProfesor";
             idType = "idProfesor";
         }
 
@@ -341,3 +342,4 @@ public class FeedbackDAO implements IFeedback {
         return question;
     }
 }
+

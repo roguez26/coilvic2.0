@@ -154,8 +154,7 @@ public class TermDAO implements ITerm {
     
     @Override
     public ArrayList<Term> getTerms() throws DAOException {
-        ArrayList<Term> terms = new ArrayList<>();
-        Term term = new Term();
+        ArrayList<Term> terms = new ArrayList<>();        
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = null;
         PreparedStatement preparedStatement = null;        
@@ -167,8 +166,9 @@ public class TermDAO implements ITerm {
             preparedStatement = connection.prepareStatement(statement);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                Term term = new Term();
                 term.setIdTerm(resultSet.getInt("idPeriodo"));
-                term.setName(resultSet.getString("nombre"));
+                term.setName(resultSet.getString("nombre"));                
                 terms.add(term);
             }
         } catch (SQLException exception) {

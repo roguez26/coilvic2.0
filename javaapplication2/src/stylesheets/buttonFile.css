@@ -2,7 +2,7 @@
     -fx-background-color: rgb(28, 170, 80); /* Color de fondo azul */
     -fx-text-fill: white; /* Color del texto blanco */
     -fx-font-family: "Roboto"; /* Fuente Arial */
-    -fx-font-size: 12px; /* Tamaño de fuente */
+    -fx-font-size: 10px; /* Tamaño de fuente */
     -fx-padding: 5px 10px;
     -fx-background-radius: 13px; /* Bordes redondeados */
    

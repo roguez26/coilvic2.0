@@ -154,8 +154,7 @@ public class LanguageDAO implements ILanguage {
     
     @Override
     public ArrayList<Language> getLanguages() throws DAOException {
-        ArrayList<Language> languages = new ArrayList<>();
-        Language language = new Language();
+        ArrayList<Language> languages = new ArrayList<>();        
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = null;
         PreparedStatement preparedStatement = null;        
@@ -167,8 +166,9 @@ public class LanguageDAO implements ILanguage {
             preparedStatement = connection.prepareStatement(statement);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                Language language = new Language();
                 language.setIdLanguage(resultSet.getInt("idIdioma"));
-                language.setName(resultSet.getString("nombre"));
+                language.setName(resultSet.getString("nombre"));                
                 languages.add(language);
             }
         } catch (SQLException exception) {

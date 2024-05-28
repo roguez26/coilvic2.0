@@ -1,5 +1,6 @@
 package mx.fei.coilvicapp.logic.course;
 
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.professor.ProfessorDAO;
 import mx.fei.coilvicapp.logic.language.LanguageDAO;
@@ -12,11 +13,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
-
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
-
-
 import mx.fei.coilvicapp.logic.professor.Professor;
 
 /*

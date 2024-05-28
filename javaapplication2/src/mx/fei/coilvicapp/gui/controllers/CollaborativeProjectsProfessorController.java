@@ -61,6 +61,9 @@ public class CollaborativeProjectsProfessorController implements Initializable {
 
     @FXML
     private TableColumn<CollaborativeProject, String> universityOneTableColumn;
+    
+    @FXML 
+    private Button registerButton;
 
     @FXML
     private TableColumn<CollaborativeProject, String> universityTwoTableColumn;
@@ -75,6 +78,12 @@ public class CollaborativeProjectsProfessorController implements Initializable {
 
     }
 
+    
+    @FXML
+    void registerButtonIsPressed() {
+        
+    }
+    
     @FXML
     void seeDetailsButton(ActionEvent event) {
         CollaborativeProject selectedCollaborativeProject = collaborativeProjecsTableView.getSelectionModel().getSelectedItem();
