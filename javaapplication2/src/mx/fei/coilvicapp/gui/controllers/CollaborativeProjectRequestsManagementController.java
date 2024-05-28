@@ -27,7 +27,7 @@ import mx.fei.coilvicapp.logic.professor.Professor;
 /**
  * FXML Controller class
  *
- * @author edgar
+ * @author d0ubl3_d
  */
 public class CollaborativeProjectRequestsManagementController implements Initializable {
 

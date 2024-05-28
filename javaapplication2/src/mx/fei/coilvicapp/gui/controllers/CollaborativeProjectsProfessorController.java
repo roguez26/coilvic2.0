@@ -92,7 +92,12 @@ public class CollaborativeProjectsProfessorController implements Initializable {
             DialogController.getInformativeConfirmationDialog("Sin proyecto seleccionado", "Necesita seleccionar un proyecto para poder ver sus detalles");
         }
     }
-
+    
+    @FXML
+    void registerButtonIsPressed(ActionEvent event) {
+        // TODO   
+    }
+    
     @FXML
     void pendingMenuButtonIsSelected(ActionEvent event) {
         statusMenuButton.setText(((MenuItem) event.getSource()).getText());

@@ -28,7 +28,7 @@ import mx.fei.coilvicapp.logic.professor.*;
 /**
  * FXML Controller class
  *
- * @author edgar
+ * @author d0ubl3_d
  */
 public class CourseOfferOrProposalDetailsController implements Initializable {
     

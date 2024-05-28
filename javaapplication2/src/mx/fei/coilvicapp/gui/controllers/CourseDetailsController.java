@@ -30,7 +30,7 @@ import mx.fei.coilvicapp.logic.term.*;
 /**
  * FXML Controller class
  *
- * @author edgar
+ * @author d0ubl3_d
  */
 
 public class CourseDetailsController implements Initializable {

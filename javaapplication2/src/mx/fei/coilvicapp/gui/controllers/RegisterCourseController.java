@@ -28,7 +28,7 @@ import mx.fei.coilvicapp.logic.term.*;
 /**
  * FXML Controller class
  *
- * @author d0uble_d
+ * @author d0ubl3_d
  */
 public class RegisterCourseController implements Initializable {
     

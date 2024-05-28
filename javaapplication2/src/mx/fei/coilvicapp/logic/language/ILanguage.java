@@ -4,7 +4,7 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.util.ArrayList;
 
 /*
- * @author edgar
+ * @author d0ubl3_d
  */
 public interface ILanguage {
     
