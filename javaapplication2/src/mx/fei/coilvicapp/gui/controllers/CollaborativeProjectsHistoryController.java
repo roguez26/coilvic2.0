@@ -23,7 +23,7 @@ import mx.fei.coilvicapp.logic.professor.Professor;
 
 /**
  * FXML Controller class for CollaborativeProjectsHistory view.
- * 
+ *
  * author ivanr
  */
 public class CollaborativeProjectsHistoryController implements Initializable {
@@ -44,6 +44,7 @@ public class CollaborativeProjectsHistoryController implements Initializable {
     private TableColumn<CollaborativeProject, String> termTableColumn;
 
     private Professor professor;
+    private Professor professorSession;
     private final ICollaborativeProject COLLABORATIVE_PROJECT_DAO = new CollaborativeProjectDAO();
 
     @Override
@@ -53,11 +54,20 @@ public class CollaborativeProjectsHistoryController implements Initializable {
 
     @FXML
     void backButtonIsPressed(ActionEvent event) {
+
+        changeToProfessorDetails();
+
+    }
+
+    private void changeToProfessorDetails() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorDetails.fxml"));
         try {
             MainApp.changeView(fxmlLoader);
             ProfessorDetailsController professorDetailsController = fxmlLoader.getController();
             professorDetailsController.setProfessor(professor);
+            if(professorSession != null) {
+                professorDetailsController.setProfessorSession(professorSession);
+            }
         } catch (IOException exception) {
             Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), exception);
         }
@@ -65,7 +75,20 @@ public class CollaborativeProjectsHistoryController implements Initializable {
 
     @FXML
     void seeDetailsButtonIsPressed(ActionEvent event) {
-        // Handle the event for seeing the details of the selected project
+        CollaborativeProject selectedCollaborativeProject = collaborativeProjectsTableView.getSelectionModel().getSelectedItem();
+        if (selectedCollaborativeProject != null) {
+            try {
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetails", controller -> {
+                    CollaborativeProjectDetailsController collaborativeProjectDetailsController = (CollaborativeProjectDetailsController) controller;
+                    collaborativeProjectDetailsController.setCollaborativeProject(selectedCollaborativeProject);
+                });
+            } catch (IOException exception) {
+                Log.getLogger(ValidateCollaborativeProjectController.class).error(exception.getMessage(), exception);
+            }
+        } else {
+
+        }
+
     }
 
     public void setProfessor(Professor professor) {
@@ -83,9 +106,13 @@ public class CollaborativeProjectsHistoryController implements Initializable {
         }
 
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        termTableColumn.setCellValueFactory(cellData -> 
-            new SimpleStringProperty(cellData.getValue().getRequesterCourse().getTerm().toString()));
+        termTableColumn.setCellValueFactory(cellData
+                -> new SimpleStringProperty(cellData.getValue().getRequesterCourse().getTerm().toString()));
 
         collaborativeProjectsTableView.getItems().addAll(collaborativeProjectList);
+    }
+
+    public void setProfessorSession(Professor professor) {
+        this.professorSession = professor;
     }
 }

@@ -33,6 +33,9 @@ public class ProfessorMainMenuController implements Initializable {
 
     @FXML
     private Label userInformationLabel;
+    
+    @FXML
+    private Button professorsButton;
 
     private Professor professor;
 
@@ -79,6 +82,22 @@ public class ProfessorMainMenuController implements Initializable {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
         } catch (IOException exception) {
             Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+        }
+    }
+    
+    @FXML
+    void professorsButtonIsPressed(ActionEvent event) {
+        if (event.getSource() == professorsButton) {
+            try {
+                if (professor != null) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorManager.fxml"));
+                    MainApp.changeView(fxmlLoader);
+                    ProfessorManagerController professorManagerController = fxmlLoader.getController();
+                    professorManagerController.setProfessorSession(professor);
+                }
+            } catch (IOException exception) {
+                Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+            }
         }
     }
 

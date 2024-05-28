@@ -28,6 +28,7 @@
                   <Button fx:id="coursesButton" mnemonicParsing="false" onAction="#coursesButtonIsPressed" prefHeight="35.0" prefWidth="115.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cursos" />
                   <Button fx:id="projectsButton" mnemonicParsing="false" onAction="#projectsButtonIsPressed" prefHeight="35.0" prefWidth="115.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Proyectos" />
                   <Button fx:id="projectRequestsButton" mnemonicParsing="false" onAction="#projectRequestsButtonIsPressed" prefHeight="35.0" prefWidth="115.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Solicitudes " />
+                  <Button fx:id="professorsButton" mnemonicParsing="false" onAction="#professorsButtonIsPressed" prefHeight="32.0" prefWidth="118.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Profesores" />
                </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0">

@@ -61,7 +61,8 @@ public class ProfessorManagerController implements Initializable {
 
     @FXML
     private Button exportValidatedProfessorsButton;
-    private boolean coordinationMode;
+    private boolean allProfessorAreVisibles;
+    private Professor professorSession;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
@@ -77,8 +78,17 @@ public class ProfessorManagerController implements Initializable {
 
     @FXML
     private void backButtonIsPressed(ActionEvent event) {
+        System.out.println(professorSession);
         try {
-            if (coordinationMode) {
+            if (professorSession != null) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
+
+                    MainApp.changeView(fxmlLoader);
+                    ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
+                    professorMainMenuController.setProfessor(professorSession);
+                }
+            else if (allProfessorAreVisibles) {
+                
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
             } else {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
@@ -93,7 +103,7 @@ public class ProfessorManagerController implements Initializable {
     private void seeDetailsButtonIsPressed(ActionEvent event) {
         Professor professor = (Professor) professorsTableView.getSelectionModel().getSelectedItem();
         if (professor != null) {
-            if (coordinationMode) {
+            if (allProfessorAreVisibles) {
                 changeToSeeHistory(professor);
             } else {
                 changeToValidateProfessor(professor);
@@ -108,6 +118,9 @@ public class ProfessorManagerController implements Initializable {
             MainApp.changeView(fxmlLoader);
             ProfessorDetailsController professorDetailsController = fxmlLoader.getController();
             professorDetailsController.setProfessor(professor);
+            if(professorSession != null) {
+                professorDetailsController.setProfessorSession(professorSession);
+            }
         } catch (IOException ioException) {
             Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
         }
@@ -174,7 +187,7 @@ public class ProfessorManagerController implements Initializable {
     }
 
     public void setAllProfessorsMode(boolean allProfessorAreVisibles) {
-        this.coordinationMode = allProfessorAreVisibles;
+        this.allProfessorAreVisibles = allProfessorAreVisibles;
         professorsTableView.getItems().clear();
         professorsTableView.getItems().addAll(initializeAllProfessorArray());
     }
@@ -187,6 +200,14 @@ public class ProfessorManagerController implements Initializable {
             handleDAOException(exception);
         }
         return professors;
+    }
+
+    public void setProfessorSession(Professor professor) {
+        this.professorSession = professor;
+        this.allProfessorAreVisibles = true;
+        exportValidatedProfessorsButton.setVisible(false);
+        professorsTableView.getItems().clear();
+        professorsTableView.getItems().addAll(initializeAllProfessorArray());
     }
 
 }

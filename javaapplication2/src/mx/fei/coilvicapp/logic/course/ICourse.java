@@ -25,5 +25,6 @@ public interface ICourse {
     public ArrayList<Course> getCancelledCoursesByProfessor(int idProfessor) throws DAOException;
     public ArrayList<Course> getCoursesByProfessorAndName(int idProfessor, String name) throws DAOException;
     public int cancelCourseProposal(Course course) throws DAOException;
+    public int changeCourseStatusToCollaboration(Course course) throws DAOException;
     public int finalizeCourse(Course course) throws DAOException;
 }

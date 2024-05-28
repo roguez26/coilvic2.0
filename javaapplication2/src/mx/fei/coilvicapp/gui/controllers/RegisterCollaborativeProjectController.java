@@ -159,7 +159,7 @@ public class RegisterCollaborativeProjectController implements Initializable {
         if (confirmSave()) {
             COLLABORATIVE_PROJECT.setSyllabusPath(FILE_MANAGER.saveAssignment());
 
-            if (collaborativeProjectDAO.registerCollaborativeProject(COLLABORATIVE_PROJECT) > 0)  {
+            if (collaborativeProjectDAO.registerCollaborativeProject(COLLABORATIVE_PROJECT, selectedRequest) > 0)  {
                 DialogController.getInformativeConfirmationDialog("Registrado", "El proyecto colaborativo fue registrado");
                 goBack();
             }
