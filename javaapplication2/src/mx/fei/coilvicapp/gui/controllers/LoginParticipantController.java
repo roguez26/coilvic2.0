@@ -37,7 +37,7 @@ public class LoginParticipantController implements Initializable {
 
     @FXML
     private Label emailLabel;
-    
+
     @FXML
     private TextField emailTextField;
 
@@ -73,37 +73,39 @@ public class LoginParticipantController implements Initializable {
     @FXML
     void roleButtonIsPressed(ActionEvent event) {
         switch (roleButton.getText()) {
-            case "Profesor":
+            case "Profesor" -> {
                 roleButton.setText("Estudiante");
                 identifierLabel.setText("Código de proyecto:");
-                break;
-            case "Estudiante":
+            }
+            case "Estudiante" -> {
                 emailLabel.setText("Usuario:");
                 emailTextField.setPromptText("Ej. 22106");
                 roleButton.setText("Administrativo");
                 registerButton.setVisible(false);
                 identifierLabel.setText("Contraseña:");
-                break;
-            case "Administrativo":
+            }
+            case "Administrativo" -> {
                 emailLabel.setText("Correo:");
                 emailTextField.setText("Ej. coilvic@gmail.com");
                 roleButton.setText("Profesor");
                 registerButton.setVisible(true);
                 identifierLabel.setText("Contraseña:");
-                break;
-            default:
-                break;
+            }
+
         }
-    }    
+    }
 
     @FXML
     void startButtonIsPressed(ActionEvent event) {
         try {
             switch (roleButton.getText()) {
-                    case "Profesor" -> invokeAuthenticateProfessor();
-                    case "Estudiante" -> invokeAuthenticateStudentAndCollaborativeProject();
-                    case "Administrativo" -> invokeAuthenticateAdministrative();
-                    default -> {
+                case "Profesor" ->
+                    invokeAuthenticateProfessor();
+                case "Estudiante" ->
+                    invokeAuthenticateStudentAndCollaborativeProject();
+                case "Administrativo" ->
+                    invokeAuthenticateAdministrative();
+                default -> {
                 }
             }
         } catch (IllegalArgumentException exception) {
@@ -121,8 +123,8 @@ public class LoginParticipantController implements Initializable {
         student.setEmail(emailTextField.getText());
         student = STUDENT_DAO.getStudentByEmail(emailTextField.getText());
         if (student.getIdStudent() > 0) {
-            CollaborativeProject collaborativeProject = 
-                    COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectByCode(identifierPasswordField.getText());
+            CollaborativeProject collaborativeProject
+                    = COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectByCode(identifierPasswordField.getText());
             if (collaborativeProject.getIdCollaborativeProject() > 0) {
                 changeViewForStudent(student, collaborativeProject);
             } else {
@@ -149,14 +151,13 @@ public class LoginParticipantController implements Initializable {
             ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
             professorMainMenuController.setProfessor(professor);
 
-        } 
+        }
     }
-    
+
     private void invokeAuthenticateAdministrative() throws DAOException, IOException {
         User user = new User();
         FieldValidator fieldValidator = new FieldValidator();
         int idUser = Integer.parseInt(emailTextField.getText());
-        
 
         fieldValidator.checkPassword(identifierPasswordField.getText());
         if (USER_DAO.authenticateAdministrativeUser(idUser, identifierPasswordField.getText())) {
@@ -167,8 +168,8 @@ public class LoginParticipantController implements Initializable {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
             }
 
-        } 
-    }    
+        }
+    }
 
     private void changeViewForStudent(Student student, CollaborativeProject collaborativeProject) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
@@ -183,20 +184,25 @@ public class LoginParticipantController implements Initializable {
     @FXML
     void registerButtonIsPressed(ActionEvent event) {
         try {
+
             if (roleButton.getText().equals("Profesor")) {
-                try {
-                    if (PROFESSOR_DAO.checkPreconditions()) {   
-                        MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorRegister");
-                    } else {
-                        DialogController.getInformativeConfirmationDialog("Recursos no disponibles", 
-                                "No contamos con los recursos para realizar su registro");
-                    }
-                } catch (DAOException exception) {
-                    handleDAOException(exception);
+
+                if (PROFESSOR_DAO.checkPreconditions()) {
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorRegister");
+                } else {
+                    DialogController.getInformativeConfirmationDialog("Recursos no disponibles",
+                            "No contamos con los recursos para realizar su registro");
                 }
             } else {
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/RegisterStudent");
+                if (STUDENT_DAO.checkPreconditions()) {
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/RegisterStudent");
+                } else {
+                    DialogController.getInformativeConfirmationDialog("Recursos no disponibles",
+                            "No contamos con los recursos para realizar su registro");
+                }
             }
+        } catch (DAOException exception) {
+            handleDAOException(exception);
         } catch (IOException exception) {
             Log.getLogger(LoginParticipantController.class).error(exception.getMessage(), exception);
         }

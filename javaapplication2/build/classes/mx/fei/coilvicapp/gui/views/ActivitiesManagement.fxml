@@ -35,8 +35,8 @@
       </VBox>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="819.0" spacing="15.0">
          <children>
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addButtonIsPressed" prefHeight="26.0" prefWidth="91.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Añadir" visible="false" />
             <Button fx:id="seeActivityButton" mnemonicParsing="false" onAction="#seeActivityButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Ver actividad" />
-            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addButtonIsPressed" prefHeight="26.0" prefWidth="91.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Añadir" />
          </children>
       </HBox>
    </children>

@@ -44,7 +44,7 @@
             </HBox>
             <VBox alignment="CENTER" prefHeight="414.0" prefWidth="670.0" spacing="30.0">
                <children>
-                  <Button fx:id="consultButton" mnemonicParsing="false" onAction="#consultButtonIsPressed" prefHeight="36.0" prefWidth="384.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Consultar historial de colaboraciones" />
+                  <Button fx:id="consultButton" mnemonicParsing="false" onAction="#consultButtonIsPressed" prefHeight="36.0" prefWidth="384.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Consultar historial de colaboraciones de profesores" />
                </children>
             </VBox>
          </children>

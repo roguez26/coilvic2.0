@@ -55,6 +55,7 @@ public class ActivitiesManagementController implements Initializable {
     private CollaborativeProject collaborativeProject;
     private final IAssignment ASSIGNMENT_DAO = new AssignmentDAO();
     private Professor professorSession;
+    private boolean justVisibleMode;
 
     @FXML
     void addButtonIsPressed(ActionEvent event) {
@@ -70,7 +71,7 @@ public class ActivitiesManagementController implements Initializable {
         } catch (IOException exception) {
             Log.getLogger(LoginParticipantController.class).error(exception.getMessage(), exception);
         }
-        fillTableView(collaborativeProject);
+        fillActivitiesTable(collaborativeProject);
     }
 
     @FXML
@@ -79,15 +80,18 @@ public class ActivitiesManagementController implements Initializable {
     }
 
     private void goBack() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsProfessor.fxml"));
-
+       
         try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsProfessor.fxml"));
             MainApp.changeView(fxmlLoader);
             CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController = fxmlLoader.getController();
             collaborativeProjectDetailsProfessorController.setCollaborativeProject(collaborativeProject);
-            collaborativeProjectDetailsProfessorController.setProfessor(professorSession);
+            if (!justVisibleMode) {
+                collaborativeProjectDetailsProfessorController.setProfessor(professorSession);
+            }
+            
         } catch (IOException exception) {
-            Logger.getLogger(CollaborativeProjectDetailsProfessorController.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(ActivitiesManagementController.class.getName()).log(Level.SEVERE, null, exception);
         }
     }
 
@@ -120,15 +124,21 @@ public class ActivitiesManagementController implements Initializable {
 
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
-        fillTableView(collaborativeProject);
+        fillActivitiesTable(collaborativeProject);
     }
 
     public void setProfessorSession(Professor professor) {
         this.professorSession = professor;
+        addButton.setVisible(true);
+    }
+    
+    public void setJustVisibleMode(boolean isJustVisible) {
+        this.justVisibleMode = isJustVisible;
     }
 
-    private void fillTableView(CollaborativeProject collabortiveProject) {
+    private void fillActivitiesTable(CollaborativeProject collabortiveProject) {
         ArrayList<Assignment> assignmentsList = new ArrayList<>();
+        activitiesTableView.getItems().clear();
         try {
             assignmentsList = ASSIGNMENT_DAO.getAssignmentsByIdProjectColaborative(collaborativeProject.getIdCollaborativeProject());
         } catch (DAOException exception) {

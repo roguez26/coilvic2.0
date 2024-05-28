@@ -176,7 +176,7 @@ public class ProfessorUVTest {
         TEST_PROFESSOR.setHiringCategory(initializeHiringCategory());
         TEST_PROFESSOR.setHiringType(initializeHiringType());
         TEST_PROFESSOR.setRegion(initializeRegion());
-        TEST_PROFESSOR.setPersonalNumber(10);  
+        TEST_PROFESSOR.setPersonalNumber(10000);  
         System.out.println(TEST_PROFESSOR.toString() + "test");
     }
     
@@ -192,7 +192,7 @@ public class ProfessorUVTest {
         AUX_TEST_PROFESSOR.setHiringCategory(TEST_PROFESSOR.getHiringCategory());
         AUX_TEST_PROFESSOR.setHiringType(TEST_PROFESSOR.getHiringType());
         AUX_TEST_PROFESSOR.setRegion(TEST_PROFESSOR.getRegion());
-        AUX_TEST_PROFESSOR.setPersonalNumber(11);
+        AUX_TEST_PROFESSOR.setPersonalNumber(11000);
         System.out.println(TEST_PROFESSOR.toString() + "aux");
     }
 }

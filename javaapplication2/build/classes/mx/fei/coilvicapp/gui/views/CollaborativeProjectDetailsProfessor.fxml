@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.CollaborativeProjectDetailsProfessorController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.CollaborativeProjectDetailsProfessorController">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="111.0" prefWidth="742.0" spacing="260.0">
          <children>
@@ -49,7 +49,7 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="66.0" prefWidth="863.0" spacing="15.0">
          <children>
-            <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishButtonIsPressed" prefHeight="26.0" prefWidth="200.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Concluir" />
+            <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishButtonIsPressed" prefHeight="26.0" prefWidth="200.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Concluir" visible="false" />
             <Button fx:id="seeActivitiesButton" mnemonicParsing="false" onAction="#seeActivitiesButtonIsPressed" prefHeight="26.0" prefWidth="200.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Ver actividades" />
             <Button fx:id="seeSyllabusButton" minWidth="200.0" mnemonicParsing="false" onAction="#seeSyllabusButtonIsPressed" prefHeight="27.0" prefWidth="200.0" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Ver syllabus" />
          </children>
