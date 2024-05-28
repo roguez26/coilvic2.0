@@ -155,21 +155,63 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
     @FXML
     void cancelRequestButtonButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == cancelRequestButton) {
-            // TODO
+            if (confirmCancelRequest()) {
+                int result = -1;
+                try {
+                    result = COLLABORATIVE_PROJECT_REQUEST_DAO.cancelCollaborativeProjectRequest(collaborativeProjectRequest);
+                } catch (DAOException exception) {
+                    handleDAOException(exception);
+                }
+                if (result > 0) {                
+                    wasCancelledConfirmation();
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
+                    MainApp.changeView(fxmlLoader);
+                    CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController = fxmlLoader.getController();
+                    collaborativeProjectRequestsManagementController.setProfessor(professor);
+                }                
+            }
         }
     }
     
     @FXML
     void rejectButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == rejectButton) {
-            // TODO
+            if (confirmRejectRequest()) {
+                int result = -1;
+                try {
+                    result = COLLABORATIVE_PROJECT_REQUEST_DAO.attendCollaborativeProjectRequest(collaborativeProjectRequest, "Rechazado");                    
+                } catch (DAOException exception) {
+                    handleDAOException(exception);
+                }
+                if (result > 0) {                
+                    wasRejectedConfirmation();
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
+                    MainApp.changeView(fxmlLoader);
+                    CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController = fxmlLoader.getController();
+                    collaborativeProjectRequestsManagementController.setProfessor(professor);
+                }                
+            }
         }
     }
     
     @FXML
     void acceptButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == acceptButton) {
-            // TODO    
+            if (confirmAcceptRequest()) {
+                int result = -1;
+                try {
+                    result = COLLABORATIVE_PROJECT_REQUEST_DAO.attendCollaborativeProjectRequest(collaborativeProjectRequest, "Aceptado");                    
+                } catch (DAOException exception) {
+                    handleDAOException(exception);
+                }
+                if (result > 0) {                
+                    wasAcceptedConfirmation();
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
+                    MainApp.changeView(fxmlLoader);
+                    CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController = fxmlLoader.getController();
+                    collaborativeProjectRequestsManagementController.setProfessor(professor);
+                }                
+            }    
         }
     }        
     
@@ -233,6 +275,39 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
         requestDateTextField.setText(collaborativeProjectRequest.getRequestDate());
         validationDateTextField.setText(collaborativeProjectRequest.getValidationDate());        
     }
+    
+    private boolean confirmCancelRequest() {
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelación", "¿Está seguro de que desea cancelar la solicitud?");
+        return (response.get() == DialogController.BUTTON_YES);
+    }
+    
+    private boolean wasCancelledConfirmation() {
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
+        ("Solictud cancelada","Se cancelo la solicitud con éxito");
+        return response.get() == DialogController.BUTTON_ACCEPT;
+    }
+    
+    private boolean confirmRejectRequest() {
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar rechazo", "¿Está seguro de que desea rechazar la solicitud?");
+        return (response.get() == DialogController.BUTTON_YES);
+    }
+    
+    private boolean wasRejectedConfirmation() {
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
+        ("Solictud rechazada","Se rechazo la solicitud con éxito");
+        return response.get() == DialogController.BUTTON_ACCEPT;
+    }
+
+    private boolean confirmAcceptRequest() {
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar rechazo", "¿Está seguro de que desea rechazar la solicitud?");
+        return (response.get() == DialogController.BUTTON_YES);
+    }
+    
+    private boolean wasAcceptedConfirmation() {
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
+        ("Solictud aceptada","Se acepto la solicitud con éxito");
+        return response.get() == DialogController.BUTTON_ACCEPT;
+    } 
     
     private void handleDAOException(DAOException exception) {
         try {

@@ -195,7 +195,7 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
         if (event.getSource() == acceptButton) {
             if (confirmAcceptCourse()) {
                 int result = -1;
-                try {                    
+                try {
                     result = COURSE_DAO.evaluateCourseProposal(course,"Aceptado");
                 } catch (IllegalArgumentException exception) {
                     handleValidationException(exception);

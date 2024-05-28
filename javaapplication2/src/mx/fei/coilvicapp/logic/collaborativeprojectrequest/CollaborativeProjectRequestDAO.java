@@ -567,7 +567,7 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
         int result = -1;
         
         switch (collaborativeProjectRequest.getStatus()) {
-            case "Pendiente" -> result = cancelCollaborativeProjectRequestStatusById(collaborativeProjectRequest.getIdCollaboratibeProjectRequest());
+            case "Pendiente" -> result = cancelCollaborativeProjectRequestByIdCollaborativeProjectRequest(collaborativeProjectRequest.getIdCollaboratibeProjectRequest());
             case "Aceptado" -> throw new DAOException("No puede cancelar una solicitud de proyecto colaborativo que ya fue aceptada", Status.WARNING);
             case "Rechazado" -> throw new DAOException("No puede cancelar una solicitud de proyecto colaborativo que ya fue rechazada", Status.WARNING);
             default -> {}
@@ -575,11 +575,11 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
         return result;
     }
     
-    private int cancelCollaborativeProjectRequestStatusById(int idCollaborativeProjectRequest) throws DAOException {
+    private int cancelCollaborativeProjectRequestByIdCollaborativeProjectRequest(int idCollaborativeProjectRequest) throws DAOException {
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String statement = "UPDATE SolicitudProyectoColaborativo SET estado = ? "
+        String statement = "UPDATE SolicitudProyectoColaborativo SET estado = 'Cancelado'"
         + " WHERE idSolicitudProyectoColaborativo = ?;";
         int rowsAffected = -1;
         
@@ -625,7 +625,7 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         String statement = "UPDATE SolicitudProyectoColaborativo SET estado = ?,"
-        + " fechaRespuesta = NOW() WHERE idSolicitudProyectoColaborativo = ?;";
+        + " fechaValidacion = NOW() WHERE idSolicitudProyectoColaborativo = ?;";
         int rowsAffected = -1;
         
         try {
@@ -659,7 +659,7 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         String statement = "UPDATE SolicitudProyectoColaborativo"
-        + " SET estado = 'Rechazado', fechaRespuesta = NOW()"
+        + " SET estado = 'Rechazado', fechaValidacion = NOW()"
         + " WHERE idSolicitudProyectoColaborativo != ?"                
         + " AND idCursoSolicitado = ?";
         int rowsAffected = -1;
