@@ -56,14 +56,5 @@
             </HBox>
          </children>
       </VBox>
-<<<<<<< HEAD
-      <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="46.0" prefWidth="750.0" spacing="10.0">
-         <children>
-            <Button fx:id="exportValidatedProfessorsButton" mnemonicParsing="false" onAction="#exportValidatedProfessorsButtonIsPressed" stylesheets="@../../../../../stylesheets/buttongray.css" text="Exportar profesores validados" />
-            <Button fx:id="seeDetailsButton" mnemonicParsing="false" onAction="#seeDetailsButtonIsPressed" prefHeight="26.0" prefWidth="80.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Ver detalles" />
-         </children>
-      </HBox>
-=======
->>>>>>> 74f1c431a8e176e00a8919216262520e57d1ae04
    </children>
 </VBox>
