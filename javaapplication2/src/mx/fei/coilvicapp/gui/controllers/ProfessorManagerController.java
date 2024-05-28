@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
@@ -62,7 +60,7 @@ public class ProfessorManagerController implements Initializable {
     private Button seeDetailsButton;
     
     @FXML
-    private Button registerButton;
+    private Button exportValidatedProfessorsButton;
     
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -85,7 +83,8 @@ public class ProfessorManagerController implements Initializable {
     
     @FXML
     private boolean backConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar al menu principal", "¿Deseas regresar al menu principal?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog(
+                "Regresar al menu principal", "¿Deseas regresar al menu principal?");
         return (response.get() == DialogController.BUTTON_YES);
     }
        
@@ -93,7 +92,8 @@ public class ProfessorManagerController implements Initializable {
     private void seeDetailsButtonIsPressed(ActionEvent event) throws IOException {
         Professor professor = (Professor) professorsTableView.getSelectionModel().getSelectedItem();
         if (professor != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorValidate.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                    "/mx/fei/coilvicapp/gui/views/ProfessorValidate.fxml"));
             MainApp.changeView(fxmlLoader);
             ProfessorValidateController professorValidateController = fxmlLoader.getController();
             professorValidateController.setProfessorForValidation(professor);
@@ -117,17 +117,10 @@ public class ProfessorManagerController implements Initializable {
         }
     }
     
-    @FXML
-    private void register(ActionEvent event) throws IOException {
-        if (event.getSource() == registerButton) {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorRegister");
-        }
-    }    
-    
     private ArrayList<Professor> initializeProfessorArray() {
         ArrayList<Professor> professors = new ArrayList<>();
         try {
-            professors = professorDAO.getAllProfessors();
+            professors = professorDAO.getProfessorsByPendingStatus();
         } catch (DAOException exception) {
             Log.getLogger(ProfessorManagerController.class).error(exception.getMessage(), exception);
         }
@@ -139,7 +132,8 @@ public class ProfessorManagerController implements Initializable {
     }    
     
     private void handleIOException(IOException exception) {
-        DialogController.getInformativeConfirmationDialog("Lo sentimos", "No fue posible exportar los profesores validados");
+        DialogController.getInformativeConfirmationDialog(
+                "Lo sentimos", "No fue posible exportar los profesores validados");
     }    
     
 }

@@ -101,7 +101,7 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
     private final CourseDAO COURSE_DAO = new CourseDAO();
     private Course course = new Course();
     
-    private Professor professor = new Professor();
+    private Professor professor;
     
     private final CollaborativeProjectRequestDAO COLLABORATIVE_PROJECT_REQUEST = new CollaborativeProjectRequestDAO();
         
@@ -117,9 +117,7 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
         if (course != null) {
             this.course = course;
             initializeAll();
-        } else {
-            // UN ERROR AQUI O ALGO JAJAs
-        } 
+        }
     }
     
     public Professor getProfessor() {              
@@ -133,7 +131,7 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
     @FXML
     void backButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == backButton) {
-            if (professor.getIdProfessor() == 0) {
+            if (professor == null) {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement");
             } else {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement.fxml"));
@@ -229,8 +227,8 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
         phoneNumberTextField.setText(course.getProfessor().getPhoneNumber());
         genderTextField.setText(course.getProfessor().getGender());
         universityTextField.setText(course.getProfessor().getUniversity().toString());
-        countryTextField.setText(course.getProfessor().getUniversity().getCountry().toString());        
-        if (professor.getIdProfessor() == 0) {            
+        countryTextField.setText(course.getProfessor().getUniversity().getCountry().toString());
+        if (professor == null) {            
             sendRequestButton.setVisible(false);
             rejectButton.setVisible(true);
             acceptButton.setVisible(true);
@@ -293,7 +291,7 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
             DialogController.getDialog(new AlertMessage (exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR -> {
-                    if (professor.getIdProfessor() == 0) {
+                    if (professor == null) {
                         MainApp.changeView("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement");
                     } else {
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement.fxml"));

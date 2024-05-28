@@ -1,4 +1,4 @@
-package mx.fei.coilvicapp.logic.collaborativeproject;
+package mx.fei.coilvicapp.logic.collaborativeproject_;
 
 import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;

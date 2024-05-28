@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -70,17 +68,11 @@ public class ProfessorCourseManagementController implements Initializable {
     
     private final CourseDAO COURSE_DAO = new CourseDAO();
     
-    private Professor professor = new Professor();
+    private Professor professor;
     
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        coursesTableView.getItems().addAll(initializeCoursesArray());
-        nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        termTableColumn.setCellValueFactory(new PropertyValueFactory<>("term"));
-        studentsProfileTableColumn.setCellValueFactory(new PropertyValueFactory<>("studentsProfile"));
-        languageTableColumn.setCellValueFactory(new PropertyValueFactory<>("language"));
-        statusTableColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+    public void initialize(URL url, ResourceBundle rb) {        
     }
     
         
@@ -89,13 +81,25 @@ public class ProfessorCourseManagementController implements Initializable {
     }
     
     public void setProfessor(Professor professor) {
-        this.professor = professor;        
+        this.professor = professor;
+        initializeAll();
     }
     
     @FXML
     private void backButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == backButton) {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");                           
+            try {
+                if (professor != null) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
+                    MainApp.changeView(fxmlLoader);
+                    ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
+                    professorMainMenuController.setProfessor(professor);
+                } else {
+                    // ALGUN ERROR
+                }   
+            } catch (IOException exception) {
+                Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+            }
         }
     }
     
@@ -205,7 +209,7 @@ public class ProfessorCourseManagementController implements Initializable {
     private void seeDetailsButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == seeDetailsButton) {
             Course course = (Course) coursesTableView.getSelectionModel().getSelectedItem();
-            if (course != null) {
+            if (professor != null && course != null) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CourseDetails.fxml"));
                 MainApp.changeView(fxmlLoader);                               
                 CourseDetailsController courseDetailsController = fxmlLoader.getController();                
@@ -226,12 +230,18 @@ public class ProfessorCourseManagementController implements Initializable {
                 RegisterCourseController registerCourseController = fxmlLoader.getController();
                 registerCourseController.setProfessor(professor);
             } else {
-                // Algun error
-                //
-                //
-                //
+                // Algun error                
             }
         }
+    }
+    
+    private void initializeAll() {
+        coursesTableView.getItems().addAll(initializeCoursesArray());
+        nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        termTableColumn.setCellValueFactory(new PropertyValueFactory<>("term"));
+        studentsProfileTableColumn.setCellValueFactory(new PropertyValueFactory<>("studentsProfile"));
+        languageTableColumn.setCellValueFactory(new PropertyValueFactory<>("language"));
+        statusTableColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
     
     private ArrayList<Course> initializeCoursesArray() {
@@ -239,7 +249,7 @@ public class ProfessorCourseManagementController implements Initializable {
         try {
             courses = COURSE_DAO.getAllCoursesByProfessor(professor.getIdProfessor());
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorCourseManagementController.class.getName()).log(Level.SEVERE, null, exception);
+            handleDAOException(exception);
         }
         return courses;
     }
@@ -247,7 +257,7 @@ public class ProfessorCourseManagementController implements Initializable {
     private void handleDAOException(DAOException exception) {
         coursesTableView.getItems().clear();
         try {
-            //DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
+            DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/ ");

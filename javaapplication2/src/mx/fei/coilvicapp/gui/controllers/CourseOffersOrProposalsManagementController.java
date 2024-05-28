@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,7 +73,7 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
             
     private final CourseDAO COURSE_DAO = new CourseDAO();
     
-    private Professor professor = new Professor();
+    private Professor professor;
         
     @Override
     public void initialize(URL url, ResourceBundle rb) {       
@@ -88,7 +86,8 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
     
     public void setProfessor(Professor professor) {
         if (professor != null) {
-            this.professor = professor;            
+            this.professor = professor;
+            initializeAll();
         } else {
             // ERROR
         }
@@ -97,12 +96,14 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
     @FXML
     private void backButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == backButton) {
-            if (professor.getIdProfessor() == 0) {
+            if (professor == null) {
                 // VENTANA DE LA ADMINISTRACION COILVIC
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");
             } else {
-                // VENTANA DEL PROFESOR // SE TIENE QUE ENVIAR UN PROFESOR A LA VENTANA
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
+                MainApp.changeView(fxmlLoader);
+                ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
+                professorMainMenuController.setProfessor(professor);                
             }            
         }
     }
@@ -113,7 +114,7 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
             if (!searchTextField.getText().isEmpty()) {
                 ArrayList<Course> courses = new ArrayList<>();                
                 try {
-                    if (professor.getIdProfessor() == 0) {
+                    if (professor == null) {
                         courses = COURSE_DAO.getCourseProposalsByUniversity(searchTextField.getText());                
                     } else {
                         courses = COURSE_DAO.getCourseOfferingsByUniversity(searchTextField.getText());                
@@ -149,7 +150,7 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CourseOfferOrProposalDetails.fxml"));
                 MainApp.changeView(fxmlLoader);
                 CourseOfferOrProposalDetailsController courseOfferOrProposalDetailsController = fxmlLoader.getController();
-                if (professor.getIdProfessor() != 0) {
+                if (professor != null) {
                     courseOfferOrProposalDetailsController.setProfessor(professor);
                 }
                 courseOfferOrProposalDetailsController.setCourse(course);                
@@ -181,7 +182,7 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
             }
         });                 
         languageTableColumn.setCellValueFactory(new PropertyValueFactory<>("language"));
-        if (professor.getIdProfessor() != 0) {
+        if (professor != null) {
             titleLabel.setText("Oferta Cursos");
         }                        
     }
@@ -189,7 +190,7 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
     private ArrayList<Course> initializeCoursesArray() {
         ArrayList<Course> courses = new ArrayList<>();
         try {
-            if (professor.getIdProfessor() == 0) {
+            if (professor == null) {
                 courses = COURSE_DAO.getCourseProposals();
             } else {
                 courses = COURSE_DAO.getCourseOfferings();

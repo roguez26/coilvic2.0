@@ -68,10 +68,10 @@ public class RegisterCourseController implements Initializable {
     private final LanguageDAO LANGUAGE_DAO = new LanguageDAO();    
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {           
+    public void initialize(URL url, ResourceBundle rb) {        
         numberStudentsComboBox.setItems(FXCollections.observableArrayList(initializeNumberStudentsArrayForComboBox()));
         termComboBox.setItems(FXCollections.observableArrayList(initializeTermsArrayForComboBox()));
-        languageComboBox.setItems(FXCollections.observableArrayList(initializeLanguagesArrayForComboBox()));
+        languageComboBox.setItems(FXCollections.observableArrayList(initializeLanguagesArrayForComboBox()));                
     }
     
     public Professor getProfessor() {

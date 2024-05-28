@@ -1,9 +1,9 @@
-package mx.fei.coilvicapp.logic.feedback;
+package mx.fei.coilvicapp.logic.feedback_;
 
-import mx.fei.coilvicapp.logic.feedback.Question;
-import mx.fei.coilvicapp.logic.feedback.Response;
+import mx.fei.coilvicapp.logic.feedback_.Question;
+import mx.fei.coilvicapp.logic.feedback_.Response;
 import java.util.ArrayList;
-import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
+import mx.fei.coilvicapp.logic.collaborativeproject_.CollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.student.Student;

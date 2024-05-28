@@ -1,4 +1,4 @@
-package mx.fei.coilvicapp.logic.collaborativeproject;
+package mx.fei.coilvicapp.logic.collaborativeproject_;
 
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import java.sql.PreparedStatement;

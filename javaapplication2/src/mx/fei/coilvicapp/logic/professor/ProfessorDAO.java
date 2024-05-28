@@ -6,10 +6,13 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.mail.MessagingException;
 import log.Log;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import mx.fei.coilvicapp.logic.academicarea.AcademicAreaDAO;
+import mx.fei.coilvicapp.logic.emailSender.EmailSender;
+import mx.fei.coilvicapp.logic.emailSender.EmailSenderDAO;
 import mx.fei.coilvicapp.logic.hiringcategory.HiringCategoryDAO;
 import mx.fei.coilvicapp.logic.hiringtype.HiringTypeDAO;
 import mx.fei.coilvicapp.logic.region.RegionDAO;
@@ -436,7 +439,7 @@ public class ProfessorDAO implements IProfessor {
     
     @Override
     public int acceptProfessor(Professor professor) throws DAOException {
-        int result;
+        int result = -1;
         User user = new User();
         DatabaseManager databaseManager = new DatabaseManager();
         String statement = "UPDATE profesor set estado = 'Aceptado', idUsuario = ? where idProfesor = ?;";
@@ -447,10 +450,17 @@ public class ProfessorDAO implements IProfessor {
             preparedStatement.setInt(1, user.getIdUser());
             preparedStatement.setInt(2, professor.getIdProfessor());
             result = preparedStatement.executeUpdate(); 
+            professor.setUser(user);
+            if (result > 0) {
+                invokeSendEmail(professor);
+            }
         } catch (SQLException exception) {
             Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible aceptar al profesor", Status.ERROR);
-        } 
+        } catch (MessagingException exception) { 
+            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible mandar el correo", Status.ERROR);
+        }
         return result;
     }
     
@@ -547,7 +557,24 @@ public class ProfessorDAO implements IProfessor {
         
         return result;
     }
-       
     
+    private void invokeSendEmail(Professor professor) throws DAOException, MessagingException {
+        EmailSenderDAO emailSenderDAO = new EmailSenderDAO();
+        EmailSender emailSender = initializeEmailSender(professor);
+        emailSender.createEmail();
+        if (emailSender.sendEmail()) {
+            emailSenderDAO.registerEmail(emailSender);
+        }
+    }
+
+    private EmailSender initializeEmailSender(Professor professor) {
+        EmailSender emailSender = new EmailSender();
+        emailSender.setSubject("Aceptacion en COIL VIC");
+        emailSender.setMessage("Ha sido aceptado en el proyecto COIL VIC,"
+                + " se le ha asignado un usuario y contraseña.\n Usuario: " + professor.getEmail() 
+                + "\nContraseña: " + professor.getUser().getPassword());
+        emailSender.setReceiver(professor);
+        return emailSender;
+    }   
     
 }

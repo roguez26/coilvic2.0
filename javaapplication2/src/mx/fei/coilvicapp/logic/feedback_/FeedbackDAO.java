@@ -1,9 +1,9 @@
-package mx.fei.coilvicapp.logic.feedback;
+package mx.fei.coilvicapp.logic.feedback_;
 
-import mx.fei.coilvicapp.logic.feedback.FeedbackDAO;
-import mx.fei.coilvicapp.logic.feedback.Question;
-import mx.fei.coilvicapp.logic.feedback.IFeedback;
-import mx.fei.coilvicapp.logic.feedback.Response;
+import mx.fei.coilvicapp.logic.feedback_.FeedbackDAO;
+import mx.fei.coilvicapp.logic.feedback_.Question;
+import mx.fei.coilvicapp.logic.feedback_.IFeedback;
+import mx.fei.coilvicapp.logic.feedback_.Response;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import log.Log;
-import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
+import mx.fei.coilvicapp.logic.collaborativeproject_.CollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 import mx.fei.coilvicapp.logic.professor.Professor;

@@ -1,7 +1,7 @@
 package mx.fei.coilvicapp.logic.assignment;
 
 import java.util.ArrayList;
-import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
+import mx.fei.coilvicapp.logic.collaborativeproject_.CollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 
 /* 

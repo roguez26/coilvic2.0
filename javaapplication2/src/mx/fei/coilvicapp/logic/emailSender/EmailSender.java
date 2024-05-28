@@ -1,6 +1,5 @@
 package mx.fei.coilvicapp.logic.emailSender;
 
-import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -97,8 +96,8 @@ public class EmailSender {
     }
 
     public void setMessage(String message) {
-        FieldValidator fieldValidator = new FieldValidator();
-        fieldValidator.checkLongRange(message);
+//        FieldValidator fieldValidator = new FieldValidator();
+//        fieldValidator.checkLongRange(message);
         this.message = message;
     }
 
