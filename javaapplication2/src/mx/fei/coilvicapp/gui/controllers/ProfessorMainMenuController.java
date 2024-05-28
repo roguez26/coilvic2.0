@@ -75,7 +75,7 @@ public class ProfessorMainMenuController implements Initializable {
     @FXML
     void logOutButton(ActionEvent event) {
         try {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant.fxml");
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
         } catch (IOException exception) {
             Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
         }
