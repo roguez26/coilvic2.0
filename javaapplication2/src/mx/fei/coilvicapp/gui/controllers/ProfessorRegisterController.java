@@ -191,7 +191,7 @@ public class ProfessorRegisterController implements Initializable {
             emptyFieldsCheck = true;
         }
         
-        if ("Universidad Veracruzana".equals(universitiesComboBox.getValue().getName())) {
+        if (universitiesComboBox.getValue() != null && "Universidad Veracruzana".equals(universitiesComboBox.getValue().getName())) {
             if (uvPersonalNumberLabel.getText().isEmpty() || 
                     regionsComboBox.getValue() == null ||
                     academicAreasComboBox.getValue() == null ||

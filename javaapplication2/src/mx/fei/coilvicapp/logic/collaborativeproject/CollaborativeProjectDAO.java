@@ -35,7 +35,9 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
                 if (!checkDuplicateCollaborativeProjectCode(collaborativeProject)) {
                     result = insertCollaborativeProject(collaborativeProject);
                 }
-            }     
+            } else {
+                throw new DAOException("Ya existe un proyecto con esos cursos", Status.WARNING);
+            }
         } else {
             throw new DAOException("La solicitud de proyecto colaborativo debe ser aceptada antes de poder crear el proyecto colaborativo", Status.WARNING);
         }

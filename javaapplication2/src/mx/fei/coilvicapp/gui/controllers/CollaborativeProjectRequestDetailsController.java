@@ -211,7 +211,7 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
         }
     }        
     
-    public void initializeAll() {                
+    public void initializeAll() {
         if (collaborativeProjectRequest.getRequesterCourse().getProfessor().getIdProfessor() == 
         professor.getIdProfessor()) {
             nameCourse1Label.setText("Curso solicitado");            
