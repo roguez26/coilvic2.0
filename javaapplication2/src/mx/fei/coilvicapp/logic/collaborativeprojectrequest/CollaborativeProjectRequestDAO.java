@@ -556,6 +556,9 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
         result = updateCollaborativeProjectRequestStatusById(collaborativeProjectRequest.getIdCollaboratibeProjectRequest(), status);
         if (status.equals("Aceptado")) {            
             if (result == 1) {
+                CourseDAO courseDAO = new CourseDAO();
+                courseDAO.changeCourseStatusToCollaboration(collaborativeProjectRequest.getRequesterCourse());
+                courseDAO.changeCourseStatusToCollaboration(collaborativeProjectRequest.getRequestedCourse());
                 RejectCollaborativeProjectRequests(collaborativeProjectRequest);
             }
         }

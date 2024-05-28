@@ -1,6 +1,7 @@
 package mx.fei.coilvicapp.logic.collaborativeproject;
 
 import java.util.ArrayList;
+import mx.fei.coilvicapp.logic.collaborativeprojectrequest.CollaborativeProjectRequest;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 
 /*
@@ -9,7 +10,8 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 
 public interface ICollaborativeProject {
     
-    public int registerCollaborativeProject(CollaborativeProject collaborativeProject) throws DAOException;
+    public int registerCollaborativeProject(CollaborativeProject collaborativeProject,
+    CollaborativeProjectRequest collaborativeProjectRequest) throws DAOException;
     public ArrayList<CollaborativeProject> getCollaborativeProjectsProposals() throws DAOException;    
     public int evaluateCollaborativeProjectProposal(CollaborativeProject collaborativeProject, String status) throws DAOException;    
     public ArrayList<CollaborativeProject> getPendingCollaborativeProjectsByProfessor(int idProfessor) throws DAOException;

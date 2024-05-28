@@ -104,25 +104,15 @@ public class CourseDAO implements ICourse {
     @Override
     public ArrayList<Course> getCourseProposals() throws DAOException {
         ArrayList<Course> courses;
-        courses = getCoursesByStatus("Pendiente");
-
-        if (!courses.isEmpty()) {
-            return courses;
-        } else {
-            throw new DAOException("No hay registros de cursos", Status.WARNING);
-        }
+        courses = getCoursesByStatus("Pendiente");       
+        return courses;
     }
     
     @Override
     public ArrayList<Course> getCourseProposalsByUniversity(String nameUniversity) throws DAOException {
         ArrayList<Course> courses;
-        courses = getCourseProposalsByUniversityName(nameUniversity, "Pendiente");
-        
-        if (!courses.isEmpty()) {
-            return courses;            
-        } else {
-            throw new DAOException("No hay registros de cursos pendientes", Status.WARNING);
-        }
+        courses = getCourseProposalsByUniversityName(nameUniversity, "Pendiente");       
+        return courses;
     }
     
     private ArrayList<Course> getCourseProposalsByUniversityName(String universityName, String status) throws DAOException {
@@ -172,25 +162,15 @@ public class CourseDAO implements ICourse {
     @Override
     public ArrayList<Course> getCourseOfferings() throws DAOException {
         ArrayList<Course> courses;
-        courses = getCoursesByStatus("Aceptado");
-
-        if (!courses.isEmpty()) {
-            return courses;
-        } else {
-            throw new DAOException("No hay cursos en la oferta", Status.WARNING);
-        }
+        courses = getCoursesByStatus("Aceptado");        
+        return courses;        
     }
     
     @Override
     public ArrayList<Course> getCourseOfferingsByUniversity(String nameUniversity) throws DAOException {
         ArrayList<Course> courses;
-        courses = getCourseProposalsByUniversityName(nameUniversity, "Aceptado");
-        
-        if (!courses.isEmpty()) {
-            return courses;            
-        } else {
-            throw new DAOException("No hay registros de cursos en oferta", Status.WARNING);
-        }
+        courses = getCourseProposalsByUniversityName(nameUniversity, "Aceptado");                
+        return courses;
     }
 
     public Course getCourseByIdCourse(int idCourse) throws DAOException {
@@ -298,11 +278,17 @@ public class CourseDAO implements ICourse {
     @Override
     public int evaluateCourseProposal(Course course, String status) throws DAOException {
         int result = -1;
-
-        if (course.getStatus().equals("Pendiente")) {
-            result = updateCourseStatusByCourse(course, status);
-        } else {
-            throw new DAOException("No puede evaluar un curso que ya fue evaluado", Status.ERROR);
+        switch (course.getStatus()) {
+            case "Pendiente" -> 
+                result = updateCourseStatusByCourse(course, status);
+            case "Cancelado" -> 
+                throw new DAOException("No puede evaluar un curso que fue cancelado", Status.ERROR);
+            case "Colaboracion" -> 
+                throw new DAOException("No puede evaluar un curso que es parte de un proyecto colaborativo", Status.ERROR);
+            case "Finalizado" -> 
+                throw new DAOException("No puede evaluar un curso finalizado", Status.ERROR);
+            default -> 
+                throw new DAOException("No puede evaluar un curso que ya fue evaluado", Status.ERROR);
         }
         return result;
     }
@@ -344,7 +330,7 @@ public class CourseDAO implements ICourse {
     public int updateCourse(Course course) throws DAOException {
         int result = -1;
         if (course.getStatus().equals("Pendiente")
-                || course.getStatus().equals("Rechazado")) {
+        || course.getStatus().equals("Rechazado")) {
             if (!checkCourseDuplicate(course)) {
                 result = updateCoursePrivate(course);
             }
@@ -438,25 +424,15 @@ public class CourseDAO implements ICourse {
     @Override
     public ArrayList<Course> getAllCoursesByProfessor(int idProfessor) throws DAOException {
         ArrayList<Course> courses;
-        courses = getCoursesByIdProfessor(idProfessor);
-
-        if (!courses.isEmpty()) {
-            return courses;
-        } else {
-            throw new DAOException("No hay cursos", Status.WARNING);
-        }
+        courses = getCoursesByIdProfessor(idProfessor);        
+        return courses;        
     }
     
     @Override
     public ArrayList<Course> getPendingCoursesByProfessor(int idProfessor) throws DAOException {
         ArrayList<Course> courses;
-        courses = getCoursesByIdProfessorAndStatus(idProfessor, "Pendiente");
-
-        if (!courses.isEmpty()) {
-            return courses;
-        } else {
-            throw new DAOException("No hay cursos pendientes", Status.WARNING);
-        }
+        courses = getCoursesByIdProfessorAndStatus(idProfessor, "Pendiente");       
+        return courses;       
     }
 
     @Override
@@ -474,60 +450,35 @@ public class CourseDAO implements ICourse {
     @Override
     public ArrayList<Course> getRejectedCoursesByProfessor(int idProfessor) throws DAOException {
         ArrayList<Course> courses;
-        courses = getCoursesByIdProfessorAndStatus(idProfessor, "Rechazado");
-
-        if (!courses.isEmpty()) {
-            return courses;
-        } else {
-            throw new DAOException("No hay cursos rechazados", Status.WARNING);
-        }
+        courses = getCoursesByIdProfessorAndStatus(idProfessor, "Rechazado");        
+        return courses;        
     }
     
     public ArrayList<Course> getColaborationCoursesByProfessor(int idProfessor) throws DAOException {
         ArrayList<Course> courses;
-        courses = getCoursesByIdProfessorAndStatus(idProfessor, "Colaboracion");
-
-        if (!courses.isEmpty()) {
-            return courses;
-        } else {
-            throw new DAOException("No hay cursos en colaboración", Status.WARNING);
-        }
+        courses = getCoursesByIdProfessorAndStatus(idProfessor, "Colaboracion");        
+        return courses;
     }            
 
     @Override
     public ArrayList<Course> getFinishedCoursesByProfessor(int idProfessor) throws DAOException {
         ArrayList<Course> courses;
-        courses = getCoursesByIdProfessorAndStatus(idProfessor, "Finalizado");
-
-        if (!courses.isEmpty()) {
-            return courses;
-        } else {
-            throw new DAOException("No hay cursos finalizados", Status.WARNING);
-        }
+        courses = getCoursesByIdProfessorAndStatus(idProfessor, "Finalizado");        
+        return courses;        
     }
     
     @Override
     public ArrayList<Course> getCancelledCoursesByProfessor(int idProfessor) throws DAOException {
         ArrayList<Course> courses;
-        courses = getCoursesByIdProfessorAndStatus(idProfessor, "Cancelado");
-
-        if (!courses.isEmpty()) {
-            return courses;
-        } else {
-            throw new DAOException("No hay cursos cancelados", Status.WARNING);
-        }
+        courses = getCoursesByIdProfessorAndStatus(idProfessor, "Cancelado");       
+        return courses;        
     }
 
     @Override     
     public ArrayList<Course> getCoursesByProfessorAndName(int idProfessor, String name) throws DAOException {
         ArrayList<Course> courses;
-        courses = getCoursesByIdProfessorAndName(idProfessor, name);
-
-        if (!courses.isEmpty()) {
-            return courses;
-        } else {
-            throw new DAOException("No hay cursos con ese nombre", Status.WARNING);
-        }
+        courses = getCoursesByIdProfessorAndName(idProfessor, name);        
+        return courses;        
     }
     
     private ArrayList<Course> getCoursesByIdProfessorAndName(int idProfessor,  String name) throws DAOException {
@@ -584,6 +535,14 @@ public class CourseDAO implements ICourse {
             default -> {
             }
         }
+        return result;
+    }
+    
+    public int changeCourseStatusToCollaboration(Course course) throws DAOException {
+        int result = -1;
+        if (course.getStatus().equals("Aceptado")) {
+            result = updateCourseStatusByCourse(course, "Colaboracion");
+        }        
         return result;
     }
 
