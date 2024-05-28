@@ -46,6 +46,12 @@ public class ProfessorDetailsController implements Initializable {
     private Professor professor;
     private boolean justViewMode;
 
+
+    @Override
+    public void initialize(URL URL, ResourceBundle resourceBundle) {
+
+    }
+    
     @FXML
     void backButtonIsPressed(ActionEvent event) {
 
@@ -57,11 +63,6 @@ public class ProfessorDetailsController implements Initializable {
         MainApp.changeView(fxmlLoader);
         CollaborativeProjectsHistoryController collaborativeProjectsHistoryController = fxmlLoader.getController();
         collaborativeProjectsHistoryController.setProfessor(professor);
-    }
-
-    @Override
-    public void initialize(URL URL, ResourceBundle resourceBundle) {
-
     }
 
     @FXML

@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.util.Optional;
 import javafx.scene.control.ButtonType;
+import log.Log;
 import main.MainApp;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
@@ -67,10 +68,10 @@ public class UpdateUniversityController implements Initializable {
 
     public void setUniversity(University university) {
         this.university = university;
-        initializeTextFields(university);
+        initializeUniversityTextFields(university);
     }
 
-    private void initializeTextFields(University university) {
+    private void initializeUniversityTextFields(University university) {
         nameTextField.setText(university.getName());
         acronymTextField.setText(university.getAcronym());
         jurisdictionTextField.setText(university.getJurisdiction());
@@ -80,21 +81,20 @@ public class UpdateUniversityController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-
-        initializeCombobox();
+        initializeUniversityCombobox();
     }
 
     public University getUniversity() {
         return university;
     }
 
-    private void initializeCombobox() {
+    private void initializeUniversityCombobox() {
         ArrayList<Country> countries = new ArrayList<>();
 
         try {
             countries = COUNTRY_DAO.getAllCountries();
         } catch (DAOException exception) {
-
+            handleDAOException(exception);
         }
         countriesCombobox.setItems(FXCollections.observableArrayList(countries));
     }
@@ -139,16 +139,16 @@ public class UpdateUniversityController implements Initializable {
 
     @FXML
     private void cancelButtonIsPressed(ActionEvent event) throws IOException {
-        initializeTextFields(university);
+        initializeUniversityTextFields(university);
         setModifyMode(false);
     }
 
     @FXML
     private void updateButtonIsPressed(ActionEvent event) throws IOException {
-        initializeCombobox();
+        initializeUniversityCombobox();
         setModifyMode(true);
     }
-    
+
     private void setModifyMode(boolean isModifiable) {
         nameTextField.setEditable(isModifiable);
         acronymTextField.setEditable(isModifiable);
@@ -190,7 +190,7 @@ public class UpdateUniversityController implements Initializable {
             back();
         }
     }
-    
+
     private void back() throws IOException {
         MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
     }
@@ -230,7 +230,7 @@ public class UpdateUniversityController implements Initializable {
 
             }
         } catch (IOException ioException) {
-
+            Log.getLogger(UpdateUniversityController.class).error(exception.getMessage(), exception);
         }
     }
 }

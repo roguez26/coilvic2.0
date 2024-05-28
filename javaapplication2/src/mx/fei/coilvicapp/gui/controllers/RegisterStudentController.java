@@ -196,8 +196,6 @@ public class RegisterStudentController implements Initializable {
     }
 
     private void invokeRegisterStudent() throws DAOException {
-
-        
         if (isMemberUV(universitiesCombobox.getValue())) {
             STUDENT_DAO.registerStudentUV(initializeStudentUV(STUDENT));
         } else {

@@ -27,7 +27,7 @@
                   <Button fx:id="searchButton" minWidth="35.0" mnemonicParsing="false" onAction="#searchButtonIsPressed" prefHeight="26.0" prefWidth="35.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="🔍" />
                   <MenuButton fx:id="statusMenuButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" stylesheets="@../../../../../stylesheets/menuButton.css" text="Pendientes">
                     <items>
-                      <MenuItem fx:id="pendingMenuItem" mnemonicParsing="false" onAction="#pendingMenuButtonIsSelected" text="Pendientes" />
+                      <MenuItem mnemonicParsing="false" onAction="#pendingMenuButtonIsSelected" text="Pendientes" />
                       <MenuItem mnemonicParsing="false" onAction="#acceptedMenuButtonIsSelected" text="Aceptados" />
                         <MenuItem mnemonicParsing="false" onAction="#rejectedMenuButtonIsSelected" text="Rechazados" />
                         <MenuItem mnemonicParsing="false" onAction="#finishedMenuButtonIsSelected" text="Finalizados" />

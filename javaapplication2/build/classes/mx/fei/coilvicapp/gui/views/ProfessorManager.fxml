@@ -15,7 +15,7 @@
    <children>
       <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="103.0" prefWidth="745.0" spacing="200.0">
          <children>
-            <Button fx:id="backButton" lineSpacing="50.0" mnemonicParsing="false" onAction="#backButtonIsPressed" stylesheets="@../../../../../stylesheets/backButton.css" text="&lt;">
+            <Button fx:id="backButton" lineSpacing="50.0" mnemonicParsing="false" onAction="#backButtonIsPressed" stylesheets="@../../../../../stylesheets/backButton.css" text="❮">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

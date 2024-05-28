@@ -196,7 +196,7 @@ public class ValidateCollaborativeProjectController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                    goBack();
                 case FATAL ->
                     MainApp.changeView("/main/MainApp");
             }
@@ -212,7 +212,7 @@ public class ValidateCollaborativeProjectController implements Initializable {
                 notifyProfessorController.setProfessor(collaborativeProject.getRequesterCourse().getProfessor());
             });
         } catch (IOException exception) {
-            Log.getLogger(LoginParticipantController.class).error(exception.getMessage(), exception);
+            Log.getLogger(ValidateCollaborativeProjectController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -234,7 +234,6 @@ public class ValidateCollaborativeProjectController implements Initializable {
             professorOneTextField.setText(collaborativeProject.getRequesterCourse().getProfessor().toString());
             professorTwoTextField.setText(collaborativeProject.getRequestedCourse().getProfessor().toString());
         }
-
     }
 
     private void goBack() {

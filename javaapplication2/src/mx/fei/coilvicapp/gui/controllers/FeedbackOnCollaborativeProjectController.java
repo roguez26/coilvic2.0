@@ -84,11 +84,13 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
 
     public void initializeResponses(ArrayList<Question> questionsList) {
         int idParticipant = 0;
+        
         if (student != null) {
             idParticipant = student.getIdStudent();
         } else if (professor != null) {
             idParticipant = professor.getIdProfessor();
         }
+        
         for (int i = 0; i < questionsList.size(); i++) {
             Response response = new Response();
             response.setQuestion(questionsList.get(i));
@@ -230,12 +232,10 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
     }
 
     public void setProfessor(Professor professor) {
-        System.out.println(professor.getName());
         this.professor = professor;
     }
 
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
-        System.out.println(collaborativeProject);
     }
 }

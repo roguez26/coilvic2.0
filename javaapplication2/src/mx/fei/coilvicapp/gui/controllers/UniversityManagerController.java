@@ -47,21 +47,24 @@ public class UniversityManagerController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-        ArrayList<University> universitiesList = new ArrayList<>();
-        
-        try {
-            universitiesList = UNIVERSITY_DAO.getAllUniversities();
-        } catch (DAOException exception) {
-
-        }
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         acronymTableColumn.setCellValueFactory(new PropertyValueFactory<>("acronym"));
         jurisdictionTableColumn.setCellValueFactory(new PropertyValueFactory<>("jurisdiction"));
         cityTableColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
         countryTableColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
-        universitiesTableView.getItems().addAll(universitiesList);
     }
 
+    private void initializeUniversitiesTable() {
+        ArrayList<University> universitiesList = new ArrayList<>();
+        
+        try {
+            universitiesList = UNIVERSITY_DAO.getAllUniversities();
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
+        universitiesTableView.getItems().addAll(universitiesList);
+    }
+    
     @FXML
     private void backButtonIsPressed(ActionEvent event) {
         try {
@@ -102,7 +105,7 @@ public class UniversityManagerController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
                 case FATAL ->
                     MainApp.changeView("/main/MainApp");
             }

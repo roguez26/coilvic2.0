@@ -61,7 +61,7 @@ public class ProfessorManagerController implements Initializable {
 
     @FXML
     private Button exportValidatedProfessorsButton;
-    private boolean allProfessorMode;
+    private boolean coordinationMode;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
@@ -78,7 +78,7 @@ public class ProfessorManagerController implements Initializable {
     @FXML
     private void backButtonIsPressed(ActionEvent event) {
         try {
-            if (allProfessorMode) {
+            if (coordinationMode) {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
             } else {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
@@ -93,7 +93,7 @@ public class ProfessorManagerController implements Initializable {
     private void seeDetailsButtonIsPressed(ActionEvent event) {
         Professor professor = (Professor) professorsTableView.getSelectionModel().getSelectedItem();
         if (professor != null) {
-            if (allProfessorMode) {
+            if (coordinationMode) {
                 changeToSeeHistory(professor);
             } else {
                 changeToValidateProfessor(professor);
@@ -173,8 +173,8 @@ public class ProfessorManagerController implements Initializable {
         }
     }
 
-    public void setAllProfessorsMode(boolean seeAll) {
-        this.allProfessorMode = seeAll;
+    public void setAllProfessorsMode(boolean allProfessorAreVisibles) {
+        this.coordinationMode = allProfessorAreVisibles;
         professorsTableView.getItems().clear();
         professorsTableView.getItems().addAll(initializeAllProfessorArray());
     }

@@ -57,7 +57,7 @@ public class FeedbackDAO implements IFeedback {
         String idType = "idEstudiante";
 
         if (type.equals("Profesor")) {
-            tableName = "RespuestaProfesor";
+            tableName = "RespuestaProfessor";
             idType = "idProfesor";
         }
 
