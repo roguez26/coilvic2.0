@@ -8,19 +8,13 @@ import mx.fei.coilvicapp.logic.implementations.FieldValidator;
  */
 public class User {
 
-    private int idUser;
+    private int idUser = 0;
     private String password;
     private String type;
-    
-    public User() {
-
-    }
-    
 
     public int getIdUser() {
         return idUser;
     }
-    
 
 
     public String getPassword() {

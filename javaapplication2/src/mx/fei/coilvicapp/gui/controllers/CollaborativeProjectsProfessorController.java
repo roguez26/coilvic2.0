@@ -161,7 +161,7 @@ public class CollaborativeProjectsProfessorController implements Initializable {
             ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
             professorMainMenuController.setProfessor(professor);
         } catch (IOException exception) {
-            Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectsProfessorController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -176,7 +176,7 @@ public class CollaborativeProjectsProfessorController implements Initializable {
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-            Log.getLogger(NotifyProfessorController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectsProfessorController.class).error(exception.getMessage(), exception);
         }
     }
 

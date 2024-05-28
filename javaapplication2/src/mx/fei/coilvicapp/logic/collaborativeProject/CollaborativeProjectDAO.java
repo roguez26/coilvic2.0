@@ -21,6 +21,10 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
 
     public CollaborativeProjectDAO() {
     }
+    
+//    public boolean isStudentRegistered(int idStudent) {
+//        
+//    }
 
     @Override
     public int registerCollaborativeProject(CollaborativeProject collaborativeProject) throws DAOException {

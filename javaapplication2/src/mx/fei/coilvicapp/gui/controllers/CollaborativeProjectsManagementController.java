@@ -71,7 +71,10 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
+        intializeUniversitiesTable();
+    }
 
+    private void intializeUniversitiesTable() {
         try {
             collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectsProposals();
         } catch (DAOException exception) {
@@ -91,9 +94,13 @@ public class CollaborativeProjectsManagementController implements Initializable 
     }
 
     @FXML
-    void seeDetailsButton(ActionEvent event) {
-        if (collaborativeProjecsTableView.getSelectionModel().getSelectedItem() != null) {
-            //pendiente
+    void seeDetailsButton(ActionEvent event) throws IOException {
+        CollaborativeProject selectedCollaborativeProject = collaborativeProjecsTableView.getSelectionModel().getSelectedItem();
+        if (selectedCollaborativeProject != null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsProfessor.fxml"));
+            MainApp.changeView(fxmlLoader);
+            CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController = fxmlLoader.getController();
+            collaborativeProjectDetailsProfessorController.setCollaborativeProject(selectedCollaborativeProject);
         } else {
             DialogController.getInformativeConfirmationDialog("Sin proyecto seleccionado", "Necesita seleccionar un proyecto para poder ver sus detalles");
         }
@@ -173,7 +180,11 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
     @FXML
     void backButtonIsPressed(ActionEvent event) {
-
+        try {
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
+        } catch (IOException exception) {
+            Log.getLogger(CollaborativeProjectsManagementController.class).error(exception.getMessage(), exception);
+        }
     }
 
     @FXML
@@ -187,12 +198,12 @@ public class CollaborativeProjectsManagementController implements Initializable 
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
                 case FATAL ->
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-            Log.getLogger(NotifyProfessorController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectsManagementController.class).error(exception.getMessage(), exception);
         }
     }
 

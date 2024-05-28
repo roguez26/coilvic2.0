@@ -132,7 +132,7 @@ public class AssignmentRegistrationTest {
     }
 
     private void initializeTerm() {
-        AUX_TERM.setName("Febrero-Junio 2024");
+        AUX_TERM.setName("Febrero2024-Junio2024");
 
         try {
             AUX_TERM.setIdTerm(TERM_DAO.registerTerm(AUX_TERM));

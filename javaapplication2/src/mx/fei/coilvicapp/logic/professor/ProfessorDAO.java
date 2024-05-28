@@ -25,7 +25,7 @@ import mx.fei.coilvicapp.logic.user.UserDAO;
 public class ProfessorDAO implements IProfessor {
            
     @Override
-    public boolean checkPreconditions() throws DAOException{
+    public boolean checkPreconditions() throws DAOException {
         UniversityDAO universityDAO = new UniversityDAO();
         AcademicAreaDAO academicAreaDAO = new AcademicAreaDAO();
         HiringCategoryDAO hiringCategoryDAO = new HiringCategoryDAO();
@@ -82,6 +82,7 @@ public class ProfessorDAO implements IProfessor {
         return result;        
     }
     
+    @Override
     public int registerProfessorUV(ProfessorUV professorUV) throws DAOException {
         int result = 0;
 

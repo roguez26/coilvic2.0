@@ -34,7 +34,7 @@ public class ProfessorUserAssignmentTest {
         }
         PROFESSOR_FOR_TESTING.setIdProfessor(idProfessor);
     }
-        
+    
     @Test
     public void testUserRegistration() {
         User user = null;
@@ -63,7 +63,7 @@ public class ProfessorUserAssignmentTest {
             int idCountry = COUNTRY_DAO.registerCountry(country);
             country.setIdCountry(idCountry);
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(ProfessorUserAssignmentTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         return country;
     }
@@ -80,7 +80,7 @@ public class ProfessorUserAssignmentTest {
             int idUniversity = UNIVERSITY_DAO.registerUniversity(university);
             university.setIdUniversity(idUniversity);
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(ProfessorUserAssignmentTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         return university;
     }    
@@ -94,5 +94,4 @@ public class ProfessorUserAssignmentTest {
         PROFESSOR_FOR_TESTING.setPhoneNumber("2283728394");
         PROFESSOR_FOR_TESTING.setUniversity(initializeUniversity());
     } 
-    
 }

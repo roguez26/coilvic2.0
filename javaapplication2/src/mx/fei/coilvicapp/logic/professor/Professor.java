@@ -150,4 +150,8 @@ public class Professor {
         return Objects.hash(idProfessor, name, paternalSurname, maternalSurname, email, gender, phoneNumber, state);
     }
     
+    @Override
+    public String toString() {
+        return name + " " + paternalSurname + " " + maternalSurname;
+     }
 }

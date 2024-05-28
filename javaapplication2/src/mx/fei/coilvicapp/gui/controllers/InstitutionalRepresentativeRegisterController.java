@@ -62,7 +62,7 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
         try {
             universities = UNIVERSITY_DAO.getAllUniversities();
         } catch(DAOException exception) {
-            Log.getLogger(ProfessorRegisterController.class).error(exception.getMessage(), exception);
+            Log.getLogger(InstitutionalRepresentativeRegisterController.class).error(exception.getMessage(), exception);
         }
         return universities;
     }  
@@ -158,12 +158,12 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
         try {
             DialogController.getDialog(new AlertMessage (exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
-                case ERROR -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/MainApp");
+                case ERROR -> MainApp.changeView("/main/MainApp");
                 case FATAL -> MainApp.changeView("/main/MainApp");
                 
             }
         } catch (IOException ioException) {
-            
+            Log.getLogger(InstitutionalRepresentativeRegisterController.class).error(exception.getMessage(), exception);
         }
     }
     

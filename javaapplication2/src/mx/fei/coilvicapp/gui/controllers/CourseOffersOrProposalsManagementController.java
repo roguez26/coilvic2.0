@@ -99,7 +99,8 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
         if (event.getSource() == backButton) {
             if (professor.getIdProfessor() == 0) {
                 // VENTANA DE LA ADMINISTRACION COILVIC
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
+                
             } else {
                 // VENTANA DEL PROFESOR // SE TIENE QUE ENVIAR UN PROFESOR A LA VENTANA
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");
