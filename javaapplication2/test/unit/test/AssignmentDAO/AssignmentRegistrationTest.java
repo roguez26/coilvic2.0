@@ -1,10 +1,10 @@
 package unit.test.AssignmentDAO;
 
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import log.Log;
 import mx.fei.coilvicapp.logic.assignment.Assignment;
 import mx.fei.coilvicapp.logic.assignment.AssignmentDAO;
-import mx.fei.coilvicapp.logic.collaborativeproject_.CollaborativeProject;
-import mx.fei.coilvicapp.logic.collaborativeproject_.CollaborativeProjectDAO;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.country.Country;
 import mx.fei.coilvicapp.logic.country.CountryDAO;
 import mx.fei.coilvicapp.logic.course.Course;
@@ -132,7 +132,7 @@ public class AssignmentRegistrationTest {
     }
 
     private void initializeTerm() {
-        AUX_TERM.setName("Febrero-Junio 2024");
+        AUX_TERM.setName("Febrero2024-Junio2024");
 
         try {
             AUX_TERM.setIdTerm(TERM_DAO.registerTerm(AUX_TERM));

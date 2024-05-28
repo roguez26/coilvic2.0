@@ -42,6 +42,28 @@ public class UserDAO implements IUser {
         }
         return result;
     }
+    
+    @Override
+    public boolean authenticateAdministrativeUser(int idAdministrative, String password) throws DAOException {
+        User user = new User();
+        boolean result = false;
+
+        try {
+            user = this.getUserById(idAdministrative);
+        } catch (DAOException exception) {
+            throw new DAOException("No fue posible hacer la validacion", Status.WARNING);
+        }
+        if (user.getIdUser()> 0) {
+            if (user.getPassword().equals(encryptPassword(password))) {
+                result = true;
+            } else {
+                throw new DAOException("La contraseña proporcinada es incorrecta", Status.WARNING);
+            }
+        } else {
+            throw new DAOException("El usuario no se encuentra registrado", Status.WARNING);
+        }
+        return result;
+    }    
 
     @Override
     public int registerUser(User user) throws DAOException {
@@ -117,6 +139,7 @@ public class UserDAO implements IUser {
         return encryptedPassword;
     }
     
+    @Override
     public int updateUserPassword(User user) throws DAOException {
         int rowsAffected = -1;
         String statement = "UPDATE usuario SET contrasenia = ? WHERE idUsuario = ?";

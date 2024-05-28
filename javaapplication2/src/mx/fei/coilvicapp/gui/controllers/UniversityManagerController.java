@@ -7,6 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mx.fei.coilvicapp.logic.university.IUniversity;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import mx.fei.coilvicapp.logic.university.University;
@@ -20,10 +22,6 @@ import main.MainApp;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
-/**
- *
- * @author ivanr
- */
 public class UniversityManagerController implements Initializable {
 
     @FXML
@@ -65,24 +63,37 @@ public class UniversityManagerController implements Initializable {
     }
 
     @FXML
-    private void backButton(ActionEvent event) throws IOException {
-        MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");
+    private void backButtonIsPressed(ActionEvent event) {
+        try {
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
+        } catch (IOException ioException) {
+            Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
+        }
     }
 
     @FXML
-    private void registerButton(ActionEvent event) throws IOException {
-        MainApp.changeView("/mx/fei/coilvicapp/gui/views/registerUniversity");
+    private void registerButton(ActionEvent event) {
+        try {
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/registerUniversity");
+        } catch (IOException ioException) {
+            Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
+        }
     }
 
     @FXML
-    private void seeDetailsButtonIsPressed(ActionEvent event) throws IOException {
+    private void seeDetailsButtonIsPressed(ActionEvent event) {
         University university = (University) universitiesTableView.getSelectionModel().getSelectedItem();
         if (university != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/UpdateUniversity.fxml"));
-            MainApp.changeView(fxmlLoader);
-            UpdateUniversityController updateUniversitycontroller = fxmlLoader.getController();
-            
-            updateUniversitycontroller.setUniversity(university);
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                        "/mx/fei/coilvicapp/gui/views/UpdateUniversity.fxml"));
+                MainApp.changeView(fxmlLoader);
+                UpdateUniversityController updateUniversitycontroller = fxmlLoader.getController();
+                
+                updateUniversitycontroller.setUniversity(university);
+            } catch (IOException ioException) {
+                Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
+            }
         } 
     }
 
@@ -96,7 +107,7 @@ public class UniversityManagerController implements Initializable {
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-            Log.getLogger(UniversityManagerController.class).error(exception.getMessage(), exception);
+            Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
         }
     }
 }

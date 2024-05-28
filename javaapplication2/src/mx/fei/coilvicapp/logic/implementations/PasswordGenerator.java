@@ -32,9 +32,5 @@ public class PasswordGenerator {
         int index = secureRandom.nextInt(characterSet.length());
         return characterSet.charAt(index);
     }
-
-    public static void main(String[] args) {
-        String password = generatePassword();
-        System.out.println(password);
-    }
+    
 }

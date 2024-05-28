@@ -22,6 +22,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        
         scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/LoginParticipant"));
         //scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/ProfessorManager"));
         stage.setScene(scene);

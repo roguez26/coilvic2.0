@@ -44,6 +44,7 @@ public class ProfessorDetailsController implements Initializable {
     @FXML
     private ComboBox<University> universitiesComboBox;
     private Professor professor;
+    private boolean justViewMode;
 
     @FXML
     void backButtonIsPressed(ActionEvent event) {
@@ -60,25 +61,17 @@ public class ProfessorDetailsController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-        professor = new Professor();
-        professor.setEmail("aaren@uv.mx");
-        professor.setGender("Mujer");
-        professor.setIdProfessor(5);
-        professor.setIdUniversity(3);
-        professor.setMaternalSurname("Valdes");
-        professor.setName("Maria");
-        professor.setPaternalSurname("Arenas");
-        professor.setPhoneNumber("1234567890");
-        University university = new University();
-        university.setName("Universidad Veracruzana");
-        professor.setUniversity(university);
-        initializeTextFields();
+
     }
 
     @FXML
     private void back(ActionEvent event) {
         try {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorManager.fxml"));
+
+            MainApp.changeView(fxmlLoader);
+            ProfessorManagerController professorManagerController = fxmlLoader.getController();
+            professorManagerController.setAllProfessorsMode(true);
         } catch (IOException exception) {
             Log.getLogger(ProfessorDetailsController.class).error(exception.getMessage(), exception);
         }
@@ -106,6 +99,11 @@ public class ProfessorDetailsController implements Initializable {
     public void setProfessor(Professor professor) {
         this.professor = professor;
         initializeTextFields(professor);
+
+    }
+    
+    public void setJustViewMode(boolean isJustVisible) {
+        this.justViewMode = isJustVisible;
         
     }
 }

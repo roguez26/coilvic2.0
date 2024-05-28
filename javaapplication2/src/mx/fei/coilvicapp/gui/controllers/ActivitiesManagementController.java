@@ -19,17 +19,13 @@ import main.MainApp;
 import mx.fei.coilvicapp.logic.assignment.Assignment;
 import mx.fei.coilvicapp.logic.assignment.AssignmentDAO;
 import mx.fei.coilvicapp.logic.assignment.IAssignment;
-import mx.fei.coilvicapp.logic.collaborativeproject_.CollaborativeProject;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.implementations.FileManager;
 
-/**
- *
- * @author ivanr
- */
 public class ActivitiesManagementController implements Initializable {
 
     @FXML
@@ -52,9 +48,11 @@ public class ActivitiesManagementController implements Initializable {
 
     @FXML
     private Button seeActivityButton;
+    
     private CollaborativeProject collaborativeProject;
     private final IAssignment ASSIGNMENT_DAO = new AssignmentDAO();
     private Professor professorSession;
+    private boolean justVisibleMode;
 
     @FXML
     void addButtonIsPressed(ActionEvent event) {
@@ -70,7 +68,7 @@ public class ActivitiesManagementController implements Initializable {
         } catch (IOException exception) {
             Log.getLogger(LoginParticipantController.class).error(exception.getMessage(), exception);
         }
-        fillTableView(collaborativeProject);
+        fillActivitiesTable(collaborativeProject);
     }
 
     @FXML
@@ -79,15 +77,17 @@ public class ActivitiesManagementController implements Initializable {
     }
 
     private void goBack() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsProfessor.fxml"));
-
         try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsProfessor.fxml"));
             MainApp.changeView(fxmlLoader);
             CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController = fxmlLoader.getController();
             collaborativeProjectDetailsProfessorController.setCollaborativeProject(collaborativeProject);
-            collaborativeProjectDetailsProfessorController.setProfessor(professorSession);
+            if (!justVisibleMode) {
+                collaborativeProjectDetailsProfessorController.setProfessor(professorSession);
+            }
+            
         } catch (IOException exception) {
-            Logger.getLogger(CollaborativeProjectDetailsProfessorController.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(ActivitiesManagementController.class.getName()).log(Level.SEVERE, null, exception);
         }
     }
 
@@ -106,7 +106,6 @@ public class ActivitiesManagementController implements Initializable {
             }
         } else {
             DialogController.getInformativeConfirmationDialog("Sin actividad", "Seleccione una actividad para poder ver sus detalles");
-
         }
     }
 
@@ -120,15 +119,21 @@ public class ActivitiesManagementController implements Initializable {
 
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
-        fillTableView(collaborativeProject);
+        fillActivitiesTable(collaborativeProject);
     }
 
     public void setProfessorSession(Professor professor) {
         this.professorSession = professor;
+        addButton.setVisible(true);
+    }
+    
+    public void setJustVisibleMode(boolean isJustVisible) {
+        this.justVisibleMode = isJustVisible;
     }
 
-    private void fillTableView(CollaborativeProject collabortiveProject) {
+    private void fillActivitiesTable(CollaborativeProject collaborativeProject) {
         ArrayList<Assignment> assignmentsList = new ArrayList<>();
+        activitiesTableView.getItems().clear();
         try {
             assignmentsList = ASSIGNMENT_DAO.getAssignmentsByIdProjectColaborative(collaborativeProject.getIdCollaborativeProject());
         } catch (DAOException exception) {

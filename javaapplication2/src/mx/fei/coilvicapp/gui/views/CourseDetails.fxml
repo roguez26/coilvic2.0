@@ -76,7 +76,11 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" minWidth="-Infinity" prefHeight="98.0" prefWidth="250.0" spacing="30.0">
                <children>
+<<<<<<< HEAD
                   <Button fx:id="cancelCourseProposalButton" mnemonicParsing="false" onAction="#cancelCourseProposalButtonIsPressed" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Cancelar Curso" visible="false" />
+=======
+                  <Button fx:id="cancelCourseProposalButton" mnemonicParsing="false" onAction="#cancelCourseProposalButtonIsPressed" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Cancelar" visible="false" />
+>>>>>>> 74f1c431a8e176e00a8919216262520e57d1ae04
                   <Button fx:id="updateButton" layoutX="170.0" layoutY="46.0" lineSpacing="40.0" minWidth="90.0" mnemonicParsing="false" onAction="#updateButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Editar" visible="false" />
                </children>
             </HBox>

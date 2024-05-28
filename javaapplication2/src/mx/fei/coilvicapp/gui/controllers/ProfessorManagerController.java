@@ -15,55 +15,56 @@ import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.io.IOException;
-import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Window;
 import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.implementations.FileManager;
+import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
+import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
 public class ProfessorManagerController implements Initializable {
-    
+
     private UniversityDAO universityDAO = new UniversityDAO();
     private ProfessorDAO professorDAO = new ProfessorDAO();
-    
+
     @FXML
     private Button backButton;
-    
+
     @FXML
     private TableView professorsTableView;
-    
+
     @FXML
     private TableColumn nameTableColumn;
-    
+
     @FXML
     private TableColumn paternalSurnameTableColumn;
-    
+
     @FXML
     private TableColumn maternalSurnameTableColumn;
-    
+
     @FXML
     private TableColumn emailTableColumn;
-    
+
     @FXML
     private TableColumn genderTableColumn;
-    
+
     @FXML
     private TableColumn phoneNumberTableColumn;
-    
+
     @FXML
     private TableColumn universityTableColumn;
-    
+
     @FXML
     private Button seeDetailsButton;
-    
+
     @FXML
     private Button exportValidatedProfessorsButton;
-    
+    private boolean allProfessorMode;
+
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL URL, ResourceBundle resourceBundle) {
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         paternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory<>("paternalSurname"));
         maternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory<>("maternalSurname"));
@@ -75,30 +76,52 @@ public class ProfessorManagerController implements Initializable {
     }
 
     @FXML
-    private void backButtonIsPressed(ActionEvent event) throws IOException {
-        if (backConfirmation()) {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");   
+    private void backButtonIsPressed(ActionEvent event) {
+        try {
+            if (allProfessorMode) {
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
+            } else {
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
+            }
+
+        } catch (IOException ioException) {
+            Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
         }
     }
-    
+
     @FXML
-    private boolean backConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog(
-                "Regresar al menu principal", "¿Deseas regresar al menu principal?");
-        return (response.get() == DialogController.BUTTON_YES);
-    }
-       
-    @FXML
-    private void seeDetailsButtonIsPressed(ActionEvent event) throws IOException {
+    private void seeDetailsButtonIsPressed(ActionEvent event) {
         Professor professor = (Professor) professorsTableView.getSelectionModel().getSelectedItem();
         if (professor != null) {
+            if (allProfessorMode) {
+                changeToSeeHistory(professor);
+            } else {
+                changeToValidateProfessor(professor);
+            }
+        }
+    }
+
+    private void changeToSeeHistory(Professor professor) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                    "/mx/fei/coilvicapp/gui/views/ProfessorDetails.fxml"));
+            MainApp.changeView(fxmlLoader);
+            ProfessorDetailsController professorDetailsController = fxmlLoader.getController();
+            professorDetailsController.setProfessor(professor);
+        } catch (IOException ioException) {
+            Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
+        }
+    }
+
+    private void changeToValidateProfessor(Professor professor) {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                     "/mx/fei/coilvicapp/gui/views/ProfessorValidate.fxml"));
             MainApp.changeView(fxmlLoader);
             ProfessorValidateController professorValidateController = fxmlLoader.getController();
             professorValidateController.setProfessorForValidation(professor);
-        } else {
-            
+        } catch (IOException ioException) {
+            Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
         }
     }
 
@@ -106,7 +129,7 @@ public class ProfessorManagerController implements Initializable {
     private void exportValidatedProfessorsButtonIsPressed(ActionEvent event) {
         FileManager fileManager = new FileManager();
         Window window = ((Node) event.getSource()).getScene().getWindow();
-        try {     
+        try {
             fileManager.copyXLSXToSelectedDirectory(window);
         } catch (IOException exception) {
             handleIOException(exception);
@@ -116,24 +139,54 @@ public class ProfessorManagerController implements Initializable {
             Log.getLogger(ProfessorManagerController.class).error(exception.getMessage(), exception);
         }
     }
-    
+
     private ArrayList<Professor> initializeProfessorArray() {
         ArrayList<Professor> professors = new ArrayList<>();
         try {
             professors = professorDAO.getProfessorsByPendingStatus();
         } catch (DAOException exception) {
-            Log.getLogger(ProfessorManagerController.class).error(exception.getMessage(), exception);
+            handleDAOException(exception);
         }
         return professors;
     }
-    
+
     private void handleValidationException(IllegalArgumentException exception) {
         DialogController.getInvalidDataDialog(exception.getMessage());
-    }    
-    
+    }
+
     private void handleIOException(IOException exception) {
         DialogController.getInformativeConfirmationDialog(
                 "Lo sentimos", "No fue posible exportar los profesores validados");
-    }    
-    
+    }
+
+    private void handleDAOException(DAOException exception) {
+        try {
+            DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
+            switch (exception.getStatus()) {
+                case ERROR ->
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
+                case FATAL ->
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
+            }
+        } catch (IOException ioException) {
+            Log.getLogger(FeedbackFormsController.class).error(exception.getMessage(), exception);
+        }
+    }
+
+    public void setAllProfessorsMode(boolean seeAll) {
+        this.allProfessorMode = seeAll;
+        professorsTableView.getItems().clear();
+        professorsTableView.getItems().addAll(initializeAllProfessorArray());
+    }
+
+    private ArrayList<Professor> initializeAllProfessorArray() {
+        ArrayList<Professor> professors = new ArrayList<>();
+        try {
+            professors = professorDAO.getAllProfessors();
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
+        return professors;
+    }
+
 }

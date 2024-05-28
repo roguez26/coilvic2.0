@@ -146,13 +146,12 @@ public class Professor {
     }
 
     @Override
-    public String toString() {
-        return name +" "+ paternalSurname +" "+ maternalSurname;
-    }
-    
-    @Override
     public int hashCode() {
         return Objects.hash(idProfessor, name, paternalSurname, maternalSurname, email, gender, phoneNumber, state);
     }
     
+    @Override
+    public String toString() {
+        return name + " " + paternalSurname + " " + maternalSurname;
+     }
 }

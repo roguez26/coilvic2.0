@@ -46,7 +46,7 @@
                   <children>
                       <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" visible="false" />
                       <Button fx:id="acceptButton" lineSpacing="5.0" mnemonicParsing="false" onAction="#acceptButtonIsPressed" prefHeight="26.0" prefWidth="70.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" visible="false" />
-                      <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonIsPressed" prefHeight="26.0" prefWidth="70.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Eliminar" />
+                      <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonIsPressed" prefHeight="26.0" prefWidth="70.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Eliminar" visible="false" />
                       <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Actualizar" />
                   </children>
               </HBox>

@@ -34,7 +34,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
     @Override
     public int updateInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         int result = 0;
-
+        System.out.println(institutionalRepresentative + " entra update");
         if (validateInstitutionalRepresentativeForUpdate(institutionalRepresentative)) {
             result = updateInstitutionalRepresentativeTransaction(institutionalRepresentative);
         }
@@ -150,12 +150,15 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         return result;
     }
 
-    public int updateInstitutionalRepresentativeTransaction(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
+    public int updateInstitutionalRepresentativeTransaction(
+            InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         int result = -1;
-        String statement = "UPDATE RepresentanteInstitucional SET nombre=?, apellidoPaterno=?, apellidoMaterno=?, correo=?, telefono=?, iduniversidad=? WHERE idRepresentante=?";
-        
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = initializeStatement(connection, statement, institutionalRepresentative)) {
-            preparedStatement.setInt(7, institutionalRepresentative.getIdInstitutionalRepresentative());
+        String statement = "UPDATE RepresentanteInstitucional SET nombre=?, apellidoPaterno=?,"
+                + " apellidoMaterno=?, correo=?, telefono=? WHERE idRepresentante=?";
+        try (Connection connection = new DatabaseManager().getConnection(); 
+                PreparedStatement preparedStatement = initializeStatement(
+                        connection, statement, institutionalRepresentative)) {
+            preparedStatement.setInt(6, institutionalRepresentative.getIdInstitutionalRepresentative());
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             Log.getLogger(InstitutionalRepresentativeDAO.class).error(exception.getMessage(), exception);
@@ -168,7 +171,8 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         InstitutionalRepresentative institutionalRepresentative = new InstitutionalRepresentative();
         String statement = "SELECT * FROM RepresentanteInstitucional WHERE IdRepresentante=?";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+        try (Connection connection = new DatabaseManager().getConnection(); 
+                PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
             preparedStatement.setInt(1, idInstitutionalRepresentative);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -186,7 +190,8 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         InstitutionalRepresentative institutionalRepresentative = new InstitutionalRepresentative();
         String statement = "SELECT * FROM RepresentanteInstitucional WHERE idUniversidad=?";
         
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
+        try (Connection connection = new DatabaseManager().getConnection(); 
+                PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
             preparedStatement.setInt(1, universityId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -200,7 +205,8 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         return institutionalRepresentative;
     }
 
-    private PreparedStatement initializeStatement(Connection connection, String statement, InstitutionalRepresentative institutionalRepresentative) throws SQLException {
+    private PreparedStatement initializeStatement(Connection connection, String statement, 
+            InstitutionalRepresentative institutionalRepresentative) throws SQLException {
         PreparedStatement preparedStatement;
 
         preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
@@ -224,8 +230,8 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
             instutionalRepresentative.setMaternalSurname(resultSet.getString("ApellidoMaterno"));
             instutionalRepresentative.setEmail(resultSet.getString("Correo"));
             instutionalRepresentative.setPhoneNumber(resultSet.getString("Telefono"));
-            instutionalRepresentative.setUniversity(universityDAO.getUniversityById(resultSet.getInt("idUniversidad")));
-
+            instutionalRepresentative.setUniversity(universityDAO.getUniversityById(
+                    resultSet.getInt("idUniversidad")));
         } catch (SQLException exception) {
             Log.getLogger(InstitutionalRepresentativeDAO.class).error(exception.getMessage(), exception);
         }

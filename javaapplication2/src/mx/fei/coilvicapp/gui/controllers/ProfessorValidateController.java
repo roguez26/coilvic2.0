@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +27,7 @@ import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.implementations.Status;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
+import mx.fei.coilvicapp.logic.implementations.XLSXCreator;
 import mx.fei.coilvicapp.logic.user.User;
 import mx.fei.coilvicapp.logic.user.UserDAO;
 
@@ -130,6 +129,7 @@ public class ProfessorValidateController implements Initializable {
             }     
             if (rowsAffected > 0) {
                 try {
+                    XLSXCreator.addProfessorIntoXLSX(professor);
                     DialogController.getInformativeConfirmationDialog(
                             "Validacion exitosa", "Se ha validado y enviado el usuario y contraseña del profesor con exito");
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
@@ -150,14 +150,20 @@ public class ProfessorValidateController implements Initializable {
         if (validationConfirmation("rechazar")) {
             try {
                 rowsAffected = professorDAO.rejectProfessor(professor);
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
-                    NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
-                    notifyProfessorController.setProfessor(professor);
-                });
+                if (rowsAffected > 0) {
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
+                        NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                        notifyProfessorController.setProfessor(professor);
+                    });
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
+                } else {                 
+                    DialogController.getInformativeConfirmationDialog(
+                            "Validacion fallida", "No se ha podido validar al profesor");
+                }
             } catch (IOException exception) {
                 Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
-            } catch (DAOException ex) {
-                Logger.getLogger(ProfessorValidateController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (DAOException exception) {
+                Log.getLogger(ProfessorValidateController.class).error(exception.getMessage(), exception);
             }
         }
     }

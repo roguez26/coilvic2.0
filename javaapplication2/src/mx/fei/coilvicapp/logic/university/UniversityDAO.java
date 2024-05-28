@@ -22,6 +22,25 @@ import log.Log;
 public class UniversityDAO implements IUniversity {
 
     @Override
+    public boolean isThereAtLeastOneUniversity() throws DAOException {
+        boolean result = false;
+        String statement = "SELECT EXISTS(SELECT 1 FROM universidad LIMIT 1) AS hay_registros;";
+        DatabaseManager databaseManager = new DatabaseManager();
+        
+        try (Connection connection = databaseManager.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(statement);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                result = resultSet.getBoolean("hay_registros");
+            }
+        } catch (SQLException exception) {
+            Log.getLogger(UniversityDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible verificar que haya universidades", Status.ERROR);
+        }
+        return result;
+    }     
+    
+    @Override
     public int registerUniversity(University university) throws DAOException {
         int result = 0;
 

@@ -24,6 +24,21 @@ import mx.fei.coilvicapp.logic.user.UserDAO;
 
 public class ProfessorDAO implements IProfessor {
            
+    @Override
+    public boolean checkPreconditions() throws DAOException {
+        UniversityDAO universityDAO = new UniversityDAO();
+        AcademicAreaDAO academicAreaDAO = new AcademicAreaDAO();
+        HiringCategoryDAO hiringCategoryDAO = new HiringCategoryDAO();
+        HiringTypeDAO hiringTypeDAO = new HiringTypeDAO();
+        RegionDAO regionDAO = new RegionDAO();
+        
+        return universityDAO.isThereAtLeastOneUniversity() &&
+                academicAreaDAO.isThereAtLeastOneAcademicArea() &&
+                hiringCategoryDAO.isThereAtLeastOneHiringCategory() &&
+                hiringTypeDAO.isThereAtLeastOneHiringType() &&
+                regionDAO.isThereAtLeastOneRegion();
+    }     
+    
     private boolean checkEmailDuplication(Professor professor) throws DAOException {
         Professor professorAux;
         int idProfessor = 0;
@@ -67,6 +82,7 @@ public class ProfessorDAO implements IProfessor {
         return result;        
     }
     
+    @Override
     public int registerProfessorUV(ProfessorUV professorUV) throws DAOException {
         int result = 0;
 
@@ -231,7 +247,7 @@ public class ProfessorDAO implements IProfessor {
         int result = -1;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String statement = "DELETE FROM profesor WHERE idProfesor = ?";
+        String statement = "DELETE FROM profesoruv WHERE idProfesor = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         
         try {
@@ -562,9 +578,7 @@ public class ProfessorDAO implements IProfessor {
         EmailSenderDAO emailSenderDAO = new EmailSenderDAO();
         EmailSender emailSender = initializeEmailSender(professor);
         emailSender.createEmail();
-        if (emailSender.sendEmail()) {
-            emailSenderDAO.registerEmail(emailSender);
-        }
+        emailSender.sendEmail();
     }
 
     private EmailSender initializeEmailSender(Professor professor) {

@@ -1,11 +1,11 @@
 package mx.fei.coilvicapp.logic.university;
+
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.util.ArrayList;
-/**
- *
- * @author ivanr
- */
+
 public interface IUniversity {
+    
+    public boolean isThereAtLeastOneUniversity() throws DAOException;
     
     public int registerUniversity (University university) throws DAOException;
     
@@ -16,4 +16,5 @@ public interface IUniversity {
     public ArrayList<University> getAllUniversities() throws DAOException;
     
     public University getUniversityByName(String UniversityName) throws DAOException;
+    
 }

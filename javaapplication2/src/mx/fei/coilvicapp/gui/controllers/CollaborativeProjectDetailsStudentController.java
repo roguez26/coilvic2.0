@@ -13,9 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import log.Log;
 import main.MainApp;
-import mx.fei.coilvicapp.logic.collaborativeproject_.CollaborativeProject;
-import mx.fei.coilvicapp.logic.feedback_.FeedbackDAO;
-import mx.fei.coilvicapp.logic.feedback_.IFeedback;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
+import mx.fei.coilvicapp.logic.feedback.FeedbackDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.PDFCreator;
 import mx.fei.coilvicapp.logic.student.Student;
@@ -107,7 +106,7 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
 
     private boolean isFeedbackDone() {
         boolean result = false;
-        IFeedback feedbackDAO = new FeedbackDAO();
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
         try {
             result = (feedbackDAO.hasCompletedPreForm(student, collaborativeProject) && feedbackDAO.hasCompletedPostForm(student, collaborativeProject));
         } catch (DAOException exception) {
@@ -118,7 +117,7 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
 
     @FXML
     void startFeedBackIsPressed(ActionEvent event) {
-        IFeedback feedbackDAO = new FeedbackDAO();
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
         String questionTypeForResponse;
         try {
             if (feedbackDAO.areThereStudentQuestions()) {

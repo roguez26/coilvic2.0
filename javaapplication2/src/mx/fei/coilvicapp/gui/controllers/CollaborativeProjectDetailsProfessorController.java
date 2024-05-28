@@ -1,5 +1,6 @@
 package mx.fei.coilvicapp.gui.controllers;
 
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -16,11 +17,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import log.Log;
 import main.MainApp;
-import mx.fei.coilvicapp.logic.collaborativeproject_.CollaborativeProject;
-import mx.fei.coilvicapp.logic.collaborativeproject_.CollaborativeProjectDAO;
-import mx.fei.coilvicapp.logic.collaborativeproject_.ICollaborativeProject;
-import mx.fei.coilvicapp.logic.feedback_.FeedbackDAO;
-import mx.fei.coilvicapp.logic.feedback_.IFeedback;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
+import mx.fei.coilvicapp.logic.collaborativeproject.ICollaborativeProject;
+import mx.fei.coilvicapp.logic.feedback.FeedbackDAO;
+import mx.fei.coilvicapp.logic.feedback.IFeedback;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.FileManager;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
@@ -65,16 +65,16 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
     @FXML
     private Button backButton;
-    
+
     @FXML
     private Button finishButton;
 
     private CollaborativeProject collaborativeProject;
-    private Professor professor;
+    private Professor professor = null;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-
+        
     }
 
     @FXML
@@ -104,7 +104,7 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
         if (feedbackDAO.hasCompletedProfessorForm(collaborativeProject.getRequestedCourse().getProfessor(), collaborativeProject) && feedbackDAO.hasCompletedProfessorForm(collaborativeProject.getRequesterCourse().getProfessor(), collaborativeProject)) {
             ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
-      
+
             collaborativeProjectDAO.finalizeCollaborativeProject(collaborativeProject);
             DialogController.getInformativeConfirmationDialog("Aviso", "El proyecto ha finalizado con éxito");
         } else {
@@ -126,7 +126,7 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
                 feedbackOnCollaborativeProjectController.setTypeQuestiones("Profesor");
             });
         } catch (IOException exception) {
-            Log.getLogger(LoginParticipantController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), exception);
         }
 
     }
@@ -152,7 +152,11 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
             MainApp.changeView(fxmlLoader);
             ActivitiesManagementController activitiesManagementController = fxmlLoader.getController();
             activitiesManagementController.setCollaborativeProject(collaborativeProject);
-            activitiesManagementController.setProfessorSession(professor);
+            if (professor != null) {
+                activitiesManagementController.setProfessorSession(professor);
+            } else {
+                activitiesManagementController.setJustVisibleMode(true);
+            }
         } catch (IOException exception) {
             Logger.getLogger(CollaborativeProjectDetailsProfessorController.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -169,6 +173,7 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
+        finishButton.setVisible(true);
     }
 
     public void initializeFields(CollaborativeProject collaborativeProject) {
@@ -186,19 +191,17 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
     }
 
-    @FXML
-    void backButtonIsPressed(ActionEvent event) {
-        goBack();
-    }
-
     private void goBack() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsProfessor.fxml"));
+        
         try {
-            MainApp.changeView(fxmlLoader);
-            CollaborativeProjectsProfessorController collaborativeProjectsProfessorController = fxmlLoader.getController();
-            collaborativeProjectsProfessorController.setProfessor(professor);
+            if (professor == null) {
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsManagement");
+                
+            } else {
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsProfessor");
+            }
         } catch (IOException exception) {
-            Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -207,12 +210,12 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                    MainApp.changeView("/main/MainApp");
                 case FATAL ->
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-            Log.getLogger(ActivitiesManagementController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), exception);
         }
     }
 }

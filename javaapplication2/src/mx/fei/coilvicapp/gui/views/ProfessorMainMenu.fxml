@@ -46,9 +46,15 @@
                         <Label stylesheets="@../../../../../stylesheets/titleLabel.css" text="Menu Principal Profesor" />
                      </children>
                   </VBox>
+<<<<<<< HEAD
                   <VBox alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="337.0" spacing="30.0">
                      <children>
                         <Label fx:id="userInformationLabel" onMouseClicked="#userInformationLabelIsPressed" stylesheets="@../../../../../stylesheets/label.css" text="UserInformation">
+=======
+                  <VBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="381.0" spacing="30.0">
+                     <children>
+                        <Label fx:id="userInformationLabel" onMouseClicked="#userInformationLabelIsPressed" stylesheets="@../../../../../stylesheets/titleLabel.css" text="UserInformation">
+>>>>>>> 74f1c431a8e176e00a8919216262520e57d1ae04
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Label>

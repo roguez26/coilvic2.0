@@ -9,16 +9,16 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 import java.util.ArrayList;
-import mx.fei.coilvicapp.logic.feedback_.FeedbackDAO;
-import mx.fei.coilvicapp.logic.feedback_.Response;
-import mx.fei.coilvicapp.logic.feedback_.Question;
+import mx.fei.coilvicapp.logic.feedback.FeedbackDAO;
+import mx.fei.coilvicapp.logic.feedback.Response;
+import mx.fei.coilvicapp.logic.feedback.Question;
 
 
 /**
  *
  * @author ivanr
  */
-public class FeedbackRegistrationsTest {
+public class FeedBackRegistrationsTest {
 
     private final FeedbackDAO FEEDBACK_DAO = new FeedbackDAO();
     private static final Question QUESTION_FOR_TESTING = new Question();
@@ -35,7 +35,7 @@ public class FeedbackRegistrationsTest {
     private static final int AUX_ID_COLLABORATIVE_PROJECT = 1;
     
 
-    public FeedbackRegistrationsTest() {
+    public FeedBackRegistrationsTest() {
 
     }
 
@@ -51,14 +51,13 @@ public class FeedbackRegistrationsTest {
         Response instance = new Response();
         instance.setResponseText(RESPONSE_TEXT);
         instance.setIdCollaborativeProject(AUX_ID_COLLABORATIVE_PROJECT);
-        
-        //instance.setIdStudent(AUX_ID_STUDENTE);
+        instance.setIdParticipant(AUX_ID_STUDENTE);
         
         
         try {
             idQuestion = FEEDBACK_DAO.registerQuestion(AUX_QUESTION_FOR_TESTING);
         } catch (DAOException exception) {
-            Logger.getLogger(FeedbackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedBackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         instance.setIdQuestion(idQuestion);
         RESPONSES_FOR_TESTING.add(instance);
@@ -75,7 +74,7 @@ public class FeedbackRegistrationsTest {
             idQuestion = FEEDBACK_DAO.registerQuestion(QUESTION_FOR_TESTING);
             QUESTION_FOR_TESTING.setIdQuestion(idQuestion);
         } catch (DAOException exception) {
-            Logger.getLogger(FeedbackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedBackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         System.out.println(idQuestion);
         assertTrue(idQuestion > 0);
@@ -90,7 +89,7 @@ public class FeedbackRegistrationsTest {
         try {
             idQuestion = FEEDBACK_DAO.registerQuestion(QUESTION_FOR_TESTING);
         } catch (DAOException exception) {
-            Logger.getLogger(FeedbackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedBackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());
         }
         QUESTION_FOR_TESTING.setIdQuestion(idQuestion);
@@ -104,7 +103,7 @@ public class FeedbackRegistrationsTest {
         try {
             result = FEEDBACK_DAO.registerStudentResponses(RESPONSES_FOR_TESTING);
         } catch (DAOException exception) {
-            Logger.getLogger(FeedbackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedBackRegistrationsTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         assertTrue(result > 0);
     }

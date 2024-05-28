@@ -3,15 +3,10 @@ package mx.fei.coilvicapp.dataaccess;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import log.Log;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 
-/**
- *
- * @author ivanr
- */
 public class DatabaseManager {
 
     private Connection connection;
@@ -29,7 +24,7 @@ public class DatabaseManager {
                 connection = connect();
             }
         } catch (SQLException exception) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(DatabaseManager.class).error(exception.getMessage(), exception);
             throw new DAOException("No se pudo realizar la conexion a la base de datos", Status.FATAL);
         }
         return connection;
@@ -51,8 +46,9 @@ public class DatabaseManager {
             }
             isClosed = true;
         } catch (SQLException exception) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(DatabaseManager.class).error(exception.getMessage(), exception);
         }
         return isClosed;
     }
+    
 }

@@ -18,9 +18,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import log.Log;
 import main.MainApp;
-import mx.fei.coilvicapp.logic.collaborativeproject_.CollaborativeProject;
-import mx.fei.coilvicapp.logic.collaborativeproject_.CollaborativeProjectDAO;
-import mx.fei.coilvicapp.logic.collaborativeproject_.ICollaborativeProject;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
+import mx.fei.coilvicapp.logic.collaborativeproject.ICollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
@@ -161,7 +161,7 @@ public class CollaborativeProjectsProfessorController implements Initializable {
             ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
             professorMainMenuController.setProfessor(professor);
         } catch (IOException exception) {
-            Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectsProfessorController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -176,7 +176,7 @@ public class CollaborativeProjectsProfessorController implements Initializable {
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-            Log.getLogger(NotifyProfessorController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectsProfessorController.class).error(exception.getMessage(), exception);
         }
     }
 

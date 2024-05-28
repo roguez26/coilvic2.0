@@ -14,11 +14,6 @@ import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.professor.Professor;
 
-/**
- * FXML Controller class
- *
- * @author axel_
- */
 public class ProfessorMainMenuController implements Initializable {
 
     @FXML
@@ -47,27 +42,25 @@ public class ProfessorMainMenuController implements Initializable {
 
     @FXML
     void collaborativeOfferButtonIsPressed(ActionEvent event) {
-        if (event.getSource() == collaborativeOfferButton) {            
+        if (event.getSource() == collaborativeOfferButton) {
             try {
-                if (professor != null) {                    
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/courseOffersOrProposalsManagement.fxml"));
+                if (professor != null) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement.fxml"));
                     MainApp.changeView(fxmlLoader);
                     CourseOffersOrProposalsManagementController courseOffersOrProposalsManagementController = fxmlLoader.getController();
                     courseOffersOrProposalsManagementController.setProfessor(professor);
-                } else {
-                    // ALGUN ERROR
-                }   
+                }
             } catch (IOException exception) {
                 Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
             }
-        }                
+        }
     }
 
     @FXML
     void coursesButtonIsPressed(ActionEvent event) {
-        if (event.getSource() == coursesButton) {            
+        if (event.getSource() == coursesButton) {
             try {
-                if (professor != null) {                    
+                if (professor != null) {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorCourseManagement.fxml"));
                     MainApp.changeView(fxmlLoader);
                     ProfessorCourseManagementController professorCourseManagementController = fxmlLoader.getController();
@@ -82,7 +75,7 @@ public class ProfessorMainMenuController implements Initializable {
     @FXML
     void logOutButton(ActionEvent event) {
         try {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant.fxml");
         } catch (IOException exception) {
             Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
         }
@@ -90,9 +83,9 @@ public class ProfessorMainMenuController implements Initializable {
 
     @FXML
     void projectRequestsButtonIsPressed(ActionEvent event) {
-        if (event.getSource() == projectRequestsButton) {            
+        if (event.getSource() == projectRequestsButton) {
             try {
-                if (professor != null) {                    
+                if (professor != null) {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
                     MainApp.changeView(fxmlLoader);
                     CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController = fxmlLoader.getController();
@@ -124,9 +117,7 @@ public class ProfessorMainMenuController implements Initializable {
                 MainApp.changeView(fxmlLoader);
                 ProfessorValidateController professorValidateController = fxmlLoader.getController();
                 professorValidateController.setProfessorForUpdate(professor);
-            } else {
-                System.out.println("NUlO");
-            }   
+            }
         } catch (IOException exception) {
             Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
         }
@@ -136,5 +127,4 @@ public class ProfessorMainMenuController implements Initializable {
         this.professor = professor;
         userInformationLabel.setText(professor.getName() + " " + professor.getPaternalSurname());
     }
-
 }

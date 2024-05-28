@@ -1,5 +1,6 @@
 package mx.fei.coilvicapp.gui.controllers;
 
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,15 +16,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import log.Log;
 import main.MainApp;
-import mx.fei.coilvicapp.logic.collaborativeproject_.CollaborativeProject;
-import mx.fei.coilvicapp.logic.collaborativeproject_.CollaborativeProjectDAO;
-import mx.fei.coilvicapp.logic.collaborativeproject_.ICollaborativeProject;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
+import mx.fei.coilvicapp.logic.collaborativeproject.ICollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.professor.Professor;
 
 /**
- *
- * @author ivanr
+ * FXML Controller class for CollaborativeProjectsHistory view.
+ * 
+ * author ivanr
  */
 public class CollaborativeProjectsHistoryController implements Initializable {
 
@@ -41,12 +42,13 @@ public class CollaborativeProjectsHistoryController implements Initializable {
 
     @FXML
     private TableColumn<CollaborativeProject, String> termTableColumn;
+
     private Professor professor;
     private final ICollaborativeProject COLLABORATIVE_PROJECT_DAO = new CollaborativeProjectDAO();
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-
+        // Initialize the table view and columns here if needed
     }
 
     @FXML
@@ -63,15 +65,15 @@ public class CollaborativeProjectsHistoryController implements Initializable {
 
     @FXML
     void seeDetailsButtonIsPressed(ActionEvent event) {
-
+        // Handle the event for seeing the details of the selected project
     }
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
-        fillCollborativeProjectsTableView(professor);
+        fillCollaborativeProjectsTableView(professor);
     }
 
-    private void fillCollborativeProjectsTableView(Professor professor) {
+    private void fillCollaborativeProjectsTableView(Professor professor) {
         ArrayList<CollaborativeProject> collaborativeProjectList = new ArrayList<>();
 
         try {
@@ -81,8 +83,8 @@ public class CollaborativeProjectsHistoryController implements Initializable {
         }
 
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        termTableColumn.setCellValueFactory(cellData
-                -> new SimpleStringProperty(cellData.getValue().getRequesterCourse().getTerm().toString()));
+        termTableColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getRequesterCourse().getTerm().toString()));
 
         collaborativeProjectsTableView.getItems().addAll(collaborativeProjectList);
     }
