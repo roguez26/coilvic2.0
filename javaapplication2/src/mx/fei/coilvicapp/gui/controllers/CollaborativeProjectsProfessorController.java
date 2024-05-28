@@ -77,12 +77,6 @@ public class CollaborativeProjectsProfessorController implements Initializable {
     public void initialize(URL URL, ResourceBundle resourceBundle) {
 
     }
-
-    
-    @FXML
-    void registerButtonIsPressed() {
-        
-    }
     
     @FXML
     void seeDetailsButton(ActionEvent event) {
@@ -101,7 +95,23 @@ public class CollaborativeProjectsProfessorController implements Initializable {
             DialogController.getInformativeConfirmationDialog("Sin proyecto seleccionado", "Necesita seleccionar un proyecto para poder ver sus detalles");
         }
     }
-
+    
+    @FXML
+    void registerButtonIsPressed(ActionEvent event) {
+        if (event.getSource() == registerButton) {
+            try {
+                if (professor != null) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/RegisterCollaborativeProject.fxml"));
+                    MainApp.changeView(fxmlLoader);
+                    RegisterCollaborativeProjectController registerCollaborativeProjectController = fxmlLoader.getController();
+                    registerCollaborativeProjectController.setProfessor(professor);
+                }
+            } catch (IOException exception) {
+                Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+            }
+        } 
+    }
+    
     @FXML
     void pendingMenuButtonIsSelected(ActionEvent event) {
         statusMenuButton.setText(((MenuItem) event.getSource()).getText());

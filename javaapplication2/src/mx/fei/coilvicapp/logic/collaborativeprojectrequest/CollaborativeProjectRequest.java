@@ -80,4 +80,8 @@ public class CollaborativeProjectRequest {
         this.validationDate = validationDate;
     }
      
+    @Override
+    public String toString() {
+        return requestedCourse.toString() + " - " + requesterCourse.toString();
+    } 
 }

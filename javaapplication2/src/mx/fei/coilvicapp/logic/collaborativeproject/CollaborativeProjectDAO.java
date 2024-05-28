@@ -21,10 +21,6 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
 
     public CollaborativeProjectDAO() {
     }
-    
-//    public boolean isStudentRegistered(int idStudent) {
-//        
-//    }
 
     @Override
     public int registerCollaborativeProject(CollaborativeProject collaborativeProject) throws DAOException {
@@ -471,7 +467,7 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
     }
 
     @Override
-    public boolean hasThreeActivitiesAtLeast(CollaborativeProject collaborativeProject) throws DAOException{
+    public boolean hasThreeActivitiesAtLeast(CollaborativeProject collaborativeProject) throws DAOException {
         if (countAssigments(collaborativeProject) >= 3) {
             return true;
         } else {

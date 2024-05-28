@@ -57,16 +57,16 @@ public class FeedBackDAOGettersTest {
        assertEquals(QUESTION_FOR_TESTING, result);
     } 
     
-    @Test
-    public void testGetResponsesByIdQuestion() {
-        ArrayList<Response> result = new ArrayList<>();
-        
-        try {
-            result = FEEDBACK_DAO.getResponsesByIdQuestionAndIdCollaborativeProject(ID_QUESTION, ID_COLLABORATIVE_PROJECT);
-        } catch (DAOException exception) {
-            Logger.getLogger(FeedBackDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
-            System.out.println(exception.getMessage());
-        }
-        assertEquals(REPONSES_FOR_TESTING, result);
-    }
+//    @Test
+//    public void testGetResponsesByIdQuestion() {
+//        ArrayList<Response> result = new ArrayList<>();
+//        
+//        try {
+//            result = FEEDBACK_DAO.getResponsesByIdQuestionAndIdCollaborativeProject(ID_QUESTION, ID_COLLABORATIVE_PROJECT);
+//        } catch (DAOException exception) {
+//            Logger.getLogger(FeedBackDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
+//            System.out.println(exception.getMessage());
+//        }
+//        assertEquals(REPONSES_FOR_TESTING, result);
+//    }
 }

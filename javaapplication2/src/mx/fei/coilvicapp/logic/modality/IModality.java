@@ -4,7 +4,7 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.util.ArrayList;
 
 /*
- * @author d0uble_d
+ * @author d0ubl3_d
  */
 public interface IModality {
     

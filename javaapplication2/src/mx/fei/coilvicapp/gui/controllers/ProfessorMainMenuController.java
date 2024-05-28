@@ -38,6 +38,7 @@ public class ProfessorMainMenuController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
+        
     }
 
     @FXML
@@ -99,13 +100,18 @@ public class ProfessorMainMenuController implements Initializable {
 
     @FXML
     void projectsButtonIsPressed(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsProfessor.fxml"));
-        try {
-            MainApp.changeView(fxmlLoader);
-            CollaborativeProjectsProfessorController collaborativeProjectsProfessorController = fxmlLoader.getController();
-            collaborativeProjectsProfessorController.setProfessor(professor);
-        } catch (IOException exception) {
-            Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+        if (event.getSource() == projectsButton) {
+            try {
+                if (professor != null) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsProfessor.fxml"));
+                    MainApp.changeView(fxmlLoader);
+                    CollaborativeProjectsProfessorController collaborativeProjectsProfessorController = fxmlLoader.getController();
+                    collaborativeProjectsProfessorController.setProfessor(professor);
+                }
+
+            } catch (IOException exception) {
+                Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+            }
         }
     }
 

@@ -12,7 +12,7 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 
 /*
- * @author edgar
+ * @author d0ubl3_d
  */
 public class LanguageDAO implements ILanguage {
     

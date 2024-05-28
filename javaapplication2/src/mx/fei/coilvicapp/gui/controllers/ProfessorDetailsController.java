@@ -54,19 +54,6 @@ public class ProfessorDetailsController implements Initializable {
     
     @FXML
     void backButtonIsPressed(ActionEvent event) {
-
-    }
-
-    @FXML
-    void showHistoryButtonIsPressed(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsHistory.fxml"));
-        MainApp.changeView(fxmlLoader);
-        CollaborativeProjectsHistoryController collaborativeProjectsHistoryController = fxmlLoader.getController();
-        collaborativeProjectsHistoryController.setProfessor(professor);
-    }
-
-    @FXML
-    private void back(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorManager.fxml"));
 
@@ -76,6 +63,14 @@ public class ProfessorDetailsController implements Initializable {
         } catch (IOException exception) {
             Log.getLogger(ProfessorDetailsController.class).error(exception.getMessage(), exception);
         }
+    }
+
+    @FXML
+    void showHistoryButtonIsPressed(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsHistory.fxml"));
+        MainApp.changeView(fxmlLoader);
+        CollaborativeProjectsHistoryController collaborativeProjectsHistoryController = fxmlLoader.getController();
+        collaborativeProjectsHistoryController.setProfessor(professor);
     }
 
     private void initializeTextFields(Professor professor) {

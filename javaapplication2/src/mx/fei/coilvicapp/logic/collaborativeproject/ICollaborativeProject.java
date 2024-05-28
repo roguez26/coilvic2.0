@@ -8,7 +8,7 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
  */
 
 public interface ICollaborativeProject {
-    
+
     public int registerCollaborativeProject(CollaborativeProject collaborativeProject) throws DAOException;
     public ArrayList<CollaborativeProject> getCollaborativeProjectsProposals() throws DAOException;    
     public int evaluateCollaborativeProjectProposal(CollaborativeProject collaborativeProject, String status) throws DAOException;    

@@ -11,7 +11,6 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import log.Log;
-import mx.fei.coilvicapp.gui.controllers.ValidateCollaborativeProjectController;
 
 /**
  *
@@ -34,6 +33,10 @@ public class FileManager {
 
     public void setDestinationDirectory(int idCollaborativeProject) {
         this.destinationDirectory = activitiesDestination + "\\" + String.valueOf(idCollaborativeProject) + "\\";
+    }
+    
+    public void setSyllabusDestination() {
+        activitiesDestination = "files\\syllabus";
     }
 
     public String saveAssignment() throws IOException {
@@ -72,7 +75,7 @@ public class FileManager {
         fileChooser.getExtensionFilters().add(pdfFilter);
         return fileChooser.showOpenDialog(window.getScene().getWindow());
     }
-    
+
     public File selectXLSXFile(Window window) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter xlsxFilter = new FileChooser.ExtensionFilter("Archivos XLSX (*.xlsx)", "*.xlsx");
@@ -84,10 +87,10 @@ public class FileManager {
         Files.copy(Paths.get(FILE_PATH), Paths.get(destinationPath, "ProfesoresValidados.xlsx"),
                 StandardCopyOption.REPLACE_EXISTING);
     }
-     
-    public boolean copyXLSXToSelectedDirectory(Window window) throws IOException,IllegalArgumentException {
+
+    public boolean copyXLSXToSelectedDirectory(Window window) throws IOException, IllegalArgumentException {
         Path sourcePath = Paths.get(FILE_PATH);
-        
+
         if (!Files.exists(sourcePath)) {
             throw new IllegalArgumentException("Debe validar profesores");
         }
@@ -102,7 +105,7 @@ public class FileManager {
         }
         return true;
     }
-    
+
     public String selectDirectoryPath(Window window) {
         String directoryPath = "";
 
@@ -156,7 +159,7 @@ public class FileManager {
             desktop.open(fileForOpen);
         } catch (IOException exception) {
             Log.getLogger(FileManager.class).error(exception.getMessage(), exception);
-            throw new IOException("Ocurrio un error al intentar abrir el archivo");
+            throw new IOException("Ocurrió un error al intentar abrir el archivo");
         }
     }
 

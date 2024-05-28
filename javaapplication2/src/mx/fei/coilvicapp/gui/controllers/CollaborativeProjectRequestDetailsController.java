@@ -10,17 +10,13 @@ import javafx.scene.control.Button;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Optional;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeprojectrequest.*;
-import mx.fei.coilvicapp.logic.course.*;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.*;
@@ -28,7 +24,7 @@ import mx.fei.coilvicapp.logic.professor.*;
 /**
  * FXML Controller class
  *
- * @author edgar
+ * @author d0ubl3_d
  */
 public class CollaborativeProjectRequestDetailsController implements Initializable {
 

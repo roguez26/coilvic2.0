@@ -5,7 +5,7 @@ import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 
 
 /*
- * @author d0uble_d
+ * @author d0ubl3_d
  */
 
 public class Language {
