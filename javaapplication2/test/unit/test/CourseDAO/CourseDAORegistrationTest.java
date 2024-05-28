@@ -103,7 +103,7 @@ public class CourseDAORegistrationTest {
     }
     
     private void initializeAuxiliarTerm() {
-        AUX_TERM.setName("Agosto2024–Enero2025");       
+        AUX_TERM.setName("Agosto2024-Enero2025");       
     }
     
     private void intializeCourse() {
@@ -209,7 +209,7 @@ public class CourseDAORegistrationTest {
         assertTrue(result > 0);
     }
     
-    @After
+    /*@After
     public void tearDown() {
         try {
             COURSE_DAO.deleteCourseByIdCourse(COURSE_FOR_TESTING.getIdCourse());
@@ -217,10 +217,10 @@ public class CourseDAORegistrationTest {
             PROFESSOR_DAO.deleteProfessorByID(AUX_PROFESSOR.getIdProfessor());
             UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY.getIdUniversity());
             COUNTRY_DAO.deleteCountry(AUX_COUNTRY.getIdCountry());
-            //LANGUAGE_DAO.deleteLanguage(AUX_LANGUAGE.getIdLanguage());
-            //TERM_DAO.deleteTerm(AUX_TERM.getIdTerm());
+            LANGUAGE_DAO.deleteLanguage(AUX_LANGUAGE.getIdLanguage());
+            TERM_DAO.deleteTerm(AUX_TERM.getIdTerm());
         } catch (DAOException exception) {
             Logger.getLogger(CourseDAORegistrationTest.class.getName()).log(Level.SEVERE, null, exception);
         }
-    }
+    }*/
 }

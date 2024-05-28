@@ -1,9 +1,9 @@
 package unit.test.FeedbackDAO;
 
 
-import mx.fei.coilvicapp.logic.feedback.FeedbackDAO;
-import mx.fei.coilvicapp.logic.feedback.Question;
-import mx.fei.coilvicapp.logic.feedback.Response;
+import mx.fei.coilvicapp.logic.feedback_.FeedbackDAO;
+import mx.fei.coilvicapp.logic.feedback_.Question;
+import mx.fei.coilvicapp.logic.feedback_.Response;
 import org.junit.Before;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.util.logging.Level;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  * @author ivanr
  */
-public class FeedBackDAOGettersTest {
+public class FeedbackDAOGettersTest {
     
     private static final FeedbackDAO FEEDBACK_DAO = new FeedbackDAO();
     private static final Question QUESTION_FOR_TESTING = new Question();
@@ -38,7 +38,9 @@ public class FeedBackDAOGettersTest {
         REPONSE_FOR_TESTING.setIdResponse(1);
         REPONSE_FOR_TESTING.setResponseText(RESPONSE_TEXT);
         REPONSE_FOR_TESTING.setIdQuestion(ID_QUESTION);
-        REPONSE_FOR_TESTING.setIdStudent(ID_STUDENT);
+        
+        //REPONSE_FOR_TESTING.setIdStudent(ID_STUDENT);
+        
         REPONSE_FOR_TESTING.setIdCollaborativeProject(ID_COLLABORATIVE_PROJECT);
         
         REPONSES_FOR_TESTING.add(REPONSE_FOR_TESTING);
@@ -51,7 +53,7 @@ public class FeedBackDAOGettersTest {
         try {
             result = FEEDBACK_DAO.getQuestionByQuestionText("¿Surgieron problemas en el momento de la implementacion?");
         } catch (DAOException exception) {
-            Logger.getLogger(FeedBackDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedbackDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());
         }
        assertEquals(QUESTION_FOR_TESTING, result);
@@ -64,7 +66,7 @@ public class FeedBackDAOGettersTest {
         try {
             result = FEEDBACK_DAO.getResponsesByIdQuestionAndIdCollaborativeProject(ID_QUESTION, ID_COLLABORATIVE_PROJECT);
         } catch (DAOException exception) {
-            Logger.getLogger(FeedBackDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(FeedbackDAOGettersTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());
         }
         assertEquals(REPONSES_FOR_TESTING, result);

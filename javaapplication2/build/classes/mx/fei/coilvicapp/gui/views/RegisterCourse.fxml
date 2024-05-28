@@ -15,7 +15,7 @@
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="106.0" prefWidth="686.0" spacing="165.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="187.0" stylesheets="@../../../../../stylesheets/title.css" text="Crear Curso" textAlignment="CENTER">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="187.0" stylesheets="@../../../../../stylesheets/titleLabel.css" text="Crear Curso" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -27,7 +27,7 @@
             </ImageView>
          </children>
       </HBox>
-      <VBox maxWidth="-Infinity" prefHeight="470.0" prefWidth="500.0" spacing="10.0">
+      <VBox maxWidth="-Infinity" prefHeight="470.0" prefWidth="500.0" spacing="10.0" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
          <children>
             <Label prefHeight="22.0" prefWidth="102.0" stylesheets="@../../../../../stylesheets/label.css" text="Nombre" />
             <TextField fx:id="nameTextField" prefHeight="12.0" prefWidth="266.0" promptText="Ej: Programación" stylesheets="@../../../../../stylesheets/textField.css" />
@@ -39,7 +39,7 @@
                <children>
                   <VBox maxWidth="-Infinity" prefHeight="44.0" prefWidth="160.0" spacing="10.0">
                      <children>
-                        <Label prefHeight="17.0" prefWidth="151.0" stylesheets="@../../../../../stylesheets/label.css" text="Numero de Estudiantes" />
+                        <Label prefHeight="17.0" prefWidth="151.0" stylesheets="@../../../../../stylesheets/label.css" text="Número de Estudiantes" />
                         <ComboBox fx:id="numberStudentsComboBox" prefHeight="28.0" prefWidth="140.0" stylesheets="@../../../../../stylesheets/combobox.css" />
                      </children>
                   </VBox>
@@ -65,8 +65,8 @@
       </VBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="283.0" spacing="40.0">
          <children>
-            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonred.css" text="Cancelar" />
-            <Button fx:id="saveButton" lineSpacing="40.0" mnemonicParsing="false" onAction="#saveButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Guardar" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonIsPressed" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" />
+            <Button fx:id="saveButton" lineSpacing="40.0" minWidth="90.0" mnemonicParsing="false" onAction="#saveButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Guardar" />
          </children>
       </HBox>
    </children>

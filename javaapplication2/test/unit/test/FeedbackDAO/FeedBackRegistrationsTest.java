@@ -9,9 +9,9 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 import java.util.ArrayList;
-import mx.fei.coilvicapp.logic.feedback.FeedbackDAO;
-import mx.fei.coilvicapp.logic.feedback.Response;
-import mx.fei.coilvicapp.logic.feedback.Question;
+import mx.fei.coilvicapp.logic.feedback_.FeedbackDAO;
+import mx.fei.coilvicapp.logic.feedback_.Response;
+import mx.fei.coilvicapp.logic.feedback_.Question;
 
 
 /**
@@ -51,7 +51,8 @@ public class FeedbackRegistrationsTest {
         Response instance = new Response();
         instance.setResponseText(RESPONSE_TEXT);
         instance.setIdCollaborativeProject(AUX_ID_COLLABORATIVE_PROJECT);
-        instance.setIdStudent(AUX_ID_STUDENTE);
+        
+        //instance.setIdStudent(AUX_ID_STUDENTE);
         
         
         try {

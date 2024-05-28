@@ -4,12 +4,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import mx.fei.coilvicapp.logic.professor.ProfessorDAO;
 import mx.fei.coilvicapp.logic.professor.Professor;
-import mx.fei.coilvicapp.logic.user.UserDAO;
-import mx.fei.coilvicapp.logic.user.User;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
+import mx.fei.coilvicapp.logic.user.User;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -21,19 +20,18 @@ public class ProfessorUserAssignmentTest {
     private static final ProfessorDAO PROFESSOR_DAO = new ProfessorDAO();
     private static final Professor PROFESSOR_FOR_TESTING = new Professor();
     
-//    @Before
-//    public void setUp() {
-//        initializeProfessor();
-//        
-//        int idProfessor = 0;
-//        try {
-//            idProfessor = PROFESSOR_DAO.registerProfessor(PROFESSOR_FOR_TESTING);
-//        } catch (DAOException exception) {
-//            Logger.getLogger(ProfessorUserAssignmentTest.class.getName()).log(Level.SEVERE, null, exception);
-//        }
-//        PROFESSOR_FOR_TESTING.setIdProfessor(idProfessor);
-//        
-//    }
+    @Before
+    public void setUp() {
+        initializeProfessor();
+        
+        int idProfessor = 0;
+        try {
+            idProfessor = PROFESSOR_DAO.registerProfessor(PROFESSOR_FOR_TESTING);
+        } catch (DAOException exception) {
+            Logger.getLogger(ProfessorUserAssignmentTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
+        PROFESSOR_FOR_TESTING.setIdProfessor(idProfessor);
+    }
     
     public void initializeProfessor() {
         PROFESSOR_FOR_TESTING.setName("Roberto");
@@ -42,28 +40,28 @@ public class ProfessorUserAssignmentTest {
         PROFESSOR_FOR_TESTING.setEmail("roberto@gmail.com");
         PROFESSOR_FOR_TESTING.setGender("M");
         PROFESSOR_FOR_TESTING.setPhoneNumber("2283728394");
-        PROFESSOR_FOR_TESTING.setIdUniversity(3);
+        PROFESSOR_FOR_TESTING.setIdUniversity(5);
     }
     
     @Test
     public void testUserRegistration() {
+        User user = new User();
         int result = 0;
-        String password = "n";
-        PROFESSOR_FOR_TESTING.setIdProfessor(1);
+        String password = "Contra123!";
         try {
-            result = PROFESSOR_DAO.assignUser(PROFESSOR_FOR_TESTING, password);
+            user = PROFESSOR_DAO.assignUser(PROFESSOR_FOR_TESTING);
         } catch (DAOException exception) {
             Logger.getLogger(ProfessorUserAssignmentTest.class.getName()).log(Level.SEVERE, null, exception);
         }
-        assertTrue(result > 0);
-        
+        assertTrue(user.getIdUser() > 0);
     }
     
-//    @After
-//    public void tearDown() {
-//        try {
-//            
-//        }
-//    }
-    
+    @After
+    public void tearDown() {
+        try {
+            PROFESSOR_DAO.deleteProfessorByID(PROFESSOR_FOR_TESTING.getIdProfessor());
+        } catch (DAOException exception) {
+            Logger.getLogger(ProfessorUserAssignmentTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
+    }
 }
