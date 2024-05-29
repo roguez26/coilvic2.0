@@ -36,29 +36,29 @@ public class CollaborativeProject {
     public Course getRequesterCourse() {
         return requesterCourse;
     }
-    
+
     public void setRequesterCourse(Course requesterCourse) {
         if (requesterCourse == null) {
             throw new IllegalArgumentException("No se pudo recuperar la información de curso solicitante");
         }
         this.requesterCourse = requesterCourse;
     }
-    
+
     public Course getRequestedCourse() {
         return requestedCourse;
     }
-    
+
     public void setRequestedCourse(Course requestedCourse) {
         if (requestedCourse == null) {
             throw new IllegalArgumentException("No se pudo recuperar la información de curso solicitado");
         }
         this.requestedCourse = requestedCourse;
     }
-    
+
     public Modality getModality() {
         return modality;
     }
-    
+
     public void setModality(Modality modality) {
         if (modality == null) {
             throw new IllegalArgumentException("Debe seleccionar una modalidad");

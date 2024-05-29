@@ -98,7 +98,7 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
         if (event.getSource() == backButton) {
             if (professor == null) {
                 // VENTANA DE LA ADMINISTRACION COILVIC
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/main");
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
             } else {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
                 MainApp.changeView(fxmlLoader);

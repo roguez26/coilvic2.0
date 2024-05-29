@@ -33,11 +33,15 @@ public class ProfessorMainMenuController implements Initializable {
 
     @FXML
     private Label userInformationLabel;
+    
+    @FXML
+    private Button professorsButton;
 
     private Professor professor;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
+        
     }
 
     @FXML
@@ -80,6 +84,22 @@ public class ProfessorMainMenuController implements Initializable {
             Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
         }
     }
+    
+    @FXML
+    void professorsButtonIsPressed(ActionEvent event) {
+        if (event.getSource() == professorsButton) {
+            try {
+                if (professor != null) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorManager.fxml"));
+                    MainApp.changeView(fxmlLoader);
+                    ProfessorManagerController professorManagerController = fxmlLoader.getController();
+                    professorManagerController.setProfessorSession(professor);
+                }
+            } catch (IOException exception) {
+                Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+            }
+        }
+    }
 
     @FXML
     void projectRequestsButtonIsPressed(ActionEvent event) {
@@ -99,13 +119,18 @@ public class ProfessorMainMenuController implements Initializable {
 
     @FXML
     void projectsButtonIsPressed(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsProfessor.fxml"));
-        try {
-            MainApp.changeView(fxmlLoader);
-            CollaborativeProjectsProfessorController collaborativeProjectsProfessorController = fxmlLoader.getController();
-            collaborativeProjectsProfessorController.setProfessor(professor);
-        } catch (IOException exception) {
-            Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+        if (event.getSource() == projectsButton) {
+            try {
+                if (professor != null) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsProfessor.fxml"));
+                    MainApp.changeView(fxmlLoader);
+                    CollaborativeProjectsProfessorController collaborativeProjectsProfessorController = fxmlLoader.getController();
+                    collaborativeProjectsProfessorController.setProfessor(professor);
+                }
+
+            } catch (IOException exception) {
+                Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+            }
         }
     }
 
@@ -125,6 +150,6 @@ public class ProfessorMainMenuController implements Initializable {
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
-        userInformationLabel.setText(professor.getName() + " " + professor.getPaternalSurname());
+        userInformationLabel.setText(professor.toString());
     }
 }

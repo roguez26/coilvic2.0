@@ -86,7 +86,7 @@ public class LoginParticipantController implements Initializable {
             }
             case "Administrativo" -> {
                 emailLabel.setText("Correo:");
-                emailTextField.setText("Ej. coilvic@gmail.com");
+                emailTextField.setPromptText("Ej. coilvic@gmail.com");
                 roleButton.setText("Profesor");
                 registerButton.setVisible(true);
                 identifierLabel.setText("Contraseña:");

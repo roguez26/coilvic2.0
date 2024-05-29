@@ -61,6 +61,9 @@ public class CollaborativeProjectsProfessorController implements Initializable {
 
     @FXML
     private TableColumn<CollaborativeProject, String> universityOneTableColumn;
+    
+    @FXML 
+    private Button registerButton;
 
     @FXML
     private TableColumn<CollaborativeProject, String> universityTwoTableColumn;
@@ -74,7 +77,7 @@ public class CollaborativeProjectsProfessorController implements Initializable {
     public void initialize(URL URL, ResourceBundle resourceBundle) {
 
     }
-
+    
     @FXML
     void seeDetailsButton(ActionEvent event) {
         CollaborativeProject selectedCollaborativeProject = collaborativeProjecsTableView.getSelectionModel().getSelectedItem();
@@ -95,7 +98,18 @@ public class CollaborativeProjectsProfessorController implements Initializable {
     
     @FXML
     void registerButtonIsPressed(ActionEvent event) {
-        // TODO   
+        if (event.getSource() == registerButton) {
+            try {
+                if (professor != null) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/RegisterCollaborativeProject.fxml"));
+                    MainApp.changeView(fxmlLoader);
+                    RegisterCollaborativeProjectController registerCollaborativeProjectController = fxmlLoader.getController();
+                    registerCollaborativeProjectController.setProfessor(professor);
+                }
+            } catch (IOException exception) {
+                Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+            }
+        } 
     }
     
     @FXML

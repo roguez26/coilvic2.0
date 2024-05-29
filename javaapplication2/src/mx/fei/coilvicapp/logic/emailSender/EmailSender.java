@@ -81,7 +81,6 @@ public class EmailSender {
                 }
             }
         }
-
         return result;
     }
 

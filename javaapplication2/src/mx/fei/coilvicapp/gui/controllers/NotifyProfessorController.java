@@ -77,7 +77,7 @@ public class NotifyProfessorController implements Initializable {
         if (confirmNotification()) {
             emailSender.createEmail();
             if (emailSender.sendEmail()) {
-                DialogController.getInformativeConfirmationDialog("Enviado", "El correo fue enviado con exito");
+                DialogController.getInformativeConfirmationDialog("Enviado", "El correo fue enviado con éxito");
                 emailSenderDAO.registerEmail(emailSender);
             }
         }
@@ -120,7 +120,7 @@ public class NotifyProfessorController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                    goBack();
                 case FATAL ->
                     MainApp.changeView("/main/MainApp");
             }

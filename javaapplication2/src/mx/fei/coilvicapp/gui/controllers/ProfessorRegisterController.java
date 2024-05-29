@@ -347,7 +347,7 @@ public class ProfessorRegisterController implements Initializable {
                 
             }
         } catch (IOException ioException) {
-            
+            Log.getLogger(ProfessorRegisterController.class).error(exception.getMessage(), exception);
         }
     }
     

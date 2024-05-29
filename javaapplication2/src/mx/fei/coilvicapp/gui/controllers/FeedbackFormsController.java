@@ -77,14 +77,11 @@ public class FeedbackFormsController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
+        initializeQuestions();
+        initializeQuestionsTable();
+    }
 
-        try {
-            professorQuestions = FEEDBACK_DAO.getQuestionByType("Profesor");
-            studentQuestions = FEEDBACK_DAO.getQuestionByType("Estudiante");
-        } catch (DAOException exception) {
-
-        }
-
+    private void initializeQuestionsTable() {
         studentQuestionsTableColumn.setCellValueFactory(new PropertyValueFactory<>("questionText"));
         typeTableColumn.setCellValueFactory(new PropertyValueFactory<>("questionType"));
         professorQuestionsTableColumn.setCellValueFactory(new PropertyValueFactory<>("questionText"));
@@ -97,17 +94,26 @@ public class FeedbackFormsController implements Initializable {
 
         professorQuestionsTableView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                studentQuestionsTableView.getSelectionModel().clearSelection();
-            }
-        });
+                    if (newSelection != null) {
+                        studentQuestionsTableView.getSelectionModel().clearSelection();
+                    }
+                });
 
         studentQuestionsTableView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                professorQuestionsTableView.getSelectionModel().clearSelection();
-            }
-        });
+                    if (newSelection != null) {
+                        professorQuestionsTableView.getSelectionModel().clearSelection();
+                    }
+                });
+    }
+
+    private void initializeQuestions() {
+        try {
+            professorQuestions = FEEDBACK_DAO.getQuestionByType("Profesor");
+            studentQuestions = FEEDBACK_DAO.getQuestionByType("Estudiante");
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
     }
 
     @FXML
@@ -136,7 +142,7 @@ public class FeedbackFormsController implements Initializable {
         Question question = initializeQuestion();
         int idQuestion = FEEDBACK_DAO.registerQuestion(question);
         if (idQuestion > 0) {
-            DialogController.getInformativeConfirmationDialog("Pregunta añadida", 
+            DialogController.getInformativeConfirmationDialog("Pregunta añadida",
                     "La pregunta se agregó con éxito");
             question.setIdQuestion(idQuestion);
             if (question.getQuestionType().equals("Profesor")) {
@@ -153,7 +159,7 @@ public class FeedbackFormsController implements Initializable {
         if (!newQuestion.equals(selectedQuestion)) {
             System.out.println(newQuestion.getIdQuestion());
             if (FEEDBACK_DAO.updateQuestionTransaction(newQuestion) > 0) {
-                DialogController.getInformativeConfirmationDialog("Pregunta actualizada", 
+                DialogController.getInformativeConfirmationDialog("Pregunta actualizada",
                         "La pregunta se actualizó con éxito");
                 updateTableViewForUpdate(newQuestion, selectedQuestion);
                 cleanFields();
@@ -211,7 +217,7 @@ public class FeedbackFormsController implements Initializable {
         } else if (studentQuestionsTableView.getSelectionModel().getSelectedItem() != null) {
             question = (Question) studentQuestionsTableView.getSelectionModel().getSelectedItem();
         } else {
-            DialogController.getInformativeConfirmationDialog("Seleccione una pregunta", 
+            DialogController.getInformativeConfirmationDialog("Seleccione una pregunta",
                     "Debe seleccionar una pregunta para poder modificarla");
         }
         return question;
