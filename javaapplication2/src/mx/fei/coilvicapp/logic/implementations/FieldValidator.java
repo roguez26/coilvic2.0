@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 public class FieldValidator {
 
     private final String EMAIL_REGEX = "^(?=.{3,45}$)[^\\s@]+@(?:uv\\.mx|estudiantes\\.uv\\.mx|gmail\\.com|hotmail\\.com|outlook\\.com|edu\\.mx)$";
-    private final String NAME_REGEX = "^(?!.*[\\!\\#\\$%\\&'\\(\\)\\*\\+\\-\\.,\\/\\:\\;<\\=\\>\\?\\@\\[\\\\\\]\\^_`\\{\\|\\}\\~])(?!.*  )(?!^ $)(?!.*\\d)^.{1,45}$";
-    private final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+    private final String NAME_REGEX = "^(?!.[\\!\\#\\$%\\&'\\(\\)\\\\+\\-\\.,\\/\\:\\;<\\=\\>\\?\\@\\[\\\\\\]\\^_`\\{\\|\\}\\~])(?!.*  )(?!^ $)(?!.*\\d)^.{1,45}$";
+    private final String PASSWORD_REGEX = "^(?=.[a-z])(?=.[A-Z])(?=.\\d)(?=.[@$!%?&])[A-Za-z\\d@$!%?&]{8,}$";
     private final String SHORT_RANGE = "^[\\p{L}0-9\\s]{3,45}$";
     private final String LONG_RANGE = "(?s)^.{3,255}$";
     private final String PHONE_NUMBER_REGEX = "^\\d{10}$";

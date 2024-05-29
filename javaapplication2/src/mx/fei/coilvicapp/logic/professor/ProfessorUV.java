@@ -37,6 +37,9 @@ public class ProfessorUV extends Professor {
     }
     
     public void setHiringCategory(HiringCategory hiringCategory) {
+        if (hiringCategory == null) {
+            throw new IllegalArgumentException("Debe seleccionar una categoria de contratación");
+        }
         this.hiringCategory = hiringCategory;
     }
     
@@ -53,6 +56,9 @@ public class ProfessorUV extends Professor {
     }
     
     public void setHiringType(HiringType hiringType) {
+        if (hiringType == null) {
+            throw new IllegalArgumentException("Debe seleccionar un tipo de contratación");
+        }
         this.hiringType = hiringType;
     }
     
@@ -69,6 +75,9 @@ public class ProfessorUV extends Professor {
     }
     
     public void setAcademicArea(AcademicArea academicArea) {
+        if (academicArea == null) {
+            throw new IllegalArgumentException("Debe seleccionar un área academica");
+        }
         this.academicArea = academicArea;
     }
     
@@ -85,6 +94,9 @@ public class ProfessorUV extends Professor {
     }    
     
     public void setRegion(Region region) {
+        if (region == null) {
+            throw new IllegalArgumentException("Debe seleccionar una región ");
+        }
         this.region = region;
     }
     
