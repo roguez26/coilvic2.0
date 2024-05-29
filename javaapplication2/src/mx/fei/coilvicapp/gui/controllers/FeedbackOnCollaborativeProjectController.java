@@ -84,13 +84,13 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
 
     public void initializeResponses(ArrayList<Question> questionsList) {
         int idParticipant = 0;
-        
+
         if (student != null) {
             idParticipant = student.getIdStudent();
         } else if (professor != null) {
             idParticipant = professor.getIdProfessor();
         }
-        
+
         for (int i = 0; i < questionsList.size(); i++) {
             Response response = new Response();
             response.setQuestion(questionsList.get(i));
@@ -119,8 +119,13 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
             getResponseText();
             if (finishConfirmation()) {
                 if (student != null) {
-                    FEEDBACK_DAO.registerStudentResponses(responsesList);
-                    changeToCollaborativeProjectDetailsStudent();
+                    if (allQuestionsHaveBeenResponsed()) {
+                        FEEDBACK_DAO.registerStudentResponses(responsesList);
+                        changeToCollaborativeProjectDetailsStudent();
+                    } else {
+                        DialogController.getInformativeConfirmationDialog("No completado", "Debes completar todas las preguntas");
+                    }
+
                 } else if (professor != null) {
                     FEEDBACK_DAO.registerProfessorResponses(responsesList);
                     closeWindow();
@@ -131,6 +136,14 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
         } catch (IllegalArgumentException exception) {
             handleValidationException(exception);
         }
+    }
+
+    private boolean allQuestionsHaveBeenResponsed() {
+        int responseCounter = 0;
+        while (responseCounter < responsesList.size() && responsesList.get(responseCounter).getResponseText() != null) {
+            responseCounter++;
+        }
+        return responseCounter == responsesList.size();
     }
 
     @FXML
