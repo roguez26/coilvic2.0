@@ -1,9 +1,10 @@
 package unit.test.AcademicAreaDAO;
 
+import mx.fei.coilvicapp.logic.academicarea.AcademicArea;
+import mx.fei.coilvicapp.logic.academicarea.AcademicAreaDAO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
-import mx.fei.coilvicapp.logic.academicarea.*;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import static org.junit.Assert.assertEquals;
 import org.junit.Assert;
