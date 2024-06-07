@@ -7,8 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import mx.fei.coilvicapp.logic.university.IUniversity;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import mx.fei.coilvicapp.logic.university.University;
@@ -52,6 +50,7 @@ public class UniversityManagerController implements Initializable {
         jurisdictionTableColumn.setCellValueFactory(new PropertyValueFactory<>("jurisdiction"));
         cityTableColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
         countryTableColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+        initializeUniversitiesTable();
     }
 
     private void initializeUniversitiesTable() {
@@ -67,6 +66,10 @@ public class UniversityManagerController implements Initializable {
     
     @FXML
     private void backButtonIsPressed(ActionEvent event) {
+        goBack();
+    }
+    
+    private void goBack() {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
         } catch (IOException ioException) {
@@ -105,9 +108,9 @@ public class UniversityManagerController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
+                    goBack();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
             Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);

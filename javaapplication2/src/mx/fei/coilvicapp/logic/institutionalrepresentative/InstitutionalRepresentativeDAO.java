@@ -34,7 +34,6 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
     @Override
     public int updateInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         int result = 0;
-        System.out.println(institutionalRepresentative + " entra update");
         if (validateInstitutionalRepresentativeForUpdate(institutionalRepresentative)) {
             result = updateInstitutionalRepresentativeTransaction(institutionalRepresentative);
         }

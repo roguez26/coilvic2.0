@@ -19,6 +19,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
+import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.course.*;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
@@ -30,7 +31,7 @@ import mx.fei.coilvicapp.logic.term.*;
 /**
  * FXML Controller class
  *
- * @author d0ubl3_d
+ * @author d0ubl3_d_CHECKED
  */
 
 public class CourseDetailsController implements Initializable {
@@ -77,18 +78,11 @@ public class CourseDetailsController implements Initializable {
     @FXML
     private Button updateButton;
     
-        
-    private final CourseDAO COURSE_DAO = new CourseDAO();
-    private Course course = new Course();
-    
-    private final TermDAO TERM_DAO = new TermDAO();
-    
-    private final LanguageDAO LANGUAGE_DAO = new LanguageDAO();
-    
-    private Professor professor = new Professor();
+    private Course course;
+    private Professor professor;
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {        
+    public void initialize(URL URL, ResourceBundle resourceBundle) {        
     }
     
     public Course getCourse() {
@@ -99,9 +93,7 @@ public class CourseDetailsController implements Initializable {
         if (course != null) {
             this.course = course;
             initializeAll();                  
-        } else {
-            // UN ERROR AQUI O ALGO JAJAs
-        }    
+        }
     }
     
     public Professor getProfessor() {
@@ -115,9 +107,11 @@ public class CourseDetailsController implements Initializable {
     @FXML
     void backButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == backButton) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorCourseManagement.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader
+            (getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorCourseManagement.fxml"));
             MainApp.changeView(fxmlLoader);
-            ProfessorCourseManagementController professorCourseManagementController = fxmlLoader.getController();
+            ProfessorCourseManagementController professorCourseManagementController =
+            fxmlLoader.getController();
             professorCourseManagementController.setProfessor(professor);        
         }
     }
@@ -147,8 +141,9 @@ public class CourseDetailsController implements Initializable {
     private void cancelCourseProposalButtonIsPressed(ActionEvent event) throws IOException {
         if(confirmCourseProposalCancelation()) {
             int result = -1;
+            CourseDAO courseDAO = new CourseDAO();
             try {
-                result = COURSE_DAO.cancelCourseProposal(course);                               
+                result = courseDAO.cancelCourseProposal(course);                               
             } catch (DAOException exception) {
                 handleDAOException(exception);
             }
@@ -170,8 +165,9 @@ public class CourseDetailsController implements Initializable {
     private void invokeCourseUpdate() throws DAOException {
         if (!fieldsAreEmpty()) {            
             int result = -1;
+            CourseDAO courseDAO = new CourseDAO();
             try {
-                result = COURSE_DAO.updateCourse(updateCourse());
+                result = courseDAO.updateCourse(updateCourse());
             } catch (DAOException exception) {
                 handleDAOException(exception);
             }
@@ -200,21 +196,24 @@ public class CourseDetailsController implements Initializable {
     }
     
     private boolean confirmCancelation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", "¿Está seguro de que desea cancelar?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog
+        ("Confirmar cancelacion", "¿Está seguro de que desea cancelar?");
         return (response.get() == DialogController.BUTTON_YES);
     }
     
     private boolean confirmCourseProposalCancelation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", "¿Está seguro de que desea cancelar el curso?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog
+        ("Confirmar cancelacion", "¿Está seguro de que desea cancelar el curso?");
         return (response.get() == DialogController.BUTTON_YES);
     }
     
     public void initializeAll() {        
-        numberStudentsComboBox.setItems(FXCollections.observableArrayList(initializeNumberStudentsArrayForComboBox()));       
-        numberStudentsComboBox.setValue(course.getNumberStudents());    
+        numberStudentsComboBox.setItems
+        (FXCollections.observableArrayList(initializeNumberStudentsArrayForComboBox()));
+        numberStudentsComboBox.setValue(course.getNumberStudents());
         termComboBox.setItems(FXCollections.observableArrayList(initializeTermsArrayForComboBox()));
         termComboBox.setValue(course.getTerm());
-        languageComboBox.setItems(FXCollections.observableArrayList(initializeLanguagesArrayForComboBox()));        
+        languageComboBox.setItems(FXCollections.observableArrayList(initializeLanguagesArrayForComboBox()));
         languageComboBox.setValue(course.getLanguage());
         initializeTextFields();
         if (course.getStatus().equals("Pendiente") || course.getStatus().equals("Rechazado")) {
@@ -247,29 +246,30 @@ public class CourseDetailsController implements Initializable {
     }
     
     private ArrayList<Integer> initializeNumberStudentsArrayForComboBox() {
-        ArrayList<Integer> numberStudents = new ArrayList<>();
-        
+        ArrayList<Integer> numberStudents = new ArrayList<>();        
         for (int number = 1; number <= 50; number++) {
             numberStudents.add(number);
-        }
-        
+        }        
         return numberStudents;
     }
     
     private ArrayList<Term> initializeTermsArrayForComboBox() {
+        TermDAO termDAO = new TermDAO();
         ArrayList<Term> terms = new ArrayList<>();
         try {
-            terms = TERM_DAO.getTerms();
+            terms = termDAO.getTerms();
         } catch(DAOException exception) {
-            Logger.getLogger(RegisterCourseController.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger
+            (CourseDetailsController.class).error(exception.getMessage(), exception);
         }
         return terms;
     }
     
     private ArrayList<Language> initializeLanguagesArrayForComboBox() {
+        LanguageDAO languageDAO = new LanguageDAO();
         ArrayList<Language> languages = new ArrayList<>();
         try {
-            languages = LANGUAGE_DAO.getLanguages();
+            languages = languageDAO.getLanguages();
         } catch(DAOException exception) {
             Logger.getLogger(RegisterCourseController.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -342,16 +342,17 @@ public class CourseDetailsController implements Initializable {
             DialogController.getDialog(new AlertMessage (exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/MainApp");
-                case FATAL -> MainApp.changeView("/main/MainApp");
+                case FATAL -> MainApp.handleFatal();
                 
             }
         } catch (IOException ioException) {
-            
+            Log.getLogger
+            (CourseDetailsController.class).error(ioException.getMessage(), ioException);
         }
     }
     
-    private void handleValidationException(IllegalArgumentException ex) {
-        DialogController.getDialog(new AlertMessage( ex.getMessage(), Status.WARNING));
+    private void handleValidationException(IllegalArgumentException exception) {
+        DialogController.getDialog(new AlertMessage( exception.getMessage(), Status.WARNING));
     }
     
 }

@@ -26,11 +26,11 @@ public class UserDAO implements IUser {
         Professor professor = new Professor();
         boolean result = false;
 
-        try {
+//        try {
             professor = professorDAO.getProfessorByEmail(email);
-        } catch (DAOException exception) {
-            throw new DAOException("No fue posible hacer la validacion", Status.WARNING);
-        }
+        //} catch (DAOException exception) {
+//            throw new DAOException("No fue posible hacer la validacion", Status.WARNING);
+//        }
         if (professor.getIdProfessor() > 0) {
             if (professor.getUser().getPassword().equals(encryptPassword(password))) {
                 result = true;
@@ -48,11 +48,11 @@ public class UserDAO implements IUser {
         User user = new User();
         boolean result = false;
 
-        try {
+//        try {
             user = this.getUserById(idAdministrative);
-        } catch (DAOException exception) {
-            throw new DAOException("No fue posible hacer la validacion", Status.WARNING);
-        }
+//        } catch (DAOException exception) {
+//            throw new DAOException("No fue posible hacer la validacion", Status.WARNING);
+//        }
         if (user.getIdUser()> 0) {
             if (user.getPassword().equals(encryptPassword(password))) {
                 result = true;

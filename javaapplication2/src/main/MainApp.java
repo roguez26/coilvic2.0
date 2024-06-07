@@ -35,12 +35,10 @@ public class MainApp extends Application {
     }
 
     public static void changeView(FXMLLoader loader) throws IOException {
-        Stage currentStage = (Stage) scene.getWindow();
         scene.setRoot(loader.load());
     }
 
     public static void changeView(String URL) throws IOException {
-        Stage currentStage = (Stage) scene.getWindow();
         MainApp.setRoot(URL);
     }
 
@@ -50,7 +48,6 @@ public class MainApp extends Application {
     }
 
     public static void main(String[] args) {
-
         launch();
     }
 
@@ -59,6 +56,7 @@ public class MainApp extends Application {
         Parent root = fxmlLoader.load();
         Scene scenem = new Scene(root);
         Stage stage = new Stage();
+        scene.setFill(Color.BLUE);
 
         stage.setScene(scenem);
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -77,7 +75,14 @@ public class MainApp extends Application {
 
     @FunctionalInterface
     public interface ControllerSetup {
-
         void setup(Object controller);
     }
+    
+    public static void handleFatal() throws IOException{
+        Stage currentStage = (Stage) scene.getWindow();
+        scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/LoginParticipant"));
+        scene.setFill(Color.BLUE);
+        currentStage.setScene(scene);
+    }
+    
 }

@@ -204,15 +204,15 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
     private void handleDAOException(DAOException exception) {
         coursesTableView.getItems().clear();
         try {
-            // DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
+             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/ ");
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(NotifyProfessorController.class).error(exception.getMessage(), exception);
+            Log.getLogger(NotifyProfessorController.class).error(ioException.getMessage(), ioException);
         }
     }    
 }

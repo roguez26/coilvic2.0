@@ -25,4 +25,8 @@ public interface ICollaborativeProject {
     public ArrayList<CollaborativeProject> getAllRejectedCollaborativeProjects() throws DAOException;
     public ArrayList<CollaborativeProject> getAllFinishedCollaborativeProjects() throws DAOException;
     public boolean hasThreeActivitiesAtLeast(CollaborativeProject collaborativeProject) throws DAOException;
+    public CollaborativeProject getFinishedCollaborativeProjectByIdCourse(int idCourse)
+    throws DAOException;
+    public CollaborativeProject getCollaborativeProjectByIdCollaborativeProject
+    (int idCollaborativeProject) throws DAOException;
 }

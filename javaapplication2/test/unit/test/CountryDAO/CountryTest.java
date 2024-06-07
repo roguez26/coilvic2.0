@@ -91,16 +91,17 @@ public class CountryTest {
     @Test
     public void testRegisterCountryFailByDuplicatedName() {
         int idCountry = 0;
+        DAOException result = null;
 
         COUNTRY_FOR_TESTING.setName(COUNTRIES_FOR_TESTING.get(2).getName());
         try {
             idCountry = COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING);
         } catch (DAOException exception) {
-            Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
+            result = exception;
             System.out.println(exception.getMessage());
         }
         COUNTRY_FOR_TESTING.setIdCountry(idCountry);
-        assertTrue(idCountry > 0);
+        assertTrue(result != null);
     }
 
     @Test
@@ -118,35 +119,32 @@ public class CountryTest {
 
     @Test
     public void testDeleteCountryFailByNonexistenceId() {
-        int result = 0;
         int idNonexistence = 0;
+        int rowsAffected = -1;
         initializeCountry();
         try {
             COUNTRY_FOR_TESTING.setIdCountry(COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING));
-
-            result = COUNTRY_DAO.deleteCountry(idNonexistence);
-
+            rowsAffected = COUNTRY_DAO.deleteCountry(idNonexistence);
         } catch (DAOException exception) {
             Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
-        System.out.println(result);
-        assertTrue(result > 0);
+        assertTrue(rowsAffected == 0);
     }
 
     @Test
     public void testDeleteCountryFailByDependencies() {
-        int result = 0;
+        DAOException result = null;
         initializeCountry();
         try {
             COUNTRY_FOR_TESTING.setIdCountry(COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING));
             initilizeUniversity();
             AUX_UNIVERSITY.setIdUniversity(UNIVERSITY_DAO.registerUniversity(AUX_UNIVERSITY));
-            result = COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING.getIdCountry());
+            COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING.getIdCountry());
         } catch (DAOException exception) {
-            Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
-            System.out.println(exception.getMessage());
+            result = exception;
+            System.out.println(result.getMessage());
         }
-        assertTrue(result > 0);
+        assertTrue(result != null);
     }
 
     @Test
@@ -166,18 +164,20 @@ public class CountryTest {
 
     @Test
     public void testUpdateCountryFailByDuplicatedName() {
-        int result = 0;
         String newName = COUNTRIES_FOR_TESTING.get(2).getName();
+        DAOException result = null;
 
-        COUNTRY_FOR_TESTING.setName(newName);
         try {
-            result = COUNTRY_DAO.updateCountry(COUNTRY_FOR_TESTING);
+            COUNTRY_FOR_TESTING.setIdCountry(COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING));
+            COUNTRY_FOR_TESTING.setName(newName);
+            COUNTRY_DAO.updateCountry(COUNTRY_FOR_TESTING);
         } catch (DAOException exception) {
-            Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
+            result = exception;
+            System.out.println(result.getMessage());
         }
-        assertTrue(result > 0);
+        assertTrue(result != null);
     }
-    
+
     @Test
     public void testGetAllCountries() {
         ArrayList<Country> result = new ArrayList<>();
@@ -201,29 +201,28 @@ public class CountryTest {
             Logger.getLogger(CountryTest.class.getName()).log(Level.SEVERE, null, exception);
             System.out.println(exception.getMessage());
         }
-        
+
         assertEquals(COUNTRIES_FOR_TESTING.get(positionForSearch), result);
     }
-    
+
     @Test
     public void testGetCountryByIdFailByNonexistenceId() {
         Country result = new Country();
         int idNonexistence = 0;
-        
+
         try {
             result = COUNTRY_DAO.getCountryById(idNonexistence);
         } catch (DAOException exception) {
             Logger.getLogger(CountryTest.class.getName()).log(Level.SEVERE, null, exception);
-            System.out.println(exception.getMessage());
         }
-        assertTrue(result.getIdCountry()> 0);
+        assertTrue(result.getIdCountry() == 0);
     }
-    
+
     @Test
     public void testGetCountryByNameSuccess() {
         Country result = new Country();
         int positionforSearch = 2;
-        
+
         try {
             result = COUNTRY_DAO.getCountryByName(COUNTRIES_FOR_TESTING.get(positionforSearch).getName());
         } catch (DAOException exception) {
@@ -231,18 +230,17 @@ public class CountryTest {
         }
         assertTrue(result.getIdCountry() > 0);
     }
-    
+
     @Test
     public void testGetCountryByNameFailByNonexistenceName() {
         Country result = new Country();
         String nonexistenceName = "nombre no existente";
-        
+
         try {
             result = COUNTRY_DAO.getCountryByName(nonexistenceName);
         } catch (DAOException exception) {
             Logger.getLogger(CountryTest.class.getName()).log(Level.SEVERE, null, exception);
-            System.out.println(exception.getLocalizedMessage());
         }
-        assertTrue(result.getIdCountry() > 0);
+        assertTrue(result.getIdCountry() == 0);
     }
 }

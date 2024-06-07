@@ -9,8 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import log.Log;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
@@ -33,7 +32,7 @@ public class CourseDAO implements ICourse {
         }
         return result;
     }
-
+    
     private boolean checkCourseDuplicate(Course course) throws DAOException {
         boolean check = false;
         Course auxCourse = new Course();
@@ -41,11 +40,11 @@ public class CourseDAO implements ICourse {
         try {
             auxCourse = getCourseByNameAndIdTerm(course);
         } catch (DAOException exception) {
-            throw new DAOException("No fue posible hacer la validación del proyecto colaborativo", Status.WARNING);
+            throw new DAOException("No fue posible realizar la validación", Status.WARNING);
         }
-        if (auxCourse.getIdCourse() != course.getIdCourse()
-                && auxCourse.getIdCourse() != 0) {
-            throw new DAOException("Ya existe un curso con el mismo nombre y periodo", Status.WARNING);
+        if (auxCourse.getIdCourse() != course.getIdCourse() && auxCourse.getIdCourse() != 0) {
+            throw new DAOException
+            ("Ya existe un curso con el mismo nombre y periodo", Status.WARNING);
         }
         return check;
     }
@@ -54,9 +53,9 @@ public class CourseDAO implements ICourse {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         String statement = "INSERT INTO Curso (idProfesor, idIdioma,"
-                + " idPeriodo, nombre, objetivoGeneral, temasInteres,"
-                + " numeroEstudiantes, perfilEstudiantes, informacionAdicional)"
-                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        + " idPeriodo, nombre, objetivoGeneral, temasInteres,"
+        + " numeroEstudiantes, perfilEstudiantes, informacionAdicional)"
+        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         DatabaseManager databaseManager = new DatabaseManager();
         ResultSet resultSet = null;
         int result = -1;
@@ -81,8 +80,8 @@ public class CourseDAO implements ICourse {
                 result = resultSet.getInt(1);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible registrar el curso", Status.WARNING);
+            Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible registrar el curso", Status.ERROR);
         } finally {
             try {
                 if (resultSet != null) {
@@ -95,7 +94,7 @@ public class CourseDAO implements ICourse {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
             }
         }
         return result;
@@ -111,11 +110,12 @@ public class CourseDAO implements ICourse {
     @Override
     public ArrayList<Course> getCourseProposalsByUniversity(String nameUniversity) throws DAOException {
         ArrayList<Course> courses;
-        courses = getCourseProposalsByUniversityName(nameUniversity, "Pendiente");       
+        courses = getCourseProposalsByUniversityName(nameUniversity, "Pendiente");
         return courses;
     }
     
-    private ArrayList<Course> getCourseProposalsByUniversityName(String universityName, String status) throws DAOException {
+    private ArrayList<Course> getCourseProposalsByUniversityName(String universityName, String status)
+    throws DAOException {
         ArrayList<Course> courses = new ArrayList<>();
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = null;
@@ -138,8 +138,8 @@ public class CourseDAO implements ICourse {
                 courses.add(initializeCourse(resultSet));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible obtener los cursos", Status.WARNING);
+            Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible obtener los cursos", Status.ERROR);
         } finally {
             try {
                 if (resultSet != null) {
@@ -152,7 +152,7 @@ public class CourseDAO implements ICourse {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
             }
         }
         return courses;
@@ -192,8 +192,8 @@ public class CourseDAO implements ICourse {
                 course = initializeCourse(resultSet);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible recuperar el curso", Status.WARNING);
+            Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible recuperar el curso", Status.ERROR);
         } finally {
             try {
                 if (resultSet != null) {
@@ -206,7 +206,7 @@ public class CourseDAO implements ICourse {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
             }
         }
         return course;
@@ -231,7 +231,7 @@ public class CourseDAO implements ICourse {
             course.setStudentsProfile(resultSet.getString("perfilEstudiantes"));
             course.setAdditionalInformation(resultSet.getString("informacionAdicional"));
         } catch (SQLException exception) {
-            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
         }
         return course;
     }
@@ -255,8 +255,8 @@ public class CourseDAO implements ICourse {
                 courses.add(initializeCourse(resultSet));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible obtener los cursos", Status.WARNING);
+            Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible obtener los cursos", Status.ERROR);
         } finally {
             try {
                 if (resultSet != null) {
@@ -269,7 +269,7 @@ public class CourseDAO implements ICourse {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
             }
         }
         return courses;
@@ -277,18 +277,19 @@ public class CourseDAO implements ICourse {
 
     @Override
     public int evaluateCourseProposal(Course course, String status) throws DAOException {
-        int result = -1;
-        switch (course.getStatus()) {
+        int result = -1;        
+        switch (checkCourseStatus(course)) {
             case "Pendiente" -> 
                 result = updateCourseStatusByCourse(course, status);
             case "Cancelado" -> 
-                throw new DAOException("No puede evaluar un curso que fue cancelado", Status.ERROR);
+                throw new DAOException("No puede evaluar un curso que fue cancelado", Status.WARNING);
             case "Colaboracion" -> 
-                throw new DAOException("No puede evaluar un curso que es parte de un proyecto colaborativo", Status.ERROR);
+                throw new DAOException
+                ("No puede evaluar un curso que es parte de un proyecto colaborativo", Status.WARNING);
             case "Finalizado" -> 
-                throw new DAOException("No puede evaluar un curso finalizado", Status.ERROR);
+                throw new DAOException("No puede evaluar un curso finalizado", Status.WARNING);
             default -> 
-                throw new DAOException("No puede evaluar un curso que ya fue evaluado", Status.ERROR);
+                throw new DAOException("No puede evaluar un curso que ya fue evaluado", Status.WARNING);
         }
         return result;
     }
@@ -309,8 +310,8 @@ public class CourseDAO implements ICourse {
 
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible evaluar el curso", Status.WARNING);
+            Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible evaluar el curso", Status.ERROR);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -320,7 +321,7 @@ public class CourseDAO implements ICourse {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);     
             }
         }
         return rowsAffected;
@@ -329,13 +330,16 @@ public class CourseDAO implements ICourse {
     @Override
     public int updateCourse(Course course) throws DAOException {
         int result = -1;
-        if (course.getStatus().equals("Pendiente")
-        || course.getStatus().equals("Rechazado")) {
+        String courseStatus = "";
+        courseStatus = checkCourseStatus(course);
+        if (courseStatus.equals("Pendiente")
+        || courseStatus.equals("Rechazado")) {
             if (!checkCourseDuplicate(course)) {
                 result = updateCoursePrivate(course);
             }
         } else {
-            throw new DAOException("No puede actualizar un curso que ya fue aceptado, cancelado o finalizado", Status.WARNING);
+            throw new DAOException
+            ("No puede actualizar un curso que ya fue aceptado, cancelado o finalizado", Status.WARNING);
         }
         return result;
     }
@@ -345,9 +349,9 @@ public class CourseDAO implements ICourse {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         String statement = "UPDATE Curso SET idIdioma = ?, idPeriodo = ?,"
-                + " nombre = ?, estado = 'Pendiente', objetivoGeneral = ?,"
-                + " temasInteres = ?, numeroEstudiantes = ?, perfilEstudiantes = ?,"
-                + " informacionAdicional = ? WHERE idCurso = ?";
+        + " nombre = ?, estado = 'Pendiente', objetivoGeneral = ?,"
+        + " temasInteres = ?, numeroEstudiantes = ?, perfilEstudiantes = ?,"
+        + " informacionAdicional = ? WHERE idCurso = ?";
         int rowsAffected = -1;
 
         try {
@@ -366,8 +370,8 @@ public class CourseDAO implements ICourse {
 
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible actualizar el curso", Status.WARNING);
+            Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible actualizar el curso", Status.ERROR);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -377,7 +381,7 @@ public class CourseDAO implements ICourse {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
             }
         }
         return rowsAffected;
@@ -401,8 +405,8 @@ public class CourseDAO implements ICourse {
                 courses.add(initializeCourse(resultSet));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible obtener los cursos", Status.WARNING);
+            Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible obtener los cursos", Status.ERROR);
         } finally {
             try {
                 if (resultSet != null) {
@@ -415,7 +419,7 @@ public class CourseDAO implements ICourse {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
             }
         }
         return courses;
@@ -438,13 +442,8 @@ public class CourseDAO implements ICourse {
     @Override
     public ArrayList<Course> getAcceptedCoursesByProfessor(int idProfessor) throws DAOException {
         ArrayList<Course> courses;
-        courses = getCoursesByIdProfessorAndStatus(idProfessor, "Aceptado");
-
-        if (!courses.isEmpty()) {
-            return courses;
-        } else {
-            throw new DAOException("No hay cursos aceptados para colaborar", Status.ERROR);
-        }
+        courses = getCoursesByIdProfessorAndStatus(idProfessor, "Aceptado");       
+        return courses;        
     }
 
     @Override
@@ -475,13 +474,15 @@ public class CourseDAO implements ICourse {
     }
 
     @Override     
-    public ArrayList<Course> getCoursesByProfessorAndName(int idProfessor, String name) throws DAOException {
+    public ArrayList<Course> getCoursesByProfessorAndName(int idProfessor, String name)
+    throws DAOException {
         ArrayList<Course> courses;
         courses = getCoursesByIdProfessorAndName(idProfessor, name);        
         return courses;        
     }
     
-    private ArrayList<Course> getCoursesByIdProfessorAndName(int idProfessor,  String name) throws DAOException {
+    private ArrayList<Course> getCoursesByIdProfessorAndName(int idProfessor,  String name)
+    throws DAOException {
         ArrayList<Course> courses = new ArrayList<>();
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = null;
@@ -501,8 +502,8 @@ public class CourseDAO implements ICourse {
                 courses.add(initializeCourse(resultSet));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible obtener los cursos", Status.WARNING);
+            Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible obtener los cursos", Status.ERROR);
         } finally {
             try {
                 if (resultSet != null) {
@@ -515,7 +516,7 @@ public class CourseDAO implements ICourse {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
             }
         }
         return courses;
@@ -523,15 +524,18 @@ public class CourseDAO implements ICourse {
     
     @Override
     public int cancelCourseProposal(Course course) throws DAOException {
-        int result = -1;
-
-        switch (course.getStatus()) {
+        int result = -1;        
+        
+        switch (checkCourseStatus(course)) {
             case "Pendiente", "Rechazado" ->
                 result = updateCourseStatusByCourse(course, "Cancelado");
             case "Colaboracion" ->
-                throw new DAOException("No pude cancelar un curso que es parte de un proyecto colaborativo", Status.WARNING);
+                throw new DAOException
+                ("No puede cancelar un curso que es parte de un proyecto colaborativo", Status.WARNING);
             case "Finalizado" ->
                 throw new DAOException("No pude cancelar un curso finalizado", Status.WARNING);
+            case "Cancelado" ->
+                throw new DAOException("No pude cancelar un curso que ya fue cancelado", Status.WARNING);    
             default -> {
             }
         }
@@ -540,26 +544,29 @@ public class CourseDAO implements ICourse {
     
     public int changeCourseStatusToCollaboration(Course course) throws DAOException {
         int result = -1;
-        if (course.getStatus().equals("Aceptado")) {
+        if (checkCourseStatus(course).equals("Aceptado")) {
             result = updateCourseStatusByCourse(course, "Colaboracion");
         }        
         return result;
     }
 
-    @Override
+    @Override 
     public int finalizeCourse(Course course) throws DAOException {
         CollaborativeProjectDAO collaborativeProjectDAO = new CollaborativeProjectDAO();
         int result = -1;
 
-        if (collaborativeProjectDAO.getFinishedCollaborativeProjectByIdCourse(course.getIdCourse()).getIdCollaborativeProject() != 0) {
+        if (collaborativeProjectDAO.getFinishedCollaborativeProjectByIdCourse
+        (course.getIdCourse()).getIdCollaborativeProject() > 0) {
             result = updateCourseStatusByCourse(course, "Finalizado");
         } else {
-            throw new DAOException("No pude finalizar un curso que es parte de un proyecto colaborativo", Status.WARNING);
+            throw new DAOException
+            ("No puede finalizar un curso que es parte de un proyecto colaborativo", Status.WARNING);
         }
         return result;
     }
 
-    private ArrayList<Course> getCoursesByIdProfessorAndStatus(int idProfessor, String status) throws DAOException {
+    private ArrayList<Course> getCoursesByIdProfessorAndStatus(int idProfessor, String status)
+    throws DAOException {
         ArrayList<Course> courses = new ArrayList<>();
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = null;
@@ -578,8 +585,8 @@ public class CourseDAO implements ICourse {
                 courses.add(initializeCourse(resultSet));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible obtener los cursos", Status.WARNING);
+            Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible obtener los cursos", Status.ERROR);
         } finally {
             try {
                 if (resultSet != null) {
@@ -592,10 +599,50 @@ public class CourseDAO implements ICourse {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
             }
         }
         return courses;
+    }
+    
+    public String checkCourseStatus(Course course) throws DAOException {
+        String status = "";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String statement = "SELECT estado FROM Curso"
+        + " WHERE idCurso = ?";
+        
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
+            
+            preparedStatement.setInt(1, course.getIdCourse());
+            
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                status = resultSet.getString("estado");
+            }             
+        } catch (SQLException exception) {
+            Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);     
+            throw new DAOException("No fue posible obtener el estado", Status.ERROR);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException exception) {
+                Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);
+            }
+        }                
+        return status;
     }
 
     public Course getCourseByNameAndIdTerm(Course course) throws DAOException {
@@ -618,8 +665,8 @@ public class CourseDAO implements ICourse {
                 auxCourse = initializeCourse(resultSet);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible recuperar el curso", Status.WARNING);
+            Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);     
+            throw new DAOException("No fue posible recuperar el curso", Status.ERROR);
         } finally {
             try {
                 if (resultSet != null) {
@@ -632,7 +679,7 @@ public class CourseDAO implements ICourse {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);     
             }
         }
         return auxCourse;
@@ -653,8 +700,8 @@ public class CourseDAO implements ICourse {
 
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible eliminar el curso", Status.WARNING);
+            Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);     
+            throw new DAOException("No fue posible eliminar el curso", Status.ERROR);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -664,7 +711,7 @@ public class CourseDAO implements ICourse {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(CourseDAO.class).error(exception.getMessage(), exception);     
             }
         }
         return rowsAffected;

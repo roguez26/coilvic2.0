@@ -94,11 +94,6 @@ public class RegisterStudentController implements Initializable {
 
     @FXML
     private ComboBox<University> universitiesCombobox;
-    private final IUniversity UNIVERSITY_DAO = new UniversityDAO();
-    private final IStudent STUDENT_DAO = new StudentDAO();
-    private final Student STUDENT = new Student();
-    private final AcademicAreaDAO ACADEMIC_AREA_DAO = new AcademicAreaDAO();
-    private final RegionDAO REGION_DAO = new RegionDAO();
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
@@ -111,7 +106,9 @@ public class RegisterStudentController implements Initializable {
 
     private void initializeLineajesArrayForCombobox() {
 
-        lineagesCombobox.setItems(FXCollections.observableArrayList("Hispano, Latino u origen español", "Blanco", "Negro o africano", "Indio americano o nativo de Alaska", "Asiático o Isleño del Pacífico", "Otro"));
+        lineagesCombobox.setItems(FXCollections.observableArrayList("Hispano, Latino u origen español", 
+                "Blanco", "Negro o africano", "Indio americano o nativo de Alaska", 
+                "Asiático o Isleño del Pacífico", "Otro"));
     }
 
     private ArrayList<String> initializeGendersArrayForComboBox() {
@@ -123,9 +120,10 @@ public class RegisterStudentController implements Initializable {
     }
 
     private ArrayList<AcademicArea> initializeAcademicAreasArrayForComboBox() {
+        AcademicAreaDAO academicAreaDAO = new AcademicAreaDAO();
         ArrayList<AcademicArea> academicAreas = new ArrayList<>();
         try {
-            academicAreas = ACADEMIC_AREA_DAO.getAcademicAreas();
+            academicAreas = academicAreaDAO.getAcademicAreas();
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -133,9 +131,10 @@ public class RegisterStudentController implements Initializable {
     }
 
     private ArrayList<University> initializeUniversitiesArrayForComboBox() {
+        IUniversity universityDAO = new UniversityDAO();
         ArrayList<University> universities = new ArrayList<>();
         try {
-            universities = UNIVERSITY_DAO.getAllUniversities();
+            universities = universityDAO.getAllUniversities();
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -143,9 +142,10 @@ public class RegisterStudentController implements Initializable {
     }
 
     private ArrayList<Region> initializeRegionsArrayForComboBox() {
+        RegionDAO regionDAO = new RegionDAO();
         ArrayList<Region> regions = new ArrayList<>();
         try {
-            regions = REGION_DAO.getRegions();
+            regions = regionDAO.getRegions();
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -156,7 +156,8 @@ public class RegisterStudentController implements Initializable {
     void acceptButtonIsPressed(ActionEvent event) {
         try {
             invokeRegisterStudent();
-            DialogController.getInformativeConfirmationDialog("Registrado", "El estudiante fue registrado con éxito");
+            DialogController.getInformativeConfirmationDialog("Registrado", "El estudiante fue "
+                    + "registrado con éxito");
             goBack();
         } catch (IllegalArgumentException exception) {
             handleValidationException(exception);
@@ -185,22 +186,25 @@ public class RegisterStudentController implements Initializable {
         return university.getName().equals("Universidad Veracruzana");
     }
 
-    private void initializeStudent() {
-        STUDENT.setName(nameTextField.getText());
-        STUDENT.setPaternalSurname(paternalSurnameTextField.getText());
-        STUDENT.setMaternalSurname(maternalSurnameTextField.getText());
-        STUDENT.setEmail(emailTextField.getText());
-        STUDENT.setGender(gendersCombobox.getValue());
-        STUDENT.setLineage(lineagesCombobox.getValue());
-        STUDENT.setUniversity(universitiesCombobox.getValue());
+    private Student initializeStudent() {
+        Student student = new Student();
+        student.setName(nameTextField.getText());
+        student.setPaternalSurname(paternalSurnameTextField.getText());
+        student.setMaternalSurname(maternalSurnameTextField.getText());
+        student.setEmail(emailTextField.getText());
+        student.setGender(gendersCombobox.getValue());
+        student.setLineage(lineagesCombobox.getValue());
+        student.setUniversity(universitiesCombobox.getValue());
+        return student;
     }
 
     private void invokeRegisterStudent() throws DAOException {
+        IStudent studentDAO = new StudentDAO();
         if (isMemberUV(universitiesCombobox.getValue())) {
-            STUDENT_DAO.registerStudentUV(initializeStudentUV(STUDENT));
+            studentDAO.registerStudentUV(initializeStudentUV(initializeStudent()));
         } else {
             initializeStudent();
-            STUDENT_DAO.registerStudent(STUDENT);
+            studentDAO.registerStudent(initializeStudent());
         }
     }
 
@@ -232,7 +236,8 @@ public class RegisterStudentController implements Initializable {
     }
 
     private boolean confirmCancelation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", "¿Deseas cancelar el registro?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog(
+                "Confirmar cancelacion", "¿Deseas cancelar el registro?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
@@ -245,12 +250,12 @@ public class RegisterStudentController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/main/MainApp");
+                    goBack();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(RegisterStudentController.class).error(exception.getMessage(), exception);
+            Log.getLogger(RegisterStudentController.class).error(ioException.getMessage(), ioException);
         }
     }
 

@@ -1,5 +1,6 @@
 package mx.fei.coilvicapp.logic.collaborativeproject;
 
+import java.util.Objects;
 import mx.fei.coilvicapp.logic.course.Course;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.modality.Modality;
@@ -125,4 +126,40 @@ public class CollaborativeProject {
         this.syllabusPath = syllabusPath;
     }
 
+    @Override
+    public boolean equals(Object object) {
+        boolean isEqual = false;
+        if (this == object) {
+            isEqual = true;
+        } else if (object != null && getClass() == object.getClass()) {
+            CollaborativeProject project = (CollaborativeProject) object;
+            isEqual = idCollaborativeProject == project.idCollaborativeProject
+                    && Objects.equals(requesterCourse, project.requesterCourse)
+                    && Objects.equals(requestedCourse, project.requestedCourse)
+                    && modality == project.modality
+                    && Objects.equals(name, project.name)
+                    && Objects.equals(status, project.status)
+                    && Objects.equals(description, project.description)
+                    && Objects.equals(generalObjective, project.generalObjective)
+                    && Objects.equals(code, project.code)
+                    && Objects.equals(syllabusPath, project.syllabusPath);
+        }
+        return isEqual;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + this.idCollaborativeProject;
+        hash = 37 * hash + Objects.hashCode(this.requesterCourse);
+        hash = 37 * hash + Objects.hashCode(this.requestedCourse);
+        hash = 37 * hash + Objects.hashCode(this.modality);
+        hash = 37 * hash + Objects.hashCode(this.name);
+        hash = 37 * hash + Objects.hashCode(this.status);
+        hash = 37 * hash + Objects.hashCode(this.description);
+        hash = 37 * hash + Objects.hashCode(this.generalObjective);
+        hash = 37 * hash + Objects.hashCode(this.code);
+        hash = 37 * hash + Objects.hashCode(this.syllabusPath);
+        return hash;
+    }
 }

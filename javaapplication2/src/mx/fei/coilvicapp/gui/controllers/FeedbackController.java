@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,7 +54,6 @@ public class FeedbackController implements Initializable {
     @FXML
     private MenuItem studentQuestionsMenuItem;
 
-    private final IFeedback FEEDBACK_DAO = new FeedbackDAO();
     private CollaborativeProject collaborativeProject;
 
     @Override
@@ -83,10 +80,11 @@ public class FeedbackController implements Initializable {
 
     @FXML
     void professorQuestionsMenuItemIsSelected(ActionEvent event) {
+        IFeedback feedbackDAO = new FeedbackDAO();
         ArrayList<Question> questions = new ArrayList<>();
         questionsTableView.getItems().clear();
         try {
-            questions = FEEDBACK_DAO.getQuestionByType("Profesor");
+            questions = feedbackDAO.getQuestionByType("Profesor");
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -95,13 +93,13 @@ public class FeedbackController implements Initializable {
 
     @FXML
     void seeResponsesButtonIsPressed(ActionEvent event) {
+        IFeedback feedbackDAO = new FeedbackDAO();
         ArrayList<Response> responses = new ArrayList<>();
         responsesTableView.getItems().clear();
         Question selectedQuestion = questionsTableView.getSelectionModel().getSelectedItem();
         if (selectedQuestion != null) {
             try {
-                responses = FEEDBACK_DAO.getResponsesByQuestionAndIdCollaborativeProject(selectedQuestion, collaborativeProject.getIdCollaborativeProject());
-                System.out.println(responses.toString());
+                responses = feedbackDAO.getResponsesByQuestionAndIdCollaborativeProject(selectedQuestion, collaborativeProject.getIdCollaborativeProject());
             } catch (DAOException exception) {
                 handleDAOException(exception);
             }
@@ -118,10 +116,11 @@ public class FeedbackController implements Initializable {
 
     @FXML
     void studenQuestionsMenuItemIsSelected(ActionEvent event) {
+        IFeedback feedbackDAO = new FeedbackDAO();
         ArrayList<Question> questions = new ArrayList<>();
         questionsTableView.getItems().clear();
         try {
-            questions = FEEDBACK_DAO.getQuestionByType("Estudiante");
+            questions = feedbackDAO.getQuestionByType("Estudiante");
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -139,10 +138,10 @@ public class FeedbackController implements Initializable {
                 case ERROR ->
                     goBack();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), exception);
+            Log.getLogger(FeedbackController.class).error(ioException.getMessage(), ioException);
         }
     }
 

@@ -43,7 +43,7 @@ public class ProfessorDetailsController implements Initializable {
 
     @FXML
     private ComboBox<University> universitiesComboBox;
-    private Professor professor;
+    private Professor professorForSeeDetails;
     private Professor professorSession;
 
 
@@ -94,7 +94,7 @@ public class ProfessorDetailsController implements Initializable {
         if (professorSession != null) {
             collaborativeProjectsHistoryController.setProfessorSession(professorSession);
         }
-        collaborativeProjectsHistoryController.setProfessor(professor);
+        collaborativeProjectsHistoryController.setProfessor(professorForSeeDetails);
     }
 
     private void initializeTextFields(Professor professor) {
@@ -107,17 +107,17 @@ public class ProfessorDetailsController implements Initializable {
     }
 
     private void initializeTextFields() {
-        nombreTextField.setText(professor.getName());
-        paternalSurnameTextField.setText(professor.getPaternalSurname());
-        maternalSurnameTextField.setText(professor.getMaternalSurname());
-        emailTextField.setText(professor.getEmail());
-        telefonoTextField.setText(professor.getPhoneNumber());
-        gendersComboBox.setValue(professor.getGender());
-        universitiesComboBox.setValue(professor.getUniversity());
+        nombreTextField.setText(professorForSeeDetails.getName());
+        paternalSurnameTextField.setText(professorForSeeDetails.getPaternalSurname());
+        maternalSurnameTextField.setText(professorForSeeDetails.getMaternalSurname());
+        emailTextField.setText(professorForSeeDetails.getEmail());
+        telefonoTextField.setText(professorForSeeDetails.getPhoneNumber());
+        gendersComboBox.setValue(professorForSeeDetails.getGender());
+        universitiesComboBox.setValue(professorForSeeDetails.getUniversity());
     }
 
     public void setProfessor(Professor professor) {
-        this.professor = professor;
+        this.professorForSeeDetails = professor;
         initializeTextFields(professor);
 
     }

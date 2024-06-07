@@ -45,11 +45,9 @@ public class CollaborativeProjectsHistoryController implements Initializable {
 
     private Professor professor;
     private Professor professorSession;
-    private final ICollaborativeProject COLLABORATIVE_PROJECT_DAO = new CollaborativeProjectDAO();
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-        // Initialize the table view and columns here if needed
     }
 
     @FXML
@@ -86,7 +84,7 @@ public class CollaborativeProjectsHistoryController implements Initializable {
                 Log.getLogger(ValidateCollaborativeProjectController.class).error(exception.getMessage(), exception);
             }
         } else {
-
+            DialogController.getInformativeConfirmationDialog("Sin selección", "Seleccione un proyecto colaborativo para ver sus detalles");
         }
 
     }
@@ -98,9 +96,9 @@ public class CollaborativeProjectsHistoryController implements Initializable {
 
     private void fillCollaborativeProjectsTableView(Professor professor) {
         ArrayList<CollaborativeProject> collaborativeProjectList = new ArrayList<>();
-
+        ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         try {
-            collaborativeProjectList = COLLABORATIVE_PROJECT_DAO.getFinishedCollaborativeProjectsByProfessor(professor.getIdProfessor());
+            collaborativeProjectList = collaborativeProjectDAO.getFinishedCollaborativeProjectsByProfessor(professor.getIdProfessor());
         } catch (DAOException exception) {
             Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), exception);
         }

@@ -5,8 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import log.Log;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
@@ -31,8 +30,6 @@ public class TermDAO implements ITerm {
 
         if (!checkNameDuplicate(term)) {
             result = updateTermPrivate(term);
-        } else {
-            throw new DAOException("El periodo ya esta registrado", Status.ERROR);
         }
         return result;          
     }    
@@ -53,7 +50,7 @@ public class TermDAO implements ITerm {
             
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
-            Logger.getLogger(TermDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(TermDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible eliminar el periodo", Status.ERROR);
         } finally {            
             try {
@@ -64,7 +61,7 @@ public class TermDAO implements ITerm {
                     connection.close();
                 }               
             } catch (SQLException exception) {
-                Logger.getLogger(TermDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(TermDAO.class).error(exception.getMessage(), exception);
             }
         } 
         return result;
@@ -91,7 +88,7 @@ public class TermDAO implements ITerm {
                 term.setName(resultSet.getString("nombre"));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(TermDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(TermDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener el periodo", Status.ERROR);
         } finally {
             try {
@@ -105,7 +102,7 @@ public class TermDAO implements ITerm {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(TermDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(TermDAO.class).error(exception.getMessage(), exception);
             }
         }
         return term;
@@ -132,7 +129,7 @@ public class TermDAO implements ITerm {
                 term.setName(resultSet.getString("nombre"));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(TermDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(TermDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener el periodo", Status.ERROR);
         } finally {
             try {
@@ -146,7 +143,7 @@ public class TermDAO implements ITerm {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(TermDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(TermDAO.class).error(exception.getMessage(), exception);
             }
         }
         return term;
@@ -172,7 +169,7 @@ public class TermDAO implements ITerm {
                 terms.add(term);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(TermDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(TermDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener los periodos", Status.ERROR);
         } finally {
             try {
@@ -186,7 +183,7 @@ public class TermDAO implements ITerm {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(TermDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(TermDAO.class).error(exception.getMessage(), exception);
             }
         }
         return terms;
@@ -200,7 +197,8 @@ public class TermDAO implements ITerm {
             auxTerm = getTermByName(term.getName());
             idTerm = auxTerm.getIdTerm();
         } catch (DAOException exception) {
-            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", Status.ERROR);
+            throw new DAOException
+            ("No fue posible realizar la validacion, intente registrar mas tarde", Status.WARNING);
         }
         if (idTerm != term.getIdTerm() && idTerm > 0) {
             throw new DAOException("El Periodo ya se encuentra registrado", Status.WARNING);
@@ -228,7 +226,7 @@ public class TermDAO implements ITerm {
                 result = resultSet.getInt(1);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(TermDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(TermDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible registrar el periodo", Status.ERROR);
         } finally {
             try {
@@ -242,7 +240,7 @@ public class TermDAO implements ITerm {
                     connection.close();
                 }               
             } catch (SQLException exception) {
-                Logger.getLogger(TermDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(TermDAO.class).error(exception.getMessage(), exception);
             }
         }
         return result;
@@ -264,7 +262,7 @@ public class TermDAO implements ITerm {
             
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
-            Logger.getLogger(TermDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(TermDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible actualizar el periodo", Status.ERROR);
         } finally {
             try {
@@ -275,7 +273,7 @@ public class TermDAO implements ITerm {
                     connection.close();
                 }               
             } catch (SQLException exception) {
-                Logger.getLogger(TermDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(TermDAO.class).error(exception.getMessage(), exception);
             }
         }
         return result;

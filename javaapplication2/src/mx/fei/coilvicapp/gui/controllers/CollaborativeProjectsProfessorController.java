@@ -68,14 +68,10 @@ public class CollaborativeProjectsProfessorController implements Initializable {
     @FXML
     private TableColumn<CollaborativeProject, String> universityTwoTableColumn;
 
-    private final ICollaborativeProject COLLABORATIVE_PROJECT_DAO = new CollaborativeProjectDAO();
-    private ArrayList<CollaborativeProject> collaborativeProjectsList = new ArrayList<>();
-
     private Professor professor;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-
     }
     
     @FXML
@@ -114,10 +110,10 @@ public class CollaborativeProjectsProfessorController implements Initializable {
     
     @FXML
     void pendingMenuButtonIsSelected(ActionEvent event) {
+        ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         statusMenuButton.setText(((MenuItem) event.getSource()).getText());
         try {
-            collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getPendingCollaborativeProjectsByProfessor(professor.getIdProfessor());
-            updateTableView();
+            updateTableView(collaborativeProjectDAO.getPendingCollaborativeProjectsByProfessor(professor.getIdProfessor()));
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -125,11 +121,10 @@ public class CollaborativeProjectsProfessorController implements Initializable {
 
     @FXML
     void acceptedMenuButtonIsSelected(ActionEvent event) {
+        ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         statusMenuButton.setText(((MenuItem) event.getSource()).getText());
         try {
-            collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getAcceptedCollaborativeProjectsByProfessor(professor.getIdProfessor());
-
-            updateTableView();
+            updateTableView(collaborativeProjectDAO.getAcceptedCollaborativeProjectsByProfessor(professor.getIdProfessor()));
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -137,11 +132,10 @@ public class CollaborativeProjectsProfessorController implements Initializable {
 
     @FXML
     void rejectedMenuButtonIsSelected(ActionEvent event) {
+        ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         statusMenuButton.setText(((MenuItem) event.getSource()).getText());
         try {
-            collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getRejectedCollaborativeProjectsByProfessor(professor.getIdProfessor());
-
-            updateTableView();
+            updateTableView(collaborativeProjectDAO.getRejectedCollaborativeProjectsByProfessor(professor.getIdProfessor()));
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -149,16 +143,16 @@ public class CollaborativeProjectsProfessorController implements Initializable {
 
     @FXML
     void finishedMenuButtonIsSelected(ActionEvent event) {
+        ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         statusMenuButton.setText(((MenuItem) event.getSource()).getText());
         try {
-            collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getFinishedCollaborativeProjectsByProfessor(professor.getIdProfessor());
-            updateTableView();
+            updateTableView(collaborativeProjectDAO.getFinishedCollaborativeProjectsByProfessor(professor.getIdProfessor()));
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
     }
 
-    private void updateTableView() {
+    private void updateTableView(ArrayList<CollaborativeProject> collaborativeProjectsList) {
         collaborativeProjecsTableView.getItems().clear();
         collaborativeProjecsTableView.getItems().addAll(collaborativeProjectsList);
     }
@@ -166,11 +160,6 @@ public class CollaborativeProjectsProfessorController implements Initializable {
     @FXML
     void backButtonIsPressed(ActionEvent event) {
         goBack();
-    }
-
-    @FXML
-    void searchButtonIsPressed(ActionEvent event) {
-
     }
 
     private void goBack() {
@@ -195,7 +184,7 @@ public class CollaborativeProjectsProfessorController implements Initializable {
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-            Log.getLogger(CollaborativeProjectsProfessorController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectsProfessorController.class).error(ioException.getMessage(), ioException);
         }
     }
 
@@ -205,8 +194,10 @@ public class CollaborativeProjectsProfessorController implements Initializable {
     }
 
     private void initializeTableView(Professor professor) {
+        ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
+        ArrayList<CollaborativeProject> collaborativeProjectsList = new ArrayList<>();
         try {
-            collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getPendingCollaborativeProjectsByProfessor(professor.getIdProfessor());
+            collaborativeProjectsList = collaborativeProjectDAO.getPendingCollaborativeProjectsByProfessor(professor.getIdProfessor());
         } catch (DAOException exception) {
             handleDAOException(exception);
         }

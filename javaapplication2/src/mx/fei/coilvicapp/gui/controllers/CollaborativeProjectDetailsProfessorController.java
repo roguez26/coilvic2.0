@@ -77,7 +77,6 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-
     }
 
     @FXML
@@ -154,6 +153,7 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
     @FXML
     void seeSyllabusButtonIsPressed(ActionEvent event) {
         FileManager fileManager = new FileManager();
+        
         try {
             fileManager.openFile(collaborativeProject.getSyllabusPath());
         } catch (IllegalArgumentException exception) {
@@ -161,7 +161,6 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
         } catch (IOException exception) {
             DialogController.getInformativeConfirmationDialog("Algo salio mal", exception.getMessage());
         }
-
     }
 
     @FXML
@@ -213,18 +212,14 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
     }
 
     private void goBack() {
-
         try {
             if (professor == null) {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsManagement");
-
             } else {
-
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsProfessor.fxml"));
                 MainApp.changeView(fxmlLoader);
                 CollaborativeProjectsProfessorController collaborativeProjectsProfessorController = fxmlLoader.getController();
                 collaborativeProjectsProfessorController.setProfessor(professor);
-
             }
         } catch (IOException exception) {
             Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), exception);
@@ -236,12 +231,12 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/main/MainApp");
+                    goBack();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(ioException.getMessage(), ioException);
         }
     }
 }

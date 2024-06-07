@@ -27,7 +27,6 @@ public class CoordinationMainMenuController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-        
     }
 
     @FXML

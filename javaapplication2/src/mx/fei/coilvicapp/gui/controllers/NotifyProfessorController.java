@@ -48,45 +48,44 @@ public class NotifyProfessorController implements Initializable {
     @FXML
     private TextField subjectTextField;
 
-    private final IEmailSender emailSenderDAO = new EmailSenderDAO();
-    private Professor professor = new Professor();
-    private final EmailSender emailSender = new EmailSender();
-    private String lastView;
+    private Professor professorToNotify;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-
     }
 
     @FXML
     void sendButtonIsPressed(ActionEvent event) {
         try {
             invokeSendEmail();
-            closeWindow();
-        } catch (IllegalArgumentException iaException) {
-            handleValidationException(iaException);
-        } catch (DAOException daoException) {
-            handleDAOException(daoException);
-        } catch (MessagingException mException) {
-            handleMessagingException(mException);
+        } catch (IllegalArgumentException exception) {
+            handleValidationException(exception);
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        } catch (MessagingException exception) {
+            handleMessagingException(exception);
         }
     }
 
     private void invokeSendEmail() throws DAOException, MessagingException {
-        initializeEmailSender();
+        EmailSender emailSender = initializeEmailSender();
         if (confirmNotification()) {
-            emailSender.createEmail();
-            if (emailSender.sendEmail()) {
-                DialogController.getInformativeConfirmationDialog("Enviado", "El correo fue enviado con éxito");
-                emailSenderDAO.registerEmail(emailSender);
-            }
+            if (emailSender.createEmail()) {
+                if (emailSender.sendEmail()) {
+                    DialogController.getInformativeConfirmationDialog("Enviado", "El correo fue enviado con éxito");
+                    IEmailSender emailSenderDAO = new EmailSenderDAO();
+                    emailSenderDAO.registerEmail(emailSender);
+                }
+            } 
         }
     }
 
-    private void initializeEmailSender() {
+    private EmailSender initializeEmailSender() {
+        EmailSender emailSender = new EmailSender();
         emailSender.setSubject(subjectTextField.getText());
         emailSender.setMessage(messageTextArea.getText());
-        emailSender.setReceiver(professor);
+        emailSender.setReceiver(professorToNotify);
+        return emailSender;
     }
 
     @FXML
@@ -107,7 +106,7 @@ public class NotifyProfessorController implements Initializable {
     }
 
     public void setProfessor(Professor professor) {
-        this.professor = professor;
+        this.professorToNotify = professor;
         showEmail(professor.getEmail());
     }
 
@@ -120,12 +119,12 @@ public class NotifyProfessorController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    goBack();
+                    closeWindow();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(NotifyProfessorController.class).error(exception.getMessage(), exception);
+            Log.getLogger(NotifyProfessorController.class).error(ioException.getMessage(), ioException);
         }
     }
 
@@ -135,18 +134,7 @@ public class NotifyProfessorController implements Initializable {
 
     private void handleMessagingException(MessagingException exception) {
         DialogController.getNotSentMessageDialog(exception.getMessage());
-    }
-
-    public void setLastView(String lastView) {
-        this.lastView = lastView;
-    }
-
-    private void goBack() {
-        try {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/" + lastView);
-        } catch (IOException exception) {
-            Log.getLogger(NotifyProfessorController.class).error(exception.getMessage(), exception);
-        }
+        closeWindow();
     }
     
     private void closeWindow() {

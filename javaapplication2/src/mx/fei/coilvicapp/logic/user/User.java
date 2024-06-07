@@ -1,7 +1,6 @@
 package mx.fei.coilvicapp.logic.user;
 
 import java.util.Objects;
-import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 /**
  *
  * @author ivanr

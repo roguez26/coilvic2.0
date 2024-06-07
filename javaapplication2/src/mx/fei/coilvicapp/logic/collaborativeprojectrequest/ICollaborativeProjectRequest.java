@@ -29,4 +29,7 @@ public interface ICollaborativeProjectRequest {
     public int attendCollaborativeProjectRequest(CollaborativeProjectRequest collaborativeProjectRequest, String status) throws DAOException;
     public int cancelCollaborativeProjectRequest(CollaborativeProjectRequest collaborativeProjectRequest) throws DAOException;
     public int finalizeCollaborativeProjectRequest(CollaborativeProjectRequest collaborativeProjectRequest) throws DAOException;
+    
+    public ArrayList<CollaborativeProjectRequest> getAceptedCollaborativeProjectRequestsByIdProfessor
+    (int idProfessor) throws DAOException;
 }

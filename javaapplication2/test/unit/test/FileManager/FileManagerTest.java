@@ -46,7 +46,7 @@ public class FileManagerTest {
         FILE_MANAGER_FOR_TEST.setDestinationDirectory(idCollaborativeProjectExample);
         try {
             result = FILE_MANAGER_FOR_TEST.saveAssignment();
-            FILE_MANAGER_FOR_TEST.undoSaveAssignment();
+            FILE_MANAGER_FOR_TEST.undoSaveAssignment(file);
         } catch (IOException exception) {
             Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
         }
@@ -103,7 +103,7 @@ public class FileManagerTest {
             result = FILE_MANAGER_FOR_TEST.isValidFileForSave(file);
         } catch (IllegalArgumentException | IOException exception) {
             System.out.println(exception.getMessage());
-            FILE_MANAGER_FOR_TEST.undoSaveAssignment();
+            FILE_MANAGER_FOR_TEST.undoSaveAssignment(file);
             Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
         }
         assertTrue(result);

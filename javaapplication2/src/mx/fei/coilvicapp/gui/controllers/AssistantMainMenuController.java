@@ -31,8 +31,7 @@ public class AssistantMainMenuController implements Initializable {
     private Button validateProfessorsButton;
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
+    public void initialize(URL URL, ResourceBundle resourceBundle) {
     }    
 
     @FXML
@@ -40,7 +39,7 @@ public class AssistantMainMenuController implements Initializable {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/FeedbackForms");
         } catch (IOException exception) {
-            Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+            Log.getLogger(AssistantMainMenuController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -49,7 +48,7 @@ public class AssistantMainMenuController implements Initializable {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
         } catch (IOException exception) {
-            Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
+            Log.getLogger(AssistantMainMenuController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -58,7 +57,7 @@ public class AssistantMainMenuController implements Initializable {
         try {   
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeManager");
         } catch (IOException exception) {
-            Log.getLogger(InstitutionalRepresentativeDetailsController.class).error(exception.getMessage(), exception);
+            Log.getLogger(AssistantMainMenuController.class).error(exception.getMessage(), exception);
         }
     }
     
@@ -67,7 +66,7 @@ public class AssistantMainMenuController implements Initializable {
         try {   
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
         } catch (IOException exception) {
-            Log.getLogger(InstitutionalRepresentativeDetailsController.class).error(exception.getMessage(), exception);
+            Log.getLogger(AssistantMainMenuController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -76,7 +75,7 @@ public class AssistantMainMenuController implements Initializable {
         try {   
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
         } catch (IOException exception) {
-            Log.getLogger(InstitutionalRepresentativeDetailsController.class).error(exception.getMessage(), exception);
+            Log.getLogger(AssistantMainMenuController.class).error(exception.getMessage(), exception);
         }
     }
 }

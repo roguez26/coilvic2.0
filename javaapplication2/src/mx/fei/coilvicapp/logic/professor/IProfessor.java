@@ -1,6 +1,7 @@
 package mx.fei.coilvicapp.logic.professor;
 
 import java.util.ArrayList;
+import javax.mail.MessagingException;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 
 public interface IProfessor {

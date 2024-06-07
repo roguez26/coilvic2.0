@@ -63,13 +63,10 @@ public class UploadAssignmentController implements Initializable {
     private Label titleLabel;
 
     private File selectedFile;
-    private final Assignment ASSIGNMENT = new Assignment();
-    private final FileManager FILE_MANAGER = new FileManager();
     private CollaborativeProject collaborativeProject;
 
     @Override
-    public void initialize(URL URL, ResourceBundle resourceBundle) {
-        
+    public void initialize(URL URL, ResourceBundle resourceBundle) {   
     }
 
     @FXML
@@ -81,37 +78,38 @@ public class UploadAssignmentController implements Initializable {
             handleValidationException(exception);
         } catch (DAOException exception) {
             handleDAOException(exception);
-            FILE_MANAGER.undoSaveAssignment();
         } catch (IOException exception) {
             handleIOException(exception);
-            FILE_MANAGER.undoSaveAssignment();
         }
     }
 
     private void invokeSaveAssignment() throws DAOException, IOException {
-        initializeAssignment();
-        FILE_MANAGER.setFile(selectedFile);
-        FILE_MANAGER.setDestinationDirectory(ASSIGNMENT.getIdColaborativeProject());
-        FILE_MANAGER.isValidFileForSave();
+        FileManager fileManager = new FileManager();
+        Assignment assignment = initializeAssignment();
+        fileManager.setFile(selectedFile);
+        fileManager.setDestinationDirectory(assignment.getIdColaborativeProject());
+        fileManager.isValidFileForSave(selectedFile);
         if (confirmUpload()) {
-            invokeRegisterAssignment(FILE_MANAGER.saveAssignment());
+            invokeRegisterAssignment(fileManager.saveAssignment(), assignment);
         }
     }
 
-    private void invokeRegisterAssignment(String newPath) throws DAOException, IOException {
+    private void invokeRegisterAssignment(String newPath, Assignment assignment) throws DAOException, IOException {
         IAssignment asigmentDAO = new AssignmentDAO();
 
-        ASSIGNMENT.setPath(newPath);
-        if (asigmentDAO.registerAssignment(ASSIGNMENT, collaborativeProject) > 0) {
+        assignment.setPath(newPath);
+        if (asigmentDAO.registerAssignment(assignment, collaborativeProject) > 0) {
             DialogController.getInformativeConfirmationDialog("Subida", "La actividad fue subida con éxito");
             cleanFields();
         }
     }
 
-    private void initializeAssignment() {
-        ASSIGNMENT.setName(nameTextField.getText());
-        ASSIGNMENT.setDescription(descriptionTextArea.getText());
-        ASSIGNMENT.setIdColaborativeProject(collaborativeProject.getIdCollaborativeProject());
+    private Assignment initializeAssignment() {
+        Assignment assignment = new Assignment();
+        assignment.setName(nameTextField.getText());
+        assignment.setDescription(descriptionTextArea.getText());
+        assignment.setIdColaborativeProject(collaborativeProject.getIdCollaborativeProject());
+        return assignment;
     }
 
     @FXML
@@ -121,23 +119,26 @@ public class UploadAssignmentController implements Initializable {
 
     @FXML
     void selectFileButtonIsPressed(ActionEvent event) {
-        selectedFile = FILE_MANAGER.selectPDF(backgroundVBox.getScene().getWindow());
+        FileManager fileManager = new FileManager();
+        selectedFile = fileManager.selectPDF(backgroundVBox.getScene().getWindow());
         if (selectedFile != null) {
             fileTextField.setText(selectedFile.getName());
         }
     }
 
     private void handleDAOException(DAOException exception) {
+        FileManager fileManager = new FileManager();
+        fileManager.undoSaveAssignment(selectedFile);
         try {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                    closeWindow();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(UploadAssignmentController.class).error(exception.getMessage(), exception);
+            Log.getLogger(UploadAssignmentController.class).error(ioException.getMessage(), ioException);
         }
     }
 

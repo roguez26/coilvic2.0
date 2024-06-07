@@ -26,8 +26,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import log.Log;
 import main.MainApp;
-import mx.fei.coilvicapp.logic.assignment.AssignmentDAO;
-import mx.fei.coilvicapp.logic.assignment.IAssignment;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.logic.collaborativeproject.ICollaborativeProject;
@@ -93,11 +91,8 @@ public class RegisterCollaborativeProjectController implements Initializable {
     @FXML
     private Button uploadSyllabusButton;
     private Professor professor;
-    private final ICollaborativeProjectRequest COLLABORATIVE_PROJECT_REQUEST_DAO = new CollaborativeProjectRequestDAO();
-    private CollaborativeProjectRequest selectedRequest = new CollaborativeProjectRequest();
+    private CollaborativeProjectRequest selectedRequest;
     private File selectedFile;
-    private final FileManager FILE_MANAGER = new FileManager();
-    private final CollaborativeProject COLLABORATIVE_PROJECT = new CollaborativeProject();
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
@@ -123,59 +118,67 @@ public class RegisterCollaborativeProjectController implements Initializable {
 
     @FXML
     void cancelButtonIsPressed(ActionEvent event) {
-
+        if(confirmCancel()) {
+            goBack();
+        }
     }
 
-    private void initializeCollaborativeProject() {
+    private CollaborativeProject initializeCollaborativeProject() {
+        CollaborativeProject collaborativeProject = new CollaborativeProject();
 
-        COLLABORATIVE_PROJECT.setRequestedCourse(selectedRequest.getRequestedCourse());
-        COLLABORATIVE_PROJECT.setRequesterCourse(selectedRequest.getRequesterCourse());
-        COLLABORATIVE_PROJECT.setName(nameTextField.getText());
-        COLLABORATIVE_PROJECT.setDescription(descriptionTextArea.getText());
-        COLLABORATIVE_PROJECT.setGeneralObjective(generalObjetiveTextArea.getText());
-        COLLABORATIVE_PROJECT.setCode(codeTextField.getText());
-
+        collaborativeProject.setRequestedCourse(selectedRequest.getRequestedCourse());
+        collaborativeProject.setRequesterCourse(selectedRequest.getRequesterCourse());
+        collaborativeProject.setName(nameTextField.getText());
+        collaborativeProject.setDescription(descriptionTextArea.getText());
+        collaborativeProject.setGeneralObjective(generalObjetiveTextArea.getText());
+        collaborativeProject.setCode(codeTextField.getText());
+        collaborativeProject.setModality(modalitiesComboBox.getValue());
+        return collaborativeProject;
     }
 
     @FXML
     void saveButtonIsPressed(ActionEvent event) {
         try {
             initializeCollaborativeProject();
-            initializeForSave();
-            invokeRegisterCollaborativeProject();
+            invokeRegisterCollaborativeProject(initializeForSave());
         } catch (IllegalArgumentException exception) {
             handleValidationException(exception);
         } catch (IOException exception) {
             handleIOException(exception);
         } catch (DAOException exception) {
-            FILE_MANAGER.undoSaveAssignment();
+            FileManager fileManager = new FileManager();
+            fileManager.undoSaveAssignment(selectedFile);
             handleDAOException(exception);
 
         }
     }
 
-    private void invokeRegisterCollaborativeProject() throws IOException, DAOException {
+    private void invokeRegisterCollaborativeProject(FileManager fileManager) throws IOException, DAOException {
         ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
+        CollaborativeProject collaborativeProject = initializeCollaborativeProject();
         if (confirmSave()) {
-            COLLABORATIVE_PROJECT.setSyllabusPath(FILE_MANAGER.saveAssignment());
+            collaborativeProject.setSyllabusPath(fileManager.saveAssignment());
 
-            if (collaborativeProjectDAO.registerCollaborativeProject(COLLABORATIVE_PROJECT, selectedRequest) > 0)  {
+            if (collaborativeProjectDAO.registerCollaborativeProject(collaborativeProject, selectedRequest) > 0)  {
                 DialogController.getInformativeConfirmationDialog("Registrado", "El proyecto colaborativo fue registrado");
                 goBack();
             }
         }
     }
 
-    private void initializeForSave() {
-        FILE_MANAGER.setFile(selectedFile);
-        FILE_MANAGER.setSyllabusDestination();
-        FILE_MANAGER.setDestinationDirectory(selectedRequest.getIdCollaboratibeProjectRequest());
-        FILE_MANAGER.isValidFileForSave();
+    private FileManager initializeForSave() {
+        FileManager fileManager = new FileManager();
+        fileManager.setFile(selectedFile);
+        fileManager.setSyllabusDestination();
+        fileManager.setDestinationDirectory(selectedRequest.getIdCollaborativeProjectRequest());
+        fileManager.isValidFileForSave(selectedFile);
+        return fileManager;
     }
 
     @FXML
     void uploadSyllabusButtonIsPressed(ActionEvent event) {
-        selectedFile = FILE_MANAGER.selectPDF(backgroundVBox.getScene().getWindow());
+        FileManager fileManager = new FileManager();
+        selectedFile = fileManager.selectPDF(backgroundVBox.getScene().getWindow());
         if (selectedFile != null) {
             syllabusPathTextField.setText(selectedFile.getName());
         } else {
@@ -190,9 +193,10 @@ public class RegisterCollaborativeProjectController implements Initializable {
     }
 
     private void initalizaAcceptedRequestsCombobox(Professor professor) {
+        ICollaborativeProjectRequest collaborativeProjectRequestDAO = new CollaborativeProjectRequestDAO();
         ArrayList<CollaborativeProjectRequest> acceptedRequestes = new ArrayList<>();
         try {
-            ArrayList<CollaborativeProjectRequest> acceptedRequests = COLLABORATIVE_PROJECT_REQUEST_DAO.getAcceptedCollaborativeProjectRequests(professor.getIdProfessor());
+            ArrayList<CollaborativeProjectRequest> acceptedRequests = collaborativeProjectRequestDAO.getAcceptedCollaborativeProjectRequests(professor.getIdProfessor());
             ObservableList<CollaborativeProjectRequest> observableAcceptedRequests = FXCollections.observableArrayList(acceptedRequests);
             acceptedRequestesComboBox.setItems(observableAcceptedRequests);
         } catch (DAOException exception) {
@@ -203,7 +207,7 @@ public class RegisterCollaborativeProjectController implements Initializable {
     @FXML
     void requestIsSelected(ActionEvent event) {
         selectedRequest = acceptedRequestesComboBox.getValue();
-        System.out.println(selectedRequest.getIdCollaboratibeProjectRequest());
+        System.out.println(selectedRequest.getIdCollaborativeProjectRequest());
         courseOneTextField.setText(selectedRequest.getRequestedCourse().toString());
         courseTwoTextField.setText(selectedRequest.getRequesterCourse().toString());
         professorOneTextField.setText(selectedRequest.getRequestedCourse().getProfessor().toString());
@@ -212,7 +216,7 @@ public class RegisterCollaborativeProjectController implements Initializable {
 
     @FXML
     void modalityIsSelected(ActionEvent event) {
-        COLLABORATIVE_PROJECT.setModality(modalitiesComboBox.getValue());
+        
     }
 
     private void handleDAOException(DAOException exception) {
@@ -222,10 +226,10 @@ public class RegisterCollaborativeProjectController implements Initializable {
                 case ERROR ->
                     goBack();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(RegisterCollaborativeProjectController.class).error(exception.getMessage(), exception);
+            Log.getLogger(RegisterCollaborativeProjectController.class).error(ioException.getMessage(), exception);
         }
     }
 
@@ -250,6 +254,11 @@ public class RegisterCollaborativeProjectController implements Initializable {
 
     private boolean confirmSave() {
         Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas registrar este nuevo proyecto colaborativo?");
+        return (response.get() == DialogController.BUTTON_YES);
+    }
+    
+    private boolean confirmCancel() {
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas cancelar el registro este nuevo proyecto colaborativo?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 }

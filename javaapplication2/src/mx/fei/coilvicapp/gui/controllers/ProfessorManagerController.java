@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.professor.ProfessorDAO;
-import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.io.IOException;
@@ -23,11 +22,9 @@ import main.MainApp;
 import mx.fei.coilvicapp.logic.implementations.FileManager;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
+import mx.fei.coilvicapp.logic.professor.IProfessor;
 
 public class ProfessorManagerController implements Initializable {
-
-    private UniversityDAO universityDAO = new UniversityDAO();
-    private ProfessorDAO professorDAO = new ProfessorDAO();
 
     @FXML
     private Button backButton;
@@ -78,7 +75,6 @@ public class ProfessorManagerController implements Initializable {
 
     @FXML
     private void backButtonIsPressed(ActionEvent event) {
-        System.out.println(professorSession);
         try {
             if (professorSession != null) {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
@@ -154,6 +150,7 @@ public class ProfessorManagerController implements Initializable {
     }
 
     private ArrayList<Professor> initializeProfessorArray() {
+        IProfessor professorDAO = new ProfessorDAO();
         ArrayList<Professor> professors = new ArrayList<>();
         try {
             professors = professorDAO.getProfessorsByPendingStatus();
@@ -179,10 +176,10 @@ public class ProfessorManagerController implements Initializable {
                 case ERROR ->
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
                 case FATAL ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(FeedbackFormsController.class).error(exception.getMessage(), exception);
+            Log.getLogger(FeedbackFormsController.class).error(ioException.getMessage(), ioException);
         }
     }
 
@@ -193,6 +190,7 @@ public class ProfessorManagerController implements Initializable {
     }
 
     private ArrayList<Professor> initializeAllProfessorArray() {
+        IProfessor professorDAO = new ProfessorDAO();
         ArrayList<Professor> professors = new ArrayList<>();
         try {
             professors = professorDAO.getAllProfessors();

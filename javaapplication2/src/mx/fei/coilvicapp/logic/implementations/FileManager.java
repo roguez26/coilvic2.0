@@ -34,7 +34,7 @@ public class FileManager {
     public void setDestinationDirectory(int idCollaborativeProject) {
         this.destinationDirectory = activitiesDestination + "\\" + String.valueOf(idCollaborativeProject) + "\\";
     }
-    
+
     public void setSyllabusDestination() {
         activitiesDestination = "files\\syllabus";
     }
@@ -51,22 +51,18 @@ public class FileManager {
         return selectedFilePath;
     }
 
-    public boolean isValidFileForSave() {
-        boolean result = false;
-        if (file != null) {
-            if (isFileLenghtValid(file)) {
-                if (!fileExists(destinationDirectory + "\\" + file.getName())) {
-                    result = true;
-                } else {
-                    throw new IllegalArgumentException("Ya existe un archivo con este nombre");
-                }
-            } else {
-                throw new IllegalArgumentException("El archivo debe ser menor o igual a 10MB");
-            }
-        } else {
+    public boolean isValidFileForSave(File fileForCheck) {
+        if (fileForCheck == null) {
             throw new IllegalArgumentException("El archivo no puede estar vacio");
         }
-        return result;
+        if (!isFileLenghtValid(fileForCheck)) {
+            throw new IllegalArgumentException("El archivo debe ser menor o igual a 10MB");
+        } 
+
+        if (fileExists(destinationDirectory + "\\" + fileForCheck.getName())) {
+            throw new IllegalArgumentException("Ya existe un archivo con este nombre");
+        } 
+        return true;
     }
 
     public File selectPDF(Window window) {
@@ -130,9 +126,8 @@ public class FileManager {
         return fileForValidate.exists();
     }
 
-    public void undoSaveAssignment() {
-        File fileForDelete = new File(selectedFilePath);
-        fileForDelete.delete();
+    public void undoSaveAssignment(File file) {
+        file.delete();
     }
 
     private boolean isFileLenghtValid(File forValidate) {

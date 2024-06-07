@@ -57,23 +57,21 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
     @FXML
     private Label titleLabel;
 
-    private final IFeedback FEEDBACK_DAO = new FeedbackDAO();
     private final ArrayList<Response> responsesList = new ArrayList<>();
     private int currentQuestion;
-    private String questionType;
     private Professor professor = null;
     private Student student = null;
     CollaborativeProject collaborativeProject;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-
     }
 
     private void initializeQuestions(String questionType) {
+        IFeedback feedbackDAO = new FeedbackDAO();
         ArrayList<Question> questionsList = new ArrayList<>();
         try {
-            questionsList = FEEDBACK_DAO.getQuestionByType(questionType);
+            questionsList = feedbackDAO.getQuestionByType(questionType);
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -118,16 +116,17 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
         try {
             getResponseText();
             if (finishConfirmation()) {
+                IFeedback feedbackDAO = new FeedbackDAO();
                 if (student != null) {
                     if (allQuestionsHaveBeenResponsed()) {
-                        FEEDBACK_DAO.registerStudentResponses(responsesList);
+                        feedbackDAO.registerStudentResponses(responsesList);
                         changeToCollaborativeProjectDetailsStudent();
                     } else {
                         DialogController.getInformativeConfirmationDialog("No completado", "Debes completar todas las preguntas");
                     }
 
                 } else if (professor != null) {
-                    FEEDBACK_DAO.registerProfessorResponses(responsesList);
+                    feedbackDAO.registerProfessorResponses(responsesList);
                     closeWindow();
                 }
             }
@@ -211,7 +210,7 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
                     }
                 }
                 case FATAL ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
             Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(ioException.getMessage(), ioException);
@@ -240,7 +239,6 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
     }
 
     public void setTypeQuestiones(String questionType) {
-        this.questionType = questionType;
         initializeQuestions(questionType);
     }
 

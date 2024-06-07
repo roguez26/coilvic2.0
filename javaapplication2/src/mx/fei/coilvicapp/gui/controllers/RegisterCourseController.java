@@ -19,6 +19,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
+import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.course.*;
 import mx.fei.coilvicapp.logic.language.*;
@@ -68,7 +69,7 @@ public class RegisterCourseController implements Initializable {
     private final LanguageDAO LANGUAGE_DAO = new LanguageDAO();    
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {        
+    public void initialize(URL URL, ResourceBundle resoruceBundle) {        
         numberStudentsComboBox.setItems(FXCollections.observableArrayList(initializeNumberStudentsArrayForComboBox()));
         termComboBox.setItems(FXCollections.observableArrayList(initializeTermsArrayForComboBox()));
         languageComboBox.setItems(FXCollections.observableArrayList(initializeLanguagesArrayForComboBox()));                
@@ -211,11 +212,11 @@ public class RegisterCourseController implements Initializable {
             DialogController.getDialog(new AlertMessage (exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/MainApp");
-                case FATAL -> MainApp.changeView("/main/MainApp");
+                case FATAL -> MainApp.handleFatal();
                 
             }
         } catch (IOException ioException) {
-            
+            Log.getLogger(RegisterCourseController.class).error(ioException.getMessage(), exception);
         }
     }
     

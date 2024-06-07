@@ -19,8 +19,9 @@ public class PDFCreator {
 
     private final String CERTIFICATE_TEMPLATE_PATH = "files\\template\\certificate.pdf";
 
-    public void generateCertificate(String name, String certificateDestination) throws IOException {
+    public String generateCertificate(String name, String certificateDestination) throws IOException {
         LocalDate date = LocalDate.now();
+        String destionationCertificatePath;
         
         if (certificateDestination == null || certificateDestination.equals("")) {
             throw new IOException ("Es necesario especificar la ruta para iniciar la descarga");
@@ -28,7 +29,8 @@ public class PDFCreator {
 
         try {
             try (PdfReader reader = new PdfReader(CERTIFICATE_TEMPLATE_PATH)) {
-                PdfWriter writer = new PdfWriter(certificateDestination + "\\" + date + "-" + name + "-constancia.pdf");
+                destionationCertificatePath = certificateDestination + "\\" + date + "-" + name + "-constancia.pdf";
+                PdfWriter writer = new PdfWriter(destionationCertificatePath);
                 try (PdfDocument pdfDocument = new PdfDocument(reader, writer); Document document = new Document(pdfDocument)) {
                     Paragraph paragraph = new Paragraph(name);
                     paragraph.setFixedPosition(0, 335, 855);
@@ -43,6 +45,7 @@ public class PDFCreator {
             Log.getLogger(PDFCreator.class).error(exception.getMessage(), exception);
             throw new IOException("No fue posible generar la constancia");
         }
+        return destionationCertificatePath;
     }
 
     public boolean templateExists() {

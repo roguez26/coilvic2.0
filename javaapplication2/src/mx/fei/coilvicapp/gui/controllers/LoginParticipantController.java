@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
@@ -59,15 +60,10 @@ public class LoginParticipantController implements Initializable {
     @FXML
     private Label titleLabel;
 
-    private final IProfessor PROFESSOR_DAO = new ProfessorDAO();
-    private final IStudent STUDENT_DAO = new StudentDAO();
-    private final IUser USER_DAO = new UserDAO();
-    private final ICollaborativeProject COLLABORATIVE_PROJECT_DAO = new CollaborativeProjectDAO();
     private String passwordForShow;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-
     }
 
     @FXML
@@ -119,12 +115,14 @@ public class LoginParticipantController implements Initializable {
 
     private void invokeAuthenticateStudentAndCollaborativeProject() throws DAOException, IOException {
         Student student = new Student();
-
+        IStudent studentDAO = new StudentDAO();
+        
         student.setEmail(emailTextField.getText());
-        student = STUDENT_DAO.getStudentByEmail(emailTextField.getText());
+        student = studentDAO.getStudentByEmail(emailTextField.getText());
         if (student.getIdStudent() > 0) {
+            ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
             CollaborativeProject collaborativeProject
-                    = COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectByCode(identifierPasswordField.getText());
+                    = collaborativeProjectDAO.getCollaborativeProjectByCode(identifierPasswordField.getText());
             if (collaborativeProject.getIdCollaborativeProject() > 0) {
                 changeViewForStudent(student, collaborativeProject);
             } else {
@@ -140,11 +138,13 @@ public class LoginParticipantController implements Initializable {
     private void invokeAuthenticateProfessor() throws DAOException, IOException {
         Professor professor = new Professor();
         FieldValidator fieldValidator = new FieldValidator();
+        IUser userDAO = new UserDAO();
 
         professor.setEmail(emailTextField.getText());
         fieldValidator.checkPassword(identifierPasswordField.getText());
-        if (USER_DAO.authenticateUser(emailTextField.getText(), identifierPasswordField.getText())) {
-            professor = PROFESSOR_DAO.getProfessorByEmail(emailTextField.getText());
+        if (userDAO.authenticateUser(emailTextField.getText(), identifierPasswordField.getText())) {
+            IProfessor professorDAO = new ProfessorDAO();
+            professor = professorDAO.getProfessorByEmail(emailTextField.getText());
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
 
             MainApp.changeView(fxmlLoader);
@@ -155,13 +155,14 @@ public class LoginParticipantController implements Initializable {
     }
 
     private void invokeAuthenticateAdministrative() throws DAOException, IOException {
-        User user = new User();
+        User user;
         FieldValidator fieldValidator = new FieldValidator();
+        IUser userDAO = new UserDAO();
         int idUser = Integer.parseInt(emailTextField.getText());
 
         fieldValidator.checkPassword(identifierPasswordField.getText());
-        if (USER_DAO.authenticateAdministrativeUser(idUser, identifierPasswordField.getText())) {
-            user = USER_DAO.getUserById(idUser);
+        if (userDAO.authenticateAdministrativeUser(idUser, identifierPasswordField.getText())) {
+            user = userDAO.getUserById(idUser);
             if (user.getType().equalsIgnoreCase("C")) {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
             } else if (user.getType().equalsIgnoreCase("A")) {
@@ -186,15 +187,16 @@ public class LoginParticipantController implements Initializable {
         try {
 
             if (roleButton.getText().equals("Profesor")) {
-
-                if (PROFESSOR_DAO.checkPreconditions()) {
+                IProfessor professorDAO = new ProfessorDAO();
+                if (professorDAO.checkPreconditions()) {
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorRegister");
                 } else {
                     DialogController.getInformativeConfirmationDialog("Recursos no disponibles",
                             "No contamos con los recursos para realizar su registro");
                 }
             } else {
-                if (STUDENT_DAO.checkPreconditions()) {
+                IStudent studentDAO = new StudentDAO();
+                if (studentDAO.checkPreconditions()) {
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/RegisterStudent");
                 } else {
                     DialogController.getInformativeConfirmationDialog("Recursos no disponibles",
@@ -209,13 +211,14 @@ public class LoginParticipantController implements Initializable {
     }
 
     private void handleDAOException(DAOException exception) {
+        System.out.println("login error");
         try {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
                 case FATAL ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
+                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
             Log.getLogger(LoginParticipantController.class).error(ioException.getMessage(), ioException);

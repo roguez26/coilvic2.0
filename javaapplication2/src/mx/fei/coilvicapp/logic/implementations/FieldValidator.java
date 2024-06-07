@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 public class FieldValidator {
 
     private final String EMAIL_REGEX = "^(?=.{3,45}$)[^\\s@]+@(?:uv\\.mx|estudiantes\\.uv\\.mx|gmail\\.com|hotmail\\.com|outlook\\.com|edu\\.mx)$";
-    private final String NAME_REGEX = "^(?!.[\\!\\#\\$%\\&'\\(\\)\\\\+\\-\\.,\\/\\:\\;<\\=\\>\\?\\@\\[\\\\\\]\\^_`\\{\\|\\}\\~])(?!.*  )(?!^ $)(?!.*\\d)^.{1,45}$";
-    private final String PASSWORD_REGEX = "^(?=.[a-z])(?=.[A-Z])(?=.\\d)(?=.[@$!%?&])[A-Za-z\\d@$!%?&]{8,}$";
+    private final String NAME_REGEX = "^(?=[^\\.\\-']*[\\p{L}\\p{M}])(?!.*[.\\-']{2})(?!.*  )[\\p{L} \\p{M}.'-]+(?<![ \\-'])$";
+    private final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"; 
     private final String SHORT_RANGE = "^[\\p{L}0-9\\s]{3,45}$";
     private final String LONG_RANGE = "(?s)^.{3,255}$";
     private final String PHONE_NUMBER_REGEX = "^\\d{10}$";
@@ -20,6 +20,7 @@ public class FieldValidator {
     private final String TEXT_REGEX = "^[\\p{L}0-9\\s,\\.\\:]+$";
     private final String TERM_REGEX = "^(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)\\"
             + "d{4}-(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)\\d{4}$";
+    
 
     public void checkEmail(String eMail) {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
@@ -40,15 +41,17 @@ public class FieldValidator {
         if (name != null) {
             Matcher matcher = pattern.matcher(name);
             if (matcher.matches()) {
+                checkNoRepeatedCharacters(name);
                 return;
             }
         }
         throw new IllegalArgumentException("El nombre debe tener las siguientes características:\n"
-                + "1.- Debe contener de 3 a 45 caractéres como máximo\n"
-                + "2.- No puede contener más de 2 espacios en blanco juntos\n"
-                + "3.- No puede tener solo espacios en blanco\n"
-                + "4.- No debe contener los siguientes símbolos: (!, \", #, $, %, &, ', (, ), *, +, "
-                + ",, -, ., /, :, ;, <, =, >, ?, @, [, \\, ], ^, _, `, {, |, }, ~)\n");
+                + "1.- Los únicos símbolos permitidos son espacios, ., -, y '\n"
+                + "2.- No debe contener dos símbolos consecutivos.\n"
+                + "3.- No debe terminar con espacios en blanco, ' o -\n"
+                + "4.- No debe contener números");
+        
+        
     }
 
     public void checkPhoneNumber(String phoneNumber) {
@@ -169,5 +172,16 @@ public class FieldValidator {
             throw new IllegalArgumentException("El periodo debe tener el formato: 'MesAño–MesAño' (Ej., 'Agosto2024–Enero2025')");
         }
         return true;
+    }
+    
+    public void checkNoRepeatedCharacters(String text) {
+        Pattern pattern = Pattern.compile("^(?!.*(.)\\1{2,}).+$");
+        if (text != null) {
+            Matcher matcher = pattern.matcher(text);
+            if (matcher.matches()) {
+                return;
+            }
+        }
+        throw new IllegalArgumentException("No se permiten entradas con 3 o más caracteres repetidos consecutivamente.\n");
     }
 }

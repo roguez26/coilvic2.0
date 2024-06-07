@@ -64,8 +64,6 @@ public class CollaborativeProjectsManagementController implements Initializable 
     @FXML
     private TableColumn<CollaborativeProject, String> universityTwoTableColumn;
 
-    private final ICollaborativeProject COLLABORATIVE_PROJECT_DAO = new CollaborativeProjectDAO();
-    private ArrayList<CollaborativeProject> collaborativeProjectsList = new ArrayList<>();
     @FXML
     private Button validateButton;
 
@@ -75,11 +73,15 @@ public class CollaborativeProjectsManagementController implements Initializable 
     }
 
     private void intializeUniversitiesTable() {
+        ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
+        ArrayList<CollaborativeProject> collaborativeProjectsList = new ArrayList<>();
+        
         try {
-            collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectsProposals();
+            collaborativeProjectsList = collaborativeProjectDAO.getCollaborativeProjectsProposals();
         } catch (DAOException exception) {
-
+            handleDAOException(exception);
         }
+        
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         courseOneTableColumn.setCellValueFactory(new PropertyValueFactory<>("requesterCourse"));
         courseTwoTableColumn.setCellValueFactory(new PropertyValueFactory<>("requestedCourse"));
@@ -108,11 +110,11 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
     @FXML
     void pendingMenuButtonIsSelected(ActionEvent event) {
+        ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         statusMenuButton.setText(((MenuItem) event.getSource()).getText());
         try {
-            collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectsProposals();
             setValidateMode(true);
-            updateTableView();
+            updateTableView(collaborativeProjectDAO.getCollaborativeProjectsProposals());
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -120,11 +122,11 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
     @FXML
     void acceptedMenuButtonIsSelected(ActionEvent event) {
+        ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         statusMenuButton.setText(((MenuItem) event.getSource()).getText());
         try {
-            collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getAllAcceptedCollaborativeProjects();
             setValidateMode(false);
-            updateTableView();
+            updateTableView(collaborativeProjectDAO.getAllAcceptedCollaborativeProjects());
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -132,11 +134,11 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
     @FXML
     void rejectedMenuButtonIsSelected(ActionEvent event) {
+        ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         statusMenuButton.setText(((MenuItem) event.getSource()).getText());
         try {
-            collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getAllRejectedCollaborativeProjects();
             setValidateMode(false);
-            updateTableView();
+            updateTableView(collaborativeProjectDAO.getAllRejectedCollaborativeProjects());
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -144,11 +146,11 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
     @FXML
     void finishedMenuButtonIsSelected(ActionEvent event) {
+        ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         statusMenuButton.setText(((MenuItem) event.getSource()).getText());
         try {
-            collaborativeProjectsList = COLLABORATIVE_PROJECT_DAO.getAllFinishedCollaborativeProjects();
             setValidateMode(false);
-            updateTableView();
+            updateTableView(collaborativeProjectDAO.getAllFinishedCollaborativeProjects());
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -160,7 +162,7 @@ public class CollaborativeProjectsManagementController implements Initializable 
         seeDetailsButton.setVisible(!isVisible);
     }
 
-    private void updateTableView() {
+    private void updateTableView(ArrayList<CollaborativeProject> collaborativeProjectsList) {
         collaborativeProjecsTableView.getItems().clear();
         collaborativeProjecsTableView.getItems().addAll(collaborativeProjectsList);
     }
@@ -203,7 +205,7 @@ public class CollaborativeProjectsManagementController implements Initializable 
                     MainApp.changeView("/main/MainApp");
             }
         } catch (IOException ioException) {
-            Log.getLogger(CollaborativeProjectsManagementController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectsManagementController.class).error(ioException.getMessage(), ioException);
         }
     }
 

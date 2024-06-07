@@ -5,8 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import log.Log;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
@@ -32,8 +31,6 @@ public class ModalityDAO implements IModality {
 
         if (!checkNameDuplicate(modality)) {
             result = updateModalityPrivate(modality);
-        } else {
-            throw new DAOException("La modalidad ya esta registrada", Status.ERROR);
         }
         return result;          
     }    
@@ -54,7 +51,7 @@ public class ModalityDAO implements IModality {
             
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
-            Logger.getLogger(ModalityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ModalityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible eliminar la modalidad", Status.ERROR);
         } finally {            
             try {
@@ -65,7 +62,7 @@ public class ModalityDAO implements IModality {
                     connection.close();
                 }               
             } catch (SQLException exception) {
-                Logger.getLogger(ModalityDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(ModalityDAO.class).error(exception.getMessage(), exception);
             }
         } 
         return result;
@@ -92,7 +89,7 @@ public class ModalityDAO implements IModality {
                 modality.setName(resultSet.getString("nombre"));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(ModalityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ModalityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener la modalidad", Status.ERROR);
         } finally {
             try {
@@ -106,7 +103,7 @@ public class ModalityDAO implements IModality {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(ModalityDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(ModalityDAO.class).error(exception.getMessage(), exception);
             }
         }
         return modality;
@@ -133,7 +130,7 @@ public class ModalityDAO implements IModality {
                 modality.setName(resultSet.getString("nombre"));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(ModalityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ModalityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener la modalidad", Status.ERROR);
         } finally {
             try {
@@ -147,7 +144,7 @@ public class ModalityDAO implements IModality {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(ModalityDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(ModalityDAO.class).error(exception.getMessage(), exception);
             }
         }
         return modality;
@@ -173,7 +170,7 @@ public class ModalityDAO implements IModality {
                 modalities.add(modality);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(ModalityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ModalityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener las modalidades", Status.ERROR);
         } finally {
             try {
@@ -187,7 +184,7 @@ public class ModalityDAO implements IModality {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(ModalityDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(ModalityDAO.class).error(exception.getMessage(), exception);
             }
         }
         return modalities;
@@ -201,7 +198,8 @@ public class ModalityDAO implements IModality {
             auxModality = getModalityByName(modality.getName());
             idModality = auxModality.getIdModality();
         } catch (DAOException exception) {
-            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", Status.ERROR);
+            throw new DAOException
+            ("No fue posible realizar la validacion, intente registrar mas tarde", Status.WARNING);
         }
         if (idModality != modality.getIdModality() && idModality > 0) {
             throw new DAOException("La modalidad ya se encuentra registrado", Status.WARNING);
@@ -229,7 +227,7 @@ public class ModalityDAO implements IModality {
                 result = resultSet.getInt(1);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(ModalityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ModalityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible registrar la modalidad", Status.ERROR);
         } finally {
             try {
@@ -243,7 +241,7 @@ public class ModalityDAO implements IModality {
                     connection.close();
                 }               
             } catch (SQLException exception) {
-                Logger.getLogger(ModalityDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(ModalityDAO.class).error(exception.getMessage(), exception);
             }
         }
         return result;
@@ -265,7 +263,7 @@ public class ModalityDAO implements IModality {
             
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
-            Logger.getLogger(ModalityDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ModalityDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible actualizar la modalidad", Status.ERROR);
         } finally {
             try {
@@ -276,7 +274,7 @@ public class ModalityDAO implements IModality {
                     connection.close();
                 }               
             } catch (SQLException exception) {
-                Logger.getLogger(ModalityDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(ModalityDAO.class).error(exception.getMessage(), exception);
             }
         }
         return result;

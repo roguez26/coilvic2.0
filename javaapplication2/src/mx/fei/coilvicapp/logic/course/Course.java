@@ -30,7 +30,7 @@ public class Course {
     public Professor getProfessor() {
         return professor;
     }
-    
+
     public void setProfessor(Professor professor) {
         if (professor == null) {
             throw new IllegalArgumentException("No se encontro su información");
@@ -142,22 +142,35 @@ public class Course {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (object == null || getClass() != object.getClass()) {
-            return false;
+    public boolean equals(Object obj) {
+        boolean isEqual = false;
+        if (this == obj) {
+            isEqual = true;
+        } else if (obj != null && getClass() == obj.getClass()) {
+            Course course = (Course) obj;
+            isEqual = idCourse == course.getIdCourse()
+                    && Objects.equals(name, course.getName())
+                    && Objects.equals(status, course.getStatus())
+                    && Objects.equals(generalObjective, course.getGeneralObjective())
+                    && Objects.equals(topicsInterest, course.getTopicsInterest())
+                    && Objects.equals(numberStudents, course.getNumberStudents())
+                    && Objects.equals(studentsProfile, course.getStudentsProfile())
+                    && Objects.equals(additionalInformation, course.getAdditionalInformation());
         }
-        if (this == object) {
-            return true;
-        }
+        return isEqual;
+    }
 
-        Course toCompare = (Course) object;
-        return idCourse == toCompare.getIdCourse()
-                && Objects.equals(name, toCompare.getName())
-                && Objects.equals(status, toCompare.getStatus())
-                && Objects.equals(generalObjective, toCompare.getGeneralObjective())
-                && Objects.equals(topicsInterest, toCompare.getTopicsInterest())
-                && Objects.equals(numberStudents, toCompare.getNumberStudents())
-                && Objects.equals(studentsProfile, toCompare.getStudentsProfile())
-                && Objects.equals(additionalInformation, toCompare.getAdditionalInformation());
-    }  
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + this.idCourse;
+        hash = 41 * hash + Objects.hashCode(this.name);
+        hash = 41 * hash + Objects.hashCode(this.status);
+        hash = 41 * hash + Objects.hashCode(this.generalObjective);
+        hash = 41 * hash + Objects.hashCode(this.topicsInterest);
+        hash = 41 * hash + this.numberStudents;
+        hash = 41 * hash + Objects.hashCode(this.studentsProfile);
+        hash = 41 * hash + Objects.hashCode(this.additionalInformation);
+        return hash;
+    }
 }

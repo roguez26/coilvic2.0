@@ -117,11 +117,10 @@ public class ValidateCollaborativeProjectController implements Initializable {
     @FXML
     private TextField universityTwoTextField;
     private CollaborativeProject collaborativeProject;
-    private final ICollaborativeProject COLLABORATIVE_PROJECT_DAO = new CollaborativeProjectDAO();
+   
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-
     }
 
     @FXML
@@ -148,8 +147,9 @@ public class ValidateCollaborativeProjectController implements Initializable {
     @FXML
     void rejectButtonIsPressed(ActionEvent event) {
         if (confirmReject()) {
+            ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
             try {
-                COLLABORATIVE_PROJECT_DAO.evaluateCollaborativeProjectProposal(collaborativeProject, "Rechazado");
+                collaborativeProjectDAO.evaluateCollaborativeProjectProposal(collaborativeProject, "Rechazado");
                 notifyProfessor(collaborativeProject.getRequesterCourse().getProfessor());
                 wasValidatedConfirmation();
             } catch (DAOException exception) {
@@ -176,8 +176,9 @@ public class ValidateCollaborativeProjectController implements Initializable {
     @FXML
     void acceptButtonIsPressed(ActionEvent event) {
         if (confirmAccept()) {
+            ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
             try {
-                COLLABORATIVE_PROJECT_DAO.evaluateCollaborativeProjectProposal(collaborativeProject, "Aceptado");
+                collaborativeProjectDAO.evaluateCollaborativeProjectProposal(collaborativeProject, "Aceptado");
                 notifyProfessor(collaborativeProject.getRequesterCourse().getProfessor());
                 wasValidatedConfirmation();
             } catch (DAOException exception) {
@@ -198,10 +199,10 @@ public class ValidateCollaborativeProjectController implements Initializable {
                 case ERROR ->
                     goBack();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(ValidateCollaborativeProjectController.class).error(exception.getMessage(), exception);
+            Log.getLogger(ValidateCollaborativeProjectController.class).error(ioException.getMessage(), ioException);
         }
     }
 

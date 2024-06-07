@@ -55,12 +55,12 @@ public class CollaborativeProjectDetailsController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-
     }
 
     @FXML
     void seeSyllabusButtonIsPressed(ActionEvent event) {
         FileManager fileManager = new FileManager();
+        
         try {
             fileManager.openFile(collaborativeProject.getSyllabusPath());
         } catch (IllegalArgumentException exception) {
@@ -78,7 +78,6 @@ public class CollaborativeProjectDetailsController implements Initializable {
 
     public void initializeFields(CollaborativeProject collaborativeProject) {
         if (collaborativeProject != null) {
-
             courseOneTextField.setText(collaborativeProject.getRequesterCourse().toString());
             courseTwoTextField.setText(collaborativeProject.getRequestedCourse().toString());
             descriptionTextArea.setText(collaborativeProject.getDescription());
@@ -98,10 +97,10 @@ public class CollaborativeProjectDetailsController implements Initializable {
                 case ERROR ->
                     closeWindow();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(ioException.getMessage(), ioException);
         }
     }
 

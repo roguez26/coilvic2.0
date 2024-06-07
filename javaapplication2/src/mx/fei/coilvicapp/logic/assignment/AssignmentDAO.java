@@ -7,10 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import log.Log;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
+import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 
@@ -20,22 +19,32 @@ import mx.fei.coilvicapp.logic.implementations.Status;
 public class AssignmentDAO implements IAssignment {
 
     @Override
-    public int registerAssignment(Assignment assignment, CollaborativeProject collaborativeProject) throws DAOException {
+    public int registerAssignment(Assignment assignment, CollaborativeProject collaborativeProject)
+    throws DAOException {
         int result = -1;
-        if (collaborativeProject.getStatus().equals("Aceptado")) {
+        CollaborativeProjectDAO collaborativeProjectDAO = new CollaborativeProjectDAO();
+        String status = "";
+        status = collaborativeProjectDAO.checkCollaborativeProjectStatus(collaborativeProject);
+        
+        if (status.equals("Aceptado")) {
             result = insertAssignment(assignment, collaborativeProject);
-        } else if (collaborativeProject.getStatus().equals("Rechazado")) {
-            throw new DAOException("No puede subir actividades a proyecto colaborativo rechazado", Status.WARNING);
-        } else if (collaborativeProject.getStatus().equals("Finalizado")) {
-            throw new DAOException("No puede subir actividades a proyecto colaborativo finalizado", Status.WARNING);
+        } else if (status.equals("Rechazado")) {
+            throw new DAOException
+            ("No puede subir actividades a proyecto colaborativo rechazado", Status.WARNING);
+        } else if (status.equals("Finalizado")) {
+            throw new DAOException
+            ("No puede subir actividades a proyecto colaborativo finalizado", Status.WARNING);
         }
         return result;
     }
 
-    private int insertAssignment(Assignment assignment, CollaborativeProject collaborativeProject) throws DAOException {
+    private int insertAssignment(Assignment assignment, CollaborativeProject collaborativeProject)
+    throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String statement = "insert into Actividad (idProyectoColaborativo, nombre, descripcion, ruta) values (?, ?, ?, ?)";
+        String statement = "insert into Actividad "
+        + "(idProyectoColaborativo, nombre, descripcion, ruta) "
+        + "values (?, ?, ?, ?)";
         DatabaseManager databaseManager = new DatabaseManager();
         int result = -1;
 
@@ -55,8 +64,8 @@ public class AssignmentDAO implements IAssignment {
                 }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(AssignmentDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible registrar la actividad", Status.WARNING);
+            Log.getLogger(AssignmentDAO.class).error(exception.getMessage(), exception);     
+            throw new DAOException("No fue posible registrar la actividad", Status.ERROR);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -66,7 +75,7 @@ public class AssignmentDAO implements IAssignment {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(AssignmentDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(AssignmentDAO.class).error(exception.getMessage(), exception);
             }
         }
         return result;
@@ -83,13 +92,14 @@ public class AssignmentDAO implements IAssignment {
             assignment.setDate(resultSet.getString("fecha"));
             assignment.setPath(resultSet.getString("ruta"));
         } catch (SQLException exception) {
-            Logger.getLogger(AssignmentDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(AssignmentDAO.class).error(exception.getMessage(), exception);
         }
         return assignment;
     }
 
     @Override
-    public ArrayList<Assignment> getAssignmentsByIdProjectColaborative(int idColaborativeProject) throws DAOException {
+    public ArrayList<Assignment> getAssignmentsByIdProjectColaborative(int idColaborativeProject)
+    throws DAOException {
         ArrayList<Assignment> assignments = new ArrayList<>();
         Assignment assignment = new Assignment();
         Connection connection = null;
@@ -109,8 +119,8 @@ public class AssignmentDAO implements IAssignment {
                 assignments.add(initializeAssignment(resultSet));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(AssignmentDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible recuperar las actividades", Status.WARNING);
+            Log.getLogger(AssignmentDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible recuperar las actividades", Status.ERROR);
         } finally {
             try {
                 if (resultSet != null) {
@@ -123,20 +133,24 @@ public class AssignmentDAO implements IAssignment {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(AssignmentDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(AssignmentDAO.class).error(exception.getMessage(), exception);
             }
         }
         return assignments;
     }
 
     @Override
-    public int updateAssignment(Assignment assignment, CollaborativeProject collaborativeProject) throws DAOException {
+    public int updateAssignment(Assignment assignment, CollaborativeProject collaborativeProject)
+    throws DAOException {
         int result = -1;
-
-        if (collaborativeProject.getStatus().equals("Aceptado")) {
+        CollaborativeProjectDAO collaborativeProjectDAO = new CollaborativeProjectDAO();
+        
+        if (collaborativeProjectDAO.checkCollaborativeProjectStatus
+        (collaborativeProject).equals("Aceptado")) {
             result = updateAssignmentPrivate(assignment);
         } else {
-            throw new DAOException("No puede modificar una actividad de un proyecto colaborativo finalizado", Status.WARNING);
+            throw new DAOException("No puede modificar una actividad de un"
+            + " proyecto colaborativo que no está en curso", Status.WARNING);
         }
         return result;
     }
@@ -144,8 +158,8 @@ public class AssignmentDAO implements IAssignment {
     private int updateAssignmentPrivate(Assignment assignment) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String statement = "update Actividad set nombere = ?,"
-                + " descripcion = ?, fecha = NOW() where idActividad = ?)";
+        String statement = "update Actividad set nombre = ?,"
+                + " descripcion = ?, fecha = NOW() where idActividad = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         int rowsAffected = -1;
 
@@ -159,8 +173,8 @@ public class AssignmentDAO implements IAssignment {
 
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(AssignmentDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible actualizar la actividad", Status.WARNING);
+            Log.getLogger(AssignmentDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible actualizar la actividad", Status.ERROR);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -170,20 +184,25 @@ public class AssignmentDAO implements IAssignment {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(AssignmentDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(AssignmentDAO.class).error(exception.getMessage(), exception);
             }
         }
         return rowsAffected;
     }
 
     @Override
-    public int deleteAssignment(int idAssignment, CollaborativeProject collaborativeProject) throws DAOException {
+    public int deleteAssignment(int idAssignment, CollaborativeProject collaborativeProject)
+    throws DAOException {
         int result = -1;
-
-        if (collaborativeProject.getStatus().equals("Aceptado")) {
+        CollaborativeProjectDAO collaborativeProjectDAO = new CollaborativeProjectDAO();
+        
+        if (collaborativeProjectDAO.checkCollaborativeProjectStatus
+        (collaborativeProject).equals("Aceptado")) {
             result = deleteAssignmentByIdAssignment(idAssignment);
         } else {
-            throw new DAOException("No puede eliminar una actividad de un proyecto colaborativo finalizado", Status.WARNING);
+            throw new DAOException
+            ("No puede eliminar una actividad de un"
+            + " proyecto colaborativo que no está en curso", Status.WARNING);
         }
         return result;
     }
@@ -203,8 +222,8 @@ public class AssignmentDAO implements IAssignment {
 
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            Logger.getLogger(AssignmentDAO.class.getName()).log(Level.SEVERE, null, exception);
-            throw new DAOException("No fue posible eliminar la actividad", Status.WARNING);
+            Log.getLogger(AssignmentDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible eliminar la actividad", Status.ERROR);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -214,7 +233,7 @@ public class AssignmentDAO implements IAssignment {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(AssignmentDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(AssignmentDAO.class).error(exception.getMessage(), exception);
             }
         }
         return rowsAffected;

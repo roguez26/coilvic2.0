@@ -72,7 +72,7 @@ public class ProfessorCourseManagementController implements Initializable {
     
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {        
+    public void initialize(URL URL, ResourceBundle resourceBundle) {        
     }
     
         
@@ -262,10 +262,10 @@ public class ProfessorCourseManagementController implements Initializable {
                 case ERROR ->
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/ ");
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(NotifyProfessorController.class).error(exception.getMessage(), exception);
+            Log.getLogger(ProfessorCourseManagementController.class).error(ioException.getMessage(), ioException);
         }
     }
 }

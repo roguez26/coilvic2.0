@@ -60,9 +60,7 @@ public class UpdateUniversityController implements Initializable {
 
     @FXML
     private Button updateButton;
-
-    private final ICountry COUNTRY_DAO = new CountryDAO();
-    private final IUniversity UNIVERSITY_DAO = new UniversityDAO();
+    
     @FXML
     private University university;
 
@@ -89,10 +87,11 @@ public class UpdateUniversityController implements Initializable {
     }
 
     private void initializeUniversityCombobox() {
+        ICountry countryDAO = new CountryDAO();
         ArrayList<Country> countries = new ArrayList<>();
 
         try {
-            countries = COUNTRY_DAO.getAllCountries();
+            countries = countryDAO.getAllCountries();
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -110,7 +109,7 @@ public class UpdateUniversityController implements Initializable {
             if (isDifferent() && updateConfirmation()) {
                 invokeUpdateUniversity();
             }
-            back();
+            goBack();
         } catch (IllegalArgumentException exception) {
             handleValidationException(exception);
         } catch (DAOException exception) {
@@ -175,24 +174,30 @@ public class UpdateUniversityController implements Initializable {
     }
 
     private void invokeUpdateUniversity() throws DAOException {
+        IUniversity universityDAO = new UniversityDAO();
         int result;
-        result = UNIVERSITY_DAO.updateUniversity(initializeNewUniversity());
+        result = universityDAO.updateUniversity(initializeNewUniversity());
         if (result > 0) {
             wasUpdatedConfirmation();
         }
     }
 
-    private void invokeDeleteUniversity(University university) throws DAOException, IOException {
+    private void invokeDeleteUniversity(University university) throws DAOException {
+        IUniversity universityDAO = new UniversityDAO();
         int result;
-        result = UNIVERSITY_DAO.deleteUniversity(university.getIdUniversity());
+        result = universityDAO.deleteUniversity(university.getIdUniversity());
         if (result > 0) {
             wasDeletedConfirmation();
-            back();
+            goBack();
         }
     }
 
-    private void back() throws IOException {
-        MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+    private void goBack() {
+        try {
+             MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+        } catch (IOException exception) {
+            Log.getLogger(UpdateUniversityController.class).error(exception.getMessage(), exception);
+        }   
     }
 
     private boolean updateConfirmation() {
@@ -224,13 +229,13 @@ public class UpdateUniversityController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                    goBack();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
 
             }
         } catch (IOException ioException) {
-            Log.getLogger(UpdateUniversityController.class).error(exception.getMessage(), exception);
+            Log.getLogger(UpdateUniversityController.class).error(ioException.getMessage(), ioException);
         }
     }
 }

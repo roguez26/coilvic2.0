@@ -5,8 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import log.Log;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
@@ -31,8 +30,6 @@ public class LanguageDAO implements ILanguage {
 
         if (!checkNameDuplicate(language)) {
             result = updateLanguagePrivate(language);
-        } else {
-            throw new DAOException("El idioma ya esta registrado", Status.ERROR);
         }
         return result;          
     }    
@@ -53,7 +50,7 @@ public class LanguageDAO implements ILanguage {
             
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
-            Logger.getLogger(LanguageDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(LanguageDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible eliminar el idioma", Status.ERROR);
         } finally {            
             try {
@@ -64,7 +61,7 @@ public class LanguageDAO implements ILanguage {
                     connection.close();
                 }               
             } catch (SQLException exception) {
-                Logger.getLogger(LanguageDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(LanguageDAO.class).error(exception.getMessage(), exception);
             }
         } 
         return result;
@@ -91,7 +88,7 @@ public class LanguageDAO implements ILanguage {
                 language.setName(resultSet.getString("nombre"));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(LanguageDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(LanguageDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener el idioma", Status.ERROR);
         } finally {
             try {
@@ -105,7 +102,7 @@ public class LanguageDAO implements ILanguage {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(LanguageDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(LanguageDAO.class).error(exception.getMessage(), exception);
             }
         }
         return language;
@@ -132,7 +129,7 @@ public class LanguageDAO implements ILanguage {
                 language.setName(resultSet.getString("nombre"));
             }
         } catch (SQLException exception) {
-            Logger.getLogger(LanguageDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(LanguageDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener el idioma", Status.ERROR);
         } finally {
             try {
@@ -146,7 +143,7 @@ public class LanguageDAO implements ILanguage {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(LanguageDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(LanguageDAO.class).error(exception.getMessage(), exception);
             }
         }
         return language;
@@ -172,7 +169,7 @@ public class LanguageDAO implements ILanguage {
                 languages.add(language);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(LanguageDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(LanguageDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible obtener los idiomas", Status.ERROR);
         } finally {
             try {
@@ -186,7 +183,7 @@ public class LanguageDAO implements ILanguage {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(LanguageDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(LanguageDAO.class).error(exception.getMessage(), exception);
             }
         }
         return languages;
@@ -200,7 +197,8 @@ public class LanguageDAO implements ILanguage {
             auxLanguage = getLanguageByName(language.getName());
             idLanguage = auxLanguage.getIdLanguage();
         } catch (DAOException exception) {
-            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", Status.ERROR);
+            throw new DAOException
+            ("No fue posible realizar la validacion, intente registrar mas tarde", Status.WARNING);
         }
         if (idLanguage != language.getIdLanguage() && idLanguage > 0) {
             throw new DAOException("El idioma ya se encuentra registrado", Status.WARNING);
@@ -228,7 +226,7 @@ public class LanguageDAO implements ILanguage {
                 result = resultSet.getInt(1);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(LanguageDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(LanguageDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible registrar el idioma", Status.ERROR);
         } finally {
             try {
@@ -242,7 +240,7 @@ public class LanguageDAO implements ILanguage {
                     connection.close();
                 }               
             } catch (SQLException exception) {
-                Logger.getLogger(LanguageDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(LanguageDAO.class).error(exception.getMessage(), exception);
             }
         }
         return result;
@@ -264,7 +262,7 @@ public class LanguageDAO implements ILanguage {
             
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
-            Logger.getLogger(LanguageDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(LanguageDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible actualizar el idioma", Status.ERROR);
         } finally {
             try {
@@ -275,7 +273,7 @@ public class LanguageDAO implements ILanguage {
                     connection.close();
                 }               
             } catch (SQLException exception) {
-                Logger.getLogger(LanguageDAO.class.getName()).log(Level.SEVERE, null, exception);
+                Log.getLogger(LanguageDAO.class).error(exception.getMessage(), exception);
             }
         }
         return result;

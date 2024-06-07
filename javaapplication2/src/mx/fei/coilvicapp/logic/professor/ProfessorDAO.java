@@ -474,9 +474,25 @@ public class ProfessorDAO implements IProfessor {
             Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible aceptar al profesor", Status.ERROR);
         } catch (MessagingException exception) { 
-            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
+            undoValidateProfessor(professor);
             throw new DAOException("No fue posible mandar el correo", Status.ERROR);
         }
+        return result;
+    }
+    
+    private int undoValidateProfessor(Professor professor) throws DAOException {
+        int result = 0;
+        DatabaseManager databaseManager = new DatabaseManager();
+        String statement = "UPDATE profesor set estado = 'Pendiente' where idProfesor = ?;";
+        
+        try (Connection connection = databaseManager.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+            preparedStatement.setInt(1, professor.getIdProfessor());
+            result = preparedStatement.executeUpdate(); 
+        } catch (SQLException exception) {
+            Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible rechazar al profesor", Status.ERROR);
+        } 
         return result;
     }
     
@@ -575,10 +591,13 @@ public class ProfessorDAO implements IProfessor {
     }
     
     private void invokeSendEmail(Professor professor) throws DAOException, MessagingException {
-        EmailSenderDAO emailSenderDAO = new EmailSenderDAO();
         EmailSender emailSender = initializeEmailSender(professor);
-        emailSender.createEmail();
-        emailSender.sendEmail();
+        if (emailSender.createEmail()) {
+            emailSender.sendEmail();
+        } else {
+            throw new MessagingException("El correo no pudo ser creado");
+        }
+        
     }
 
     private EmailSender initializeEmailSender(Professor professor) {

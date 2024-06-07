@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeprojectrequest.*;
 import mx.fei.coilvicapp.logic.course.*;
@@ -300,11 +301,11 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
                         courseOffersOrProposalsManagementController.setProfessor(professor);
                     } 
                 }               
-                case FATAL -> MainApp.changeView("/main/MainApp");
+                case FATAL -> MainApp.handleFatal();
                 
             }
         } catch (IOException ioException) {
-            
+            Log.getLogger(RegisterCollaborativeProjectController.class).error(ioException.getMessage(), exception);
         }
     }
     

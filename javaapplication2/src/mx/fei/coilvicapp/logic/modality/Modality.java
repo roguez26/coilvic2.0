@@ -33,15 +33,15 @@ public class Modality {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    public boolean equals(Object object) {
+        boolean isEqual = false;
+        if (this == object) {
+            isEqual = true;
+        } else if (object != null && getClass() == object.getClass()) {
+            Modality toCompare = (Modality) object;
+            isEqual = idModality == toCompare.idModality && Objects.equals(name, toCompare.name);
         }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        Modality toCompare = (Modality) obj;
-        return idModality == toCompare.idModality && Objects.equals(name, toCompare.name);
+        return isEqual;
     }
 
     @Override

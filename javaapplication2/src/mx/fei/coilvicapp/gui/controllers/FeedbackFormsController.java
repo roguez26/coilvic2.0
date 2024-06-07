@@ -70,14 +70,10 @@ public class FeedbackFormsController implements Initializable {
 
     @FXML
     private ComboBox<String> typeCombobox;
-    private final IFeedback FEEDBACK_DAO = new FeedbackDAO();
-    private ArrayList<Question> professorQuestions = new ArrayList<>();
-    private ArrayList<Question> studentQuestions = new ArrayList<>();
     private Question selectedQuestion = null;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-        initializeQuestions();
         initializeQuestionsTable();
     }
 
@@ -85,8 +81,14 @@ public class FeedbackFormsController implements Initializable {
         studentQuestionsTableColumn.setCellValueFactory(new PropertyValueFactory<>("questionText"));
         typeTableColumn.setCellValueFactory(new PropertyValueFactory<>("questionType"));
         professorQuestionsTableColumn.setCellValueFactory(new PropertyValueFactory<>("questionText"));
-        studentQuestionsTableView.getItems().addAll(studentQuestions);
-        professorQuestionsTableView.getItems().addAll(professorQuestions);
+
+        try {
+            studentQuestionsTableView.getItems().addAll(initializeStudentQuestions());
+            professorQuestionsTableView.getItems().addAll(initializeProfessorQuestions());
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
+
         ObservableList<String> types = FXCollections.observableArrayList(
                 "Profesor", "Estudiante-PRE", "Estudiante-POST");
 
@@ -107,13 +109,22 @@ public class FeedbackFormsController implements Initializable {
                 });
     }
 
-    private void initializeQuestions() {
-        try {
-            professorQuestions = FEEDBACK_DAO.getQuestionByType("Profesor");
-            studentQuestions = FEEDBACK_DAO.getQuestionByType("Estudiante");
-        } catch (DAOException exception) {
-            handleDAOException(exception);
-        }
+    private ArrayList<Question> initializeStudentQuestions() throws DAOException {
+        ArrayList<Question> studentQuestions;
+        IFeedback feedbackDAO = new FeedbackDAO();
+
+        studentQuestions = feedbackDAO.getQuestionByType("Estudiante");
+
+        return studentQuestions;
+    }
+
+    private ArrayList<Question> initializeProfessorQuestions() throws DAOException {
+        ArrayList<Question> professorQuestions;
+        IFeedback feedbackDAO = new FeedbackDAO();
+
+        professorQuestions = feedbackDAO.getQuestionByType("Profesor");
+
+        return professorQuestions;
     }
 
     @FXML
@@ -139,8 +150,9 @@ public class FeedbackFormsController implements Initializable {
     }
 
     private void invokeRegisterQuestion() throws DAOException {
+        IFeedback feedbackDAO = new FeedbackDAO();
         Question question = initializeQuestion();
-        int idQuestion = FEEDBACK_DAO.registerQuestion(question);
+        int idQuestion = feedbackDAO.registerQuestion(question);
         if (idQuestion > 0) {
             DialogController.getInformativeConfirmationDialog("Pregunta añadida",
                     "La pregunta se agregó con éxito");
@@ -154,11 +166,11 @@ public class FeedbackFormsController implements Initializable {
     }
 
     private void invokeUpdateQuestion() throws DAOException {
+        IFeedback feedbackDAO = new FeedbackDAO();
         Question newQuestion = initializeQuestion();
         newQuestion.setIdQuestion(selectedQuestion.getIdQuestion());
         if (!newQuestion.equals(selectedQuestion)) {
-            System.out.println(newQuestion.getIdQuestion());
-            if (FEEDBACK_DAO.updateQuestionTransaction(newQuestion) > 0) {
+            if (feedbackDAO.updateQuestionTransaction(newQuestion) > 0) {
                 DialogController.getInformativeConfirmationDialog("Pregunta actualizada",
                         "La pregunta se actualizó con éxito");
                 updateTableViewForUpdate(newQuestion, selectedQuestion);
@@ -197,6 +209,11 @@ public class FeedbackFormsController implements Initializable {
 
     @FXML
     void backButtonIsPressed(ActionEvent event) {
+        goBack();
+    }
+
+    @FXML
+    private void goBack() {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
         } catch (IOException exception) {
@@ -238,8 +255,9 @@ public class FeedbackFormsController implements Initializable {
         selectedQuestion = getSelectedQuestion();
         if (selectedQuestion.getIdQuestion() > 0) {
             if (confirmDelete()) {
+                IFeedback feedbackDAO = new FeedbackDAO();
                 try {
-                    FEEDBACK_DAO.deleteQuestion(selectedQuestion);
+                    feedbackDAO.deleteQuestion(selectedQuestion);
                     updateTableViewForDelete();
                 } catch (DAOException exception) {
                     handleDAOException(exception);
@@ -280,12 +298,12 @@ public class FeedbackFormsController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
+                    goBack();
                 case FATAL ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(FeedbackFormsController.class).error(exception.getMessage(), exception);
+            Log.getLogger(FeedbackFormsController.class).error(ioException.getMessage(), ioException);
         }
     }
 

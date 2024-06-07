@@ -47,29 +47,31 @@ public class RegisterUniversityController implements Initializable {
     @FXML
     private ComboBox<Country> countryCombobox;
 
-    private final ICountry CountryDAO = new CountryDAO();
-    private final IUniversity UniversityDAO = new UniversityDAO();
-
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
+        ICountry countryDAO = new CountryDAO();
         ArrayList<Country> countries = new ArrayList<>();
         try {
-            countries = CountryDAO.getAllCountries();
+            countries = countryDAO.getAllCountries();
         } catch (DAOException exception) {
-
+            handleDAOException(exception);
         }
         countryCombobox.setItems(FXCollections.observableArrayList(countries));
     }
 
     @FXML
-    private void cancelButtonIsPressed(ActionEvent event) throws IOException {
-        if (textFieldsAreCleaned() || confirmCancelation()) {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+    private void cancelButtonIsPressed(ActionEvent event) {
+        if (confirmCancelation()) {
+            goBack();
         }
     }
-
-    private boolean textFieldsAreCleaned() {
-        return nameTextField.getText().equals("") && acronymTextField.getText().equals("") && jurisdictionTextField.getText().equals("") && cityTextField.getText().equals("");
+    
+    private void goBack() {
+        try {
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+        } catch (IOException exception) {
+            Log.getLogger(RegisterUniversityController.class).error(exception.getMessage(), exception);
+        }
     }
 
     private boolean confirmCancelation() {
@@ -96,6 +98,7 @@ public class RegisterUniversityController implements Initializable {
     private void invokeUniversityRegistration() throws DAOException {
         University university = initializeUniversity();
         if (confirmRegistration()) {
+            IUniversity UniversityDAO = new UniversityDAO();
             if (UniversityDAO.registerUniversity(university) > 0) {
                 DialogController.getInformativeConfirmationDialog("Registrada", "La universidad fue registrada con exito");
                 cleanFields();
@@ -126,9 +129,9 @@ public class RegisterUniversityController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                    goBack();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
             Log.getLogger(RegisterUniversityController.class).error(ioException.getMessage(), ioException);

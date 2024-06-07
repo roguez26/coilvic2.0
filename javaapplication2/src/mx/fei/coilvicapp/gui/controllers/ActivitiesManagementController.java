@@ -50,7 +50,6 @@ public class ActivitiesManagementController implements Initializable {
     private Button seeActivityButton;
     
     private CollaborativeProject collaborativeProject;
-    private final IAssignment ASSIGNMENT_DAO = new AssignmentDAO();
     private Professor professorSession;
     private boolean justVisibleMode;
 
@@ -132,10 +131,11 @@ public class ActivitiesManagementController implements Initializable {
     }
 
     private void fillActivitiesTable(CollaborativeProject collaborativeProject) {
+        IAssignment assignmentDAO = new AssignmentDAO();
         ArrayList<Assignment> assignmentsList = new ArrayList<>();
         activitiesTableView.getItems().clear();
         try {
-            assignmentsList = ASSIGNMENT_DAO.getAssignmentsByIdProjectColaborative(collaborativeProject.getIdCollaborativeProject());
+            assignmentsList = assignmentDAO.getAssignmentsByIdProjectColaborative(collaborativeProject.getIdCollaborativeProject());
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -147,12 +147,12 @@ public class ActivitiesManagementController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
+                    goBack();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(ActivitiesManagementController.class).error(exception.getMessage(), exception);
+            Log.getLogger(ActivitiesManagementController.class).error(ioException.getMessage(), ioException);
         }
     }
 }
