@@ -1,12 +1,16 @@
 package mx.fei.coilvicapp.logic.hiringtype;
+
+import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
-import java.util.List;
 
 public interface IHiringType {
     
-    public int insertHiringType(HiringType hiringType) throws DAOException;
-    public int updateHiringType(String newHiringType, String hiringTypeName) throws DAOException;
-    public int deleteHiringType(String hiringTypeName) throws DAOException;
-    public List<String> getHiringTypes() throws DAOException;
+    public boolean isThereAtLeastOneHiringType() throws DAOException;
+    public int registerHiringType(HiringType hiringType) throws DAOException;
+    public int updateHiringType(HiringType newHiringTypeInformation) throws DAOException;
+    public int deleteHiringType(int idHiringType) throws DAOException;
+    public HiringType getHiringTypeByName(String hiringTypeName) throws DAOException;
+    public HiringType getHiringTypeById(int IdHiringType) throws DAOException;
+    public ArrayList<HiringType> getHiringTypes() throws DAOException;
     
 }

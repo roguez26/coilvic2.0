@@ -1,0 +1,6 @@
+.label {
+    -fx-font-size: 20px; /* Tamaño de fuente */
+    -fx-font-family: "Roboto";
+    -fx-text-fill: rgb(0, 0, 0); /* Color de texto blanco */
+    -fx-font-weight: bold; /* Texto en negrita */
+}

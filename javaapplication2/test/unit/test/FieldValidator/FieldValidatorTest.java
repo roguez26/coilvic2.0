@@ -1,13 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package unit.test.FieldValidator;
 
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThrows;
 import org.junit.Test;
 
 /**
@@ -24,11 +21,54 @@ public class FieldValidatorTest {
 
     @Test
     public void testCheckNameSuccess() {
-        String validName = "Jorge Luis";
+        String validName = "Alejandro A-";
+        IllegalArgumentException illegalArgumentException = null;
+
+        try {
+            FIELD_VALIDATOR.checkName(validName);
+        } catch (IllegalArgumentException exception) {
+            illegalArgumentException = exception;
+            Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
+        }
+        assertTrue(illegalArgumentException == null);
+    }
+    
+    @Test
+    public void testCheckNameFailByNoAllowedSignsAtTheEnd() {
+        String invalidName = "Alejandro A-"; 
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FIELD_VALIDATOR.checkName(invalidName));
+        System.out.println(exception.getMessage());
+    }
+    
+    @Test
+    public void testCheckNameFailByNoAllowedSigns() {
+        String invalidName = "Alej4ndro"; 
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FIELD_VALIDATOR.checkName(invalidName));
+        System.out.println(exception.getMessage());
+    }
+    
+    @Test
+    public void testCheckNameFailByRepeatedCharacters() {
+        String invalidName = "Diannnna"; 
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FIELD_VALIDATOR.checkName(invalidName));
+        System.out.println(exception.getMessage());
+    }
+    
+    @Test
+    public void testCheckNameFailByRepeatedSigns() {
+        String invalidName = "Tomás-. Marcos"; 
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FIELD_VALIDATOR.checkName(invalidName));
+        System.out.println(exception.getMessage());
+    }
+
+    @Test
+    public void testCheckNameFailByNull() {
+        String nullName = null;
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkName(validName);
+            FIELD_VALIDATOR.checkName(nullName);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -41,7 +81,8 @@ public class FieldValidatorTest {
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkPhoneNumber(validPhoneNumber);
+            FIELD_VALIDATOR.checkPhoneNumber(validPhoneNumber);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -54,7 +95,8 @@ public class FieldValidatorTest {
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkEmail(validEmail);
+            FIELD_VALIDATOR.checkEmail(validEmail);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -67,7 +109,8 @@ public class FieldValidatorTest {
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkName(tooShortName);
+            FIELD_VALIDATOR.checkName(tooShortName);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -80,7 +123,8 @@ public class FieldValidatorTest {
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkName(tooLongName);
+            FIELD_VALIDATOR.checkName(tooLongName);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -93,7 +137,8 @@ public class FieldValidatorTest {
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkName(NameWithSigns);
+            FIELD_VALIDATOR.checkName(NameWithSigns);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -106,7 +151,8 @@ public class FieldValidatorTest {
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkName(NameWithBlankSpaces);
+            FIELD_VALIDATOR.checkName(NameWithBlankSpaces);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -119,7 +165,8 @@ public class FieldValidatorTest {
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkName(NameWithOnlySpaces);
+            FIELD_VALIDATOR.checkName(NameWithOnlySpaces);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -132,7 +179,8 @@ public class FieldValidatorTest {
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkPhoneNumber(validPhoneNumber);
+            FIELD_VALIDATOR.checkPhoneNumber(validPhoneNumber);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -145,7 +193,8 @@ public class FieldValidatorTest {
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkPhoneNumber(PhoneNumberWithSigns);
+            FIELD_VALIDATOR.checkPhoneNumber(PhoneNumberWithSigns);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -158,7 +207,8 @@ public class FieldValidatorTest {
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkPhoneNumber(tooLongPhoneNumber);
+            FIELD_VALIDATOR.checkPhoneNumber(tooLongPhoneNumber);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -171,7 +221,8 @@ public class FieldValidatorTest {
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkPhoneNumber(PhoneNumberWithSpaces);
+            FIELD_VALIDATOR.checkPhoneNumber(PhoneNumberWithSpaces);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -184,76 +235,82 @@ public class FieldValidatorTest {
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkEmail(tooLongEmail);
+            FIELD_VALIDATOR.checkEmail(tooLongEmail);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         assertTrue(result);
     }
-    
+
     @Test
     public void testCheckEmailFailByTooShort() {
         String toShortEmail = "@";
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkEmail(toShortEmail);
+            FIELD_VALIDATOR.checkEmail(toShortEmail);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         assertTrue(result);
     }
-    
+
     @Test
     public void testCheckEmailFailByNoDomain() {
         String EmailWithoutDomain = "mi_correo@";
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkEmail(EmailWithoutDomain);
+            FIELD_VALIDATOR.checkEmail(EmailWithoutDomain);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         assertTrue(result);
     }
-    
+
     @Test
     public void testCheckEmailFailByMoreThanOneAtSing() {
         String EmailWithMoreThanAtSing = "correo_ejemplo@@gmail.com";
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkEmail(EmailWithMoreThanAtSing);
+            FIELD_VALIDATOR.checkEmail(EmailWithMoreThanAtSing);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         assertTrue(result);
     }
-    
+
     @Test
     public void testCheckEmailFailByNoAtSing() {
         String EmailWithoutAtSign = "correo_ejemplogmail.com";
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkEmail(EmailWithoutAtSign);
+            FIELD_VALIDATOR.checkEmail(EmailWithoutAtSign);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         assertTrue(result);
     }
-    
+
     @Test
     public void testCheckEmailFailByBlankSpaces() {
         String EmailWithBlankSpaces = "correo ejemplo@gmail.com";
         boolean result = false;
 
         try {
-            result = FIELD_VALIDATOR.checkEmail(EmailWithBlankSpaces);
+            FIELD_VALIDATOR.checkEmail(EmailWithBlankSpaces);
+            result = true;
         } catch (IllegalArgumentException exception) {
             Logger.getLogger(FieldValidatorTest.class.getName()).log(Level.SEVERE, null, exception);
         }
         assertTrue(result);
-    }    
-    
+    }
+
 }

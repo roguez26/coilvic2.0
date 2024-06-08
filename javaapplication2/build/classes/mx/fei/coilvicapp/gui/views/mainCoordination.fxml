@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="132.0" prefWidth="923.0">
+         <children>
+            <Button mnemonicParsing="false" stylesheets="@../../../../../stylesheets/backButton.css" text="Salir" />
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="472.0" prefWidth="923.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
+         <children>
+            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="180.0" prefWidth="794.0" spacing="50.0">
+               <children>
+                  <Button mnemonicParsing="false" stylesheets="@../../../../../stylesheets/mainOptionButton.css" text="Universidades" />
+                  <Button mnemonicParsing="false" stylesheets="@../../../../../stylesheets/mainOptionButton.css" text="Profesores" />
+               </children>
+            </HBox>
+            <HBox prefHeight="179.0" prefWidth="923.0" />
+         </children>
+      </VBox>
+   </children>
+</VBox>

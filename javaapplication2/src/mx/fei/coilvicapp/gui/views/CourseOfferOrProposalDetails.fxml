@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.CourseOfferOrProposalDetailsController">
+   <children>
+      <HBox alignment="CENTER_RIGHT" prefHeight="75.0" prefWidth="950.0" spacing="300.0">
+         <children>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonIsPressed" stylesheets="@../../../../../stylesheets/backButton.css" text="❮" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="187.0" stylesheets="@../../../../../stylesheets/titleLabel.css" text="Detalles Curso" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="84.0" fitWidth="121.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../stylesheets/Imagen1.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="420.0" prefWidth="950.0" spacing="50.0">
+         <children>
+            <VBox maxWidth="-Infinity" prefHeight="500.0" prefWidth="430.0" spacing="10.0" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
+               <children>
+                  <Label prefHeight="22.0" prefWidth="102.0" stylesheets="@../../../../../stylesheets/label.css" text="Nombre" />
+                  <TextField fx:id="nameCourseTextField" editable="false" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label prefHeight="23.0" prefWidth="145.0" stylesheets="@../../../../../stylesheets/label.css" text="Objetivo General" />
+                  <TextArea fx:id="generalObjectiveTextArea" editable="false" prefHeight="139.0" prefWidth="401.0" styleClass="text-area" stylesheets="@../../../../../stylesheets/textArea.css" />
+                  <Label prefHeight="22.0" prefWidth="123.0" stylesheets="@../../../../../stylesheets/label.css" text="Temas de Interés" />
+                  <TextField fx:id="topicsInterestTextField" editable="false" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <HBox prefHeight="58.0" prefWidth="500.0" spacing="65.0">
+                     <children>
+                        <VBox maxWidth="-Infinity" prefHeight="54.0" prefWidth="219.0" spacing="10.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="151.0" stylesheets="@../../../../../stylesheets/label.css" text="Número de Estudiantes" />
+                              <TextField fx:id="numberStudentsTextField" editable="false" maxWidth="-Infinity" prefHeight="12.0" prefWidth="170.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="460.0" layoutY="10.0" maxWidth="-Infinity" prefHeight="54.0" prefWidth="192.0" spacing="10.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/label.css" text="Idioma" />
+                              <TextField fx:id="languageTextField" editable="false" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="12.0" prefWidth="170.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <Label prefHeight="17.0" prefWidth="109.0" stylesheets="@../../../../../stylesheets/label.css" text="Perfil Estudiantes" />
+                  <TextField fx:id="studentsProfileTextField" editable="false" layoutX="10.0" layoutY="37.0" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label prefHeight="17.0" prefWidth="137.0" stylesheets="@../../../../../stylesheets/label.css" text="Información Adicional" />
+                  <TextArea fx:id="additionalInformationTextArea" editable="false" layoutX="10.0" layoutY="101.0" prefHeight="139.0" prefWidth="401.0" styleClass="text-area" stylesheets="@../../../../../stylesheets/textArea.css" />
+                  <Label layoutX="10.0" layoutY="377.0" prefHeight="17.0" prefWidth="137.0" stylesheets="@../../../../../stylesheets/label.css" text="Periodo" />
+                  <TextField fx:id="termTextField" editable="false" layoutX="10.0" layoutY="327.0" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" maxWidth="-Infinity" prefHeight="500.0" prefWidth="430.0" spacing="10.0" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
+               <children>
+                  <Label prefHeight="22.0" prefWidth="102.0" stylesheets="@../../../../../stylesheets/label.css" text="Nombre" />
+                  <TextField fx:id="nameProfessorTextField" editable="false" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label prefHeight="23.0" prefWidth="145.0" stylesheets="@../../../../../stylesheets/label.css" text="Apellido Paterno" />
+                  <TextField fx:id="paternalSurnameTextField" editable="false" layoutX="10.0" layoutY="327.0" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label prefHeight="22.0" prefWidth="123.0" stylesheets="@../../../../../stylesheets/label.css" text="Apellido Materno" />
+                  <TextField fx:id="maternalSurnameTextField" editable="false" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label prefHeight="17.0" prefWidth="109.0" stylesheets="@../../../../../stylesheets/label.css" text="Correo" />
+                  <TextField fx:id="emailTextField" editable="false" layoutX="10.0" layoutY="37.0" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label prefHeight="17.0" prefWidth="137.0" stylesheets="@../../../../../stylesheets/label.css" text="Telefono" />
+                  <TextField fx:id="phoneNumberTextField" editable="false" layoutX="10.0" layoutY="242.0" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label layoutX="10.0" layoutY="377.0" prefHeight="17.0" prefWidth="137.0" stylesheets="@../../../../../stylesheets/label.css" text="Genero" />
+                  <TextField fx:id="genderTextField" editable="false" layoutX="10.0" layoutY="305.0" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label layoutX="10.0" layoutY="100.0" prefHeight="22.0" prefWidth="123.0" stylesheets="@../../../../../stylesheets/label.css" text="Universidad" />
+                  <TextField fx:id="universityTextField" editable="false" layoutX="10.0" layoutY="305.0" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label layoutX="10.0" layoutY="341.0" prefHeight="17.0" prefWidth="137.0" stylesheets="@../../../../../stylesheets/label.css" text="Pais" />
+                  <TextField fx:id="countryTextField" editable="false" layoutX="10.0" layoutY="436.0" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="75.0" prefWidth="910.0" spacing="80.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="98.0" prefWidth="265.0">
+               <children>
+                  <VBox maxHeight="-Infinity" prefHeight="83.0" prefWidth="250.0" spacing="3.0">
+                     <children>
+                        <Label fx:id="acceptedCoursesLabel" layoutX="10.0" layoutY="10.0" prefHeight="22.0" prefWidth="160.0" stylesheets="@../../../../../stylesheets/label.css" text="Curso para colaborar" visible="false" />
+                        <ComboBox fx:id="acceptedCoursesComboBox" prefHeight="27.0" prefWidth="265.0" stylesheets="@../../../../../stylesheets/combobox.css" visible="false" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" minWidth="-Infinity" prefHeight="98.0" prefWidth="250.0" spacing="30.0">
+               <children>
+                  <Button fx:id="sendRequestButton" lineSpacing="40.0" minWidth="90.0" mnemonicParsing="false" onAction="#sendRequestButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Enviar Solicitud" visible="false" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" layoutX="670.0" layoutY="10.0" minWidth="-Infinity" prefHeight="98.0" prefWidth="250.0" spacing="30.0">
+               <children>
+                  <Button fx:id="rejectButton" mnemonicParsing="false" onAction="#rejectButtonIsPressed" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Rechazar" visible="false" />
+                  <Button fx:id="acceptButton" layoutX="170.0" layoutY="46.0" lineSpacing="40.0" minWidth="90.0" mnemonicParsing="false" onAction="#acceptButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" visible="false" />
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>
