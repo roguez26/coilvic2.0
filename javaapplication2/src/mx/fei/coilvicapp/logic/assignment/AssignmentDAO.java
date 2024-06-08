@@ -158,7 +158,7 @@ public class AssignmentDAO implements IAssignment {
     private int updateAssignmentPrivate(Assignment assignment) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String statement = "update Actividad set nombre = ?,"
+        String statement = "update Actividad set nombre = ?, ruta = ?,"
                 + " descripcion = ?, fecha = NOW() where idActividad = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         int rowsAffected = -1;
@@ -168,8 +168,9 @@ public class AssignmentDAO implements IAssignment {
             preparedStatement = connection.prepareStatement(statement);
 
             preparedStatement.setString(1, assignment.getName());
-            preparedStatement.setString(2, assignment.getDescription());
-            preparedStatement.setInt(3, assignment.getIdAssignment());
+            preparedStatement.setString(2, assignment.getPath());
+            preparedStatement.setString(3, assignment.getDescription());
+            preparedStatement.setInt(4, assignment.getIdAssignment());
 
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
