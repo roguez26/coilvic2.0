@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="roguez" name="unit.test.AssignmentDAO.AssignmentRegistrationTest" skipped="0" tests="1" time="1.915" timestamp="2024-06-08T01:10:40">
+<testsuite errors="0" failures="0" hostname="roguez" name="unit.test.EmailSenderDAO.EmailSenderTest" skipped="0" tests="1" time="0.233" timestamp="2024-06-07T23:56:20">
   <properties>
     <property name="" value="======" />
     <property name="libs.spring-framework300.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\org-apache-commons-logging.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\cglib-2.2.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aop-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aspects-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-beans-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-support-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-core-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-expression-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-tomcat-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jdbc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jms-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-orm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-oxm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-struts-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-test-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-tx-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-web-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-portlet-3.2.18.RELEASE.jar" />
@@ -23,7 +23,7 @@
     <property name="libs.JWSAntTasks.javadoc" value="" />
     <property name="file.reference.log4j-1.2.17.jar" value="C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar" />
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.AssignmentDAO.AssignmentRegistrationTest methods=registerAssignmentSuccess skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.AssignmentDAO.AssignmentRegistrationTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher16063120179932985138.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit10454414595864004712.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.EmailSenderDAO.EmailSenderTest methods=testSendEmailFailByNotCreatedEmail skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.EmailSenderDAO.EmailSenderTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher13489732653892649363.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit13019963114431778975.properties" />
     <property name="jdk.debug" value="release" />
     <property name="libs.spring-framework300.src" value="" />
     <property name="javadoc.use" value="true" />
@@ -253,7 +253,7 @@
     <property name="libs.jsp-compilation.classpath" value="C:\Program Files\NetBeans-19\netbeans\extide\ant\lib\ant.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\servlet4.0-jsp2.3-api.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\glassfish-jspparser-5.1.0.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\jsf-2_2\javax.faces.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\jstl-api.jar;C:\Program Files\NetBeans-19\netbeans\extide\ant\lib\ant-launcher.jar" />
     <property name="file.reference.forms-7.1.4-javadoc.jar" value="C:\Libraries\iText7-Core-7.1.4\forms-7.1.4-javadoc.jar" />
     <property name="libs.javaee-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee-api-6.0.jar" />
-    <property name="javac.includesfile.binary" value="C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\null1470758936" />
+    <property name="javac.includesfile.binary" value="C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\null1900417414" />
     <property name="libs.javaee-api-7.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee-api-7.0.jar" />
     <property name="sun.cpu.isalist" value="amd64" />
     <property name="libs.restapi.maven-pom" value="" />
@@ -405,13 +405,13 @@
     <property name="libs.jakartaee-api-10.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\jakarta.jakartaee-api-10.0.0.jar" />
     <property name="ant.file.CoilVic-impl" value="C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\nbproject\build-impl.xml" />
     <property name="netbeans.user" value="C:\Users\ivanr\AppData\Roaming\NetBeans\19" />
-    <property name="javac.includes.binary" value="C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\classes\unit\test\AssignmentDAO\AssignmentRegistrationTest.class" />
+    <property name="javac.includes.binary" value="C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\classes\unit\test\EmailSenderDAO\EmailSenderTest.class" />
     <property name="file.separator" value="\" />
     <property name="line.separator" value="&#xd;&#xa;" />
     <property name="javadoc.additionalparam" value="" />
     <property name="jnlp.signed" value="false" />
     <property name="libs.spring-webmvc5.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-5\spring-webmvc-5.2.9.RELEASE.jar" />
-    <property name="test.method" value="registerAssignmentSuccess" />
+    <property name="test.method" value="testSendEmailFailByNotCreatedEmail" />
     <property name="libs.restlib.maven-pom" value="" />
     <property name="javac.debug" value="true" />
     <property name="libs.testng.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\testng-6.14.3.jar;C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\jcommander-1.78.jar" />
@@ -452,7 +452,7 @@
     <property name="${file.reference.poi-5.2.3.jar}" value="C:\Libraries\apache-poi\poi-bin-5.2.3\poi-examples-5.2.3.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\poi-excelant-5.2.3.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\poi-javadoc-5.2.3.jar:&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD" />
     <property name="user.properties.file" value="C:\Users\ivanr\AppData\Roaming\NetBeans\19\build.properties" />
     <property name="libs.javaee-api-6.0.src" value="" />
-    <property name="javac.includes" value="unit/test/AssignmentDAO/AssignmentRegistrationTest.java" />
+    <property name="javac.includes" value="unit/test/EmailSenderDAO/EmailSenderTest.java" />
     <property name="netbeans.autoupdate.country" value="MX" />
     <property name="${file.reference.SparseBitSet-1.2.jar}" value="C:\Libraries\apache-poi\poi-bin-5.2.3\lib\commons-codec-1.15.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\lib\commons-collections4-4.4.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\lib\commons-io-2.11.0.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\lib\commons-math3-3.6.1.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\lib\log4j-api-2.18.0.jar:&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD" />
     <property name="file.reference.xmlbeans-5.1.1.jar" value="C:\Libraries\poi-bin-5.2.3\ooxml-lib\xmlbeans-5.1.1.jar" />
@@ -521,7 +521,7 @@
     <property name="libs.jakartaee-web-api-9.0.src" value="" />
     <property name="libs.jakartaee-web-api-10.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\jakarta.jakartaee-web-api-10.0.0.jar" />
     <property name="sun.awt.datatransfer.timeout" value="1000" />
-    <property name="test.class" value="unit.test.AssignmentDAO.AssignmentRegistrationTest" />
+    <property name="test.class" value="unit.test.EmailSenderDAO.EmailSenderTest" />
     <property name="libs.javaee-web-api-7.0.src" value="" />
     <property name="junit.forkmode" value="perTest" />
     <property name="libs.jakartaee-api-8.0.src" value="" />
@@ -529,7 +529,8 @@
     <property name="libs.jsp-compiler.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\ant\extra\jspcompile.jar" />
     <property name="libs.javaee-endorsed-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\javax.annotation.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\jaxb-api-osgi.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\webservices-api-osgi.jar" />
   </properties>
-  <testcase classname="unit.test.AssignmentDAO.AssignmentRegistrationTest" name="registerAssignmentSuccess" time="1.816" />
-  <system-out><![CDATA[]]></system-out>
+  <testcase classname="unit.test.EmailSenderDAO.EmailSenderTest" name="testSendEmailFailByNotCreatedEmail" time="0.029" />
+  <system-out><![CDATA[No fue posible enviar el correo
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

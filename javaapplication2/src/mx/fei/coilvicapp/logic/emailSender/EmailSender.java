@@ -24,11 +24,11 @@ import mx.fei.coilvicapp.logic.professor.Professor;
 public class EmailSender {
 
     private int idEmail;
-    private final String SENDER = "sender";
+    private String sender = "sender";
     private Professor receiver;
     private String subject;
     private String message;
-    private final String PASSWORD = "password";
+    private String password = "password";
 
     private final Properties properties;
     private Session session;
@@ -46,17 +46,17 @@ public class EmailSender {
         properties.setProperty("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         properties.setProperty("mail.smtp.port", "587");
-        properties.setProperty("mail.smtp.user", SENDER);
+        properties.setProperty("mail.smtp.user", sender);
         properties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
         properties.setProperty("mail.smtp.auth", "true");
         session = Session.getDefaultInstance(properties);
 
-        String sender = mailPermisionsFile.getProperty(SENDER);
-        String password = mailPermisionsFile.getProperty(PASSWORD);
-        if (sender != null && password != null) {
+        String senderPermisions = mailPermisionsFile.getProperty(this.sender);
+        String passwordPermisions = mailPermisionsFile.getProperty(this.password);
+        if (senderPermisions != null && passwordPermisions != null) {
             try {
                 mail = new MimeMessage(session);
-                mail.setFrom(new InternetAddress(sender));
+                mail.setFrom(new InternetAddress(senderPermisions));
                 mail.setRecipient(Message.RecipientType.TO, new InternetAddress(receiver.getEmail()));
                 mail.setSubject(subject);
                 mail.setText(message, "ISO-8859-1", "html");
@@ -78,7 +78,7 @@ public class EmailSender {
         if (session != null && mail != null) {
             try {
                 transport = session.getTransport("smtp");
-                transport.connect(permitionsCredential.getProperty(SENDER), permitionsCredential.getProperty(PASSWORD));
+                transport.connect(permitionsCredential.getProperty(sender), permitionsCredential.getProperty(password));
                 transport.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
                 wasSent = true;
             } catch (NoSuchProviderException exception) {
@@ -98,12 +98,14 @@ public class EmailSender {
         if (!wasSent) {
             throw new MessagingException("No fue posible enviar el correo");
         }
-
         return wasSent;
     }
 
-    public void setReceiver(Professor reveiver) {
-        this.receiver = reveiver;
+    public void setReceiver(Professor receiver) {
+        if(receiver == null) {
+            throw new IllegalArgumentException("Es necesario un profesor para realizar la notificación");
+        }
+        this.receiver = receiver;
     }
 
     public void setSubject(String subject) {
@@ -113,6 +115,8 @@ public class EmailSender {
     }
 
     public void setMessage(String message) {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkLongRange(message);
         this.message = message;
     }
 
@@ -138,6 +142,14 @@ public class EmailSender {
 
     public int getIdEmail() {
         return idEmail;
+    }
+    
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     private Properties getPropertiesFile() {
