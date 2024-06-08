@@ -20,7 +20,7 @@ import unit.test.Initializer.TestHelper;
  *
  * @author ivanr
  */
-public class AssignmentRegistrationTest {
+public class AssignmentTest {
     
     private final Assignment ASSIGNMENT_FOR_TESTING = new Assignment();
     private final AssignmentDAO ASSIGNMENT_DAO = new AssignmentDAO();
@@ -41,9 +41,12 @@ public class AssignmentRegistrationTest {
         try {
             assignmentDAO.deleteAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment(), auxCollaborativeProject);
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
+            Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
-        testHelper.deleteAll();
+        if(!ASSGIGNMENTES_FOR_TESTING.isEmpty()) {
+            deleteAssignments();
+        }
+        testHelper.deleteAll();  
     }
 
     @Test
@@ -53,7 +56,7 @@ public class AssignmentRegistrationTest {
             idAssignment = ASSIGNMENT_DAO.registerAssignment(ASSIGNMENT_FOR_TESTING, auxCollaborativeProject);
             ASSIGNMENT_FOR_TESTING.setIdAssignment(idAssignment);
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
+            Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
         assertTrue(idAssignment > 0);
     }
@@ -85,7 +88,7 @@ public class AssignmentRegistrationTest {
             ASSIGNMENT_FOR_TESTING.setIdAssignment(idAssignment);
             result = ASSIGNMENT_DAO.deleteAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment(), auxCollaborativeProject);
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
+            Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
         assertTrue(result > 0);
     }
@@ -118,7 +121,7 @@ public class AssignmentRegistrationTest {
             ASSIGNMENT_FOR_TESTING.setName("Rompehielos dos");
             result = ASSIGNMENT_DAO.updateAssignment(ASSIGNMENT_FOR_TESTING, auxCollaborativeProject);
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
+            Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
         assertTrue(result > 0);
     }
@@ -149,7 +152,7 @@ public class AssignmentRegistrationTest {
         try {
             result = ASSIGNMENT_DAO.getAssignmentsByIdProjectColaborative(auxCollaborativeProject.getIdCollaborativeProject());
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
+            Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
         deleteAssignments();
         assertEquals(ASSGIGNMENTES_FOR_TESTING, result);
@@ -181,7 +184,7 @@ public class AssignmentRegistrationTest {
                 ASSGIGNMENTES_FOR_TESTING.add(assignment);
             }
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
+            Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -191,7 +194,7 @@ public class AssignmentRegistrationTest {
                 ASSIGNMENT_DAO.deleteAssignment(ASSGIGNMENTES_FOR_TESTING.get(i).getIdAssignment(), auxCollaborativeProject);
             }
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
+            Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
     }
 }

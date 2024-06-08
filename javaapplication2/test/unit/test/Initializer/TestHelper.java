@@ -16,11 +16,12 @@ import mx.fei.coilvicapp.logic.modality.Modality;
 import mx.fei.coilvicapp.logic.modality.ModalityDAO;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.professor.ProfessorDAO;
+import mx.fei.coilvicapp.logic.student.Student;
+import mx.fei.coilvicapp.logic.student.StudentDAO;
 import mx.fei.coilvicapp.logic.term.Term;
 import mx.fei.coilvicapp.logic.term.TermDAO;
 import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
-import unit.test.AssignmentDAO.AssignmentRegistrationTest;
 
 /**
  *
@@ -41,6 +42,7 @@ public class TestHelper {
     private Course courseTwo;
     private CollaborativeProjectRequest collaborativeProjectRequest;
     private CollaborativeProject collaborativeProject;
+    private Student student;
 
     public TestHelper() {
         language = new Language();
@@ -56,6 +58,7 @@ public class TestHelper {
         courseTwo = new Course();
         collaborativeProjectRequest = new CollaborativeProjectRequest();
         collaborativeProject = new CollaborativeProject();
+        student = new Student();
 
     }
 
@@ -67,7 +70,7 @@ public class TestHelper {
             language.setIdLanguage(languageDAO.registerLanguage(language));
 
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class
+            Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
         }
     }
@@ -80,7 +83,7 @@ public class TestHelper {
             term.setIdTerm(termDAO.registerTerm(term));
 
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class
+            Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
         }
     }
@@ -93,7 +96,7 @@ public class TestHelper {
             modality.setIdModality(modalityDAO.registerModality(modality));
 
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class
+            Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
         }
     }
@@ -110,7 +113,7 @@ public class TestHelper {
             countryTwo.setIdCountry(countryDAO.registerCountry(countryTwo));
 
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class
+            Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
         }
     }
@@ -134,7 +137,7 @@ public class TestHelper {
             universityTwo.setIdUniversity(universityDAO.registerUniversity(universityTwo));
 
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class
+            Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
         }
     }
@@ -162,7 +165,7 @@ public class TestHelper {
             professorTwo.setIdProfessor(professorDAO.registerProfessor(professorTwo));
 
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class
+            Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
         }
     }
@@ -202,7 +205,7 @@ public class TestHelper {
             courseDAO.evaluateCourseProposal(courseOne, "Aceptado");
 
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class
+            Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
         }
         courseTwo.setStatus("Aceptado");
@@ -222,15 +225,34 @@ public class TestHelper {
             collaborativeProjectRequestDAO.attendCollaborativeProjectRequest(collaborativeProjectRequest, "Aceptado");
 
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class
+            Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
         }
         collaborativeProjectRequest.setStatus("Aceptado");
+    }
+    
+    public void initializeStudent() {
+        StudentDAO studentDAO = new StudentDAO();
+        student.setName("Axel");
+        student.setPaternalSurname("Valdes");
+        student.setMaternalSurname("Contreras");
+        student.setEmail("axlvaldez74@gmail.com");
+        student.setGender("Masculino");
+        student.setLineage("Mexicano");
+        student.setUniversity(universityOne);
+        
+        try {
+            student.setIdStudent(studentDAO.registerStudent(student));
+        } catch (DAOException exception) {
+            Log.getLogger(TestHelper.class
+            ).error(exception.getMessage(), exception);
+        }
     }
 
     public void initializeCollaborativeProject() {
         initializeCollaborativeProjectRequest();
         initializeModality();
+        initializeStudent();
         CollaborativeProjectDAO collaborativeProjectDAO = new CollaborativeProjectDAO();
         collaborativeProject.setName("Programación y Bases de Datos");
         collaborativeProject.setStatus("Aceptado");
@@ -247,7 +269,7 @@ public class TestHelper {
             collaborativeProjectDAO.evaluateCollaborativeProjectProposal(collaborativeProject, "Aceptado");
 
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class
+            Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
         }
         collaborativeProject.setStatus("Aceptado");
@@ -262,6 +284,7 @@ public class TestHelper {
             new CourseDAO().deleteCourseByIdCourse(courseTwo.getIdCourse());
             new LanguageDAO().deleteLanguage(language.getIdLanguage());
             new TermDAO().deleteTerm(term.getIdTerm());
+            new StudentDAO().deleteStudentById(student.getIdStudent());
             new ProfessorDAO().deleteProfessorByID(professorOne.getIdProfessor());
             new ProfessorDAO().deleteProfessorByID(professorTwo.getIdProfessor());
             new UniversityDAO().deleteUniversity(universityOne.getIdUniversity());
@@ -270,7 +293,7 @@ public class TestHelper {
             new CountryDAO().deleteCountry(countryTwo.getIdCountry());
 
         } catch (DAOException exception) {
-            Log.getLogger(AssignmentRegistrationTest.class
+            Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
         }
     }
@@ -377,6 +400,14 @@ public class TestHelper {
 
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
+    }
+    
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+    
+    public Student getStudent() {
+        return student;
     }
 
 }

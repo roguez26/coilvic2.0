@@ -35,4 +35,8 @@ public interface IFeedback {
     public boolean hasCompletedProfessorForm(Professor professor, CollaborativeProject collaborativeProject) throws DAOException;
 
     public ArrayList<Response> getResponsesByQuestionAndIdCollaborativeProject(Question question, int idCollaborativeProject) throws DAOException;
+    
+    public int deleteProfessorResponsesByIdAndIdCollaborativeProject(int idProfessor, int idCollaborativeProject) throws DAOException;
+    
+    public int deleteStudentResponsesByIdAndIdCollaborativeProject(int idProfessor, int idCollaborativeProject) throws DAOException;
 }

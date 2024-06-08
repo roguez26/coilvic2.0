@@ -179,7 +179,27 @@ public class UniversityDAO implements IUniversity {
         ArrayList<University> universitiesList = new ArrayList<>();
         String statement = "SELECT * FROM Universidad";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareCall(statement); ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement 
+                preparedStatement = connection.prepareCall(statement); ResultSet resultSet = 
+                        preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                universitiesList.add(initializeUniversity(resultSet));
+            }
+        } catch (SQLException exception) {
+            Log.getLogger(UniversityDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible obtener las universidades", Status.ERROR);
+        }
+        return universitiesList;
+    }
+    
+    @Override
+    public ArrayList<University> getAvailableUniversities() throws DAOException {
+        ArrayList<University> universitiesList = new ArrayList<>();
+        String statement = "select * from universidad where idUniversidad not in (select idUniversidad from representanteinstitucional)";
+        
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement
+                preparedStatement = connection.prepareCall(statement); ResultSet resultSet = 
+                        preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 universitiesList.add(initializeUniversity(resultSet));
             }
