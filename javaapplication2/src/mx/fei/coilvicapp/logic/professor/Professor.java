@@ -20,6 +20,7 @@ public class Professor {
 
     public Professor() {
         university = new University();
+        user = new User();
     }
 
     public int getIdProfessor() {
