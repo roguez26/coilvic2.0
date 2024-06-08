@@ -38,6 +38,9 @@ public class ActivitiesManagementController implements Initializable {
     private Button backButton;
 
     @FXML
+    private Button editButton;
+
+    @FXML
     private TableColumn<Assignment, String> dateTableColumn;
 
     @FXML
@@ -48,7 +51,7 @@ public class ActivitiesManagementController implements Initializable {
 
     @FXML
     private Button seeActivityButton;
-    
+
     private CollaborativeProject collaborativeProject;
     private Professor professorSession;
     private boolean justVisibleMode;
@@ -84,7 +87,7 @@ public class ActivitiesManagementController implements Initializable {
             if (!justVisibleMode) {
                 collaborativeProjectDetailsProfessorController.setProfessor(professorSession);
             }
-            
+
         } catch (IOException exception) {
             Logger.getLogger(ActivitiesManagementController.class.getName()).log(Level.SEVERE, null, exception);
         }
@@ -108,6 +111,25 @@ public class ActivitiesManagementController implements Initializable {
         }
     }
 
+    @FXML
+    void editButtonIsPressed(ActionEvent event) {
+        Assignment selectedAssignment = activitiesTableView.getSelectionModel().getSelectedItem();
+        if (selectedAssignment != null) {
+            try {
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/UploadAssignment", controller -> {
+                    UploadAssignmentController uploadAssignmentController = (UploadAssignmentController) controller;
+                    uploadAssignmentController.setCollaborativeProject(collaborativeProject);
+                    uploadAssignmentController.setAssignment(selectedAssignment);
+                });
+            } catch (IOException exception) {
+                Log.getLogger(LoginParticipantController.class).error(exception.getMessage(), exception);
+            }
+            fillActivitiesTable(collaborativeProject);
+        } else {
+            DialogController.getInformativeConfirmationDialog("Sin actividad", "Seleccione una actividad para poder ver sus detalles");
+        }
+    }
+
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -125,7 +147,7 @@ public class ActivitiesManagementController implements Initializable {
         this.professorSession = professor;
         addButton.setVisible(true);
     }
-    
+
     public void setJustVisibleMode(boolean isJustVisible) {
         this.justVisibleMode = isJustVisible;
     }

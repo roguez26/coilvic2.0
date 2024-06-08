@@ -147,7 +147,7 @@ public class RegisterCollaborativeProjectController implements Initializable {
             handleIOException(exception);
         } catch (DAOException exception) {
             FileManager fileManager = new FileManager();
-            fileManager.undoSaveAssignment(selectedFile);
+            fileManager.deleteFile(selectedFile);
             handleDAOException(exception);
 
         }
@@ -157,7 +157,7 @@ public class RegisterCollaborativeProjectController implements Initializable {
         ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         CollaborativeProject collaborativeProject = initializeCollaborativeProject();
         if (confirmSave()) {
-            collaborativeProject.setSyllabusPath(fileManager.saveAssignment());
+            collaborativeProject.setSyllabusPath(fileManager.saveFile());
 
             if (collaborativeProjectDAO.registerCollaborativeProject(collaborativeProject, selectedRequest) > 0)  {
                 DialogController.getInformativeConfirmationDialog("Registrado", "El proyecto colaborativo fue registrado");

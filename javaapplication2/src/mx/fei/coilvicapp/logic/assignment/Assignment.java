@@ -72,16 +72,15 @@ public class Assignment {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object object) {
         boolean isEqual = false;
-        if (this == obj) {
+        if (this == object) {
             isEqual = true;
-        } else if (obj != null && getClass() == obj.getClass()) {
-            Assignment assignment = (Assignment) obj;
+        } else if (object != null && getClass() == object.getClass()) {
+            Assignment assignment = (Assignment) object;
             isEqual = idAssignment == assignment.idAssignment
                     && Objects.equals(name, assignment.name)
                     && Objects.equals(description, assignment.description)
-                    && Objects.equals(date, assignment.date)
                     && Objects.equals(path, assignment.path);
         }
         return isEqual;

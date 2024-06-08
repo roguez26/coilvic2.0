@@ -54,11 +54,11 @@ public class MainApp extends Application {
     public static void changeView(String fxml, Consumer<Object> controllerSetup) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource(fxml + ".fxml"));
         Parent root = fxmlLoader.load();
-        Scene scenem = new Scene(root);
+        Scene newScene = new Scene(root);
         Stage stage = new Stage();
         scene.setFill(Color.BLUE);
 
-        stage.setScene(scenem);
+        stage.setScene(newScene);
         stage.initModality(Modality.APPLICATION_MODAL);
 
         if (controllerSetup != null) {
@@ -66,7 +66,7 @@ public class MainApp extends Application {
         }
 
         stage.setOnCloseRequest(event -> {
-            Stage mainStage = (Stage) scenem.getWindow();
+            Stage mainStage = (Stage) newScene.getWindow();
             mainStage.show();
         });
 

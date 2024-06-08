@@ -42,6 +42,9 @@ public class UploadAssignmentController implements Initializable {
     private Button cancelButton;
 
     @FXML
+    private Button deleteButton;
+
+    @FXML
     private Label descriptionLabel;
 
     @FXML
@@ -64,15 +67,20 @@ public class UploadAssignmentController implements Initializable {
 
     private File selectedFile;
     private CollaborativeProject collaborativeProject;
+    private Assignment assignment;
 
     @Override
-    public void initialize(URL URL, ResourceBundle resourceBundle) {   
+    public void initialize(URL URL, ResourceBundle resourceBundle) {
     }
 
     @FXML
     void acceptButtonIsPressed(ActionEvent event) {
         try {
-            invokeSaveAssignment();
+            if (assignment == null) {
+                invokeSaveAssignment();
+            } else {
+                invokeUpdateAssignment();
+            }
             closeWindow();
         } catch (IllegalArgumentException exception) {
             handleValidationException(exception);
@@ -85,12 +93,42 @@ public class UploadAssignmentController implements Initializable {
 
     private void invokeSaveAssignment() throws DAOException, IOException {
         FileManager fileManager = new FileManager();
-        Assignment assignment = initializeAssignment();
+        Assignment newAssignment = initializeAssignment();
         fileManager.setFile(selectedFile);
-        fileManager.setDestinationDirectory(assignment.getIdColaborativeProject());
+        fileManager.setDestinationDirectory(newAssignment.getIdColaborativeProject());
         fileManager.isValidFileForSave(selectedFile);
         if (confirmUpload()) {
-            invokeRegisterAssignment(fileManager.saveAssignment(), assignment);
+            invokeRegisterAssignment(fileManager.saveFile(), newAssignment);
+        }
+    }
+
+    private void invokeUpdateAssignment() throws DAOException, IOException {
+        Assignment newAssignment = initializeAssignment();
+        newAssignment.setPath(assignment.getPath());
+        newAssignment.setIdAssignment(assignment.getIdAssignment());
+        FileManager fileManager = new FileManager();
+        File oldFile = new File(assignment.getPath());
+        if (!newAssignment.equals(assignment) || !oldFile.equals(selectedFile)) {
+            if (!oldFile.equals(selectedFile)) {
+                fileManager.setFile(selectedFile);
+                fileManager.setDestinationDirectory(newAssignment.getIdColaborativeProject());
+                fileManager.isValidFileForSave(selectedFile);
+            }
+
+            if (confirmUpdate()) {
+                IAssignment asigmentDAO = new AssignmentDAO();
+                try {
+                    if (!oldFile.equals(selectedFile)) {
+                        String newPath = fileManager.saveFile();
+                        System.out.println(newPath);
+                        newAssignment.setPath(newPath);
+                        fileManager.deleteFile(oldFile);
+                    }
+                    asigmentDAO.updateAssignment(newAssignment, collaborativeProject);
+                } catch (DAOException exception) {
+                    Log.getLogger(UploadAssignmentController.class).error(exception.getMessage(), exception);
+                }
+            }
         }
     }
 
@@ -105,11 +143,11 @@ public class UploadAssignmentController implements Initializable {
     }
 
     private Assignment initializeAssignment() {
-        Assignment assignment = new Assignment();
-        assignment.setName(nameTextField.getText());
-        assignment.setDescription(descriptionTextArea.getText());
-        assignment.setIdColaborativeProject(collaborativeProject.getIdCollaborativeProject());
-        return assignment;
+        Assignment newAssignment = new Assignment();
+        newAssignment.setName(nameTextField.getText());
+        newAssignment.setDescription(descriptionTextArea.getText());
+        newAssignment.setIdColaborativeProject(collaborativeProject.getIdCollaborativeProject());
+        return newAssignment;
     }
 
     @FXML
@@ -123,12 +161,44 @@ public class UploadAssignmentController implements Initializable {
         selectedFile = fileManager.selectPDF(backgroundVBox.getScene().getWindow());
         if (selectedFile != null) {
             fileTextField.setText(selectedFile.getName());
+        } else {
+            fileTextField.setText("");
+        }
+    }
+
+    @FXML
+    void deleteButtonIsPressed(ActionEvent event) {
+        if (confirmDelete()) {
+            FileManager fileManager = new FileManager();
+            IAssignment assignmentDAO = new AssignmentDAO();
+            File auxFile = selectedFile;
+            fileManager.deleteFile(selectedFile);
+            try {
+                if (assignmentDAO.deleteAssignment(assignment.getIdAssignment(), collaborativeProject) > 0) {
+                    DialogController.getInformativeConfirmationDialog("Eliminada", "La actividad fue eliminada");
+                    closeWindow();
+                }
+            } catch (DAOException exception) {
+                undoDeleteAssignment(auxFile);
+                Log.getLogger(UploadAssignmentController.class).error(exception.getMessage(), exception);
+            }
+        }
+    }
+
+    private void undoDeleteAssignment(File file) {
+        FileManager fileManager = new FileManager();
+        try {
+            fileManager.setFile(file);
+            fileManager.setDestinationDirectory(collaborativeProject.getIdCollaborativeProject());
+            fileManager.saveFile();
+        } catch (IOException exception) {
+            Log.getLogger(UploadAssignmentController.class).error(exception.getMessage(), exception);
         }
     }
 
     private void handleDAOException(DAOException exception) {
         FileManager fileManager = new FileManager();
-        fileManager.undoSaveAssignment(selectedFile);
+        fileManager.deleteFile(selectedFile);
         try {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
@@ -144,6 +214,16 @@ public class UploadAssignmentController implements Initializable {
 
     private boolean confirmUpload() {
         Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas subir esta nueva actividad?");
+        return (response.get() == DialogController.BUTTON_YES);
+    }
+
+    private boolean confirmUpdate() {
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas actualizar esta actividad?");
+        return (response.get() == DialogController.BUTTON_YES);
+    }
+
+    private boolean confirmDelete() {
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas eliminar esta actividad?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
@@ -164,6 +244,22 @@ public class UploadAssignmentController implements Initializable {
 
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
+    }
+
+    public void setAssignment(Assignment assignment) {
+        this.assignment = assignment;
+        fillFields(assignment);
+        deleteButton.setVisible(true);
+        nameTextField.setEditable(true);
+        descriptionTextArea.setEditable(true);
+
+    }
+
+    private void fillFields(Assignment assignment) {
+        nameTextField.setText(assignment.getName());
+        descriptionTextArea.setText(assignment.getDescription());
+        fileTextField.setText(assignment.getPath());
+        selectedFile = new File(assignment.getPath());
     }
 
     private void closeWindow() {

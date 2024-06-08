@@ -39,7 +39,7 @@ public class FileManager {
         activitiesDestination = "files\\syllabus";
     }
 
-    public String saveAssignment() throws IOException {
+    public String saveFile() throws IOException {
         if (!directoryExists(destinationDirectory)) {
             File newDirectory = new File(destinationDirectory);
             newDirectory.mkdir();
@@ -126,7 +126,7 @@ public class FileManager {
         return fileForValidate.exists();
     }
 
-    public void undoSaveAssignment(File file) {
+    public void deleteFile(File file) {
         file.delete();
     }
 
