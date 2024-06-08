@@ -59,7 +59,7 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
         IUniversity universityDAO = new UniversityDAO();
         ArrayList<University> universities = new ArrayList<>();
         try {
-            universities = universityDAO.getAllUniversities();
+            universities = universityDAO.getAvailableUniversities();
         } catch (DAOException exception) {
             Log.getLogger(InstitutionalRepresentativeRegisterController.class).error(exception.getMessage(), exception);
         }

@@ -281,7 +281,41 @@ public class FeedbackDAO implements IFeedback {
         }
         return result;
     }
-
+    
+    @Override
+    public int deleteProfessorResponsesByIdAndIdCollaborativeProject(int idProfessor, int idCollaborativeProject) throws DAOException {
+        int result = -1;
+        String statement = "DELETE FROM RespuestaProfessor WHERE idProfesor=? AND idProyectoColaborativo=?";
+        
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement
+                preparedStatement = connection.prepareStatement(statement);) {
+            preparedStatement.setInt(1, idProfessor);
+            preparedStatement.setInt(2, idCollaborativeProject);
+            result = preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible eliminar las respuestas", Status.ERROR);
+        }
+        return result;
+    }
+    
+    @Override
+    public int deleteStudentResponsesByIdAndIdCollaborativeProject(int idStudent, int idCollaborativeProject) throws DAOException {
+        int result = -1;
+        String statement = "DELETE FROM RespuestaEstudiante WHERE idEstudiante = ? AND idProyectoColaborativo = ?";
+        
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement
+                preparedStatement = connection.prepareStatement(statement);) {
+            preparedStatement.setInt(1, idStudent);
+            preparedStatement.setInt(2, idCollaborativeProject);
+            result = preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible eliminar las respuestas", Status.ERROR);
+        }
+        return result;
+    }
+    
     private int insertStudentResponsesTransaction(ArrayList<Response> responses) 
             throws DAOException {
         int result = -1;
@@ -377,10 +411,11 @@ public class FeedbackDAO implements IFeedback {
             preparedStatement.setInt(2, idCollaborativeProject);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
+                    
                     Response response = new Response();
                     response.setIdResponse(resultSet.getInt(idResponse));
                     response.setResponseText(resultSet.getString("respuesta"));
-                    response.setIdQuestion(resultSet.getInt("idpregunta"));
+                    response.setQuestion(getQuestionById(resultSet.getInt("idpregunta")));
                     response.setIdParticipant(resultSet.getInt(idParticipant));
                     response.setIdCollaborativeProject(resultSet.getInt("idProyectoColaborativo"));
                     responses.add(response);
@@ -413,4 +448,26 @@ public class FeedbackDAO implements IFeedback {
         }
         return question;
     }
+    
+    private Question getQuestionById(int idQuestion) throws DAOException {
+        Question question = new Question();
+        String statement = "SELECT * FROM pregunta WHERE idPregunta=?";
+
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement 
+                preparedStatement = connection.prepareStatement(statement);) {
+            preparedStatement.setInt(1, idQuestion);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    question.setIdQuestion(resultSet.getInt("idPregunta"));
+                    question.setQuestionText(resultSet.getString("pregunta"));
+                    question.setQuestionType(resultSet.getString("tipo"));
+                }
+            }
+        } catch (SQLException exception) {
+            Log.getLogger(FeedbackDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible obtener la pregunta", Status.ERROR);
+        }
+        return question;
+    }
+    
 }
