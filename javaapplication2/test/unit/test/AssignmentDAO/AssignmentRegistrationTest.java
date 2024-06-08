@@ -43,7 +43,11 @@ public class AssignmentRegistrationTest {
         } catch (DAOException exception) {
             Log.getLogger(AssignmentRegistrationTest.class).error(exception.getMessage(), exception);
         }
+        if(!ASSGIGNMENTES_FOR_TESTING.isEmpty()) {
+            deleteAssignments();
+        }
         testHelper.deleteAll();
+        
     }
 
     @Test

@@ -16,6 +16,8 @@ import mx.fei.coilvicapp.logic.modality.Modality;
 import mx.fei.coilvicapp.logic.modality.ModalityDAO;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.professor.ProfessorDAO;
+import mx.fei.coilvicapp.logic.student.Student;
+import mx.fei.coilvicapp.logic.student.StudentDAO;
 import mx.fei.coilvicapp.logic.term.Term;
 import mx.fei.coilvicapp.logic.term.TermDAO;
 import mx.fei.coilvicapp.logic.university.University;
@@ -41,6 +43,7 @@ public class TestHelper {
     private Course courseTwo;
     private CollaborativeProjectRequest collaborativeProjectRequest;
     private CollaborativeProject collaborativeProject;
+    private Student student;
 
     public TestHelper() {
         language = new Language();
@@ -56,6 +59,7 @@ public class TestHelper {
         courseTwo = new Course();
         collaborativeProjectRequest = new CollaborativeProjectRequest();
         collaborativeProject = new CollaborativeProject();
+        student = new Student();
 
     }
 
@@ -227,10 +231,21 @@ public class TestHelper {
         }
         collaborativeProjectRequest.setStatus("Aceptado");
     }
+    
+    public void initializeStudent() {
+        student.setName("Axel");
+        student.setPaternalSurname("Valdes");
+        student.setMaternalSurname("Contreras");
+        student.setEmail("axlvaldez74@gmail.com");
+        student.setGender("Masculino");
+        student.setLineage("Mexicano");
+        student.setUniversity(universityOne);
+    }
 
     public void initializeCollaborativeProject() {
         initializeCollaborativeProjectRequest();
         initializeModality();
+        initializeStudent();
         CollaborativeProjectDAO collaborativeProjectDAO = new CollaborativeProjectDAO();
         collaborativeProject.setName("Programación y Bases de Datos");
         collaborativeProject.setStatus("Aceptado");
@@ -262,6 +277,7 @@ public class TestHelper {
             new CourseDAO().deleteCourseByIdCourse(courseTwo.getIdCourse());
             new LanguageDAO().deleteLanguage(language.getIdLanguage());
             new TermDAO().deleteTerm(term.getIdTerm());
+            new StudentDAO().deleteStudentById(student.getIdStudent());
             new ProfessorDAO().deleteProfessorByID(professorOne.getIdProfessor());
             new ProfessorDAO().deleteProfessorByID(professorTwo.getIdProfessor());
             new UniversityDAO().deleteUniversity(universityOne.getIdUniversity());
@@ -377,6 +393,14 @@ public class TestHelper {
 
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
+    }
+    
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+    
+    public Student getStudent() {
+        return student;
     }
 
 }
