@@ -182,16 +182,15 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
     @FXML
     void backButtonIsPressed(ActionEvent event) {
+        goBack();
+    }
+    
+    private void goBack() {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
         } catch (IOException exception) {
             Log.getLogger(CollaborativeProjectsManagementController.class).error(exception.getMessage(), exception);
         }
-    }
-
-    @FXML
-    void searchButtonIsPressed(ActionEvent event) {
-
     }
 
     private void handleDAOException(DAOException exception) {
@@ -200,9 +199,9 @@ public class CollaborativeProjectsManagementController implements Initializable 
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
+                    goBack();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
             Log.getLogger(CollaborativeProjectsManagementController.class).error(ioException.getMessage(), ioException);

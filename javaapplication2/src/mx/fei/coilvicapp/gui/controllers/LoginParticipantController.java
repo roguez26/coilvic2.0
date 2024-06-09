@@ -211,7 +211,6 @@ public class LoginParticipantController implements Initializable {
     }
 
     private void handleDAOException(DAOException exception) {
-        System.out.println("login error");
         try {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {

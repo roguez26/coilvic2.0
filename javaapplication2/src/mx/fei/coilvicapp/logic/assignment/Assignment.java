@@ -42,7 +42,7 @@ public class Assignment {
     }
 
     public void setName(String name) {
-        fieldValidator.checkShortRange(name);
+        fieldValidator.checkName(name);
         this.name = name;
     }
 

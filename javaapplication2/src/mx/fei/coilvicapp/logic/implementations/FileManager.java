@@ -138,16 +138,16 @@ public class FileManager {
         File fileForOpen = new File(filePath);
 
         if (!fileForOpen.exists()) {
-            throw new IllegalArgumentException("No se encontro el archivo");
+            throw new IllegalArgumentException("No se encontró el archivo");
         }
 
         if (!Desktop.isDesktopSupported()) {
-            throw new IllegalArgumentException("La apertura de archivos no es compatible con este sistema.");
+            throw new IllegalArgumentException("La apertura de archivos no es compatible con este sistema");
         }
 
         Desktop desktop = Desktop.getDesktop();
         if (!desktop.isSupported(Desktop.Action.OPEN)) {
-            throw new IllegalArgumentException("La apertura de archivos no es compatible con este sistema.");
+            throw new IllegalArgumentException("La apertura de archivos no es compatible con este sistema");
         }
 
         try {

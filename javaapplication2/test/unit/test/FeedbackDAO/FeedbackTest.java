@@ -33,7 +33,7 @@ public class FeedbackTest {
     private static final ArrayList<Question> QUESTIONS_FOR_TESTING = new ArrayList<>();
 
     private static final ArrayList<Response> RESPONSES_FOR_TESTING = new ArrayList<>();
-    private final TestHelper testHelper = new TestHelper();
+    private final TestHelper TEST_HELPER = new TestHelper();
 
     public FeedbackTest() {
 
@@ -41,10 +41,10 @@ public class FeedbackTest {
 
     @Before
     public void setUp() {
-        testHelper.initializeCollaborativeProject();
-        auxCollaborativeProject = testHelper.getCollaborativeProject();
-        auxProfessor = testHelper.getProfessorOne();
-        auxStudent = testHelper.getStudent();
+        TEST_HELPER.initializeCollaborativeProject();
+        auxCollaborativeProject = TEST_HELPER.getCollaborativeProject();
+        auxProfessor = TEST_HELPER.getProfessorOne();
+        auxStudent = TEST_HELPER.getStudent();
     }
 
     @After
@@ -57,7 +57,7 @@ public class FeedbackTest {
         } catch (DAOException exception) {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
-        testHelper.deleteAll();
+        TEST_HELPER.deleteAll();
     }
 
     @Test

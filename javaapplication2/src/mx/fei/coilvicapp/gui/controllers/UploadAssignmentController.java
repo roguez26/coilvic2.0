@@ -81,7 +81,6 @@ public class UploadAssignmentController implements Initializable {
             } else {
                 invokeUpdateAssignment();
             }
-            closeWindow();
         } catch (IllegalArgumentException exception) {
             handleValidationException(exception);
         } catch (DAOException exception) {
@@ -120,15 +119,19 @@ public class UploadAssignmentController implements Initializable {
                 try {
                     if (!oldFile.equals(selectedFile)) {
                         String newPath = fileManager.saveFile();
-                        System.out.println(newPath);
                         newAssignment.setPath(newPath);
                         fileManager.deleteFile(oldFile);
                     }
-                    asigmentDAO.updateAssignment(newAssignment, collaborativeProject);
+                    if (asigmentDAO.updateAssignment(newAssignment, collaborativeProject) > 0) {
+                        DialogController.getInformativeConfirmationDialog("Actualizada", "La actividad fue actualizada con éxito");
+                        closeWindow();
+                    }
                 } catch (DAOException exception) {
                     Log.getLogger(UploadAssignmentController.class).error(exception.getMessage(), exception);
                 }
             }
+        } else {
+             closeWindow();
         }
     }
 
@@ -138,7 +141,7 @@ public class UploadAssignmentController implements Initializable {
         assignment.setPath(newPath);
         if (asigmentDAO.registerAssignment(assignment, collaborativeProject) > 0) {
             DialogController.getInformativeConfirmationDialog("Subida", "La actividad fue subida con éxito");
-            cleanFields();
+            closeWindow();
         }
     }
 

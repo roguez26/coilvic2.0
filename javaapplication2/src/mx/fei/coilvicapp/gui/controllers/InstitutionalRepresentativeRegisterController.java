@@ -28,6 +28,9 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
 
     @FXML
     private TextField nameTextField;
+    
+    @FXML
+    private TextField countryCodeTextField;
 
     @FXML
     private TextField paternalSurnameTextField;
@@ -53,6 +56,11 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
         universitiesComboBox.setItems(FXCollections.observableArrayList(initializeUniversitiesArrayForComboBox()));
+        phoneNumberTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 10) {
+                phoneNumberTextField.setText(oldValue);
+            }
+        });
     }
 
     private ArrayList<University> initializeUniversitiesArrayForComboBox() {
@@ -125,6 +133,13 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
             }
         } else {
             emptyFieldsConfirmation();
+        }
+    }
+    
+    @FXML
+    private void universityIsSelected(ActionEvent event) {
+        if (universitiesComboBox.getValue() != null) {
+            countryCodeTextField.setText(universitiesComboBox.getValue().getCountry().getCountryCode());
         }
     }
 

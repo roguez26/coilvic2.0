@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import log.Log;
 
 /**
  *
@@ -33,7 +34,7 @@ public class EmailSenderDAO implements IEmailSender {
                 }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(EmailSenderDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(EmailSenderDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible registrar el correo", Status.ERROR);
         }
         return result;
@@ -49,7 +50,7 @@ public class EmailSenderDAO implements IEmailSender {
             result = preparedStatement.executeUpdate();
 
         } catch (SQLException exception) {
-            Logger.getLogger(EmailSenderDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(EmailSenderDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible eliminar el correo", Status.ERROR);
         }
 
