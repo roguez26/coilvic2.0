@@ -6,6 +6,7 @@ public class Country {
 
     private int idCountry = 0;
     private String name;
+    private String countryCode;
 
     public Country() {
 
@@ -25,6 +26,14 @@ public class Country {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+    
+    public String getCountryCode(){
+        return countryCode;
     }
 
     @Override

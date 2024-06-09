@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import log.Log;
 import mx.fei.coilvicapp.logic.implementations.PDFCreator;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -40,38 +41,20 @@ public class PDFCreatorTest {
     public void testGenerateCertificateFailByNoSelectedDestination() {
         String nameParticipantExample = "Abraham Gonzales Hernández";
         String destinationPath = "";
-        String generatedCertificate = "";
 
-        try {
-            generatedCertificate = PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath);
-        } catch (IOException exception) {
-            System.out.println(exception.getMessage());
-            Log.getLogger(PDFCreatorTest.class).error(exception.getMessage(), exception);
-        }
-
-        File file = new File(generatedCertificate);
-        assertTrue(file.exists());
-        file.delete();
+        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath));
+        System.out.println(exception.getMessage());
     }
 
     @Test
     public void testGenerateCertificateFailByNullDestination() {
         String nameParticipantExample = "Abraham Gonzales Hernández";
         String destinationPath = null;
-        String generatedCertificate = "";
 
-        try {
-            generatedCertificate = PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath);
-        } catch (IOException exception) {
-            System.out.println(exception.getMessage());
-            Log.getLogger(PDFCreatorTest.class).error(exception.getMessage(), exception);
-        }
-
-        File file = new File(generatedCertificate);
-        assertTrue(file.exists());
-        file.delete();
+        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath));
+        System.out.println(exception.getMessage());
     }
-    
+
     private void saveFileTemporary() {
         try {
             Files.copy(Paths.get(ORIGINAL_TEMPLATE_PATH), Paths.get(TEMPORARY_PATH));
@@ -79,7 +62,7 @@ public class PDFCreatorTest {
             Log.getLogger(PDFCreatorTest.class).error(exception.getMessage(), exception);
         }
     }
-    
+
     private void returnFileToOriginalPath() {
         try {
             Files.copy(Paths.get(TEMPORARY_PATH), Paths.get(ORIGINAL_TEMPLATE_PATH));
@@ -88,26 +71,34 @@ public class PDFCreatorTest {
         }
     }
 
-     
     @Test
     public void testGenerateCertificateFailByNonexistenceTemplate() {
         String nameParticipantExample = "Abraham Gonzales Hernández";
         String destinationPath = "files";
-        String generatedCertificate = "";
         saveFileTemporary();
         File fileForTest = new File(ORIGINAL_TEMPLATE_PATH);
         File fileTemporary = new File(TEMPORARY_PATH);
         fileForTest.delete();
-        try {
-            generatedCertificate = PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath);
-        } catch (IOException exception) {
-            System.out.println(exception.getMessage());
-            Log.getLogger(PDFCreatorTest.class).error(exception.getMessage(), exception);
-        }
+        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath));
+        System.out.println(exception.getMessage());
+
         returnFileToOriginalPath();
-        File file = new File(generatedCertificate);
         fileTemporary.delete();
-        assertTrue(file.exists());
-        
+    }
+
+    @Test
+    public void testTemplateExistsSuccess() {
+        assertTrue(PDF_CREATOR.templateExists());
+    }
+
+    @Test
+    public void testTemplateExistsFailByNonexistenceTemplate() {
+        saveFileTemporary();
+        File fileForTest = new File(ORIGINAL_TEMPLATE_PATH);
+        File fileTemporary = new File(TEMPORARY_PATH);
+        fileForTest.delete();
+        assertTrue(!PDF_CREATOR.templateExists());
+        returnFileToOriginalPath();
+        fileTemporary.delete();
     }
 }

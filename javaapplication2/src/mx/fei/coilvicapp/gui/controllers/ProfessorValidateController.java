@@ -37,6 +37,9 @@ public class ProfessorValidateController implements Initializable {
 
     @FXML
     private TextField nombreTextField;
+    
+    @FXML
+    private TextField countryCodeTextField;
 
     @FXML
     private TextField paternalSurnameTextField;
@@ -352,6 +355,7 @@ public class ProfessorValidateController implements Initializable {
         maternalSurnameTextField.setText(professor.getMaternalSurname());
         emailTextField.setText(professor.getEmail());
         telefonoTextField.setText(professor.getPhoneNumber());
+        countryCodeTextField.setText(professor.getUniversity().getCountry().getCountryCode());
     }
 
     private void initializeTextFields() {

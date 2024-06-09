@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.InstitutionalRepresentativeDetailsController">
+<VBox alignment="CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.InstitutionalRepresentativeDetailsController">
    <children>
       <VBox alignment="CENTER" prefHeight="574.0" prefWidth="479.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="106.0" prefWidth="454.0" spacing="25.0">
                <children>
-                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonIsPressed" stylesheets="@../../../../../stylesheets/buttongray.css" text="&lt;" />
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonIsPressed" stylesheets="@../../../../../stylesheets/buttongray.css" text="❮" />
                   <Label lineSpacing="20.0" stylesheets="@../../../../../stylesheets/titleLabel.css" text="Detalles del Representante Institucional">
                      <font>
                         <Font name="System Bold" size="14.0" />
@@ -44,7 +44,12 @@
                   <Label prefHeight="27.0" prefWidth="93.0" stylesheets="@../../../../../stylesheets/label.css" text="Correo" />
                   <TextField fx:id="emailTextField" editable="false" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
                   <Label prefHeight="27.0" prefWidth="93.0" stylesheets="@../../../../../stylesheets/label.css" text="Telefono" />
-                  <TextField fx:id="telefonoTextField" editable="false" prefHeight="12.0" prefWidth="266.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <HBox alignment="CENTER_RIGHT" prefHeight="0.0" prefWidth="330.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="countryCodeTextField" disable="true" prefHeight="26.0" prefWidth="74.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                        <TextField fx:id="telefonoTextField" editable="false" prefHeight="12.0" prefWidth="254.0" stylesheets="@../../../../../stylesheets/textField.css" />
+                     </children>
+                  </HBox>
                   <Label prefHeight="27.0" prefWidth="93.0" stylesheets="@../../../../../stylesheets/label.css" text="Universidad" />
                   <ComboBox fx:id="universitiesComboBox" disable="true" prefHeight="26.0" prefWidth="421.0" stylesheets="@../../../../../stylesheets/combobox.css" />
                </children>

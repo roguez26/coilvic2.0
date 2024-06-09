@@ -6,13 +6,13 @@ import java.io.IOException;
 import log.Log;
 import mx.fei.coilvicapp.logic.implementations.FileManager;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class FileManagerTest {
 
     private final FileManager FILE_MANAGER_FOR_TEST = new FileManager();
-    private File testFile;
 
     private File intializeValidFile() {
         File file = new File("files\\File.txt");
@@ -38,21 +38,20 @@ public class FileManagerTest {
     @Test
     public void testSaveAssignment() {
         int idCollaborativeProjectExample = 1234;
-        String expectedDestionationPath = "files\\activities" + "\\" + idCollaborativeProjectExample+"\\certificate.pdf";
-        String result = "u";
-        File file = new File("files\\template\\certificate.pdf"); 
-        
+        String expectedDestionationPath = "files\\activities" + "\\" + idCollaborativeProjectExample + "\\certificate.pdf";
+        String result = "";
+        File file = new File("files\\template\\certificate.pdf");
+
         FILE_MANAGER_FOR_TEST.setFile(file);
         FILE_MANAGER_FOR_TEST.setDestinationDirectory(idCollaborativeProjectExample);
         try {
             result = FILE_MANAGER_FOR_TEST.saveFile();
-            FILE_MANAGER_FOR_TEST.deleteFile(file);
         } catch (IOException exception) {
             Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
         }
-        System.out.println(expectedDestionationPath);
-        System.out.println(result);
         assertEquals(expectedDestionationPath, result);
+        File savedFile = new File(result);
+        FILE_MANAGER_FOR_TEST.deleteFile(savedFile);
     }
 
     @Test
@@ -68,45 +67,48 @@ public class FileManagerTest {
 
     @Test
     public void isValidForSaveFailByTooLarge() {
-        boolean result = false;
-        try {
-            result = FILE_MANAGER_FOR_TEST.isValidFileForSave(initializeLargeFile());
-        } catch (IllegalArgumentException | IOException exception) {
-            System.out.println(exception.getMessage());
-            Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
-        }
-        assertTrue(result);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FILE_MANAGER_FOR_TEST.isValidFileForSave(initializeLargeFile()));
+        System.out.println(exception.getMessage());
     }
-    
+
     @Test
     public void isValidForSaveFailByNullFile() {
-        boolean result = false;
-        try {
-            result = FILE_MANAGER_FOR_TEST.isValidFileForSave(null);
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
-        }
-        assertTrue(result);
+         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FILE_MANAGER_FOR_TEST.isValidFileForSave(null));
+        System.out.println(exception.getMessage());
     }
-    
+
     @Test
     public void isValidForSaveFailByExistenceFileAlready() {
         int idCollaborativeProjectExample = 1234;
-        boolean result = false;
-        File file = new File("files\\template\\certificate.pdf"); 
-        
+        File file = new File("files\\template\\certificate.pdf");
+        String destionationPath = "";
+
         FILE_MANAGER_FOR_TEST.setFile(file);
         FILE_MANAGER_FOR_TEST.setDestinationDirectory(idCollaborativeProjectExample);
         try {
-            FILE_MANAGER_FOR_TEST.saveFile();
-            result = FILE_MANAGER_FOR_TEST.isValidFileForSave(file);
-        } catch (IllegalArgumentException | IOException exception) {
-            System.out.println(exception.getMessage());
-            FILE_MANAGER_FOR_TEST.deleteFile(file);
+            destionationPath = FILE_MANAGER_FOR_TEST.saveFile();
+        } catch (IOException exception) {
             Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
         }
-        assertTrue(result);
+        
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, ()-> FILE_MANAGER_FOR_TEST.isValidFileForSave(file));
+        System.out.println(exception.getMessage());
+        FILE_MANAGER_FOR_TEST.deleteFile(new File(destionationPath));
+    }
+    
+    @Test
+    public void testOpenFileSucess() {
+        try {
+            FILE_MANAGER_FOR_TEST.openFile("files\\template\\certificate.pdf");
+        } catch (IOException exception) {
+            Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
+        }
+    }
+    
+    @Test
+    public void testOpenFileFailByNonexistenceFile() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FILE_MANAGER_FOR_TEST.openFile("archivo no existente"));
+        System.out.println(exception.getMessage());
     }
 
 }

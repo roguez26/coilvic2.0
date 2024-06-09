@@ -11,6 +11,7 @@ import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,11 +58,12 @@ public class CountryTest {
 
     private void initializeCountries() {
         String[] countryNames = {"Argentina", "Ecuador", "Rusia", "Italia", "Colombia"};
+        String[] countryCodes = {"+54", "+593", "+7", "+39", "+57"};
 
         for (int i = 0; i < 5; i++) {
             Country country = new Country();
             country.setName(countryNames[i]);
-
+            country.setCountryCode(countryCodes[i]);
             try {
                 country.setIdCountry(COUNTRY_DAO.registerCountry(country));
             } catch (DAOException exception) {
@@ -73,6 +75,7 @@ public class CountryTest {
 
     public void initializeCountry() {
         COUNTRY_FOR_TESTING.setName("Mexico");
+        COUNTRY_FOR_TESTING.setCountryCode("+52");
     }
 
     @Test
@@ -90,18 +93,9 @@ public class CountryTest {
 
     @Test
     public void testRegisterCountryFailByDuplicatedName() {
-        int idCountry = 0;
-        DAOException result = null;
-
         COUNTRY_FOR_TESTING.setName(COUNTRIES_FOR_TESTING.get(2).getName());
-        try {
-            idCountry = COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING);
-        } catch (DAOException exception) {
-            result = exception;
-            System.out.println(exception.getMessage());
-        }
-        COUNTRY_FOR_TESTING.setIdCountry(idCountry);
-        assertTrue(result != null);
+        DAOException exception = assertThrows(DAOException.class, () -> COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING));
+        System.out.println(exception.getMessage());
     }
 
     @Test
@@ -133,18 +127,18 @@ public class CountryTest {
 
     @Test
     public void testDeleteCountryFailByDependencies() {
-        DAOException result = null;
         initializeCountry();
         try {
             COUNTRY_FOR_TESTING.setIdCountry(COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING));
             initilizeUniversity();
             AUX_UNIVERSITY.setIdUniversity(UNIVERSITY_DAO.registerUniversity(AUX_UNIVERSITY));
-            COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING.getIdCountry());
         } catch (DAOException exception) {
-            result = exception;
-            System.out.println(result.getMessage());
+            Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
-        assertTrue(result != null);
+
+        DAOException exception = assertThrows(DAOException.class, () -> COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING.getIdCountry()));
+        System.out.println(exception.getMessage());
+
     }
 
     @Test
@@ -165,17 +159,16 @@ public class CountryTest {
     @Test
     public void testUpdateCountryFailByDuplicatedName() {
         String newName = COUNTRIES_FOR_TESTING.get(2).getName();
-        DAOException result = null;
 
         try {
             COUNTRY_FOR_TESTING.setIdCountry(COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING));
             COUNTRY_FOR_TESTING.setName(newName);
-            COUNTRY_DAO.updateCountry(COUNTRY_FOR_TESTING);
+
         } catch (DAOException exception) {
-            result = exception;
-            System.out.println(result.getMessage());
+            Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
-        assertTrue(result != null);
+        DAOException exception = assertThrows(DAOException.class, () -> COUNTRY_DAO.updateCountry(COUNTRY_FOR_TESTING));
+        System.out.println(exception.getMessage());
     }
 
     @Test
@@ -199,9 +192,7 @@ public class CountryTest {
             result = COUNTRY_DAO.getCountryById(COUNTRIES_FOR_TESTING.get(positionForSearch).getIdCountry());
         } catch (DAOException exception) {
             Logger.getLogger(CountryTest.class.getName()).log(Level.SEVERE, null, exception);
-            System.out.println(exception.getMessage());
         }
-
         assertEquals(COUNTRIES_FOR_TESTING.get(positionForSearch), result);
     }
 

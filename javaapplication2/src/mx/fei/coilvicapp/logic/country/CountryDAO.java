@@ -91,10 +91,11 @@ public class CountryDAO implements ICountry {
 
     public int insertCountryTransaction(Country country) throws DAOException {
         int result = -1;
-        String statement = "INSERT INTO Pais (nombre) VALUES (?)";
+        String statement = "INSERT INTO Pais (nombre, codigoPais) VALUES (?, ?)";
 
         try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);) {
             preparedStatement.setString(1, country.getName());
+            preparedStatement.setString(2, country.getCountryCode());
             result = preparedStatement.executeUpdate();
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 if (resultSet.next()) {
@@ -110,11 +111,12 @@ public class CountryDAO implements ICountry {
 
     public int updateCountryTransaction(Country country) throws DAOException {
         int result = -1;
-        String statement = "UPDATE Pais SET nombre=? WHERE idPais=?";
+        String statement = "UPDATE Pais SET nombre=? codigoPais= ? WHERE idPais=?";
 
         try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
             preparedStatement.setString(1, country.getName());
-            preparedStatement.setInt(2, country.getIdCountry());
+            preparedStatement.setString(2, country.getCountryCode());
+            preparedStatement.setInt(3, country.getIdCountry());
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             Log.getLogger(CountryDAO.class).error(exception.getMessage(), exception);
@@ -147,6 +149,7 @@ public class CountryDAO implements ICountry {
                 Country country = new Country();
                 country.setIdCountry(resultSet.getInt("IdPais"));
                 country.setName(resultSet.getString("Nombre"));
+                country.setCountryCode(resultSet.getString("CodigoPais"));
                 countries.add(country);
             }
         } catch (SQLException exception) {
@@ -167,6 +170,7 @@ public class CountryDAO implements ICountry {
                 if (resultSet.next()) {
                     country.setIdCountry(resultSet.getInt("IdPais"));
                     country.setName(resultSet.getString("Nombre"));
+                    country.setCountryCode(resultSet.getString("CodigoPais"));
                 }
             }
         } catch (SQLException exception) {
@@ -185,6 +189,7 @@ public class CountryDAO implements ICountry {
                 if (resultSet.next()) {
                     country.setIdCountry(resultSet.getInt("idPais"));
                     country.setName(resultSet.getString("nombre"));
+                    country.setCountryCode(resultSet.getString("CodigoPais"));
                 }
             }
         } catch (SQLException exception) {

@@ -30,7 +30,6 @@ public class EmailSenderTest {
     public void testCreateEmailSuccess() {
         EmailSender emailSender = initializeEmailSender();
         boolean result = emailSender.createEmail();
-
         assertTrue(result);
     }
 

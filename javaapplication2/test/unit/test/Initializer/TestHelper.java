@@ -106,7 +106,9 @@ public class TestHelper {
         countryOne = new Country();
         countryTwo = new Country();
         countryOne.setName("México");
+        countryOne.setCountryCode("+52");
         countryTwo.setName("Venezuela");
+        countryTwo.setCountryCode("+58");
 
         try {
             countryOne.setIdCountry(countryDAO.registerCountry(countryOne));

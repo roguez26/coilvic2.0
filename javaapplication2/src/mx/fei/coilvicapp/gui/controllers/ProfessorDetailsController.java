@@ -19,6 +19,10 @@ public class ProfessorDetailsController implements Initializable {
 
     @FXML
     private Button backButton;
+    
+    @FXML
+    private TextField countryCodeTextField;
+    
 
     @FXML
     private TextField emailTextField;
@@ -104,6 +108,7 @@ public class ProfessorDetailsController implements Initializable {
         emailTextField.setText(professor.getEmail());
         telefonoTextField.setText(professor.getPhoneNumber());
         universitiesComboBox.setValue(professor.getUniversity());
+        countryCodeTextField.setText(professor.getUniversity().getCountry().getCountryCode());
     }
 
     private void initializeTextFields() {

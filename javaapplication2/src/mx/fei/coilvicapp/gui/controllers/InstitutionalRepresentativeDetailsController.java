@@ -28,6 +28,10 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
 
     @FXML
     private TextField nombreTextField;
+    
+    @FXML
+    private TextField countryCodeTextField;
+    
 
     @FXML
     private TextField paternalSurnameTextField;
@@ -227,6 +231,7 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
         maternalSurnameTextField.setText(institutionalRepresentative.getMaternalSurname());
         emailTextField.setText(institutionalRepresentative.getEmail());
         telefonoTextField.setText(institutionalRepresentative.getPhoneNumber());
+        countryCodeTextField.setText(institutionalRepresentative.getUniversity().getCountry().getCountryCode());
     }
 
     private void initializeTextFields() {

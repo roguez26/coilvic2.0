@@ -43,6 +43,9 @@ public class ProfessorRegisterController implements Initializable {
     
     @FXML
     private TextField nameTextField;
+    
+    @FXML
+    private TextField countryCodeTextField;
 
     @FXML
     private TextField paternalSurnameTextField;
@@ -108,7 +111,13 @@ public class ProfessorRegisterController implements Initializable {
         academicAreasComboBox.setItems(FXCollections.observableArrayList(initializeAcademicAreasArrayForComboBox()));
         hiringTypesComboBox.setItems(FXCollections.observableArrayList(initializeHiringTypesArrayForComboBox()));
         hiringCategoriesComboBox.setItems(FXCollections.observableArrayList(initializeHiringCategoriesArrayForComboBox()));
-        regionsComboBox.setItems(FXCollections.observableArrayList(initializeRegionsArrayForComboBox()));                
+        regionsComboBox.setItems(FXCollections.observableArrayList(initializeRegionsArrayForComboBox()));         
+        phoneNumberTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 10) {
+                phoneNumberTextField.setText(oldValue);
+            }
+        });
+        
     }       
     
     private ArrayList<String> initializeGendersArrayForComboBox() {
@@ -146,11 +155,15 @@ public class ProfessorRegisterController implements Initializable {
 
     @FXML
     private void universidadVeracruzanaIsSelected(ActionEvent event) {
+        if (universitiesComboBox.getValue() != null) {
+            countryCodeTextField.setText(universitiesComboBox.getValue().getCountry().getCountryCode());
+        }
         if ("Universidad Veracruzana".equals(universitiesComboBox.getValue().getName())) {
             unhideProfessorUvComponents();
         } else {
             hideProfessorUvComponents();
         }
+        
     }    
     
     private boolean confirmCancelation() {
