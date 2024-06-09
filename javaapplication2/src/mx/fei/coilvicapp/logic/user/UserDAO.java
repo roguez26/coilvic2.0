@@ -32,7 +32,7 @@ public class UserDAO implements IUser {
 //            throw new DAOException("No fue posible hacer la validacion", Status.WARNING);
 //        }
         if (professor.getIdProfessor() > 0) {
-            if (professor.getUser().getPassword().equals(encryptPassword(password))) {
+            if (professor.getUser().getIdUser() > 0 && professor.getUser().getPassword().equals(encryptPassword(password))) {
                 result = true;
             } else {
                 throw new DAOException("La contraseña proporcinada es incorrecta", Status.WARNING);
