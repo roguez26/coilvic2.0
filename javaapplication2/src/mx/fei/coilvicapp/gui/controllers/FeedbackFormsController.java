@@ -95,14 +95,14 @@ public class FeedbackFormsController implements Initializable {
         typeCombobox.setItems(types);
 
         professorQuestionsTableView.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldSelection, newSelection) -> {
+                (observableValue, oldSelection, newSelection) -> {
                     if (newSelection != null) {
                         studentQuestionsTableView.getSelectionModel().clearSelection();
                     }
                 });
 
         studentQuestionsTableView.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldSelection, newSelection) -> {
+                (observableValue, oldSelection, newSelection) -> {
                     if (newSelection != null) {
                         professorQuestionsTableView.getSelectionModel().clearSelection();
                     }

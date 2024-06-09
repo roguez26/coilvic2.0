@@ -195,7 +195,7 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(ioException.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(ioException.getMessage(), ioException);
         }
     }
 }

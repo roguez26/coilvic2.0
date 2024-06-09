@@ -57,7 +57,7 @@ public class FeedbackController implements Initializable {
     private CollaborativeProject collaborativeProject;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL URL, ResourceBundle resourceBundle) {
         questionTableColumn.setCellValueFactory(new PropertyValueFactory<>("questionText"));
         responseTableColumn.setCellValueFactory(new PropertyValueFactory<>("responseText"));
     }

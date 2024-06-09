@@ -230,13 +230,6 @@ public class UploadAssignmentController implements Initializable {
         return (response.get() == DialogController.BUTTON_YES);
     }
 
-    private void cleanFields() {
-        nameTextField.setText("");
-        descriptionTextArea.setText("");
-        fileTextField.setText("");
-        selectedFile = null;
-    }
-
     private void handleIOException(IOException exception) {
         DialogController.getInformativeConfirmationDialog("Lo sentimos", "No fue posible subir la actividad");
     }

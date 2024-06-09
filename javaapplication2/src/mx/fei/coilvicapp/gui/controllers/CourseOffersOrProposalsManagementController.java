@@ -31,25 +31,25 @@ import mx.fei.coilvicapp.logic.term.Term;
  * @author d0ubl3_d
  */
 public class CourseOffersOrProposalsManagementController implements Initializable {
-    
-    @FXML    
+
+    @FXML
     private Label titleLabel;
-    
+
     @FXML
     private Button backButton;
-    
+
     @FXML
     private TextField searchTextField;
-    
+
     @FXML
     private Button searchButton;
-    
+
     @FXML
     private Button seeAllButton;
-    
+
     @FXML
     private TableView<Course> coursesTableView;
-    
+
     @FXML
     private TableColumn<Course, String> nameTableColumn;
 
@@ -58,32 +58,32 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
 
     @FXML
     private TableColumn<Term, String> termTableColumn;
-    
+
     @FXML
     private TableColumn<Course, String> universityTableColumn;
-    
+
     @FXML
     private TableColumn<Course, String> countryTableColumn;
-    
+
     @FXML
     private TableColumn<Course, Language> languageTableColumn;
-    
+
     @FXML
     private Button seeDetailsButton;
-            
+
     private final CourseDAO COURSE_DAO = new CourseDAO();
-    
+
     private Professor professor;
-        
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) {       
+    public void initialize(URL url, ResourceBundle rb) {
         initializeAll();
     }
-    
+
     public Professor getProfessor() {
         return professor;
     }
-    
+
     public void setProfessor(Professor professor) {
         if (professor != null) {
             this.professor = professor;
@@ -92,10 +92,16 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
             // ERROR
         }
     }
-    
+
     @FXML
-    private void backButtonIsPressed(ActionEvent event) throws IOException {
+    private void backButtonIsPressed(ActionEvent event) {
         if (event.getSource() == backButton) {
+            goBack();
+        }
+    }
+
+    private void goBack() {
+        try {
             if (professor == null) {
                 // VENTANA DE LA ADMINISTRACION COILVIC
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
@@ -103,22 +109,24 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
                 MainApp.changeView(fxmlLoader);
                 ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
-                professorMainMenuController.setProfessor(professor);                
-            }            
+                professorMainMenuController.setProfessor(professor);
+            }
+        } catch (IOException exception) {
+            Log.getLogger(CourseOffersOrProposalsManagementController.class).error(exception.getMessage(), exception);
         }
     }
-    
+
     @FXML
     void searchButtonIsPressed(ActionEvent event) {
         if (event.getSource() == searchButton) {
             if (!searchTextField.getText().isEmpty()) {
-                ArrayList<Course> courses = new ArrayList<>();                
+                ArrayList<Course> courses = new ArrayList<>();
                 try {
                     if (professor == null) {
-                        courses = COURSE_DAO.getCourseProposalsByUniversity(searchTextField.getText());                
+                        courses = COURSE_DAO.getCourseProposalsByUniversity(searchTextField.getText());
                     } else {
-                        courses = COURSE_DAO.getCourseOfferingsByUniversity(searchTextField.getText());                
-                    }                    
+                        courses = COURSE_DAO.getCourseOfferingsByUniversity(searchTextField.getText());
+                    }
                     updateTableView(courses);
                 } catch (DAOException exception) {
                     handleDAOException(exception);
@@ -128,7 +136,7 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
             }
         }
     }
-    
+
     @FXML
     void seeAllButtonIsPressed(ActionEvent event) {
         if (event.getSource() == seeAllButton) {
@@ -136,12 +144,12 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
             searchTextField.setText("");
         }
     }
-    
-    private void updateTableView(ArrayList<Course> courses) {        
+
+    private void updateTableView(ArrayList<Course> courses) {
         coursesTableView.getItems().clear();
         coursesTableView.getItems().addAll(courses);
     }
-   
+
     @FXML
     private void seeDetailsButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == seeDetailsButton) {
@@ -153,18 +161,18 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
                 if (professor != null) {
                     courseOfferOrProposalDetailsController.setProfessor(professor);
                 }
-                courseOfferOrProposalDetailsController.setCourse(course);                
+                courseOfferOrProposalDetailsController.setCourse(course);
             } else {
                 DialogController.getInformativeConfirmationDialog("Sin curso seleccionado", "Necesita seleccionar un curso para poder ver sus detalles");
             }
         }
     }
-    
+
     private void initializeAll() {
         coursesTableView.getItems().addAll(initializeCoursesArray());
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         professorTableColumn.setCellValueFactory(new PropertyValueFactory<>("professor"));
-        termTableColumn.setCellValueFactory(new PropertyValueFactory<>("term"));               
+        termTableColumn.setCellValueFactory(new PropertyValueFactory<>("term"));
         universityTableColumn.setCellValueFactory((var cellData) -> {
             Course course = cellData.getValue();
             if (course != null && course.getProfessor() != null) {
@@ -172,7 +180,7 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
             } else {
                 return new SimpleStringProperty("");
             }
-        });    
+        });
         countryTableColumn.setCellValueFactory(cellData -> {
             Course course = cellData.getValue();
             if (course != null && course.getProfessor() != null) {
@@ -180,13 +188,13 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
             } else {
                 return new SimpleStringProperty("");
             }
-        });                 
+        });
         languageTableColumn.setCellValueFactory(new PropertyValueFactory<>("language"));
         if (professor != null) {
             titleLabel.setText("Oferta Cursos");
-        }                        
+        }
     }
-    
+
     private ArrayList<Course> initializeCoursesArray() {
         ArrayList<Course> courses = new ArrayList<>();
         try {
@@ -194,25 +202,25 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
                 courses = COURSE_DAO.getCourseProposals();
             } else {
                 courses = COURSE_DAO.getCourseOfferings();
-            }            
+            }
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
         return courses;
     }
-    
+
     private void handleDAOException(DAOException exception) {
         coursesTableView.getItems().clear();
         try {
-             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
+            DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/ ");
+                    goBack();
                 case FATAL ->
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(NotifyProfessorController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(CourseOffersOrProposalsManagementController.class).error(ioException.getMessage(), ioException);
         }
-    }    
+    }
 }

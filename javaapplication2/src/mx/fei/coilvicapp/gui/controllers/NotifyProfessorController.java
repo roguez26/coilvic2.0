@@ -75,6 +75,7 @@ public class NotifyProfessorController implements Initializable {
                     DialogController.getInformativeConfirmationDialog("Enviado", "El correo fue enviado con éxito");
                     IEmailSender emailSenderDAO = new EmailSenderDAO();
                     emailSenderDAO.registerEmail(emailSender);
+                    closeWindow();
                 }
             } 
         }

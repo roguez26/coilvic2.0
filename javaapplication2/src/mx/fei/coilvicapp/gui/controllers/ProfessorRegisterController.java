@@ -131,13 +131,17 @@ public class ProfessorRegisterController implements Initializable {
     @FXML
     private void cancelButtonIsPressed(ActionEvent event) {
         if (confirmCancelation()) {
-            try {
+            goBack();
+        }
+    }
+    
+    private void goBack() {
+        try {
                 changeWindowHeight(700);
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
             } catch (IOException exception) {
                 Log.getLogger(ProfessorRegisterController.class).error(exception.getMessage(), exception);
             }
-        }
     }
        
     @FXML
@@ -361,7 +365,7 @@ public class ProfessorRegisterController implements Initializable {
         try {
             DialogController.getDialog(new AlertMessage (exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
-                case ERROR -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/MainApp");
+                case ERROR -> goBack();
                 case FATAL -> MainApp.handleFatal();
                 
             }

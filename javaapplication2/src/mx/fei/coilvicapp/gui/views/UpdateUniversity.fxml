@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.UpdateUniversityController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.UpdateUniversityController">
     <children>
       <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="578.0" prefWidth="447.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
          <children>
@@ -46,7 +46,6 @@
                   <children>
                       <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" visible="false" />
                       <Button fx:id="acceptButton" lineSpacing="5.0" mnemonicParsing="false" onAction="#acceptButtonIsPressed" prefHeight="26.0" prefWidth="70.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" visible="false" />
-                      <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonIsPressed" prefHeight="26.0" prefWidth="70.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Eliminar" visible="false" />
                       <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Actualizar" />
                   </children>
               </HBox>

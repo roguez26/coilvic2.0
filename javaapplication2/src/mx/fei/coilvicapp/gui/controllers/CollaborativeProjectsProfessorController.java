@@ -181,7 +181,7 @@ public class CollaborativeProjectsProfessorController implements Initializable {
                 case ERROR ->
                     goBack();
                 case FATAL ->
-                    MainApp.changeView("/main/MainApp");
+                    MainApp.handleFatal();
             }
         } catch (IOException ioException) {
             Log.getLogger(CollaborativeProjectsProfessorController.class).error(ioException.getMessage(), ioException);

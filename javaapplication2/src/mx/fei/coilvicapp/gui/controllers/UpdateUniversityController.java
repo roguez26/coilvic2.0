@@ -56,9 +56,6 @@ public class UpdateUniversityController implements Initializable {
     private Button cancelButton;
 
     @FXML
-    private Button deleteButton;
-
-    @FXML
     private Button updateButton;
     
     @FXML
@@ -157,20 +154,7 @@ public class UpdateUniversityController implements Initializable {
         cancelButton.setVisible(isModifiable);
         countriesCombobox.setDisable(!isModifiable);
         updateButton.setManaged(!isModifiable);
-        deleteButton.setManaged(!isModifiable);
         updateButton.setVisible(!isModifiable);
-        deleteButton.setVisible(!isModifiable);
-    }
-
-    @FXML
-    private void deleteButtonIsPressed(ActionEvent event) throws IOException {
-        if (deleteConfirmation()) {
-            try {
-                invokeDeleteUniversity(university);
-            } catch (DAOException exception) {
-                handleDAOException(exception);
-            }
-        }
     }
 
     private void invokeUpdateUniversity() throws DAOException {

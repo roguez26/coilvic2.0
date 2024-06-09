@@ -80,7 +80,9 @@ public class FieldValidator {
             }
         }
         throw new IllegalArgumentException("El campo debe tener las siguientes características:\n"
-                + "1.- Debe contener al un rango de 3 a 45 caractéres \n");
+                + "1.- Debe contener al un rango de 3 a 45 caractéres\n"
+                + "2.- Solo se permiten letras A-Z\n"
+                + "3.- No se permiten simbolos");
     }
 
     public void checkLongRange(String stringForCheck) {
