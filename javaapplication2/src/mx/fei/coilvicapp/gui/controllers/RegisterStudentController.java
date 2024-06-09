@@ -183,7 +183,11 @@ public class RegisterStudentController implements Initializable {
     }
 
     private boolean isMemberUV(University university) {
-        return university.getName().equals("Universidad Veracruzana");
+        boolean result = false;
+        if (university != null) {
+            result = university.getName().equals("Universidad Veracruzana");
+        }
+        return result;
     }
 
     private Student initializeStudent() {

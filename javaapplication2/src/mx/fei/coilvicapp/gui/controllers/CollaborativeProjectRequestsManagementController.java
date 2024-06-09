@@ -33,26 +33,26 @@ import mx.fei.coilvicapp.logic.professor.Professor;
 public class CollaborativeProjectRequestsManagementController implements Initializable {
 
     @FXML
-    private Button backButton; 
-        
+    private Button backButton;
+
     @FXML
     private MenuButton requestsMenuButton;
-    
+
     @FXML
     private MenuButton statusMenuButton;
-    
+
     @FXML
-    private MenuItem receivedMenuItem;    
-    
+    private MenuItem receivedMenuItem;
+
     @FXML
     private MenuItem cancelledMenuItem;
-    
+
     @FXML
     private Button seeAllButton;
-    
+
     @FXML
     private TableView<CollaborativeProjectRequest> requestsTableView;
-    
+
     @FXML
     private TableColumn<CollaborativeProjectRequest, String> courseTableColumn;
 
@@ -61,224 +61,231 @@ public class CollaborativeProjectRequestsManagementController implements Initial
 
     @FXML
     private TableColumn<CollaborativeProjectRequest, String> requestDateTableColumn;
-        
+
     @FXML
     private TableColumn<CollaborativeProjectRequest, String> validationDateTableColumn;
 
     @FXML
     private TableColumn<CollaborativeProjectRequest, String> statusTableColumn;
-    
+
     @FXML
     private Button seeDetailsButton;
-        
+
     private Professor professor;
-    
+
     @Override
-    public void initialize(URL URL, ResourceBundle resourceBundle) {        
+    public void initialize(URL URL, ResourceBundle resourceBundle) {
     }
-    
+
     public Professor getProfessor() {
         return professor;
     }
-    
+
     public void setProfessor(Professor professor) {
         if (professor != null) {
             this.professor = professor;
             initializeAll();
         }
     }
-    
+
     @FXML
-    private void backButtonIsPressed(ActionEvent event) throws IOException {
+    private void backButtonIsPressed(ActionEvent event) {
         if (event.getSource() == backButton) {
-            if (professor != null) {
-                FXMLLoader fxmlLoader = new FXMLLoader
-                (getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
-                MainApp.changeView(fxmlLoader);
-                ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
-                professorMainMenuController.setProfessor(professor);                
-            }            
+            goBack();
         }
     }
-    
+
+    private void goBack() {
+        try {
+            if (professor != null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
+                MainApp.changeView(fxmlLoader);
+                ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
+                professorMainMenuController.setProfessor(professor);
+            }
+        } catch (IOException exception) {
+            Log.getLogger(CollaborativeProjectRequestsManagementController.class).error(exception.getMessage(), exception);
+        }
+    }
+
     @FXML
     void receivedMenuButtonIsSelected(ActionEvent event) {
         requestsMenuButton.setText(((MenuItem) event.getSource()).getText());
         statusMenuButton.setVisible(true);
         cancelledMenuItem.setVisible(false);
-        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO =
-        new CollaborativeProjectRequestDAO();
+        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO
+                = new CollaborativeProjectRequestDAO();
         ArrayList<CollaborativeProjectRequest> collaborativeProjectRequests = new ArrayList<>();
-        
+
         try {
-            switch (statusMenuButton.getText()) {                                    
-                case "Todo" -> 
-                    collaborativeProjectRequests =
-                    collaborativeProjectRequestDAO.getReceivedCollaborativeProjectRequests(professor.getIdProfessor());
-                case "Pendiente" -> 
+            switch (statusMenuButton.getText()) {
+                case "Todo" ->
+                    collaborativeProjectRequests
+                            = collaborativeProjectRequestDAO.getReceivedCollaborativeProjectRequests(professor.getIdProfessor());
+                case "Pendiente" ->
                     collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                    getPendingReceivedCollaborativeProjectRequests(professor.getIdProfessor());
-                case "Aceptado" -> 
+                            getPendingReceivedCollaborativeProjectRequests(professor.getIdProfessor());
+                case "Aceptado" ->
                     collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                    getAcceptedReceivedCollaborativeProjectRequests(professor.getIdProfessor());
-                case "Rechazado" -> 
+                            getAcceptedReceivedCollaborativeProjectRequests(professor.getIdProfessor());
+                case "Rechazado" ->
                     collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                    getRejectedReceivedCollaborativeProjectRequests(professor.getIdProfessor());
-                default ->  
+                            getRejectedReceivedCollaborativeProjectRequests(professor.getIdProfessor());
+                default ->
                     collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                    getReceivedCollaborativeProjectRequests(professor.getIdProfessor());                
+                            getReceivedCollaborativeProjectRequests(professor.getIdProfessor());
             }
-                                   
+
             updateTableView(collaborativeProjectRequests);
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
     }
-    
+
     @FXML
     void sentMenuButtonIsSelected(ActionEvent event) {
         requestsMenuButton.setText(((MenuItem) event.getSource()).getText());
         statusMenuButton.setVisible(true);
         cancelledMenuItem.setVisible(true);
-        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO = 
-        new CollaborativeProjectRequestDAO();
+        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO
+                = new CollaborativeProjectRequestDAO();
         ArrayList<CollaborativeProjectRequest> collaborativeProjectRequests = new ArrayList<>();
-        
+
         try {
             switch (statusMenuButton.getText()) {
-                case "Todo" -> 
+                case "Todo" ->
                     collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                    getSentCollaborativeProjectRequests(professor.getIdProfessor());
-                case "Pendiente" -> 
+                            getSentCollaborativeProjectRequests(professor.getIdProfessor());
+                case "Pendiente" ->
                     collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                    getPendingSentCollaborativeProjectRequests(professor.getIdProfessor());
-                case "Aceptado" -> 
+                            getPendingSentCollaborativeProjectRequests(professor.getIdProfessor());
+                case "Aceptado" ->
                     collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                    getAcceptedSentCollaborativeProjectRequests(professor.getIdProfessor());
-                case "Rechazado" -> 
+                            getAcceptedSentCollaborativeProjectRequests(professor.getIdProfessor());
+                case "Rechazado" ->
                     collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                    getRejectedSentCollaborativeProjectRequests(professor.getIdProfessor());
-                case "Cancelado" -> 
+                            getRejectedSentCollaborativeProjectRequests(professor.getIdProfessor());
+                case "Cancelado" ->
                     collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                    getCancelledSentCollaborativeProjectRequests(professor.getIdProfessor());
-                default -> 
+                            getCancelledSentCollaborativeProjectRequests(professor.getIdProfessor());
+                default ->
                     collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                    getSentCollaborativeProjectRequests(professor.getIdProfessor());                
+                            getSentCollaborativeProjectRequests(professor.getIdProfessor());
             }
-                                   
+
             updateTableView(collaborativeProjectRequests);
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
     }
-    
+
     @FXML
     void allMenuButtonIsSelected(ActionEvent event) {
         statusMenuButton.setText(((MenuItem) event.getSource()).getText());
         receivedMenuItem.setVisible(true);
-        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO =
-        new CollaborativeProjectRequestDAO();
+        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO
+                = new CollaborativeProjectRequestDAO();
         ArrayList<CollaborativeProjectRequest> collaborativeProjectRequests = new ArrayList<>();
-        
+
         try {
             if (requestsMenuButton.getText().equals("Recibidas")) {
-                collaborativeProjectRequests = 
-                collaborativeProjectRequestDAO.getReceivedCollaborativeProjectRequests(professor.getIdProfessor());
+                collaborativeProjectRequests
+                        = collaborativeProjectRequestDAO.getReceivedCollaborativeProjectRequests(professor.getIdProfessor());
             } else if (requestsMenuButton.getText().equals("Enviadas")) {
-                collaborativeProjectRequests = 
-                collaborativeProjectRequestDAO.getSentCollaborativeProjectRequests(professor.getIdProfessor());
-            }                        
-            updateTableView(collaborativeProjectRequests);
-        } catch (DAOException exception) {
-            handleDAOException(exception);
-        }
-    }
-    
-    @FXML
-    void pendingMenuButtonIsSelected(ActionEvent event) {
-        statusMenuButton.setText(((MenuItem) event.getSource()).getText());
-        receivedMenuItem.setVisible(true);
-        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO =
-        new CollaborativeProjectRequestDAO();
-        ArrayList<CollaborativeProjectRequest> collaborativeProjectRequests = new ArrayList<>();
-        
-        try {
-            if (requestsMenuButton.getText().equals("Recibidas")) {
-                collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                getPendingReceivedCollaborativeProjectRequests(professor.getIdProfessor());
-            } else if (requestsMenuButton.getText().equals("Enviadas")) {
-                collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                getPendingSentCollaborativeProjectRequests(professor.getIdProfessor());
-            }                        
-            updateTableView(collaborativeProjectRequests);
-        } catch (DAOException exception) {
-            handleDAOException(exception);
-        }
-    }
-    
-    @FXML
-    void acceptedMenuButtonIsSelected(ActionEvent event) {
-        statusMenuButton.setText(((MenuItem) event.getSource()).getText());
-        receivedMenuItem.setVisible(true);
-        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO =
-        new CollaborativeProjectRequestDAO();
-        ArrayList<CollaborativeProjectRequest> collaborativeProjectRequests = new ArrayList<>();
-        
-        try {
-            if (requestsMenuButton.getText().equals("Recibidas")) {
-                collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                getAcceptedReceivedCollaborativeProjectRequests(professor.getIdProfessor());
-            } else if (requestsMenuButton.getText().equals("Enviadas")) {
-                collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                getAcceptedSentCollaborativeProjectRequests(professor.getIdProfessor());
+                collaborativeProjectRequests
+                        = collaborativeProjectRequestDAO.getSentCollaborativeProjectRequests(professor.getIdProfessor());
             }
             updateTableView(collaborativeProjectRequests);
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
     }
-        
+
     @FXML
-    void rejectedMenuButtonIsSelected(ActionEvent event) {
-        statusMenuButton.setText(((MenuItem) event.getSource()).getText());   
+    void pendingMenuButtonIsSelected(ActionEvent event) {
+        statusMenuButton.setText(((MenuItem) event.getSource()).getText());
         receivedMenuItem.setVisible(true);
-        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO =
-        new CollaborativeProjectRequestDAO();
+        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO
+                = new CollaborativeProjectRequestDAO();
         ArrayList<CollaborativeProjectRequest> collaborativeProjectRequests = new ArrayList<>();
-        
+
         try {
             if (requestsMenuButton.getText().equals("Recibidas")) {
                 collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                getRejectedReceivedCollaborativeProjectRequests(professor.getIdProfessor());
+                        getPendingReceivedCollaborativeProjectRequests(professor.getIdProfessor());
             } else if (requestsMenuButton.getText().equals("Enviadas")) {
                 collaborativeProjectRequests = collaborativeProjectRequestDAO.
-                getRejectedSentCollaborativeProjectRequests(professor.getIdProfessor());
-            }                        
+                        getPendingSentCollaborativeProjectRequests(professor.getIdProfessor());
+            }
             updateTableView(collaborativeProjectRequests);
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
     }
-    
+
+    @FXML
+    void acceptedMenuButtonIsSelected(ActionEvent event) {
+        statusMenuButton.setText(((MenuItem) event.getSource()).getText());
+        receivedMenuItem.setVisible(true);
+        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO
+                = new CollaborativeProjectRequestDAO();
+        ArrayList<CollaborativeProjectRequest> collaborativeProjectRequests = new ArrayList<>();
+
+        try {
+            if (requestsMenuButton.getText().equals("Recibidas")) {
+                collaborativeProjectRequests = collaborativeProjectRequestDAO.
+                        getAcceptedReceivedCollaborativeProjectRequests(professor.getIdProfessor());
+            } else if (requestsMenuButton.getText().equals("Enviadas")) {
+                collaborativeProjectRequests = collaborativeProjectRequestDAO.
+                        getAcceptedSentCollaborativeProjectRequests(professor.getIdProfessor());
+            }
+            updateTableView(collaborativeProjectRequests);
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
+    }
+
+    @FXML
+    void rejectedMenuButtonIsSelected(ActionEvent event) {
+        statusMenuButton.setText(((MenuItem) event.getSource()).getText());
+        receivedMenuItem.setVisible(true);
+        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO
+                = new CollaborativeProjectRequestDAO();
+        ArrayList<CollaborativeProjectRequest> collaborativeProjectRequests = new ArrayList<>();
+
+        try {
+            if (requestsMenuButton.getText().equals("Recibidas")) {
+                collaborativeProjectRequests = collaborativeProjectRequestDAO.
+                        getRejectedReceivedCollaborativeProjectRequests(professor.getIdProfessor());
+            } else if (requestsMenuButton.getText().equals("Enviadas")) {
+                collaborativeProjectRequests = collaborativeProjectRequestDAO.
+                        getRejectedSentCollaborativeProjectRequests(professor.getIdProfessor());
+            }
+            updateTableView(collaborativeProjectRequests);
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
+    }
+
     @FXML
     void cancelledMenuButtonIsSelected(ActionEvent event) {
         statusMenuButton.setText(((MenuItem) event.getSource()).getText());
         receivedMenuItem.setVisible(false);
-        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO =
-        new CollaborativeProjectRequestDAO();
+        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO
+                = new CollaborativeProjectRequestDAO();
         ArrayList<CollaborativeProjectRequest> collaborativeProjectRequests = new ArrayList<>();
-        
-        try {            
+
+        try {
             collaborativeProjectRequests = collaborativeProjectRequestDAO.
-            getCancelledSentCollaborativeProjectRequests(professor.getIdProfessor());                                  
+                    getCancelledSentCollaborativeProjectRequests(professor.getIdProfessor());
             updateTableView(collaborativeProjectRequests);
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
     }
-                        
+
     @FXML
-    void seeAllButtonIsPressed(ActionEvent event) {        
+    void seeAllButtonIsPressed(ActionEvent event) {
         if (event.getSource() == seeAllButton) {
             requestsMenuButton.setText("Solicitudes");
             statusMenuButton.setText("Estado");
@@ -289,97 +296,92 @@ public class CollaborativeProjectRequestsManagementController implements Initial
             updateTableView(collaborativeProjectRequests);
         }
     }
-            
+
     @FXML
     private void seeDetailsButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == seeDetailsButton) {
-            CollaborativeProjectRequest collaborativeProjectRequest = 
-            (CollaborativeProjectRequest) requestsTableView.getSelectionModel().getSelectedItem();
+            CollaborativeProjectRequest collaborativeProjectRequest
+                    = (CollaborativeProjectRequest) requestsTableView.getSelectionModel().getSelectedItem();
             if (collaborativeProjectRequest != null) {
-                FXMLLoader fxmlLoader = new FXMLLoader
-                (getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestDetails.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestDetails.fxml"));
                 MainApp.changeView(fxmlLoader);
-                CollaborativeProjectRequestDetailsController collaborativeProjectRequestDetailsController =
-                fxmlLoader.getController();
+                CollaborativeProjectRequestDetailsController collaborativeProjectRequestDetailsController
+                        = fxmlLoader.getController();
                 collaborativeProjectRequestDetailsController.setProfessor(professor);
-                collaborativeProjectRequestDetailsController.setCollaborativeProjectRequest
-                (collaborativeProjectRequest);
+                collaborativeProjectRequestDetailsController.setCollaborativeProjectRequest(collaborativeProjectRequest);
             } else {
-                DialogController.getInformativeConfirmationDialog
-                ("Sin solicitud seleccionada", "Necesita seleccionar una solicitud para poder ver sus detalles");
+                DialogController.getInformativeConfirmationDialog("Sin solicitud seleccionada", "Necesita seleccionar una solicitud para poder ver sus detalles");
             }
         }
-    }               
-    
+    }
+
     private void initializeAll() {
         requestsTableView.getItems().addAll(initializeCollaborativeProjectRequestsArray());
         courseTableColumn.setCellValueFactory((var cellData) -> {
             CollaborativeProjectRequest request = cellData.getValue();
             Course requesterCourse = request.getRequesterCourse();
             Course requestedCourse = request.getRequestedCourse();
-            if (requesterCourse != null && requesterCourse.getProfessor().getIdProfessor() !=
-            professor.getIdProfessor()) {
+            if (requesterCourse != null && requesterCourse.getProfessor().getIdProfessor()
+                    != professor.getIdProfessor()) {
                 return new SimpleStringProperty(requesterCourse.toString());
-            } else if (requestedCourse != null && requestedCourse.getProfessor().getIdProfessor() !=
-            professor.getIdProfessor()) {
+            } else if (requestedCourse != null && requestedCourse.getProfessor().getIdProfessor()
+                    != professor.getIdProfessor()) {
                 return new SimpleStringProperty(requestedCourse.toString());
             } else {
                 return new SimpleStringProperty("");
-            }    
-        });        
+            }
+        });
         professorTableColumn.setCellValueFactory(cellData -> {
             CollaborativeProjectRequest request = cellData.getValue();
             Course requesterCourse = request.getRequesterCourse();
-            Course requestedCourse = request.getRequestedCourse();            
-            if (requesterCourse != null && requesterCourse.getProfessor().getIdProfessor() !=
-            professor.getIdProfessor()) {
+            Course requestedCourse = request.getRequestedCourse();
+            if (requesterCourse != null && requesterCourse.getProfessor().getIdProfessor()
+                    != professor.getIdProfessor()) {
                 return new SimpleStringProperty(requesterCourse.getProfessor().toString());
-            } else if (requestedCourse != null && requestedCourse.getProfessor().getIdProfessor() !=
-            professor.getIdProfessor()) {
+            } else if (requestedCourse != null && requestedCourse.getProfessor().getIdProfessor()
+                    != professor.getIdProfessor()) {
                 return new SimpleStringProperty(requestedCourse.getProfessor().toString());
             } else {
                 return new SimpleStringProperty("");
             }
-        });        
+        });
         requestDateTableColumn.setCellValueFactory(new PropertyValueFactory<>("requestDate"));
         validationDateTableColumn.setCellValueFactory(new PropertyValueFactory<>("validationDate"));
         statusTableColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
-    
+
     private ArrayList<CollaborativeProjectRequest> initializeCollaborativeProjectRequestsArray() {
-        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO =
-        new CollaborativeProjectRequestDAO();
+        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO
+                = new CollaborativeProjectRequestDAO();
         ArrayList<CollaborativeProjectRequest> collaborativeProjectRequests = new ArrayList<>();
         try {
-            collaborativeProjectRequests = 
-            collaborativeProjectRequestDAO.getCollaborativeProjectRequests(professor.getIdProfessor());
+            collaborativeProjectRequests
+                    = collaborativeProjectRequestDAO.getCollaborativeProjectRequests(professor.getIdProfessor());
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
         return collaborativeProjectRequests;
     }
-    
+
     private void updateTableView(ArrayList<CollaborativeProjectRequest> collaborativeProjectRequests) {
         requestsTableView.getItems().clear();
         requestsTableView.getItems().addAll(collaborativeProjectRequests);
     }
-            
+
     private void handleDAOException(DAOException exception) {
         requestsTableView.getItems().clear();
         try {
-            
-            DialogController.getDialog
-            (new AlertMessage(exception.getMessage(), exception.getStatus()));
-            
+
+            DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
+
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/ ");
+                    goBack();
                 case FATAL ->
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger
-            (CollaborativeProjectRequestsManagementController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(CollaborativeProjectRequestsManagementController.class).error(ioException.getMessage(), ioException);
         }
-    }    
+    }
 }

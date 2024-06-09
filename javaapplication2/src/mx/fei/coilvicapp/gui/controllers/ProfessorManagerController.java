@@ -75,6 +75,10 @@ public class ProfessorManagerController implements Initializable {
 
     @FXML
     private void backButtonIsPressed(ActionEvent event) {
+        goBack();
+    }
+    
+    private void goBack() {
         try {
             if (professorSession != null) {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
@@ -84,14 +88,13 @@ public class ProfessorManagerController implements Initializable {
                     professorMainMenuController.setProfessor(professorSession);
                 }
             else if (allProfessorAreVisibles) {
-                
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
             } else {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
             }
 
-        } catch (IOException ioException) {
-            Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
+        } catch (IOException exception) {
+            Log.getLogger(ProfessorManagerController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -118,7 +121,7 @@ public class ProfessorManagerController implements Initializable {
                 professorDetailsController.setProfessorSession(professorSession);
             }
         } catch (IOException ioException) {
-            Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(ProfessorManagerController.class).error(ioException.getMessage(), ioException);
         }
     }
 
@@ -130,7 +133,7 @@ public class ProfessorManagerController implements Initializable {
             ProfessorValidateController professorValidateController = fxmlLoader.getController();
             professorValidateController.setProfessorForValidation(professor);
         } catch (IOException ioException) {
-            Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(ProfessorManagerController.class).error(ioException.getMessage(), ioException);
         }
     }
 
@@ -174,12 +177,12 @@ public class ProfessorManagerController implements Initializable {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
+                    goBack();
                 case FATAL ->
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(FeedbackFormsController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(ProfessorManagerController.class).error(ioException.getMessage(), ioException);
         }
     }
 

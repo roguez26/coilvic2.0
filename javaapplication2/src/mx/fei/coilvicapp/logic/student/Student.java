@@ -64,7 +64,7 @@ public class Student {
     }
 
     public void setMaternalSurname(String maternalSurname) {
-        if (!maternalSurname.isEmpty()) {
+        if (maternalSurname != null) {
             FieldValidator fieldValidator = new FieldValidator();
             fieldValidator.checkName(maternalSurname);
         }
@@ -86,7 +86,7 @@ public class Student {
     }
 
     public void setGender(String gender) {
-        if (gender.isEmpty()) {
+        if (gender == null) {
             throw new IllegalArgumentException("El campo del género no puede ser nulo");
         }
         this.gender = gender;
@@ -97,7 +97,7 @@ public class Student {
     }
 
     public void setLineage(String lineage) {
-        if (lineage.isEmpty()) {
+        if (lineage == null) {
             throw new IllegalArgumentException("El campo del linaje no puede ser nulo");
         }
         this.lineage = lineage;

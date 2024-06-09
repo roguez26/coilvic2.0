@@ -11,7 +11,7 @@ public class AlertMessage {
     private Status alertType = Status.SUCCESS;
 
     public AlertMessage(String content, Status alertType) {
-        if (content.isEmpty() || alertType == null) {
+        if (content == null || alertType == null) {
             throw new IllegalArgumentException("Debes ingresar un mensaje y un estádo en el mensaje de alerta");
         }
         this.content = content;

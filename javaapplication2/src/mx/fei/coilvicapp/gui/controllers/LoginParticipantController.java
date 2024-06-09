@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
@@ -87,7 +86,6 @@ public class LoginParticipantController implements Initializable {
                 registerButton.setVisible(true);
                 identifierLabel.setText("Contraseña:");
             }
-
         }
     }
 
@@ -116,12 +114,14 @@ public class LoginParticipantController implements Initializable {
     private void invokeAuthenticateStudentAndCollaborativeProject() throws DAOException, IOException {
         Student student = new Student();
         IStudent studentDAO = new StudentDAO();
+        CollaborativeProject collaborativeProject = new CollaborativeProject();
         
         student.setEmail(emailTextField.getText());
+        collaborativeProject.setCode(identifierPasswordField.getText());
         student = studentDAO.getStudentByEmail(emailTextField.getText());
         if (student.getIdStudent() > 0) {
             ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
-            CollaborativeProject collaborativeProject
+            collaborativeProject
                     = collaborativeProjectDAO.getCollaborativeProjectByCode(identifierPasswordField.getText());
             if (collaborativeProject.getIdCollaborativeProject() > 0) {
                 changeViewForStudent(student, collaborativeProject);
@@ -158,7 +158,13 @@ public class LoginParticipantController implements Initializable {
         User user;
         FieldValidator fieldValidator = new FieldValidator();
         IUser userDAO = new UserDAO();
-        int idUser = Integer.parseInt(emailTextField.getText());
+        int idUser = 0;
+        try {
+            idUser = Integer.parseInt(emailTextField.getText());
+        } catch (IllegalArgumentException exception) {
+            throw new IllegalArgumentException("El usuario proporcionado es incorrecto");
+        }
+        
 
         fieldValidator.checkPassword(identifierPasswordField.getText());
         if (userDAO.authenticateAdministrativeUser(idUser, identifierPasswordField.getText())) {
@@ -167,6 +173,8 @@ public class LoginParticipantController implements Initializable {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
             } else if (user.getType().equalsIgnoreCase("A")) {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
+            } else {
+                throw new IllegalArgumentException("No se encontró ningun usuario con esos datos");
             }
 
         }

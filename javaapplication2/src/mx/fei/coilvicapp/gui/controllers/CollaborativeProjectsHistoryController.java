@@ -81,7 +81,7 @@ public class CollaborativeProjectsHistoryController implements Initializable {
                     collaborativeProjectDetailsController.setCollaborativeProject(selectedCollaborativeProject);
                 });
             } catch (IOException exception) {
-                Log.getLogger(ValidateCollaborativeProjectController.class).error(exception.getMessage(), exception);
+                Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), exception);
             }
         } else {
             DialogController.getInformativeConfirmationDialog("Sin selección", "Seleccione un proyecto colaborativo para ver sus detalles");

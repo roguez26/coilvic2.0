@@ -107,15 +107,22 @@ public class CourseDetailsController implements Initializable {
     @FXML
     void backButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == backButton) {
-            FXMLLoader fxmlLoader = new FXMLLoader
+              goBack();    
+        }
+    }
+    
+    private void goBack() {
+        try {
+             FXMLLoader fxmlLoader = new FXMLLoader
             (getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorCourseManagement.fxml"));
             MainApp.changeView(fxmlLoader);
             ProfessorCourseManagementController professorCourseManagementController =
             fxmlLoader.getController();
-            professorCourseManagementController.setProfessor(professor);        
+            professorCourseManagementController.setProfessor(professor); 
+        } catch (IOException exception) {
+            Log.getLogger(CourseDetailsController.class).error(exception.getMessage(), exception);
         }
     }
-    
     @FXML
     void cancelButtonIsPressed(ActionEvent event) {
         if(confirmCancelation()) {
@@ -271,7 +278,7 @@ public class CourseDetailsController implements Initializable {
         try {
             languages = languageDAO.getLanguages();
         } catch(DAOException exception) {
-            Logger.getLogger(RegisterCourseController.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(CourseDetailsController.class).error(exception.getMessage(), exception);
         }
         return languages;
     }
@@ -341,13 +348,12 @@ public class CourseDetailsController implements Initializable {
         try {
             DialogController.getDialog(new AlertMessage (exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
-                case ERROR -> MainApp.changeView("/mx/fei/coilvicapp/gui/views/MainApp");
+                case ERROR -> goBack();
                 case FATAL -> MainApp.handleFatal();
                 
             }
         } catch (IOException ioException) {
-            Log.getLogger
-            (CourseDetailsController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(CourseDetailsController.class).error(ioException.getMessage(), ioException);
         }
     }
     
