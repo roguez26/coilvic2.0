@@ -98,7 +98,7 @@ public class Student {
 
     public void setLineage(String lineage) {
         if (lineage == null) {
-            throw new IllegalArgumentException("El campo del linaje no puede ser nulo");
+            throw new IllegalArgumentException("El campo ascendencia no puede ser nulo");
         }
         this.lineage = lineage;
     }

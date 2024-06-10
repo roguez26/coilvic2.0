@@ -91,6 +91,9 @@ public class InstitutionalRepresentative {
     }
     
     public void setUniversity(University university) {
+        if (university == null) {
+            throw new IllegalArgumentException("Es necesario asignarle una universidad al representante");
+        }
         this.university = university;
     }
 

@@ -9,31 +9,34 @@ import java.util.regex.Pattern;
  */
 public class FieldValidator {
 
-    private final String EMAIL_REGEX = "^(?=.{3,45}$)[^\\s@]+@(?:uv\\.mx|estudiantes\\.uv\\.mx|gmail\\.com|hotmail\\.com|outlook\\.com|edu\\.mx)$";
+    private final String EMAIL_REGEX = "^(?=.{3,45}$)(?!.*\\.{2})(?![-._])[a-zA-Z0-9_-]+(?:\\.[a-zA-Z0-9+_-]+)*(?<![-._])@(uv\\.mx|estudiantes\\.uv\\.mx|gmail\\.com|hotmail\\.com|outlook\\.com|edu\\.mx|yahoo\\.com|icloud\\.com|aol\\.com|protonmail\\.com|zoho\\.com|mail\\.com)$";
     private final String NAME_REGEX = "^(?=[^\\.\\-']*[\\p{L}\\p{M}])(?!.*[.\\-']{2})(?!.*  )[\\p{L} \\p{M}.'-]+(?<![ \\-'])$";
-    private final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"; 
-    private final String SHORT_RANGE = "^[\\p{L}0-9\\s]{3,45}$";
-    private final String LONG_RANGE = "(?s)^.{3,255}$";
+    private final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+    private final String SHORT_RANGE_REGEX = "^[\\p{L}0-9\\s]{3,45}$";
+    private final String LONG_RANGE_REGEX = "(?s)^.{3,255}$";
     private final String PHONE_NUMBER_REGEX = "^\\d{10}$";
     private final String ENROLLMENT_REGEX = "^S\\d{8}$";
-    private final String UV_PERSONAL_NUMBER = "^\\d{5}$";
+    private final String UV_PERSONAL_NUMBER_REGEX = "^\\d{5}$";
     private final String TEXT_REGEX = "^[\\p{L}0-9\\s,\\.\\:]+$";
     private final String TERM_REGEX = "^(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)\\"
             + "d{4}-(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)\\d{4}$";
-    
 
-    public void checkEmail(String eMail) {
+    public void checkEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
-        if (eMail != null) {
-            Matcher matcher = pattern.matcher(eMail);
+        if (email != null) {
+            Matcher matcher = pattern.matcher(email);
             if (matcher.matches()) {
                 return;
             }
         }
         throw new IllegalArgumentException("El Email debe contener las siguientes características:\n"
                 + "1.- No debe contener espacios en blanco\n"
-                + "2.- Solo los siguientes dominios son permitidos: (@uv.mx, @estudiantes.uv.mx, "
-                + "@gmail.com, @hotmail.com, @outlook.com, @edu.mx)\n");
+                + "2.- Simbolos permitidos: +, -, . y _\n"
+                + "3.- No debe empezar ni terminar con signos\n"
+                + "4.- Dominios permitidos: (@uv.mx, @estudiantes.uv.mx, "
+                + "@gmail.com, @hotmail.com, @outlook.com, @edu.mx, @yahoo.com, @icloud.com, "
+                + "@aol.com, @protonmail.com, @zoho.com, @mail.com)\n");
+
     }
 
     public void checkName(String name) {
@@ -50,8 +53,7 @@ public class FieldValidator {
                 + "2.- No debe contener dos símbolos consecutivos.\n"
                 + "3.- No debe terminar con espacios en blanco, ' o -\n"
                 + "4.- No debe contener números");
-        
-        
+
     }
 
     public void checkPhoneNumber(String phoneNumber) {
@@ -66,13 +68,12 @@ public class FieldValidator {
                 + "1.- Debe contener un total de 10 dígitos\n"
                 + "2.- Solo debe contener números\n"
                 + "3.- No puede tener espacios en blanco\n"
-                + "4.- No debe contener los siguientes símbolos: (!, \", #, $, %, &, ', (, ), *, +, "
-                + ",, -, ., /, :, ;, <, =, >, ?, @, [, \\, ], ^, _, `, {, |, }, ~)\n");
+                + "4.- No debe contener símbolos\n");
 
     }
 
     public void checkShortRange(String stringForCheck) {
-        Pattern pattern = Pattern.compile(SHORT_RANGE);
+        Pattern pattern = Pattern.compile(SHORT_RANGE_REGEX);
         if (stringForCheck != null) {
             Matcher matcher = pattern.matcher(stringForCheck);
             if (matcher.matches()) {
@@ -81,12 +82,12 @@ public class FieldValidator {
         }
         throw new IllegalArgumentException("El campo debe tener las siguientes características:\n"
                 + "1.- Debe contener al un rango de 3 a 45 caractéres\n"
-                + "2.- Solo se permiten letras A-Z\n"
-                + "3.- No se permiten simbolos");
+                + "2.- Solo se permiten caracteres: A-Z, 0-9\n"
+                + "3.- No se permiten otros simbolos");
     }
 
     public void checkLongRange(String stringForCheck) {
-        Pattern pattern = Pattern.compile(LONG_RANGE);
+        Pattern pattern = Pattern.compile(LONG_RANGE_REGEX);
         if (stringForCheck != null) {
             Matcher matcher = pattern.matcher(stringForCheck);
             if (matcher.matches()) {
@@ -122,21 +123,21 @@ public class FieldValidator {
                 + "2.- Debe contener  al menos un carácter especial (@, $, !, %, *, ? o &.\n"
                 + "3.- Debe contener al menos un número.\n");
     }
-    
+
     public void checkCode(String code) {
         try {
             checkPassword(code);
         } catch (IllegalArgumentException exception) {
             throw new IllegalArgumentException("El código debe tener las siguientes características:\n"
-                + "1.- Debe contener al menos 8 caracteres (mayúsculas y minúsculas).\n"
-                + "2.- Debe contener  al menos un carácter especial (@, $, !, %, *, ? o &.\n"
-                + "3.- Debe contener al menos un número.\n");
+                    + "1.- Debe contener al menos 8 caracteres (mayúsculas y minúsculas).\n"
+                    + "2.- Debe contener  al menos un carácter especial (@, $, !, %, *, ? o &.\n"
+                    + "3.- Debe contener al menos un número.\n");
         }
     }
 
     public void checkUvPersonalNumber(int uvPersonalNumber) {
         String uvString = String.valueOf(uvPersonalNumber);
-        Pattern pattern = Pattern.compile(UV_PERSONAL_NUMBER);
+        Pattern pattern = Pattern.compile(UV_PERSONAL_NUMBER_REGEX);
         if (uvString != null) {
             Matcher matcher = pattern.matcher(uvString);
             if (matcher.matches()) {
@@ -156,14 +157,14 @@ public class FieldValidator {
         if (text != null) {
             Matcher matcher = pattern.matcher(text);
             if (matcher.matches()) {
-                return; // No se necesita verificar el rango de longitud
+                return;
             }
         }
         throw new IllegalArgumentException("El texto debe tener las siguientes características:\n"
                 + "1.- Puede contener letras, números, espacios, comas, puntos y dos puntos.\n"
-                + "2.- No puede contener más de 2 espacios en blanco juntos\n"
-                + "3.- No puede tener solo espacios en blanco\n"
-                + "4.- No debe contener los siguientes símbolos: (!, \", #, $, %, &, ', (, ), *,"
+//                + "2.- No puede contener más de 2 espacios en blanco juntos\n"
+//                + "3.- No puede tener solo espacios en blanco\n"
+                + "2.- No debe contener los siguientes símbolos: (!, \", #, $, %, &, ', (, ), *,"
                 + " +, -, /, ;, <, =, >, ?, @, [, \\, ], ^, _, `, {, |, }, ~)\n");
     }
 
@@ -175,7 +176,7 @@ public class FieldValidator {
         }
         return true;
     }
-    
+
     public void checkNoRepeatedCharacters(String text) {
         Pattern pattern = Pattern.compile("^(?!.*(.)\\1{2,}).+$");
         if (text != null) {
@@ -186,4 +187,5 @@ public class FieldValidator {
         }
         throw new IllegalArgumentException("No se permiten entradas con 3 o más caracteres repetidos consecutivamente.\n");
     }
+
 }
