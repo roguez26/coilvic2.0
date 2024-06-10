@@ -100,7 +100,8 @@ public class CollaborativeProjectDetailsController implements Initializable {
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(ioException.getMessage(), 
+                    ioException);
         }
     }
 

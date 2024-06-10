@@ -31,7 +31,8 @@ public class PDFCreator {
             try (PdfReader reader = new PdfReader(CERTIFICATE_TEMPLATE_PATH)) {
                 destionationCertificatePath = certificateDestination + "\\" + date + "-" + name + "-constancia.pdf";
                 PdfWriter writer = new PdfWriter(destionationCertificatePath);
-                try (PdfDocument pdfDocument = new PdfDocument(reader, writer); Document document = new Document(pdfDocument)) {
+                try (PdfDocument pdfDocument = new PdfDocument(reader, writer); Document document = new Document(
+                        pdfDocument)) {
                     Paragraph paragraph = new Paragraph(name);
                     paragraph.setFixedPosition(0, 335, 855);
                     paragraph.setTextAlignment(TextAlignment.CENTER);

@@ -80,16 +80,19 @@ public class ActivitiesManagementController implements Initializable {
 
     private void goBack() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsProfessor.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                    "/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsProfessor.fxml"));
             MainApp.changeView(fxmlLoader);
-            CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController = fxmlLoader.getController();
+            CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController 
+                    = fxmlLoader.getController();
             collaborativeProjectDetailsProfessorController.setCollaborativeProject(collaborativeProject);
             if (!justVisibleMode) {
                 collaborativeProjectDetailsProfessorController.setProfessor(professorSession);
             }
 
         } catch (IOException exception) {
-            Logger.getLogger(ActivitiesManagementController.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(ActivitiesManagementController.class.getName()).log(Level.SEVERE, null, 
+                    exception);
         }
     }
 
@@ -107,7 +110,8 @@ public class ActivitiesManagementController implements Initializable {
                 DialogController.getInformativeConfirmationDialog("Algo salio mal", exception.getMessage());
             }
         } else {
-            DialogController.getInformativeConfirmationDialog("Sin actividad", "Seleccione una actividad para poder ver sus detalles");
+            DialogController.getInformativeConfirmationDialog("Sin actividad", "Seleccione una actividad para "
+                    + "poder ver sus detalles");
         }
     }
 
@@ -126,7 +130,8 @@ public class ActivitiesManagementController implements Initializable {
             }
             fillActivitiesTable(collaborativeProject);
         } else {
-            DialogController.getInformativeConfirmationDialog("Sin actividad", "Seleccione una actividad para poder ver sus detalles");
+            DialogController.getInformativeConfirmationDialog("Sin actividad", "Seleccione una actividad para"
+                    + " poder ver sus detalles");
         }
     }
 
@@ -157,7 +162,8 @@ public class ActivitiesManagementController implements Initializable {
         ArrayList<Assignment> assignmentsList = new ArrayList<>();
         activitiesTableView.getItems().clear();
         try {
-            assignmentsList = assignmentDAO.getAssignmentsByIdProjectColaborative(collaborativeProject.getIdCollaborativeProject());
+            assignmentsList = assignmentDAO.getAssignmentsByIdProjectColaborative(
+                    collaborativeProject.getIdCollaborativeProject());
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -166,7 +172,8 @@ public class ActivitiesManagementController implements Initializable {
 
     private void handleDAOException(DAOException exception) {
         try {
-            DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
+            DialogController.getDialog(new AlertMessage(exception.getMessage(), 
+                    exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->
                     goBack();

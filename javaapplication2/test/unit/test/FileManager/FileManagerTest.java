@@ -38,7 +38,8 @@ public class FileManagerTest {
     @Test
     public void testSaveAssignment() {
         int idCollaborativeProjectExample = 1234;
-        String expectedDestionationPath = "files\\activities" + "\\" + idCollaborativeProjectExample + "\\certificate.pdf";
+        String expectedDestionationPath = "files\\activities" + "\\" + idCollaborativeProjectExample
+                + "\\certificate.pdf";
         String result = "";
         File file = new File("files\\template\\certificate.pdf");
 
@@ -67,13 +68,15 @@ public class FileManagerTest {
 
     @Test
     public void isValidForSaveFailByTooLarge() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FILE_MANAGER_FOR_TEST.isValidFileForSave(initializeLargeFile()));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                FILE_MANAGER_FOR_TEST.isValidFileForSave(initializeLargeFile()));
         System.out.println(exception.getMessage());
     }
 
     @Test
     public void isValidForSaveFailByNullFile() {
-         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FILE_MANAGER_FOR_TEST.isValidFileForSave(null));
+         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                 FILE_MANAGER_FOR_TEST.isValidFileForSave(null));
         System.out.println(exception.getMessage());
     }
 
@@ -91,7 +94,8 @@ public class FileManagerTest {
             Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
         }
         
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, ()-> FILE_MANAGER_FOR_TEST.isValidFileForSave(file));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, ()->
+                FILE_MANAGER_FOR_TEST.isValidFileForSave(file));
         System.out.println(exception.getMessage());
         FILE_MANAGER_FOR_TEST.deleteFile(new File(destionationPath));
     }
@@ -107,7 +111,8 @@ public class FileManagerTest {
     
     @Test
     public void testOpenFileFailByNonexistenceFile() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FILE_MANAGER_FOR_TEST.openFile("archivo no existente"));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                FILE_MANAGER_FOR_TEST.openFile("archivo no existente"));
         System.out.println(exception.getMessage());
     }
 

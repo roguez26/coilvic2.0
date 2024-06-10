@@ -145,7 +145,8 @@ public class LoginParticipantController implements Initializable {
         if (userDAO.authenticateUser(emailTextField.getText(), identifierPasswordField.getText())) {
             IProfessor professorDAO = new ProfessorDAO();
             professor = professorDAO.getProfessorByEmail(emailTextField.getText());
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                    + "ProfessorMainMenu.fxml"));
 
             MainApp.changeView(fxmlLoader);
             ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
@@ -180,12 +181,14 @@ public class LoginParticipantController implements Initializable {
         }
     }
 
-    private void changeViewForStudent(Student student, CollaborativeProject collaborativeProject) throws IOException {
+    private void changeViewForStudent(Student student, CollaborativeProject collaborativeProject) throws 
+            IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                 "/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent.fxml"));
 
         MainApp.changeView(fxmlLoader);
-        CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController = fxmlLoader.getController();
+        CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController = 
+                fxmlLoader.getController();
         collaborativeProjectDetailsStudentController.setStudent(student);
         collaborativeProjectDetailsStudentController.setCollaborativeProject(collaborativeProject);
     }

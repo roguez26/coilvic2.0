@@ -67,7 +67,8 @@ public class ProfessorDetailsController implements Initializable {
     
     private void changeToProfessorManager() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorManager.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                    + "ProfessorManager.fxml"));
 
             MainApp.changeView(fxmlLoader);
             ProfessorManagerController professorManagerController = fxmlLoader.getController();
@@ -79,7 +80,8 @@ public class ProfessorDetailsController implements Initializable {
     
     private void changeToProfessorManagerAsProfessor() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorManager.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                    + "ProfessorManager.fxml"));
 
             MainApp.changeView(fxmlLoader);
             ProfessorManagerController professorManagerController = fxmlLoader.getController();
@@ -92,7 +94,8 @@ public class ProfessorDetailsController implements Initializable {
 
     @FXML
     void showHistoryButtonIsPressed(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsHistory.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                + "CollaborativeProjectsHistory.fxml"));
         MainApp.changeView(fxmlLoader);
         CollaborativeProjectsHistoryController collaborativeProjectsHistoryController = fxmlLoader.getController();
         if (professorSession != null) {

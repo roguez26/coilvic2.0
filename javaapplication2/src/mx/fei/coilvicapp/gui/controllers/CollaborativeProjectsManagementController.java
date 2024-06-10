@@ -86,10 +86,12 @@ public class CollaborativeProjectsManagementController implements Initializable 
         courseOneTableColumn.setCellValueFactory(new PropertyValueFactory<>("requesterCourse"));
         courseTwoTableColumn.setCellValueFactory(new PropertyValueFactory<>("requestedCourse"));
         universityOneTableColumn.setCellValueFactory(cellData
-                -> new SimpleStringProperty(cellData.getValue().getRequesterCourse().getProfessor().getUniversity().getName()));
+                -> new SimpleStringProperty(cellData.getValue().getRequesterCourse().getProfessor().getUniversity()
+                        .getName()));
 
         universityTwoTableColumn.setCellValueFactory(cellData
-                -> new SimpleStringProperty(cellData.getValue().getRequestedCourse().getProfessor().getUniversity().getName()));
+                -> new SimpleStringProperty(cellData.getValue().getRequestedCourse().getProfessor().getUniversity()
+                        .getName()));
         if (!collaborativeProjectsList.isEmpty()) {
             collaborativeProjecsTableView.getItems().addAll(collaborativeProjectsList);
         }
@@ -97,14 +99,19 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
     @FXML
     void seeDetailsButton(ActionEvent event) throws IOException {
-        CollaborativeProject selectedCollaborativeProject = collaborativeProjecsTableView.getSelectionModel().getSelectedItem();
+        CollaborativeProject selectedCollaborativeProject = collaborativeProjecsTableView
+                .getSelectionModel().getSelectedItem();
         if (selectedCollaborativeProject != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsProfessor.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                    + "CollaborativeProjectDetailsProfessor.fxml"));
             MainApp.changeView(fxmlLoader);
-            CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController = fxmlLoader.getController();
-            collaborativeProjectDetailsProfessorController.setCollaborativeProject(selectedCollaborativeProject);
+            CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController = 
+                    fxmlLoader.getController();
+            collaborativeProjectDetailsProfessorController.setCollaborativeProject(
+                    selectedCollaborativeProject);
         } else {
-            DialogController.getInformativeConfirmationDialog("Sin proyecto seleccionado", "Necesita seleccionar un proyecto para poder ver sus detalles");
+            DialogController.getInformativeConfirmationDialog("Sin proyecto seleccionado", "Necesita "
+                    + "seleccionar un proyecto para poder ver sus detalles");
         }
     }
 
@@ -169,14 +176,19 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
     @FXML
     void validateButtonIsPressed(ActionEvent event) throws IOException {
-        CollaborativeProject selectedCollaborativeProject = collaborativeProjecsTableView.getSelectionModel().getSelectedItem();
+        CollaborativeProject selectedCollaborativeProject = collaborativeProjecsTableView
+                .getSelectionModel().getSelectedItem();
         if (selectedCollaborativeProject != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ValidateCollaborativeProject.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                    + "ValidateCollaborativeProject.fxml"));
             MainApp.changeView(fxmlLoader);
-            ValidateCollaborativeProjectController collaborativeProjectDetailsStudentController = fxmlLoader.getController();
-            collaborativeProjectDetailsStudentController.setCollaborativeProject(selectedCollaborativeProject);
+            ValidateCollaborativeProjectController collaborativeProjectDetailsStudentController =
+                    fxmlLoader.getController();
+            collaborativeProjectDetailsStudentController.setCollaborativeProject(
+                    selectedCollaborativeProject);
         } else {
-            DialogController.getInformativeConfirmationDialog("Sin proyecto seleccionado", "Necesita seleccionar un proyecto para poder inciar la validacion");
+            DialogController.getInformativeConfirmationDialog("Sin proyecto seleccionado", "Necesita "
+                    + "seleccionar un proyecto para poder inciar la validacion");
         }
     }
 
@@ -189,7 +201,8 @@ public class CollaborativeProjectsManagementController implements Initializable 
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
         } catch (IOException exception) {
-            Log.getLogger(CollaborativeProjectsManagementController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectsManagementController.class).error(exception.getMessage(),
+                    exception);
         }
     }
 
@@ -204,7 +217,8 @@ public class CollaborativeProjectsManagementController implements Initializable 
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(CollaborativeProjectsManagementController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(CollaborativeProjectsManagementController.class).error(
+                    ioException.getMessage(), ioException);
         }
     }
 

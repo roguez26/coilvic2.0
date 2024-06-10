@@ -35,35 +35,40 @@ public class FieldValidatorTest {
     @Test
     public void testCheckNameFailByNoAllowedSigns() {
         String invalidName = "Alej4ndro";
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FIELD_VALIDATOR.checkName(invalidName));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
+                FIELD_VALIDATOR.checkName(invalidName));
         System.out.println(exception.getMessage());
     }
 
     @Test
     public void testCheckNameFailByRepeatedCharacters() {
         String invalidName = "Diannnna";
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FIELD_VALIDATOR.checkName(invalidName));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
+                FIELD_VALIDATOR.checkName(invalidName));
         System.out.println(exception.getMessage());
     }
 
     @Test
     public void testCheckNameFailByRepeatedSigns() {
         String invalidName = "Tomás-. Marcos";
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FIELD_VALIDATOR.checkName(invalidName));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
+                FIELD_VALIDATOR.checkName(invalidName));
         System.out.println(exception.getMessage());
     }
 
     @Test
     public void testCheckNameFailByTooLong() {
         String invalidName = "Nombre que es excesivamente largo para el campo";
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FIELD_VALIDATOR.checkName(invalidName));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
+                FIELD_VALIDATOR.checkName(invalidName));
         System.out.println(exception.getMessage());
     }
 
     @Test
     public void testCheckNameFailByTooShort() {
         String invalidName = "";
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> FIELD_VALIDATOR.checkName(invalidName));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
+                FIELD_VALIDATOR.checkName(invalidName));
         System.out.println(exception.getMessage());
     }
 

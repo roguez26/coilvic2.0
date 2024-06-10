@@ -78,7 +78,8 @@ public class EmailSender {
         if (session != null && mail != null) {
             try {
                 transport = session.getTransport("smtp");
-                transport.connect(permitionsCredential.getProperty(sender), permitionsCredential.getProperty(password));
+                transport.connect(permitionsCredential.getProperty(sender), permitionsCredential.getProperty(
+                        password));
                 transport.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
                 wasSent = true;
             } catch (NoSuchProviderException exception) {

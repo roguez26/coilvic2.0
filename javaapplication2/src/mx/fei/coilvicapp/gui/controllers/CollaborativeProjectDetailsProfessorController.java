@@ -84,17 +84,20 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
         IFeedback feedbackDAO = new FeedbackDAO();
         ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         try {
-            if (feedbackDAO.areThereProfessorQuestions() && collaborativeProjectDAO.hasThreeActivitiesAtLeast(collaborativeProject)) {
+            if (feedbackDAO.areThereProfessorQuestions() && collaborativeProjectDAO.hasThreeActivitiesAtLeast(
+                    collaborativeProject)) {
                 if (!feedbackDAO.hasCompletedProfessorForm(professor, collaborativeProject)) {
                     if (confirmFinish()) {
                         feedbackOnCollaborativeProject();
                         finishCollaborativeProject();
                     }
                 } else {
-                    DialogController.getInformativeConfirmationDialog("Aviso", "Ya has completado el proceso de retroalimentación");
+                    DialogController.getInformativeConfirmationDialog("Aviso", "Ya has completado el proceso de "
+                            + "retroalimentación");
                 }
             } else {
-                DialogController.getInformativeConfirmationDialog("Lo sentimos", "No es posible realizar la retroalimentación debido a que aún no hay preguntas para el profesor");
+                DialogController.getInformativeConfirmationDialog("Lo sentimos", "No es posible realizar la "
+                        + "retroalimentación debido a que aún no hay preguntas para el profesor");
             }
         } catch (DAOException exception) {
             handleDAOException(exception);
@@ -109,43 +112,51 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
     @FXML
     void seeFeedbackButtonIsPressed(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/Feedback.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                    + "Feedback.fxml"));
             MainApp.changeView(fxmlLoader);
             FeedbackController feedbackController = fxmlLoader.getController();
             feedbackController.setCollaborativeProject(collaborativeProject);
         } catch (IOException exception) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), 
+                    exception);
         }
     }
 
     private void finishCollaborativeProject() throws DAOException {
         IFeedback feedbackDAO = new FeedbackDAO();
 
-        if (feedbackDAO.hasCompletedProfessorForm(collaborativeProject.getRequestedCourse().getProfessor(), collaborativeProject) && feedbackDAO.hasCompletedProfessorForm(collaborativeProject.getRequesterCourse().getProfessor(), collaborativeProject)) {
+        if (feedbackDAO.hasCompletedProfessorForm(collaborativeProject.getRequestedCourse().getProfessor(),
+                collaborativeProject) && feedbackDAO.hasCompletedProfessorForm(
+                        collaborativeProject.getRequesterCourse().getProfessor(), collaborativeProject)) {
             ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
 
             collaborativeProjectDAO.finalizeCollaborativeProject(collaborativeProject);
             DialogController.getInformativeConfirmationDialog("Aviso", "El proyecto ha finalizado con éxito");
         } else {
-            DialogController.getInformativeConfirmationDialog("Aviso", "El proyecto finalizará hasta que ambos profesores realicen la retroalimentación");
+            DialogController.getInformativeConfirmationDialog("Aviso", "El proyecto finalizará hasta que ambos"
+                    + " profesores realicen la retroalimentación");
         }
     }
 
     private boolean confirmFinish() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "Para concluir el proyecto colaborativo debe completar la retroalimentación ¿Desea continuar?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "Para concluir "
+                + "el proyecto colaborativo debe completar la retroalimentación ¿Desea continuar?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
     private void feedbackOnCollaborativeProject() {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/FeedbackOnCollaborativeProject", controller -> {
-                FeedbackOnCollaborativeProjectController feedbackOnCollaborativeProjectController = (FeedbackOnCollaborativeProjectController) controller;
+                FeedbackOnCollaborativeProjectController feedbackOnCollaborativeProjectController = 
+                        (FeedbackOnCollaborativeProjectController) controller;
                 feedbackOnCollaborativeProjectController.setCollaborativeProject(collaborativeProject);
                 feedbackOnCollaborativeProjectController.setProfessor(professor);
                 feedbackOnCollaborativeProjectController.setTypeQuestiones("Profesor");
             });
         } catch (IOException exception) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), 
+                    exception);
         }
 
     }
@@ -165,7 +176,8 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
     @FXML
     void seeActivitiesButtonIsPressed(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ActivitiesManagement.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                + "ActivitiesManagement.fxml"));
 
         try {
             MainApp.changeView(fxmlLoader);
@@ -177,7 +189,8 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
                 activitiesManagementController.setJustVisibleMode(true);
             }
         } catch (IOException exception) {
-            Logger.getLogger(CollaborativeProjectDetailsProfessorController.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), 
+                    exception);
         }
 
     }
@@ -216,13 +229,16 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
             if (professor == null) {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsManagement");
             } else {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsProfessor.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                        + "CollaborativeProjectsProfessor.fxml"));
                 MainApp.changeView(fxmlLoader);
-                CollaborativeProjectsProfessorController collaborativeProjectsProfessorController = fxmlLoader.getController();
+                CollaborativeProjectsProfessorController collaborativeProjectsProfessorController = 
+                        fxmlLoader.getController();
                 collaborativeProjectsProfessorController.setProfessor(professor);
             }
         } catch (IOException exception) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), 
+                    exception);
         }
     }
 
@@ -236,7 +252,8 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(ioException.getMessage(),
+                    ioException);
         }
     }
 }

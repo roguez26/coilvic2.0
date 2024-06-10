@@ -94,7 +94,8 @@ public class CountryTest {
     @Test
     public void testRegisterCountryFailByDuplicatedName() {
         COUNTRY_FOR_TESTING.setName(COUNTRIES_FOR_TESTING.get(2).getName());
-        DAOException exception = assertThrows(DAOException.class, () -> COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING));
+        DAOException exception = assertThrows(DAOException.class, () -> COUNTRY_DAO.registerCountry(
+                COUNTRY_FOR_TESTING));
         System.out.println(exception.getMessage());
     }
 
@@ -136,7 +137,8 @@ public class CountryTest {
             Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
 
-        DAOException exception = assertThrows(DAOException.class, () -> COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING.getIdCountry()));
+        DAOException exception = assertThrows(DAOException.class, () -> COUNTRY_DAO.deleteCountry(
+                COUNTRY_FOR_TESTING.getIdCountry()));
         System.out.println(exception.getMessage());
 
     }
@@ -167,7 +169,8 @@ public class CountryTest {
         } catch (DAOException exception) {
             Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
-        DAOException exception = assertThrows(DAOException.class, () -> COUNTRY_DAO.updateCountry(COUNTRY_FOR_TESTING));
+        DAOException exception = assertThrows(DAOException.class, () -> COUNTRY_DAO.updateCountry(
+                COUNTRY_FOR_TESTING));
         System.out.println(exception.getMessage());
     }
 
@@ -178,7 +181,7 @@ public class CountryTest {
         try {
             result = COUNTRY_DAO.getAllCountries();
         } catch (DAOException exception) {
-            Logger.getLogger(CountryTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
         assertEquals(COUNTRIES_FOR_TESTING, result);
     }
@@ -191,7 +194,7 @@ public class CountryTest {
         try {
             result = COUNTRY_DAO.getCountryById(COUNTRIES_FOR_TESTING.get(positionForSearch).getIdCountry());
         } catch (DAOException exception) {
-            Logger.getLogger(CountryTest.class.getName()).log(Level.SEVERE, null, exception);
+           Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
         assertEquals(COUNTRIES_FOR_TESTING.get(positionForSearch), result);
     }
@@ -204,7 +207,7 @@ public class CountryTest {
         try {
             result = COUNTRY_DAO.getCountryById(idNonexistence);
         } catch (DAOException exception) {
-            Logger.getLogger(CountryTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
         assertTrue(result.getIdCountry() == 0);
     }
@@ -217,7 +220,7 @@ public class CountryTest {
         try {
             result = COUNTRY_DAO.getCountryByName(COUNTRIES_FOR_TESTING.get(positionforSearch).getName());
         } catch (DAOException exception) {
-            Logger.getLogger(CountryTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
         assertTrue(result.getIdCountry() > 0);
     }
@@ -230,7 +233,7 @@ public class CountryTest {
         try {
             result = COUNTRY_DAO.getCountryByName(nonexistenceName);
         } catch (DAOException exception) {
-            Logger.getLogger(CountryTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
         assertTrue(result.getIdCountry() == 0);
     }

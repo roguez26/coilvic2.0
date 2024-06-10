@@ -25,7 +25,8 @@ public class CountryDAO implements ICountry {
             countryforCheck = getCountryByName(country.getName());
             idCountry = countryforCheck.getIdCountry();
         } catch (DAOException exception) {
-            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", Status.ERROR);
+            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", 
+                    Status.ERROR);
         }
         if (idCountry != country.getIdCountry() && idCountry > 0) {
             throw new DAOException("El nombre ya se encuentra registrado", Status.WARNING);
@@ -74,7 +75,8 @@ public class CountryDAO implements ICountry {
             throw new DAOException("No fue posible realizar la validacion para eliminar el pais", Status.ERROR);
         }
         if (university.getIdUniversity() > 0) {
-            throw new DAOException("No se pudo eliminar el pais debido a que existen aun universidades relacionadas a este pais", Status.WARNING);
+            throw new DAOException("No se pudo eliminar el pais debido a que existen aun universidades "
+                    + "relacionadas a este pais", Status.WARNING);
         }
         return true;
     }
@@ -93,7 +95,8 @@ public class CountryDAO implements ICountry {
         int result = -1;
         String statement = "INSERT INTO Pais (nombre, codigoPais) VALUES (?, ?)";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement 
+                preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);) {
             preparedStatement.setString(1, country.getName());
             preparedStatement.setString(2, country.getCountryCode());
             result = preparedStatement.executeUpdate();
@@ -113,7 +116,8 @@ public class CountryDAO implements ICountry {
         int result = -1;
         String statement = "UPDATE Pais SET nombre=? codigoPais= ? WHERE idPais=?";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement 
+                preparedStatement = connection.prepareStatement(statement);) {
             preparedStatement.setString(1, country.getName());
             preparedStatement.setString(2, country.getCountryCode());
             preparedStatement.setInt(3, country.getIdCountry());
@@ -129,7 +133,8 @@ public class CountryDAO implements ICountry {
         int result = -1;
         String statement = "DELETE FROM Pais WHERE idPais=?";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement 
+                preparedStatement = connection.prepareStatement(statement);) {
             preparedStatement.setInt(1, idCountry);
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
@@ -144,7 +149,9 @@ public class CountryDAO implements ICountry {
         ArrayList<Country> countries = new ArrayList<>();
         String statement = "SELECT * FROM Pais";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement); ResultSet resultSet = preparedStatement.executeQuery();) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement 
+                preparedStatement = connection.prepareStatement(statement); ResultSet resultSet = 
+                        preparedStatement.executeQuery();) {
             while (resultSet.next()) {
                 Country country = new Country();
                 country.setIdCountry(resultSet.getInt("IdPais"));
@@ -153,7 +160,7 @@ public class CountryDAO implements ICountry {
                 countries.add(country);
             }
         } catch (SQLException exception) {
-            Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(CountryDAO.class).error(exception.getMessage(), exception); 
             throw new DAOException("No fue posible obtener los países", Status.ERROR);
         }
         return countries;
@@ -164,7 +171,8 @@ public class CountryDAO implements ICountry {
         Country country = new Country();
         String statement = "SELECT * FROM Pais WHERE idPais=?";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement 
+                preparedStatement = connection.prepareStatement(statement);) {
             preparedStatement.setInt(1, idCountry);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -174,7 +182,7 @@ public class CountryDAO implements ICountry {
                 }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(CountryDAO.class).error(exception.getMessage(), exception); 
         }
         return country;
     }
@@ -183,7 +191,8 @@ public class CountryDAO implements ICountry {
         Country country = new Country();
         String statement = "SELECT * FROM Pais WHERE nombre=?";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement);) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement 
+                preparedStatement = connection.prepareStatement(statement);) {
             preparedStatement.setString(1, countryName);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -193,7 +202,7 @@ public class CountryDAO implements ICountry {
                 }
             }
         } catch (SQLException exception) {
-            Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(CountryDAO.class).error(exception.getMessage(), exception); 
             throw new DAOException("No fue posible obtener el país", Status.ERROR);
         }
         return country;

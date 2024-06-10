@@ -63,14 +63,16 @@ public class UniversityTest {
         AUX_REPRESENTATIVE.setUniversity(UNIVERSITY_FOR_TESTING);
 
         try {
-            AUX_REPRESENTATIVE.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.registerInstitutionalRepresentative(AUX_REPRESENTATIVE));
+            AUX_REPRESENTATIVE.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.
+                    registerInstitutionalRepresentative(AUX_REPRESENTATIVE));
         } catch (DAOException exception) {
             Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
         }
     }
 
     private void initializeUniversities() {
-        String[] names = {"Universidad Autonoma de México", "Tecnologico de Monterrey", "Universidad Autonoma de Guadalajara"};
+        String[] names = {"Universidad Autonoma de México", "Tecnologico de Monterrey", "Universidad "
+                + "Autonoma de Guadalajara"};
         String[] acronyms = {"UNAM", "ITESM", "UAG"};
         String[] jurisdictions = {"CDMX", "Nuevo León", "Jalisco"};
         String[] cities = {"Ciudad de México", "Monterrey", "Guadalajara"};
@@ -116,7 +118,8 @@ public class UniversityTest {
     public void testRegisterUniverityFailByNameDuplication() {
         UNIVERSITY_FOR_TESTING.setName(UNIVERSITIES_FOR_TESTING.get(2).getName());
 
-        DAOException exception = assertThrows(DAOException.class, () -> UNIVERSITY_FOR_TESTING.setIdUniversity(UNIVERSITY_DAO.registerUniversity(UNIVERSITY_FOR_TESTING)));
+        DAOException exception = assertThrows(DAOException.class, () -> UNIVERSITY_FOR_TESTING.
+                setIdUniversity(UNIVERSITY_DAO.registerUniversity(UNIVERSITY_FOR_TESTING)));
         System.out.println(exception.getMessage());
 
     }
@@ -129,7 +132,8 @@ public class UniversityTest {
         idCountry = UNIVERSITY_FOR_TESTING.getIdCountry();
         UNIVERSITY_FOR_TESTING.setIdCountry(nonexistenceCountryId);
 
-        DAOException exception = assertThrows(DAOException.class, () -> UNIVERSITY_FOR_TESTING.setIdUniversity(UNIVERSITY_DAO.registerUniversity(UNIVERSITY_FOR_TESTING)));
+        DAOException exception = assertThrows(DAOException.class, () -> UNIVERSITY_FOR_TESTING.
+                setIdUniversity(UNIVERSITY_DAO.registerUniversity(UNIVERSITY_FOR_TESTING)));
         System.out.println(exception.getMessage());
 
         UNIVERSITY_FOR_TESTING.setIdCountry(idCountry);
@@ -159,7 +163,8 @@ public class UniversityTest {
             Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
         }
         initializeAuxiliarInstitutionalRepresentative();
-        DAOException exception = assertThrows(DAOException.class, () -> UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING.getIdUniversity()));
+        DAOException exception = assertThrows(DAOException.class, () -> UNIVERSITY_DAO.deleteUniversity(
+                UNIVERSITY_FOR_TESTING.getIdUniversity()));
         System.out.println(exception.getMessage());
     }
 
@@ -204,7 +209,8 @@ public class UniversityTest {
             Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
         }
         
-        DAOException exception = assertThrows(DAOException.class, ()-> UNIVERSITY_DAO.updateUniversity(UNIVERSITY_FOR_TESTING));
+        DAOException exception = assertThrows(DAOException.class, ()-> UNIVERSITY_DAO.updateUniversity(
+                UNIVERSITY_FOR_TESTING));
         System.out.println(exception.getMessage());
     }
 
@@ -214,7 +220,8 @@ public class UniversityTest {
         int positionForSearch = 2;
 
         try {
-            result = UNIVERSITY_DAO.getUniversityByName(UNIVERSITIES_FOR_TESTING.get(positionForSearch).getName());
+            result = UNIVERSITY_DAO.getUniversityByName(UNIVERSITIES_FOR_TESTING.get(positionForSearch).
+                    getName());
         } catch (DAOException exception) {
             Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
         }

@@ -42,7 +42,8 @@ public class PDFCreatorTest {
         String nameParticipantExample = "Abraham Gonzales Hernández";
         String destinationPath = "";
 
-        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath));
+        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(
+                nameParticipantExample, destinationPath));
         System.out.println(exception.getMessage());
     }
 
@@ -51,7 +52,8 @@ public class PDFCreatorTest {
         String nameParticipantExample = "Abraham Gonzales Hernández";
         String destinationPath = null;
 
-        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath));
+        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(
+                nameParticipantExample, destinationPath));
         System.out.println(exception.getMessage());
     }
 
@@ -79,7 +81,8 @@ public class PDFCreatorTest {
         File fileForTest = new File(ORIGINAL_TEMPLATE_PATH);
         File fileTemporary = new File(TEMPORARY_PATH);
         fileForTest.delete();
-        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath));
+        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(
+                nameParticipantExample, destinationPath));
         System.out.println(exception.getMessage());
 
         returnFileToOriginalPath();
