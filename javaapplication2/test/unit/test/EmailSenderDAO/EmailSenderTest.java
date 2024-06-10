@@ -30,6 +30,7 @@ public class EmailSenderTest {
     public void testCreateEmailSuccess() {
         EmailSender emailSender = initializeEmailSender();
         boolean result = emailSender.createEmail();
+        System.out.println(result);
         assertTrue(result);
     }
 
@@ -46,6 +47,7 @@ public class EmailSenderTest {
         EmailSender emailSender = initializeEmailSender();
         emailSender.setPassword("no password");
         boolean result = emailSender.createEmail();
+        System.out.println(result);
         assertTrue(!result);
     }
 
@@ -54,6 +56,7 @@ public class EmailSenderTest {
         EmailSender emailSender = initializeEmailSender();
         emailSender.setSender("no sender");
         boolean result = emailSender.createEmail();
+        System.out.println(result);
         assertTrue(!result);
     }
 
@@ -62,6 +65,7 @@ public class EmailSenderTest {
         EmailSender emailSender = initializeEmailSender();
         emailSender.createEmail();
         boolean result = emailSender.sendEmail();
+        System.out.println(result);
         assertTrue(result);
     }
 

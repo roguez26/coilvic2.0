@@ -114,7 +114,7 @@ public class CountryDAO implements ICountry {
 
     public int updateCountryTransaction(Country country) throws DAOException {
         int result = -1;
-        String statement = "UPDATE Pais SET nombre=? codigoPais= ? WHERE idPais=?";
+        String statement = "UPDATE Pais SET nombre=?, codigoPais=? WHERE idPais=?";
 
         try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement 
                 preparedStatement = connection.prepareStatement(statement);) {

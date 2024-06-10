@@ -52,6 +52,7 @@ public class FileManagerTest {
         }
         assertEquals(expectedDestionationPath, result);
         File savedFile = new File(result);
+        System.out.println(savedFile);
         FILE_MANAGER_FOR_TEST.deleteFile(savedFile);
     }
 
@@ -63,6 +64,7 @@ public class FileManagerTest {
         } catch (IllegalArgumentException exception) {
             Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result);
     }
 
@@ -70,6 +72,7 @@ public class FileManagerTest {
     public void isValidForSaveFailByTooLarge() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 FILE_MANAGER_FOR_TEST.isValidFileForSave(initializeLargeFile()));
+       
         System.out.println(exception.getMessage());
     }
 

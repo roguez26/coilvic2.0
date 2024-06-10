@@ -59,6 +59,7 @@ public class AssignmentTest {
         } catch (DAOException exception) {
             Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(idAssignment);
         assertTrue(idAssignment > 0);
     }
 
@@ -131,7 +132,6 @@ public class AssignmentTest {
     public void updateAssignmentFailByInappropiateState() {
         CollaborativeProjectDAO collaborativeProjectDAO = new CollaborativeProjectDAO();
         int idAssignment;
-        DAOException result = null;
         try {
             idAssignment = ASSIGNMENT_DAO.registerAssignment(ASSIGNMENT_FOR_TESTING, auxCollaborativeProject);
             ASSIGNMENT_FOR_TESTING.setIdAssignment(idAssignment);
@@ -159,6 +159,7 @@ public class AssignmentTest {
             Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
         deleteAssignments();
+        System.out.println(result);
         assertEquals(ASSGIGNMENTES_FOR_TESTING, result);
     }
 
