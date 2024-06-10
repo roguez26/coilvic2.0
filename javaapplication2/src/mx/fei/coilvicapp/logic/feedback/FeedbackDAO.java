@@ -283,7 +283,8 @@ public class FeedbackDAO implements IFeedback {
     }
     
     @Override
-    public int deleteProfessorResponsesByIdAndIdCollaborativeProject(int idProfessor, int idCollaborativeProject) throws DAOException {
+    public int deleteProfessorResponsesByIdAndIdCollaborativeProject(int idProfessor, int
+            idCollaborativeProject) throws DAOException {
         int result = -1;
         String statement = "DELETE FROM RespuestaProfessor WHERE idProfesor=? AND idProyectoColaborativo=?";
         
@@ -300,9 +301,11 @@ public class FeedbackDAO implements IFeedback {
     }
     
     @Override
-    public int deleteStudentResponsesByIdAndIdCollaborativeProject(int idStudent, int idCollaborativeProject) throws DAOException {
+    public int deleteStudentResponsesByIdAndIdCollaborativeProject(int idStudent, int
+            idCollaborativeProject) throws DAOException {
         int result = -1;
-        String statement = "DELETE FROM RespuestaEstudiante WHERE idEstudiante = ? AND idProyectoColaborativo = ?";
+        String statement = "DELETE FROM RespuestaEstudiante WHERE idEstudiante = ? AND "
+                + "idProyectoColaborativo = ?";
         
         try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement
                 preparedStatement = connection.prepareStatement(statement);) {

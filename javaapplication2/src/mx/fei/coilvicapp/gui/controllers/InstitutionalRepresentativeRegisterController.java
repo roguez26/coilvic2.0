@@ -55,7 +55,8 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-        universitiesComboBox.setItems(FXCollections.observableArrayList(initializeUniversitiesArrayForComboBox()));
+        universitiesComboBox.setItems(FXCollections.observableArrayList(
+                initializeUniversitiesArrayForComboBox()));
         phoneNumberTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > 10) {
                 phoneNumberTextField.setText(oldValue);
@@ -69,7 +70,8 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
         try {
             universities = universityDAO.getAvailableUniversities();
         } catch (DAOException exception) {
-            Log.getLogger(InstitutionalRepresentativeRegisterController.class).error(exception.getMessage(), exception);
+            Log.getLogger(InstitutionalRepresentativeRegisterController.class).error(exception.getMessage(),
+                    exception);
         }
         return universities;
     }
@@ -117,7 +119,8 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
         } catch (DAOException exception) {
             handleDAOException(exception);
         } catch (IOException exception) {
-            Log.getLogger(InstitutionalRepresentativeRegisterController.class).error(exception.getMessage(), exception);
+            Log.getLogger(InstitutionalRepresentativeRegisterController.class).error(exception.getMessage(), 
+                    exception);
         }
     }
 
@@ -126,7 +129,8 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
             IInstitutionalRepresentative institutionalRepresentativeDAO = new InstitutionalRepresentativeDAO();
             InstitutionalRepresentative institutionalRepresentative = initializeInstitutionalRepresentative();
             
-            if (institutionalRepresentativeDAO.registerInstitutionalRepresentative(institutionalRepresentative) > 0) {
+            if (institutionalRepresentativeDAO.registerInstitutionalRepresentative(institutionalRepresentative)
+                    > 0) {
                 wasRegisteredConfirmation();
                 cleanFields();
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeManager");
@@ -188,7 +192,8 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(InstitutionalRepresentativeRegisterController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(InstitutionalRepresentativeRegisterController.class).error(ioException.getMessage(),
+                    ioException);
         }
     }
 

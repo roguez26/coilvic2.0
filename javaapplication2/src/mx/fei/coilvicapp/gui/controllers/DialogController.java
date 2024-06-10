@@ -13,7 +13,8 @@ public class DialogController {
     
     public static final ButtonType BUTTON_YES = new ButtonType("Sí", ButtonBar.ButtonData.YES);
     public static final ButtonType BUTTON_NO = new ButtonType("No", ButtonBar.ButtonData.NO);
-    public static final ButtonType BUTTON_ACCEPT = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
+    public static final ButtonType BUTTON_ACCEPT = new ButtonType("Aceptar", 
+            ButtonBar.ButtonData.OK_DONE);
     
     public static Optional<ButtonType> getDialog(AlertMessage message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -87,7 +87,8 @@ public class InstitutionalRepresentativeManagerController implements Initializab
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                         "/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeDetails.fxml"));
                 MainApp.changeView(fxmlLoader);
-                InstitutionalRepresentativeDetailsController institutionalRepresentativeDetailsController = fxmlLoader.getController();
+                InstitutionalRepresentativeDetailsController institutionalRepresentativeDetailsController =
+                        fxmlLoader.getController();
                 institutionalRepresentativeDetailsController.setInstitutionalRepresentativeDetailsController(
                         institutionalRepresentative);
             } catch (IOException exception) {
@@ -131,7 +132,8 @@ public class InstitutionalRepresentativeManagerController implements Initializab
                 }
             }
         } catch (IOException ioException) {
-            Log.getLogger(InstitutionalRepresentativeManagerController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(InstitutionalRepresentativeManagerController.class).error(ioException.getMessage(), 
+                    ioException);
         }
     }
 

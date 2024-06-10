@@ -258,7 +258,8 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
         }
     }
 
-    public void setInstitutionalRepresentativeDetailsController(InstitutionalRepresentative institutionalRepresentative) {
+    public void setInstitutionalRepresentativeDetailsController(InstitutionalRepresentative 
+            institutionalRepresentative) {
         this.institutionalRepresentative = institutionalRepresentative;
         initializeTextFields(institutionalRepresentative);
         universitiesComboBox.setValue(institutionalRepresentative.getUniversity());

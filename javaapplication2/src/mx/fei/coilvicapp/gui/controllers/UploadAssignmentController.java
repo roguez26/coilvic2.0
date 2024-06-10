@@ -123,7 +123,8 @@ public class UploadAssignmentController implements Initializable {
                         fileManager.deleteFile(oldFile);
                     }
                     if (asigmentDAO.updateAssignment(newAssignment, collaborativeProject) > 0) {
-                        DialogController.getInformativeConfirmationDialog("Actualizada", "La actividad fue actualizada con éxito");
+                        DialogController.getInformativeConfirmationDialog("Actualizada", "La actividad fue actualizada"
+                                + " con éxito");
                         closeWindow();
                     }
                 } catch (DAOException exception) {
@@ -216,22 +217,26 @@ public class UploadAssignmentController implements Initializable {
     }
 
     private boolean confirmUpload() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas subir esta nueva actividad?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas "
+                + "subir esta nueva actividad?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
     private boolean confirmUpdate() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas actualizar esta actividad?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas"
+                + " actualizar esta actividad?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
     private boolean confirmDelete() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas eliminar esta actividad?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas"
+                + " eliminar esta actividad?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
     private void handleIOException(IOException exception) {
-        DialogController.getInformativeConfirmationDialog("Lo sentimos", "No fue posible subir la actividad");
+        DialogController.getInformativeConfirmationDialog("Lo sentimos", "No fue posible subir la"
+                + " actividad");
     }
 
     private void handleValidationException(IllegalArgumentException exception) {

@@ -159,17 +159,20 @@ public class ValidateCollaborativeProjectController implements Initializable {
     }
 
     private void wasValidatedConfirmation() {
-        DialogController.getInformativeConfirmationDialog("Proyecto Validado", "El proyecto colaborativo fue validado con éxito");
+        DialogController.getInformativeConfirmationDialog("Proyecto Validado", "El proyecto colaborativo "
+                + "fue validado con éxito");
         goBack();
     }
 
     private boolean confirmReject() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar rechazo", "¿Deseas rechazar este proyecto colaborativo?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar rechazo", "¿Deseas"
+                + " rechazar este proyecto colaborativo?");
         return response.isPresent() && response.get() == DialogController.BUTTON_YES;
     }
 
     private boolean confirmAccept() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar Aceptacion", "¿Deseas aceptar este proyecto colaborativo?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar Aceptacion", 
+                "¿Deseas aceptar este proyecto colaborativo?");
         return response.isPresent() && response.get() == DialogController.BUTTON_YES;
     }
 
@@ -202,7 +205,8 @@ public class ValidateCollaborativeProjectController implements Initializable {
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(ValidateCollaborativeProjectController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(ValidateCollaborativeProjectController.class).error(ioException.getMessage(), 
+                    ioException);
         }
     }
 
@@ -241,7 +245,8 @@ public class ValidateCollaborativeProjectController implements Initializable {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsManagement");
         } catch (IOException exception) {
-            Log.getLogger(ValidateCollaborativeProjectController.class).error(exception.getMessage(), exception);
+            Log.getLogger(ValidateCollaborativeProjectController.class).error(exception.getMessage(), 
+                    exception);
         }
     }
 }

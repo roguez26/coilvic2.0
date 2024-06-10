@@ -36,7 +36,8 @@ public class EmailSenderTest {
     @Test
     public void testCreateEmailSenderFailByNoReceiver() {
         EmailSender emailSender = initializeEmailSender();
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> emailSender.setReceiver(null));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
+                emailSender.setReceiver(null));
         System.out.println(exception.getMessage());
     }
 
@@ -67,7 +68,8 @@ public class EmailSenderTest {
     @Test
     public void testSendEmailFailByNotCreatedEmail() {
         EmailSender emailSender = initializeEmailSender();
-        MessagingException exception = assertThrows(MessagingException.class, () -> emailSender.sendEmail());
+        MessagingException exception = assertThrows(MessagingException.class, () -> 
+                emailSender.sendEmail());
         System.out.println(exception.getMessage());
     }
 

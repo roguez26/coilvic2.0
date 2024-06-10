@@ -32,7 +32,8 @@ public class FileManager {
     }
 
     public void setDestinationDirectory(int idCollaborativeProject) {
-        this.destinationDirectory = activitiesDestination + "\\" + String.valueOf(idCollaborativeProject) + "\\";
+        this.destinationDirectory = activitiesDestination + "\\" + String.valueOf(
+                idCollaborativeProject) + "\\";
     }
 
     public void setSyllabusDestination() {
@@ -67,14 +68,16 @@ public class FileManager {
 
     public File selectPDF(Window window) {
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf");
+        FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", 
+                "*.pdf");
         fileChooser.getExtensionFilters().add(pdfFilter);
         return fileChooser.showOpenDialog(window.getScene().getWindow());
     }
 
     public File selectXLSXFile(Window window) {
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter xlsxFilter = new FileChooser.ExtensionFilter("Archivos XLSX (*.xlsx)", "*.xlsx");
+        FileChooser.ExtensionFilter xlsxFilter = new FileChooser.ExtensionFilter("Archivos XLSX (*.xlsx)",
+                "*.xlsx");
         fileChooser.getExtensionFilters().add(xlsxFilter);
         return fileChooser.showOpenDialog(window.getScene().getWindow());
     }

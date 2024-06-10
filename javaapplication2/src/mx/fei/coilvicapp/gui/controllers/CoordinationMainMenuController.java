@@ -32,13 +32,15 @@ public class CoordinationMainMenuController implements Initializable {
     @FXML
     void consultButtonIsPressed(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorManager.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                    + "ProfessorManager.fxml"));
 
             MainApp.changeView(fxmlLoader);
             ProfessorManagerController professorManagerController = fxmlLoader.getController();
             professorManagerController.setAllProfessorsMode(true);
         } catch (IOException exception) {
-            Log.getLogger(CoordinationMainMenuController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CoordinationMainMenuController.class).error(exception.getMessage(), 
+                    exception);
         }
     }
 
@@ -47,7 +49,8 @@ public class CoordinationMainMenuController implements Initializable {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement");
         } catch (IOException exception) {
-            Log.getLogger(CoordinationMainMenuController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CoordinationMainMenuController.class).error(exception.getMessage(), 
+                    exception);
         }
     }
 
@@ -56,7 +59,8 @@ public class CoordinationMainMenuController implements Initializable {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
         } catch (IOException exception) {
-            Log.getLogger(CoordinationMainMenuController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CoordinationMainMenuController.class).error(exception.getMessage(), 
+                    exception);
         }
     }
 
@@ -65,7 +69,8 @@ public class CoordinationMainMenuController implements Initializable {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsManagement");
         } catch (IOException exception) {
-            Log.getLogger(CoordinationMainMenuController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CoordinationMainMenuController.class).error(exception.getMessage(), 
+                    exception);
         }
     }
 

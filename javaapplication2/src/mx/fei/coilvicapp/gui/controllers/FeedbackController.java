@@ -69,9 +69,11 @@ public class FeedbackController implements Initializable {
 
     private void goBack() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsProfessor.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                    + "CollaborativeProjectDetailsProfessor.fxml"));
             MainApp.changeView(fxmlLoader);
-            CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController = fxmlLoader.getController();
+            CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController = 
+                    fxmlLoader.getController();
             collaborativeProjectDetailsProfessorController.setCollaborativeProject(collaborativeProject);
         } catch (IOException exception) {
             Log.getLogger(FeedbackController.class).error(exception.getMessage(), exception);
@@ -99,18 +101,21 @@ public class FeedbackController implements Initializable {
         Question selectedQuestion = questionsTableView.getSelectionModel().getSelectedItem();
         if (selectedQuestion != null) {
             try {
-                responses = feedbackDAO.getResponsesByQuestionAndIdCollaborativeProject(selectedQuestion, collaborativeProject.getIdCollaborativeProject());
+                responses = feedbackDAO.getResponsesByQuestionAndIdCollaborativeProject(selectedQuestion,
+                        collaborativeProject.getIdCollaborativeProject());
             } catch (DAOException exception) {
                 handleDAOException(exception);
             }
 
             if (responses.isEmpty()) {
-                DialogController.getInformativeConfirmationDialog("Sin respuestas", "Aún no hay respuestas sobre esta pregunta");
+                DialogController.getInformativeConfirmationDialog("Sin respuestas", "Aún no hay "
+                        + "respuestas sobre esta pregunta");
             } else {
                 responsesTableView.getItems().addAll(responses);
             }
         } else {
-            DialogController.getInformativeConfirmationDialog("Sin selección", "Seleccione una pregunta para poder ver las respuestas");
+            DialogController.getInformativeConfirmationDialog("Sin selección", "Seleccione una pregunta para "
+                    + "poder ver las respuestas");
         }
     }
 

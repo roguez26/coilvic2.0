@@ -87,16 +87,19 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
             
             if (certificateCreator.templateExists()) {
                 try {
-                    certificateCreator.generateCertificate(student.getName(), new FileManager().selectDirectoryPath(backgroundVBox.getScene().getWindow()));
+                    certificateCreator.generateCertificate(student.getName(), new FileManager().selectDirectoryPath(
+                            backgroundVBox.getScene().getWindow()));
                     DialogController.getInformativeConfirmationDialog("Aviso", "La constancia se descargó con éxito");
                 } catch (IOException exception) {
                     handleIOException(exception);
                 }
             } else {
-                DialogController.getInformativeConfirmationDialog("Aviso", "No se encontraron los recursos para generar la constancia");
+                DialogController.getInformativeConfirmationDialog("Aviso", "No se encontraron los recursos para "
+                        + "generar la constancia");
             }
         } else {
-            DialogController.getInformativeConfirmationDialog("Aviso", "Es necesario completar la retroalimentación para descargar la constancia");
+            DialogController.getInformativeConfirmationDialog("Aviso", "Es necesario completar la "
+                    + "retroalimentación para descargar la constancia");
         }
     }
 
@@ -109,7 +112,8 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
         FeedbackDAO feedbackDAO = new FeedbackDAO();
         
         try {
-            result = (feedbackDAO.hasCompletedPreForm(student, collaborativeProject) && feedbackDAO.hasCompletedPostForm(student, collaborativeProject));
+            result = (feedbackDAO.hasCompletedPreForm(student, collaborativeProject) && 
+                    feedbackDAO.hasCompletedPostForm(student, collaborativeProject));
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -128,13 +132,16 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
                     if (collaborativeProject.getStatus().equals("Finalizado")) {
                         feedbackOnCollaborativeProject("Estudiante-POST");
                     } else {
-                        DialogController.getInformativeConfirmationDialog("Aviso", "Podrás realizar la POST-Retroalimentación cuando la colaboración haya finalizado");
+                        DialogController.getInformativeConfirmationDialog("Aviso", "Podrás realizar la POST-"
+                                + "Retroalimentación cuando la colaboración haya finalizado");
                     }
                 } else {
-                    DialogController.getInformativeConfirmationDialog("Aviso", "Ya has completado el proceso de retroalimentación");
+                    DialogController.getInformativeConfirmationDialog("Aviso", "Ya has completado el proceso de "
+                            + "retroalimentación");
                 }
             } else {
-                DialogController.getInformativeConfirmationDialog("Lo sentimos", "No es posible realizar la retroalimentación debido a que aún no hay preguntas para el estudiante");
+                DialogController.getInformativeConfirmationDialog("Lo sentimos", "No es posible realizar la "
+                        + "retroalimentación debido a que aún no hay preguntas para el estudiante");
             }
         } catch (DAOException exception) {
             handleDAOException(exception);
@@ -142,16 +149,19 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
     }
 
     private void feedbackOnCollaborativeProject(String type) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/FeedbackOnCollaborativeProject.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                + "FeedbackOnCollaborativeProject.fxml"));
         
         try {
             MainApp.changeView(fxmlLoader);
-            FeedbackOnCollaborativeProjectController feedbackOnCollaborativeProjectController = fxmlLoader.getController();
+            FeedbackOnCollaborativeProjectController feedbackOnCollaborativeProjectController = 
+                    fxmlLoader.getController();
             feedbackOnCollaborativeProjectController.setCollaborativeProject(collaborativeProject);
             feedbackOnCollaborativeProjectController.setStudent(student);
             feedbackOnCollaborativeProjectController.setTypeQuestiones(type);
         } catch (IOException exception) {
-            Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(exception.getMessage(),
+                    exception);
         }
     }
 
@@ -164,7 +174,8 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
         } catch (IOException exception) {
-            Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(exception.getMessage(), 
+                    exception);
         }
     }
 
@@ -179,10 +190,12 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
 
     private void fillTextFields(CollaborativeProject collaborativeProject) {
         collaborativeProjectNameTextField.setText(collaborativeProject.getName());
-        professorOneTextField.setText(collaborativeProject.getRequesterCourse().getProfessor().getName());
-        professorTwoTextField.setText(collaborativeProject.getRequestedCourse().getProfessor().getName());
-        universityOneTextField.setText(collaborativeProject.getRequesterCourse().getProfessor().getUniversity().toString());
-        universityTwoTextField.setText(collaborativeProject.getRequestedCourse().getProfessor().getUniversity().toString());
+        professorOneTextField.setText(collaborativeProject.getRequesterCourse().getProfessor().toString());
+        professorTwoTextField.setText(collaborativeProject.getRequestedCourse().getProfessor().toString());
+        universityOneTextField.setText(collaborativeProject.getRequesterCourse().getProfessor()
+                .getUniversity().toString());
+        universityTwoTextField.setText(collaborativeProject.getRequestedCourse().getProfessor()
+                .getUniversity().toString());
     }
 
     private void handleDAOException(DAOException exception) {
@@ -195,7 +208,8 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(ioException.getMessage(),
+                    ioException);
         }
     }
 }

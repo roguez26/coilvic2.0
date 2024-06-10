@@ -81,7 +81,8 @@ public class ProfessorManagerController implements Initializable {
     private void goBack() {
         try {
             if (professorSession != null) {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                            + "ProfessorMainMenu.fxml"));
 
                     MainApp.changeView(fxmlLoader);
                     ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();

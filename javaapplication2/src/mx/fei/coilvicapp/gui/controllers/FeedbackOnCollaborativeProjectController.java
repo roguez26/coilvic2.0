@@ -100,7 +100,8 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
 
     public void updateQuestion() {
         if (currentQuestion < responsesList.size()) {
-            questionNumberLabel.setText(String.valueOf(currentQuestion + 1) + "/" + String.valueOf(responsesList.size()));
+            questionNumberLabel.setText(String.valueOf(currentQuestion + 1) + "/" + String.valueOf(
+                    responsesList.size()));
             questionTextLabel.setText(responsesList.get(currentQuestion).getQuestion().getQuestionText());
             responseTextArea.setText(responsesList.get(currentQuestion).getResponseText());
         }
@@ -122,7 +123,8 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
                         feedbackDAO.registerStudentResponses(responsesList);
                         changeToCollaborativeProjectDetailsStudent();
                     } else {
-                        DialogController.getInformativeConfirmationDialog("No completado", "Debes completar todas las preguntas");
+                        DialogController.getInformativeConfirmationDialog("No completado", "Debes completar todas "
+                                + "las preguntas");
                     }
 
                 } else if (professor != null) {
@@ -139,7 +141,8 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
 
     private boolean allQuestionsHaveBeenResponsed() {
         int responseCounter = 0;
-        while (responseCounter < responsesList.size() && responsesList.get(responseCounter).getResponseText() != null) {
+        while (responseCounter < responsesList.size() && responsesList.get(responseCounter).
+                getResponseText() != null) {
             responseCounter++;
         }
         return responseCounter == responsesList.size();
@@ -180,12 +183,14 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
     }
 
     private boolean cancelConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelación", "¿Deseas cancelar la retroalimentación?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelación", 
+                "¿Deseas cancelar la retroalimentación?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
     private boolean finishConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar finalización", "¿Deseas finalizar el proceso de retroalimentación?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar finalización", 
+                "¿Deseas finalizar el proceso de retroalimentación?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
@@ -213,19 +218,23 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(ioException.getMessage(), 
+                    ioException);
         }
     }
 
     private void changeToCollaborativeProjectDetailsStudent() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                + "CollaborativeProjectDetailsStudent.fxml"));
         try {
             MainApp.changeView(fxmlLoader);
-            CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController = fxmlLoader.getController();
+            CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController = 
+                    fxmlLoader.getController();
             collaborativeProjectDetailsStudentController.setStudent(student);
             collaborativeProjectDetailsStudentController.setCollaborativeProject(collaborativeProject);
         } catch (IOException exception) {
-            Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(exception.getMessage(), exception);
+            Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(exception.getMessage(), 
+                    exception);
         }
     }
 

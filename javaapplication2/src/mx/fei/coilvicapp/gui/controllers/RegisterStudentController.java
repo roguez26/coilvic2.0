@@ -98,8 +98,10 @@ public class RegisterStudentController implements Initializable {
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
         gendersCombobox.setItems(FXCollections.observableArrayList(initializeGendersArrayForComboBox()));
-        universitiesCombobox.setItems(FXCollections.observableArrayList(initializeUniversitiesArrayForComboBox()));
-        academicAreaCombobox.setItems(FXCollections.observableArrayList(initializeAcademicAreasArrayForComboBox()));
+        universitiesCombobox.setItems(FXCollections.observableArrayList(
+                initializeUniversitiesArrayForComboBox()));
+        academicAreaCombobox.setItems(FXCollections.observableArrayList(
+                initializeAcademicAreasArrayForComboBox()));
         initializeLineajesArrayForCombobox();
         regionCombobox.setItems(FXCollections.observableArrayList(initializeRegionsArrayForComboBox())); 
     }

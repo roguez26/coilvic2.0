@@ -9,16 +9,21 @@ import java.util.regex.Pattern;
  */
 public class FieldValidator {
 
-    private final String EMAIL_REGEX = "^(?=.{3,45}$)(?!.*\\.{2})(?![-._])[a-zA-Z0-9_-]+(?:\\.[a-zA-Z0-9+_-]+)*(?<![-._])@(uv\\.mx|estudiantes\\.uv\\.mx|gmail\\.com|hotmail\\.com|outlook\\.com|edu\\.mx|yahoo\\.com|icloud\\.com|aol\\.com|protonmail\\.com|zoho\\.com|mail\\.com)$";
-    private final String NAME_REGEX = "^(?=[^\\.\\-']*[\\p{L}\\p{M}])(?!.*[.\\-']{2})(?!.*  )[\\p{L} \\p{M}.'-]+(?<![ \\-'])$";
-    private final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+    private final String EMAIL_REGEX = "^(?=.{3,45}$)(?!.*\\.{2})(?![-._])[a-zA-Z0-9_-]+(?:\\.[a-zA-"
+            + "Z0-9+_-]+)*(?<![-._])@(uv\\.mx|estudiantes\\.uv\\.mx|gmail\\.com|hotmail\\.com|outlook\\.com|ed"
+            + "u\\.mx|yahoo\\.com|icloud\\.com|aol\\.com|protonmail\\.com|zoho\\.com|mail\\.com)$";
+    private final String NAME_REGEX = "^(?=[^\\.\\-']*[\\p{L}\\p{M}])(?!.*[.\\-']{2})(?!.*  )[\\p{L} "
+            + "\\p{M}.'-]+(?<![ \\-'])$";
+    private final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$"
+            + "!%*?&]{8,}$";
     private final String SHORT_RANGE_REGEX = "^[\\p{L}0-9\\s]{3,45}$";
     private final String LONG_RANGE_REGEX = "(?s)^.{3,255}$";
     private final String PHONE_NUMBER_REGEX = "^\\d{10}$";
     private final String ENROLLMENT_REGEX = "^S\\d{8}$";
     private final String UV_PERSONAL_NUMBER_REGEX = "^\\d{5}$";
     private final String TEXT_REGEX = "^[\\p{L}0-9\\s,\\.\\:]+$";
-    private final String TERM_REGEX = "^(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)\\"
+    private final String TERM_REGEX = "^(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre"
+            + "|Octubre|Noviembre|Diciembre)\\"
             + "d{4}-(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)\\d{4}$";
 
     public void checkEmail(String email) {
@@ -144,7 +149,8 @@ public class FieldValidator {
                 return;
             }
         }
-        throw new IllegalArgumentException("El numero de personal UV debe tener las siguientes caracteristicas:\n"
+        throw new IllegalArgumentException("El numero de personal UV debe tener las siguientes "
+                + "caracteristicas:\n"
                 + "1.- Debe contener 5 numeros.\n");
     }
 
@@ -172,7 +178,8 @@ public class FieldValidator {
         Pattern pattern = Pattern.compile(TERM_REGEX);
         Matcher matcher = pattern.matcher(term);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("El periodo debe tener el formato: 'MesAño–MesAño' (Ej., 'Agosto2024–Enero2025')");
+            throw new IllegalArgumentException("El periodo debe tener el formato: 'MesAño–MesAño' (Ej., "
+                    + "'Agosto2024–Enero2025')");
         }
         return true;
     }
@@ -185,7 +192,8 @@ public class FieldValidator {
                 return;
             }
         }
-        throw new IllegalArgumentException("No se permiten entradas con 3 o más caracteres repetidos consecutivamente.\n");
+        throw new IllegalArgumentException("No se permiten entradas con 3 o más caracteres repetidos "
+                + "consecutivamente.\n");
     }
 
 }

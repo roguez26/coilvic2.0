@@ -8,8 +8,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import log.Log;
 
 /**
@@ -23,7 +21,8 @@ public class EmailSenderDAO implements IEmailSender {
         int result = -1;
         String statement = "INSERT INTO correo (asunto, fecha, idProfesorNotificado) VALUES (?, NOW(), ?)";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement 
+                preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, emailSender.getSubject());
             preparedStatement.setInt(2, emailSender.getReceiver().getIdProfessor());
@@ -44,7 +43,8 @@ public class EmailSenderDAO implements IEmailSender {
         int result = -1;
         String statement = "DELETE FROM correo WHERE idCorreo=?";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement
+                preparedStatement = connection.prepareStatement(statement)) {
 
             preparedStatement.setInt(1, idEmail);
             result = preparedStatement.executeUpdate();

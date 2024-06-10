@@ -180,27 +180,32 @@ public class UpdateUniversityController implements Initializable {
         try {
              MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
         } catch (IOException exception) {
-            Log.getLogger(UpdateUniversityController.class).error(exception.getMessage(), exception);
+            Log.getLogger(UpdateUniversityController.class).error(exception.getMessage(), 
+                    exception);
         }   
     }
 
     private boolean updateConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar actualizacion", "¿Deseas actualizar la universidad?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar "
+                + "actualizacion", "¿Deseas actualizar la universidad?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
     private boolean deleteConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar eliminacion", "¿Deseas eliminar la universidad?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar "
+                + "eliminacion", "¿Deseas eliminar la universidad?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
     private boolean wasUpdatedConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Actualizada", "La universidad fue actualizada");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Actualizada",
+                "La universidad fue actualizada");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
     private boolean wasDeletedConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Eliminada", "La universidad fue eliminada");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(
+                "Eliminada", "La universidad fue eliminada");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 

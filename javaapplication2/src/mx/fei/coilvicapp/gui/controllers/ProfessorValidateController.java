@@ -103,7 +103,8 @@ public class ProfessorValidateController implements Initializable {
                 if (isForValidation) {
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
                 } else {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                            + "ProfessorMainMenu.fxml"));
                     MainApp.changeView(fxmlLoader);
                     ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
                     professorMainMenuController.setProfessor(professor);
@@ -308,7 +309,8 @@ public class ProfessorValidateController implements Initializable {
     }
 
     private boolean backConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar", "¿Desea regresar?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar", 
+                "¿Desea regresar?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 

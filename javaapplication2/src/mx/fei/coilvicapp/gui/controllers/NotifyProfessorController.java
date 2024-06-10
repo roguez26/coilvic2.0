@@ -97,12 +97,14 @@ public class NotifyProfessorController implements Initializable {
     }
 
     private boolean confirmNotification() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar notificación", "¿Deseas notificar al profesor?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar notificación", 
+                "¿Deseas notificar al profesor?");
         return (response.isPresent() && response.get() == DialogController.BUTTON_YES);
     }
 
     private boolean confirmCancelation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", "Si cancelas el profesor no será notificado ¿Deseas cancelar la notificacion?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", 
+                "Si cancelas el profesor no será notificado ¿Deseas cancelar la notificacion?");
         return (response.isPresent() && response.get() == DialogController.BUTTON_YES);
     }
 
