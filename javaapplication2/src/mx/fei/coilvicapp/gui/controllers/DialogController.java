@@ -20,6 +20,8 @@ public class DialogController {
         if (null != message.getAlertType()) {
             switch (message.getAlertType()) {
                 case SUCCESS -> {
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("Exito");
                 }
                 case WARNING -> {
                     alert = new Alert(Alert.AlertType.WARNING);

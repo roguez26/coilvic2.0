@@ -142,12 +142,12 @@ public class Course {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object object) {
         boolean isEqual = false;
-        if (this == obj) {
+        if (this == object) {
             isEqual = true;
-        } else if (obj != null && getClass() == obj.getClass()) {
-            Course course = (Course) obj;
+        } else if (object != null && getClass() == object.getClass()) {
+            Course course = (Course) object;
             isEqual = idCourse == course.getIdCourse()
                     && Objects.equals(name, course.getName())
                     && Objects.equals(status, course.getStatus())
