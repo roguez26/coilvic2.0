@@ -111,6 +111,7 @@ public class UniversityTest {
             Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
         }
         UNIVERSITY_FOR_TESTING.setIdUniversity(idUniversity);
+        System.out.println(idUniversity);
         assertTrue(idUniversity > 0);
     }
 
@@ -150,6 +151,7 @@ public class UniversityTest {
         } catch (DAOException exception) {
             Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result > 0);
     }
 
@@ -194,6 +196,7 @@ public class UniversityTest {
         } catch (DAOException exception) {
             Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result > 0);
     }
 
@@ -225,6 +228,7 @@ public class UniversityTest {
         } catch (DAOException exception) {
             Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result.getIdUniversity() > 0);
     }
 
@@ -238,6 +242,7 @@ public class UniversityTest {
         } catch (DAOException exception) {
             Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result.getIdUniversity() == 0);
     }
 

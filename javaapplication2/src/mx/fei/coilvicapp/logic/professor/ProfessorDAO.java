@@ -12,7 +12,6 @@ import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import mx.fei.coilvicapp.logic.academicarea.AcademicAreaDAO;
 import mx.fei.coilvicapp.logic.emailSender.EmailSender;
-import mx.fei.coilvicapp.logic.emailSender.EmailSenderDAO;
 import mx.fei.coilvicapp.logic.hiringcategory.HiringCategoryDAO;
 import mx.fei.coilvicapp.logic.hiringtype.HiringTypeDAO;
 import mx.fei.coilvicapp.logic.region.RegionDAO;

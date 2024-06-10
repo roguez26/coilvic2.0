@@ -88,6 +88,7 @@ public class CountryTest {
             Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
         COUNTRY_FOR_TESTING.setIdCountry(idCountry);
+        System.out.println(idCountry);
         assertTrue(idCountry > 0);
     }
 
@@ -109,6 +110,7 @@ public class CountryTest {
         } catch (DAOException exception) {
             Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result > 0);
     }
 
@@ -123,6 +125,7 @@ public class CountryTest {
         } catch (DAOException exception) {
             Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(rowsAffected);
         assertTrue(rowsAffected == 0);
     }
 
@@ -146,7 +149,7 @@ public class CountryTest {
     @Test
     public void testUpdateCountrySuccess() {
         int result = 0;
-        String newName = "España";
+        String newName = "Irlanda";
 
         try {
             COUNTRY_FOR_TESTING.setIdCountry(COUNTRY_DAO.registerCountry(COUNTRY_FOR_TESTING));
@@ -155,6 +158,7 @@ public class CountryTest {
         } catch (DAOException exception) {
             Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result > 0);
     }
 
@@ -183,6 +187,7 @@ public class CountryTest {
         } catch (DAOException exception) {
             Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertEquals(COUNTRIES_FOR_TESTING, result);
     }
 
@@ -222,6 +227,7 @@ public class CountryTest {
         } catch (DAOException exception) {
             Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result.getName());
         assertTrue(result.getIdCountry() > 0);
     }
 
@@ -235,6 +241,7 @@ public class CountryTest {
         } catch (DAOException exception) {
             Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result.getIdCountry());
         assertTrue(result.getIdCountry() == 0);
     }
 }

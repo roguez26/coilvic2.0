@@ -29,6 +29,7 @@ public class FieldValidatorTest {
         } catch (IllegalArgumentException exception) {
             Log.getLogger(FieldValidatorTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result);
     }
 
@@ -89,6 +90,7 @@ public class FieldValidatorTest {
         } catch (IllegalArgumentException exception) {
             Log.getLogger(FieldValidatorTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result);
     }
 
@@ -134,6 +136,7 @@ public class FieldValidatorTest {
         } catch (IllegalArgumentException exception) {
             Log.getLogger(FieldValidatorTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result);
     }
 
@@ -291,7 +294,7 @@ public class FieldValidatorTest {
     
     @Test
     public void testCheckPasswordByNoCapitalLetters() {
-        String invalidPassword = "Contrasena2233!$";
+        String invalidPassword = "contrasena2233!$";
         
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, ()-> FIELD_VALIDATOR.checkPassword(invalidPassword));
         System.out.println(exception.getMessage());

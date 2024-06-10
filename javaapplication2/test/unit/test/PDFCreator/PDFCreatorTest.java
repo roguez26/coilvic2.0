@@ -33,6 +33,7 @@ public class PDFCreatorTest {
         }
 
         File file = new File(generatedCertificate);
+        System.out.println(file.exists());
         assertTrue(file.exists());
         file.delete();
     }
@@ -91,6 +92,7 @@ public class PDFCreatorTest {
 
     @Test
     public void testTemplateExistsSuccess() {
+        System.out.println(PDF_CREATOR.templateExists());
         assertTrue(PDF_CREATOR.templateExists());
     }
 
@@ -100,6 +102,7 @@ public class PDFCreatorTest {
         File fileForTest = new File(ORIGINAL_TEMPLATE_PATH);
         File fileTemporary = new File(TEMPORARY_PATH);
         fileForTest.delete();
+        System.out.println(PDF_CREATOR.templateExists());
         assertTrue(!PDF_CREATOR.templateExists());
         returnFileToOriginalPath();
         fileTemporary.delete();

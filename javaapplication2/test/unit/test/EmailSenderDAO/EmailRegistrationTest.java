@@ -49,6 +49,7 @@ public class EmailRegistrationTest {
         } catch (DAOException exception) {
             Log.getLogger(EmailRegistrationTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(idEmail);
         assertTrue(idEmail > 0);
     }
     
