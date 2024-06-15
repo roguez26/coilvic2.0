@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox fx:id="backgroundVBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.RegisterCollaborativeProjectController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.RegisterCollaborativeProjectController">
 
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="74.0" prefWidth="742.0" spacing="260.0">
@@ -24,12 +23,12 @@
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="470.0" prefWidth="381.0" spacing="10.0">
                <children>
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Profesores" />
-                  <TextField fx:id="professorOneTextField" editable="false" stylesheets="@../../../../../stylesheets/textField.css" />
-                  <TextField fx:id="professorTwoTextField" editable="false" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <TextField fx:id="professorOneTextField" editable="false" promptText="seleccione una solicitud " stylesheets="@../../../../../stylesheets/textField.css" />
+                  <TextField fx:id="professorTwoTextField" editable="false" promptText="seleccione una solicitud " stylesheets="@../../../../../stylesheets/textField.css" />
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Cursos" />
-                  <TextField fx:id="courseOneTextField" editable="false" stylesheets="@../../../../../stylesheets/textField.css" />
-                  <TextField fx:id="courseTwoTextField" editable="false" stylesheets="@../../../../../stylesheets/textField.css" />
-                  <Label layoutX="10.0" layoutY="271.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" stylesheets="@../../../../../stylesheets/label.css" text="Curso de solicitud aceptada" />
+                  <TextField fx:id="courseOneTextField" editable="false" promptText="seleccione una solicitud " stylesheets="@../../../../../stylesheets/textField.css" />
+                  <TextField fx:id="courseTwoTextField" editable="false" promptText="seleccione una solicitud " stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label layoutX="10.0" layoutY="271.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="269.0" stylesheets="@../../../../../stylesheets/label.css" text="Solicitudes de colaboración aceptadas" />
                   <ComboBox fx:id="acceptedRequestesComboBox" onAction="#requestIsSelected" prefHeight="27.0" prefWidth="190.0" stylesheets="@../../../../../stylesheets/combobox.css" />
                </children>
             </VBox>
@@ -38,13 +37,13 @@
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Nombre" />
                   <TextField fx:id="nameTextField" promptText="Ej. El arte en la programación" stylesheets="@../../../../../stylesheets/textField.css" />
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Objetivo General" />
-                  <TextArea fx:id="generalObjetiveTextArea" prefHeight="74.0" prefWidth="514.0" promptText="Ej." stylesheets="@../../../../../stylesheets/textArea.css" />
+                  <TextArea fx:id="generalObjetiveTextArea" prefHeight="74.0" prefWidth="514.0" promptText="Escriba un el objetivo del proyecto colaborativo" stylesheets="@../../../../../stylesheets/textArea.css" />
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Descripción" />
-                  <TextArea fx:id="descriptionTextArea" prefHeight="115.0" prefWidth="395.0" promptText="Ej." stylesheets="@../../../../../stylesheets/textArea.css" />
+                  <TextArea fx:id="descriptionTextArea" prefHeight="115.0" prefWidth="395.0" promptText="Escriba una breve descripción de lo que tratará el proyecto colaborativo" stylesheets="@../../../../../stylesheets/textArea.css" />
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Código" />
-                  <TextField fx:id="codeTextField" promptText="Ej." stylesheets="@../../../../../stylesheets/textField.css" />
+                  <TextField fx:id="codeTextField" promptText="Ej. ArtProg2024-MX-GER!" stylesheets="@../../../../../stylesheets/textField.css" />
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Modalidad" />
-                  <ComboBox fx:id="modalitiesComboBox" onAction="#modalityIsSelected" prefWidth="150.0" stylesheets="@../../../../../stylesheets/combobox.css" />
+                  <ComboBox fx:id="modalitiesComboBox" prefWidth="150.0" stylesheets="@../../../../../stylesheets/combobox.css" />
                   <TextField fx:id="syllabusPathTextField" disable="true" editable="false" promptText="Seleccione un archivo de syllabus" stylesheets="@../../../../../stylesheets/textField.css" />
                </children>
             </VBox>

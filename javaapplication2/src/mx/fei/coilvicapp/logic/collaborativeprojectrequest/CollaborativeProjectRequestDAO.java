@@ -789,4 +789,44 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
         }
         return rowsAffected;
     }
+    
+    @Override
+    public CollaborativeProjectRequest getCollaborativeProjectByCoursesId(int idRequestedCourse, int idRequesterCourse) throws DAOException {
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String Statement = "SELECT * FROM SolicitudProyectoColaborativo WHERE idCursoSolicitado = ? AND idCursoSolicitante = ?";
+        CollaborativeProjectRequest collaborativeProjectRequest = new CollaborativeProjectRequest();
+        ResultSet resultSet = null;
+
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareStatement(Statement);
+            preparedStatement.setInt(1, idRequestedCourse);
+            preparedStatement.setInt(2, idRequesterCourse);
+
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet != null && resultSet.next()) {
+                collaborativeProjectRequest = initializeCollaborativeProjectRequest(resultSet);
+            }
+        } catch (SQLException exception) {
+            Log.getLogger(CollaborativeProjectRequestDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible recuperar la solicitud", Status.ERROR);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException exception) {
+                Log.getLogger(CollaborativeProjectRequestDAO.class).error(exception.getMessage(), exception);
+            }
+        }
+        return collaborativeProjectRequest;
+    }
 }
