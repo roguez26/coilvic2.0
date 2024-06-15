@@ -23,7 +23,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
@@ -45,9 +44,6 @@ public class RegisterCollaborativeProjectController implements Initializable {
 
     @FXML
     private ComboBox<Modality> modalitiesComboBox;
-
-    @FXML
-    private VBox backgroundVBox;
 
     @FXML
     private Button backButton;
@@ -90,9 +86,11 @@ public class RegisterCollaborativeProjectController implements Initializable {
 
     @FXML
     private Button uploadSyllabusButton;
+
     private Professor professor;
     private CollaborativeProjectRequest selectedRequest;
     private File selectedFile;
+    private CollaborativeProject collaborativeProjectForUpdate = null;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
@@ -118,12 +116,12 @@ public class RegisterCollaborativeProjectController implements Initializable {
 
     @FXML
     void cancelButtonIsPressed(ActionEvent event) {
-        if(confirmCancel()) {
+        if (confirmCancel()) {
             goBack();
         }
     }
 
-    private CollaborativeProject initializeCollaborativeProject() {
+    private CollaborativeProject initializeNewCollaborativeProject() {
         CollaborativeProject collaborativeProject = new CollaborativeProject();
 
         collaborativeProject.setRequestedCourse(selectedRequest.getRequestedCourse());
@@ -136,49 +134,103 @@ public class RegisterCollaborativeProjectController implements Initializable {
         return collaborativeProject;
     }
 
+    private CollaborativeProject initializeCollaborativeProjectForUpdate() {
+        CollaborativeProject collaborativeProject = new CollaborativeProject();
+        collaborativeProject.setIdCollaborativeProject(collaborativeProjectForUpdate.getIdCollaborativeProject());
+        collaborativeProject.setName(nameTextField.getText());
+        collaborativeProject.setDescription(descriptionTextArea.getText());
+        collaborativeProject.setGeneralObjective(generalObjetiveTextArea.getText());
+        collaborativeProject.setCode(codeTextField.getText());
+        collaborativeProject.setModality(modalitiesComboBox.getValue());
+        collaborativeProject.setSyllabusPath(syllabusPathTextField.getText());
+        collaborativeProject.setRequestedCourse(collaborativeProjectForUpdate.getRequestedCourse());
+        collaborativeProject.setRequesterCourse(collaborativeProjectForUpdate.getRequesterCourse());
+        collaborativeProject.setStatus(collaborativeProjectForUpdate.getStatus());
+        return collaborativeProject;
+    }
+
     @FXML
     void saveButtonIsPressed(ActionEvent event) {
         try {
-            initializeCollaborativeProject();
-            invokeRegisterCollaborativeProject(initializeForSave());
+            if (collaborativeProjectForUpdate == null) {
+                invokeRegisterCollaborativeProject();
+            } else {
+                invokeUpdateCollaborativeProject();
+            }
         } catch (IllegalArgumentException exception) {
             handleValidationException(exception);
         } catch (IOException exception) {
             handleIOException(exception);
-        } catch (DAOException exception) {
-            FileManager fileManager = new FileManager();
-            fileManager.deleteFile(selectedFile);
-            handleDAOException(exception);
-
         }
     }
 
-    private void invokeRegisterCollaborativeProject(FileManager fileManager) throws IOException, DAOException {
+    private void invokeRegisterCollaborativeProject() throws IOException {
         ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
-        CollaborativeProject collaborativeProject = initializeCollaborativeProject();
+        CollaborativeProject collaborativeProject = initializeNewCollaborativeProject();
         if (confirmSave()) {
-            collaborativeProject.setSyllabusPath(fileManager.saveFile());
-
-            if (collaborativeProjectDAO.registerCollaborativeProject(collaborativeProject, selectedRequest) > 0)  {
-                DialogController.getInformativeConfirmationDialog("Registrado", "El proyecto colaborativo fue registrado");
-                goBack();
+            FileManager fileManager = new FileManager();
+            collaborativeProject.setSyllabusPath(fileManager.saveSyllabus(selectedFile, selectedRequest.getIdCollaborativeProjectRequest()));
+            try {
+                if (collaborativeProjectDAO.registerCollaborativeProject(collaborativeProject, selectedRequest) > 0) {
+                    DialogController.getInformativeConfirmationDialog("Registrado", "El proyecto colaborativo fue registrado");
+                    goBack();
+                }
+            } catch (DAOException exception) {
+                fileManager.deleteFile(selectedFile);
+                handleDAOException(exception);
             }
         }
     }
 
-    private FileManager initializeForSave() {
+    private void invokeUpdateCollaborativeProject() throws IOException {
+        CollaborativeProject newCollaborativeProject = initializeCollaborativeProjectForUpdate();
+
+        if (!newCollaborativeProject.equals(collaborativeProjectForUpdate)) {
+            FileManager fileManager = new FileManager();
+            if (fileManager.isValidFileForSave(selectedFile)) {
+                if (confirmUpdate()) {
+                    updateCollaborativeProject(newCollaborativeProject);
+                }  
+            }
+        } else {
+            DialogController.getInformativeConfirmationDialog("Sin ediciones", "El proyecto colaborativo no ha sido modificado");
+        }
+    }
+
+    private void updateCollaborativeProject(CollaborativeProject collaborativeProject) throws IOException {
+        ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         FileManager fileManager = new FileManager();
-        fileManager.setFile(selectedFile);
-        fileManager.setSyllabusDestination();
-        fileManager.setDestinationDirectory(selectedRequest.getIdCollaborativeProjectRequest());
-        fileManager.isValidFileForSave(selectedFile);
-        return fileManager;
+        String newSyllabusPath = "";
+        try {
+            newSyllabusPath = fileManager.saveSyllabus(selectedFile, getIdCollaborativeProjectRequest());
+            collaborativeProject.setSyllabusPath(newSyllabusPath);
+            if (collaborativeProjectDAO.updateCollaborativeProject(collaborativeProject) > 0) {
+                fileManager.deleteFile(new File(collaborativeProjectForUpdate.getSyllabusPath()));
+                DialogController.getInformativeConfirmationDialog("Registrado", "El proyecto colaborativo fue"
+                        + " actualizado y enviado de nuevo para ser validado");
+                goBack();
+            }
+        } catch (DAOException exception) {
+            if (!"".equals(newSyllabusPath)) {
+                fileManager.deleteFile(new File(newSyllabusPath));
+            }
+            handleDAOException(exception);
+        }
+    }
+    
+    private int getIdCollaborativeProjectRequest() throws DAOException {
+        ICollaborativeProjectRequest collaborativeProjectRequestDAO = new CollaborativeProjectRequestDAO();
+        CollaborativeProjectRequest collaborativeProjectRequest = new CollaborativeProjectRequest();
+        collaborativeProjectRequest = collaborativeProjectRequestDAO.getCollaborativeProjectByCoursesId(
+                    collaborativeProjectForUpdate.getRequestedCourse().getIdCourse(), collaborativeProjectForUpdate
+                    .getRequesterCourse().getIdCourse());
+        return collaborativeProjectRequest.getIdCollaborativeProjectRequest();
     }
 
     @FXML
     void uploadSyllabusButtonIsPressed(ActionEvent event) {
         FileManager fileManager = new FileManager();
-        selectedFile = fileManager.selectPDF(backgroundVBox.getScene().getWindow());
+        selectedFile = fileManager.selectPDF(backButton.getScene().getWindow());
         if (selectedFile != null) {
             syllabusPathTextField.setText(selectedFile.getName());
         } else {
@@ -189,7 +241,6 @@ public class RegisterCollaborativeProjectController implements Initializable {
     public void setProfessor(Professor professor) {
         this.professor = professor;
         initalizaAcceptedRequestsCombobox(professor);
-
     }
 
     private void initalizaAcceptedRequestsCombobox(Professor professor) {
@@ -207,19 +258,15 @@ public class RegisterCollaborativeProjectController implements Initializable {
     @FXML
     void requestIsSelected(ActionEvent event) {
         selectedRequest = acceptedRequestesComboBox.getValue();
-        System.out.println(selectedRequest.getIdCollaborativeProjectRequest());
         courseOneTextField.setText(selectedRequest.getRequestedCourse().toString());
         courseTwoTextField.setText(selectedRequest.getRequesterCourse().toString());
         professorOneTextField.setText(selectedRequest.getRequestedCourse().getProfessor().toString());
         professorTwoTextField.setText(selectedRequest.getRequesterCourse().getProfessor().toString());
     }
 
-    @FXML
-    void modalityIsSelected(ActionEvent event) {
-        
-    }
-
     private void handleDAOException(DAOException exception) {
+        selectedFile = null;
+        syllabusPathTextField.clear();
         try {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
@@ -229,11 +276,13 @@ public class RegisterCollaborativeProjectController implements Initializable {
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(RegisterCollaborativeProjectController.class).error(ioException.getMessage(), exception);
+            Log.getLogger(RegisterCollaborativeProjectController.class).error(ioException.getMessage(), ioException);
         }
     }
 
     private void handleIOException(IOException exception) {
+        selectedFile = null;
+        syllabusPathTextField.clear();
         DialogController.getInformativeConfirmationDialog("Lo sentimos", exception.getMessage());
     }
 
@@ -253,12 +302,50 @@ public class RegisterCollaborativeProjectController implements Initializable {
     }
 
     private boolean confirmSave() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas registrar este nuevo proyecto colaborativo?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas "
+                + "registrar este nuevo proyecto colaborativo?");
         return (response.get() == DialogController.BUTTON_YES);
     }
     
-    private boolean confirmCancel() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas cancelar el registro este nuevo proyecto colaborativo?");
+    private boolean confirmUpdate() {
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas "
+                + "actualizar este proyecto colaborativo? Se enviará para ser validado de nuevo");
         return (response.get() == DialogController.BUTTON_YES);
+    }
+
+    private boolean confirmCancel() {
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar", "¿Deseas "
+                + "cancelar el registro este nuevo proyecto colaborativo?");
+        return (response.get() == DialogController.BUTTON_YES);
+    }
+
+    public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
+        this.collaborativeProjectForUpdate = collaborativeProject;
+        fillFields(collaborativeProjectForUpdate);
+    }
+
+    private void fillFields(CollaborativeProject collaborativeProject) {
+        acceptedRequestesComboBox.setDisable(true);
+        courseOneTextField.setText(collaborativeProject.getRequestedCourse().toString());
+        courseTwoTextField.setText(collaborativeProject.getRequesterCourse().toString());
+        professorOneTextField.setText(collaborativeProject.getRequestedCourse().getProfessor().toString());
+        professorTwoTextField.setText(collaborativeProject.getRequesterCourse().getProfessor().toString());
+        courseOneTextField.setDisable(true);
+        courseTwoTextField.setDisable(true);
+        professorOneTextField.setDisable(true);
+        professorTwoTextField.setDisable(true);
+        nameTextField.setText(collaborativeProject.getName());
+        generalObjetiveTextArea.setText(collaborativeProject.getGeneralObjective());
+        descriptionTextArea.setText(collaborativeProject.getDescription());
+        codeTextField.setText(collaborativeProject.getCode());
+        modalitiesComboBox.setValue(collaborativeProject.getModality());
+
+        File syllabusFile = new File(collaborativeProject.getSyllabusPath());
+        if (syllabusFile.exists()) {
+            syllabusPathTextField.setText(collaborativeProject.getSyllabusPath());
+            selectedFile = new File(collaborativeProject.getSyllabusPath());
+        } else {
+            syllabusPathTextField.setPromptText("Archivo no encontrado");
+        }
     }
 }

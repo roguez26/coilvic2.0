@@ -35,12 +35,6 @@ public class CollaborativeProjectsManagementController implements Initializable 
     private Button backButton;
 
     @FXML
-    private Button searchButton;
-
-    @FXML
-    private TextField searchTextField;
-
-    @FXML
     private Button seeDetailsButton;
 
     @FXML

@@ -18,50 +18,61 @@ import log.Log;
  */
 public class FileManager {
 
-    private static final long MAX_SIZE_BYTES = 10 * 1024 * 1024;
+    private final long MAX_SIZE_BYTES = 10 * 1024 * 1024;
     private static final String FILE_PATH = "files\\xlsx\\ProfesoresValidados.xlsx";
-    String activitiesDestination = "files\\activities";
-    Path destination;
-    Path fileDestination;
-    String selectedFilePath;
-    File file;
-    String destinationDirectory;
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public void setDestinationDirectory(int idCollaborativeProject) {
-        this.destinationDirectory = activitiesDestination + "\\" + String.valueOf(
+    
+    public String saveAssignment(File assignmentFile, int idCollaborativeProject) throws IOException {
+        String resultPath = "";
+        
+        if (isValidFileForSave(assignmentFile) && idCollaborativeProject > 0) {
+            String destinationAssignmentPath = "files\\activities" +"\\" + String.valueOf(
                 idCollaborativeProject) + "\\";
+            if (!fileExists(destinationAssignmentPath + assignmentFile.getName())) {
+                resultPath = saveFile(assignmentFile, destinationAssignmentPath);
+            } else {
+                throw new IllegalArgumentException("Ya existe una actividad en este proyecto con el mismo nombre, intente con otro.");
+            }
+        }
+        return resultPath;
+    }
+    
+    public String saveSyllabus(File syllabusFile, int idCollaborativeProjectRequest) throws IOException {
+        String resultPath = "";
+        
+        if (isValidFileForSave(syllabusFile) && idCollaborativeProjectRequest > 0) {
+            String destinationSyllabusPath = "files\\syllabus\\" + String.valueOf(idCollaborativeProjectRequest) + "\\";
+            if (!fileExists(destinationSyllabusPath + syllabusFile.getName())) {
+                resultPath = saveFile(syllabusFile, destinationSyllabusPath);
+            } else {
+                throw new IllegalArgumentException("Ya existe un syllabus de este proyecto con el mismo nombre, intente con otro.");
+            }
+        }
+        return resultPath;
     }
 
-    public void setSyllabusDestination() {
-        activitiesDestination = "files\\syllabus";
-    }
-
-    public String saveFile() throws IOException {
-        if (!directoryExists(destinationDirectory)) {
-            File newDirectory = new File(destinationDirectory);
+    public String saveFile(File fileForSave, String destinationPath) throws IOException {
+        if (!directoryExists(destinationPath)) {
+            File newDirectory = new File(destinationPath);
             newDirectory.mkdir();
         }
-        destination = Paths.get(destinationDirectory);
-        fileDestination = destination.resolve(file.getName());
-        Files.copy(file.toPath(), fileDestination.toAbsolutePath());
-        selectedFilePath = fileDestination.toString();
-        return selectedFilePath;
+        Path destination = Paths.get(destinationPath);
+        Path fileDestination = destination.resolve(fileForSave.getName());
+        Files.copy(fileForSave.toPath(), fileDestination.toAbsolutePath());
+        String finalDestinationPath = fileDestination.toString();
+        return finalDestinationPath;
     }
 
     public boolean isValidFileForSave(File fileForCheck) {
         if (fileForCheck == null) {
-            throw new IllegalArgumentException("El archivo no puede estar vacio");
+            throw new IllegalArgumentException("El archivo no puede estar vacío");
         }
+        
+        if (!fileForCheck.exists()) {
+            throw new IllegalArgumentException("No se encontró el archivo que se desea guardar");
+        }
+        
         if (!isFileLenghtValid(fileForCheck)) {
             throw new IllegalArgumentException("El archivo debe ser menor o igual a 10MB");
-        } 
-
-        if (fileExists(destinationDirectory + "\\" + fileForCheck.getName())) {
-            throw new IllegalArgumentException("Ya existe un archivo con este nombre");
         } 
         return true;
     }
@@ -113,7 +124,7 @@ public class FileManager {
         if (selectedDirectory != null) {
             directoryPath = selectedDirectory.getAbsolutePath();
         } else {
-            throw new IllegalArgumentException("El archivo no puede estar vacio");
+            throw new IllegalArgumentException("El archivo no puede estar vacío");
         }
         return directoryPath;
 
@@ -129,7 +140,13 @@ public class FileManager {
         return fileForValidate.exists();
     }
 
-    public void deleteFile(File file) {
+    public void deleteFile(File file) throws IOException {
+        if (file == null) {
+            throw new IOException("No se puede eliminar un archivo vacío");
+        }
+        if (!file.exists()) {
+            throw new IOException("No se encontró el archivo para eliminar");
+        }
         file.delete();
     }
 

@@ -437,7 +437,7 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
         String statement = "UPDATE ProyectoColaborativo"
         + " SET idModalidad = ?, nombre = ?, estado = 'Pendiente',"
         + " descripcion = ?, objetivoGeneral = ?,"
-        + " modalidad = ?, codigo = ?, rutaSyllabus = ?";
+        + " codigo = ?, rutaSyllabus = ?";
         int rowsAffected = -1;
 
         try {

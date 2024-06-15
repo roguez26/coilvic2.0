@@ -32,4 +32,6 @@ public interface ICollaborativeProjectRequest {
     
     public ArrayList<CollaborativeProjectRequest> getAceptedCollaborativeProjectRequestsByIdProfessor
     (int idProfessor) throws DAOException;
+    
+    public CollaborativeProjectRequest getCollaborativeProjectByCoursesId(int idRequestedCourse, int idRequesterCourse) throws DAOException;
 }

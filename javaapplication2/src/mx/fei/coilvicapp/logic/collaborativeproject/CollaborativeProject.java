@@ -136,7 +136,7 @@ public class CollaborativeProject {
             isEqual = idCollaborativeProject == project.idCollaborativeProject
                     && Objects.equals(requesterCourse, project.requesterCourse)
                     && Objects.equals(requestedCourse, project.requestedCourse)
-                    && modality == project.modality
+                    && Objects.equals(modality, project.modality)
                     && Objects.equals(name, project.name)
                     && Objects.equals(status, project.status)
                     && Objects.equals(description, project.description)
@@ -161,5 +161,10 @@ public class CollaborativeProject {
         hash = 37 * hash + Objects.hashCode(this.code);
         hash = 37 * hash + Objects.hashCode(this.syllabusPath);
         return hash;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

@@ -93,46 +93,39 @@ public class UploadAssignmentController implements Initializable {
     private void invokeSaveAssignment() throws DAOException, IOException {
         FileManager fileManager = new FileManager();
         Assignment newAssignment = initializeAssignment();
-        fileManager.setFile(selectedFile);
-        fileManager.setDestinationDirectory(newAssignment.getIdColaborativeProject());
-        fileManager.isValidFileForSave(selectedFile);
+
         if (confirmUpload()) {
-            invokeRegisterAssignment(fileManager.saveFile(), newAssignment);
+            invokeRegisterAssignment(fileManager.saveAssignment(selectedFile, collaborativeProject.getIdCollaborativeProject()), newAssignment);
         }
     }
 
     private void invokeUpdateAssignment() throws DAOException, IOException {
         Assignment newAssignment = initializeAssignment();
+        File oldFile = new File(assignment.getPath());
         newAssignment.setPath(assignment.getPath());
         newAssignment.setIdAssignment(assignment.getIdAssignment());
-        FileManager fileManager = new FileManager();
-        File oldFile = new File(assignment.getPath());
+
         if (!newAssignment.equals(assignment) || !oldFile.equals(selectedFile)) {
+            FileManager fileManager = new FileManager();
             if (!oldFile.equals(selectedFile)) {
-                fileManager.setFile(selectedFile);
-                fileManager.setDestinationDirectory(newAssignment.getIdColaborativeProject());
                 fileManager.isValidFileForSave(selectedFile);
             }
 
             if (confirmUpdate()) {
                 IAssignment asigmentDAO = new AssignmentDAO();
-                try {
-                    if (!oldFile.equals(selectedFile)) {
-                        String newPath = fileManager.saveFile();
-                        newAssignment.setPath(newPath);
-                        fileManager.deleteFile(oldFile);
-                    }
-                    if (asigmentDAO.updateAssignment(newAssignment, collaborativeProject) > 0) {
-                        DialogController.getInformativeConfirmationDialog("Actualizada", "La actividad fue actualizada"
-                                + " con éxito");
-                        closeWindow();
-                    }
-                } catch (DAOException exception) {
-                    Log.getLogger(UploadAssignmentController.class).error(exception.getMessage(), exception);
+                if (!oldFile.equals(selectedFile)) {
+                    String newPath = fileManager.saveAssignment(selectedFile, collaborativeProject.getIdCollaborativeProject());
+                    newAssignment.setPath(newPath);
+                    fileManager.deleteFile(oldFile);
+                }
+                if (asigmentDAO.updateAssignment(newAssignment, collaborativeProject) > 0) {
+                    DialogController.getInformativeConfirmationDialog("Actualizada", "La actividad fue actualizada"
+                            + " con éxito");
+                    closeWindow();
                 }
             }
         } else {
-             closeWindow();
+            closeWindow();
         }
     }
 
@@ -176,15 +169,18 @@ public class UploadAssignmentController implements Initializable {
             FileManager fileManager = new FileManager();
             IAssignment assignmentDAO = new AssignmentDAO();
             File auxFile = selectedFile;
-            fileManager.deleteFile(selectedFile);
+
             try {
+                fileManager.deleteFile(selectedFile);
                 if (assignmentDAO.deleteAssignment(assignment.getIdAssignment(), collaborativeProject) > 0) {
                     DialogController.getInformativeConfirmationDialog("Eliminada", "La actividad fue eliminada");
                     closeWindow();
                 }
+            } catch (IOException exception) {
+                handleIOException(exception);
             } catch (DAOException exception) {
                 undoDeleteAssignment(auxFile);
-                Log.getLogger(UploadAssignmentController.class).error(exception.getMessage(), exception);
+                handleDAOException(exception);
             }
         }
     }
@@ -192,17 +188,13 @@ public class UploadAssignmentController implements Initializable {
     private void undoDeleteAssignment(File file) {
         FileManager fileManager = new FileManager();
         try {
-            fileManager.setFile(file);
-            fileManager.setDestinationDirectory(collaborativeProject.getIdCollaborativeProject());
-            fileManager.saveFile();
+            fileManager.saveAssignment(file, collaborativeProject.getIdCollaborativeProject());
         } catch (IOException exception) {
-            Log.getLogger(UploadAssignmentController.class).error(exception.getMessage(), exception);
+            handleIOException(exception);
         }
     }
-
+    
     private void handleDAOException(DAOException exception) {
-        FileManager fileManager = new FileManager();
-        fileManager.deleteFile(selectedFile);
         try {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
@@ -235,8 +227,7 @@ public class UploadAssignmentController implements Initializable {
     }
 
     private void handleIOException(IOException exception) {
-        DialogController.getInformativeConfirmationDialog("Lo sentimos", "No fue posible subir la"
-                + " actividad");
+        DialogController.getInformativeConfirmationDialog("Lo sentimos", exception.getMessage());
     }
 
     private void handleValidationException(IllegalArgumentException exception) {

@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -73,7 +71,7 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
     private Button finishButton;
 
     private CollaborativeProject collaborativeProject;
-    private Professor professor = null;
+    private Professor professor;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
@@ -182,12 +180,12 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
         try {
             MainApp.changeView(fxmlLoader);
             ActivitiesManagementController activitiesManagementController = fxmlLoader.getController();
-            activitiesManagementController.setCollaborativeProject(collaborativeProject);
             if (professor != null) {
                 activitiesManagementController.setProfessorSession(professor);
             } else {
                 activitiesManagementController.setJustVisibleMode(true);
             }
+            activitiesManagementController.setCollaborativeProject(collaborativeProject);
         } catch (IOException exception) {
             Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), 
                     exception);
@@ -199,6 +197,9 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
         this.collaborativeProject = collaborativeProject;
         if (collaborativeProject.getStatus().equals("Aceptado")) {
             finishButton.setVisible(true);
+        }
+        if (collaborativeProject.getStatus().equals("Pendiente") || collaborativeProject.getStatus().equals("Rechazado")) {
+            seeActivitiesButton.setVisible(false);
         }
 
         initializeFields(collaborativeProject);

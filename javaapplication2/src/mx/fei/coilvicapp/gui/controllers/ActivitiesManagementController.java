@@ -145,6 +145,12 @@ public class ActivitiesManagementController implements Initializable {
 
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
+        if (!collaborativeProject.getStatus().equals("Aceptado")) {
+            addButton.setVisible(false);
+            System.out.println("no aceptado");
+        } else {
+            System.out.println("aceptado");
+        }
         fillActivitiesTable(collaborativeProject);
     }
 
