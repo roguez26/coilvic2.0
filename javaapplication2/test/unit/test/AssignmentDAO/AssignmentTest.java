@@ -168,8 +168,6 @@ public class AssignmentTest {
         ASSIGNMENT_FOR_TESTING.setDescription("Actividad donde se presentaron los alumnos de "
                 + "Programación y los de Bases de Datos");
         ASSIGNMENT_FOR_TESTING.setPath("/files/id/Rompehielos.pdf");
-        ASSIGNMENT_FOR_TESTING.setIdColaborativeProject(
-                auxCollaborativeProject.getIdCollaborativeProject());
     }
 
     private void initializeAssignmentes() {

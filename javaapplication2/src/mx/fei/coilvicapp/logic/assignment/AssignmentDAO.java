@@ -86,7 +86,6 @@ public class AssignmentDAO implements IAssignment {
 
         try {
             assignment.setIdAssignment(resultSet.getInt("idActividad"));
-            assignment.setIdColaborativeProject(resultSet.getInt("idProyectoColaborativo"));
             assignment.setName(resultSet.getString("nombre"));
             assignment.setDescription(resultSet.getString("descripcion"));
             assignment.setDate(resultSet.getString("fecha"));
@@ -98,7 +97,7 @@ public class AssignmentDAO implements IAssignment {
     }
 
     @Override
-    public ArrayList<Assignment> getAssignmentsByIdProjectColaborative(int idColaborativeProject)
+    public ArrayList<Assignment> getAssignmentsByIdProjectColaborative(int idCollaborativeProject)
     throws DAOException {
         ArrayList<Assignment> assignments = new ArrayList<>();
         Assignment assignment = new Assignment();
@@ -112,7 +111,7 @@ public class AssignmentDAO implements IAssignment {
             connection = databaseManager.getConnection();
             preparedStatement = connection.prepareStatement(statement);
 
-            preparedStatement.setInt(1, idColaborativeProject);
+            preparedStatement.setInt(1, idCollaborativeProject);
 
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {

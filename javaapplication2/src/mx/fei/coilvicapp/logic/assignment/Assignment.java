@@ -8,8 +8,6 @@ import mx.fei.coilvicapp.logic.implementations.FieldValidator;
  */
 public class Assignment {
 
-    private int idColaborativeProject;
-
     private int idAssignment = 0;
     private String name;
     private String description;
@@ -17,14 +15,6 @@ public class Assignment {
     private String path;
 
     public Assignment() {
-    }
-
-    public int getIdColaborativeProject() {
-        return idColaborativeProject;
-    }
-
-    public void setIdColaborativeProject(int idColaborativeProject) {
-        this.idColaborativeProject = idColaborativeProject;
     }
 
     public int getIdAssignment() {
