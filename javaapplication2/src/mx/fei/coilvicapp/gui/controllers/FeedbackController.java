@@ -72,8 +72,8 @@ public class FeedbackController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
                     + "CollaborativeProjectDetailsProfessor.fxml"));
             MainApp.changeView(fxmlLoader);
-            CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController = 
-                    fxmlLoader.getController();
+            CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController
+                    = fxmlLoader.getController();
             collaborativeProjectDetailsProfessorController.setCollaborativeProject(collaborativeProject);
         } catch (IOException exception) {
             Log.getLogger(FeedbackController.class).error(exception.getMessage(), exception);
@@ -90,7 +90,12 @@ public class FeedbackController implements Initializable {
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
-        questionsTableView.getItems().addAll(questions);
+        if (!questions.isEmpty()) {
+            questionsTableView.getItems().addAll(questions);
+        } else {
+            DialogController.getInformativeConfirmationDialog("Aviso", "Aún no hay "
+                    + "preguntas para el profesor");
+        }
     }
 
     @FXML
@@ -129,7 +134,12 @@ public class FeedbackController implements Initializable {
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
-        questionsTableView.getItems().addAll(questions);
+        if (!questions.isEmpty()) {
+            questionsTableView.getItems().addAll(questions);
+        } else {
+            DialogController.getInformativeConfirmationDialog("Aviso", "Aún no hay "
+                    + "preguntas para el estudiante");
+        }
     }
 
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {

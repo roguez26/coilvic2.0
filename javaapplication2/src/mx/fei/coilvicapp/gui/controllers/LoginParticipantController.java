@@ -127,7 +127,7 @@ public class LoginParticipantController implements Initializable {
                 changeViewForStudent(student, collaborativeProject);
             } else {
                 DialogController.getInformativeConfirmationDialog("Proyecto no encontrado",
-                        "No se encontró ningún proyecto con el codigo: " + identifierPasswordField.getText());
+                        "No se encontró ningún proyecto con el código: " + identifierPasswordField.getText());
             }
         } else {
             DialogController.getInformativeConfirmationDialog("Estudiante no encontrado",
@@ -175,7 +175,7 @@ public class LoginParticipantController implements Initializable {
             } else if (user.getType().equalsIgnoreCase("A")) {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
             } else {
-                throw new IllegalArgumentException("No se encontró ningun usuario con esos datos");
+                throw new IllegalArgumentException("No se encontró ningún usuario con esos datos");
             }
 
         }

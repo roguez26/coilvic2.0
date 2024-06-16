@@ -107,7 +107,7 @@ public class ActivitiesManagementController implements Initializable {
             } catch (IllegalArgumentException exception) {
                 DialogController.getInformativeConfirmationDialog("Lo sentimos", exception.getMessage());
             } catch (IOException exception) {
-                DialogController.getInformativeConfirmationDialog("Algo salio mal", exception.getMessage());
+                DialogController.getInformativeConfirmationDialog("Algo salió mal", exception.getMessage());
             }
         } else {
             DialogController.getInformativeConfirmationDialog("Sin actividad", "Seleccione una actividad para "
@@ -146,16 +146,15 @@ public class ActivitiesManagementController implements Initializable {
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
         if (!collaborativeProject.getStatus().equals("Aceptado")) {
+            editButton.setVisible(false);
             addButton.setVisible(false);
-            System.out.println("no aceptado");
-        } else {
-            System.out.println("aceptado");
-        }
+        } 
         fillActivitiesTable(collaborativeProject);
     }
 
     public void setProfessorSession(Professor professor) {
         this.professorSession = professor;
+        editButton.setVisible(true);
         addButton.setVisible(true);
     }
 

@@ -106,7 +106,7 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
 
     private boolean emptyFieldsConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(
-                "Campos vacios", "Asegurese de llenar todos los campos con *");
+                "Campos vacíos", "Asegurese de llenar todos los campos con *");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 

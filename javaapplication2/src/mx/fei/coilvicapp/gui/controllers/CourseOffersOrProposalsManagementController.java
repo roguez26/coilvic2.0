@@ -88,9 +88,7 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
         if (professor != null) {
             this.professor = professor;
             initializeAll();
-        } else {
-            // ERROR
-        }
+        } 
     }
 
     @FXML
@@ -103,7 +101,6 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
     private void goBack() {
         try {
             if (professor == null) {
-                // VENTANA DE LA ADMINISTRACION COILVIC
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
             } else {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));

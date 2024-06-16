@@ -166,16 +166,6 @@ public class UpdateUniversityController implements Initializable {
         }
     }
 
-    private void invokeDeleteUniversity(University university) throws DAOException {
-        IUniversity universityDAO = new UniversityDAO();
-        int result;
-        result = universityDAO.deleteUniversity(university.getIdUniversity());
-        if (result > 0) {
-            wasDeletedConfirmation();
-            goBack();
-        }
-    }
-
     private void goBack() {
         try {
              MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
@@ -187,25 +177,13 @@ public class UpdateUniversityController implements Initializable {
 
     private boolean updateConfirmation() {
         Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar "
-                + "actualizacion", "¿Deseas actualizar la universidad?");
-        return (response.get() == DialogController.BUTTON_YES);
-    }
-
-    private boolean deleteConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar "
-                + "eliminacion", "¿Deseas eliminar la universidad?");
+                + "actualización", "¿Deseas actualizar la universidad?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
     private boolean wasUpdatedConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Actualizada",
                 "La universidad fue actualizada");
-        return response.get() == DialogController.BUTTON_ACCEPT;
-    }
-
-    private boolean wasDeletedConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(
-                "Eliminada", "La universidad fue eliminada");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 

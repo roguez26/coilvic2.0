@@ -57,12 +57,12 @@
             <Button fx:id="addQuestionButton" maxWidth="-Infinity" mnemonicParsing="false" onAction="#addQuestionIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Añadir" />
          </children>
       </HBox>
-      <HBox alignment="BOTTOM_CENTER" maxWidth="-Infinity" prefHeight="10.0" prefWidth="670.0" spacing="10.0">
+      <HBox alignment="BOTTOM_CENTER" maxWidth="-Infinity" prefHeight="27.0" prefWidth="752.0" spacing="10.0">
          <children>
-            <ComboBox fx:id="typeCombobox" prefHeight="26.0" prefWidth="83.0" promptText="Tipo" stylesheets="@../../../../../stylesheets/combobox.css" visible="false" />
-            <TextField fx:id="questionTextField" prefHeight="28.0" prefWidth="334.0" promptText="Escribe aquí la nueva pregunta" stylesheets="@../../../../../stylesheets/textField.css" visible="false" />
+            <ComboBox fx:id="typeCombobox" prefHeight="26.0" prefWidth="114.0" promptText="Tipo" stylesheets="@../../../../../stylesheets/combobox.css" visible="false" />
+            <TextField fx:id="questionTextField" prefHeight="27.0" prefWidth="347.0" promptText="Escribe aquí la nueva pregunta" stylesheets="@../../../../../stylesheets/textField.css" visible="false" />
             <Button fx:id="cancelButton" maxWidth="-Infinity" mnemonicParsing="false" onAction="#cancelButtonIsPressed" prefHeight="27.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" visible="false" />
-            <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" visible="false" />
+            <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptButtonIsPressed" prefHeight="26.0" prefWidth="89.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" visible="false" />
          </children>
       </HBox>
    </children>

@@ -97,9 +97,7 @@ public class ProfessorCourseManagementController implements Initializable {
                 MainApp.changeView(fxmlLoader);
                 ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
                 professorMainMenuController.setProfessor(professor);
-            } else {
-                // ALGUN ERROR
-            }
+            } 
         } catch (IOException exception) {
             Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
         }

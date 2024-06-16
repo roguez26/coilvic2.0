@@ -75,6 +75,7 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
+        finishButton.setManaged(false);
     }
 
     @FXML
@@ -127,6 +128,7 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
         if (feedbackDAO.hasCompletedProfessorForm(collaborativeProject.getRequestedCourse().getProfessor(),
                 collaborativeProject) && feedbackDAO.hasCompletedProfessorForm(
                         collaborativeProject.getRequesterCourse().getProfessor(), collaborativeProject)) {
+            collaborativeProject.setStatus("Finalizado");
             ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
 
             collaborativeProjectDAO.finalizeCollaborativeProject(collaborativeProject);
@@ -168,7 +170,7 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
         } catch (IllegalArgumentException exception) {
             DialogController.getInformativeConfirmationDialog("Lo sentimos", exception.getMessage());
         } catch (IOException exception) {
-            DialogController.getInformativeConfirmationDialog("Algo salio mal", exception.getMessage());
+            DialogController.getInformativeConfirmationDialog("Algo salió mal", exception.getMessage());
         }
     }
 
@@ -195,9 +197,6 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
-        if (collaborativeProject.getStatus().equals("Aceptado")) {
-            finishButton.setVisible(true);
-        }
         if (collaborativeProject.getStatus().equals("Pendiente") || collaborativeProject.getStatus().equals("Rechazado")) {
             seeActivitiesButton.setVisible(false);
         }
@@ -207,6 +206,10 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
+        if (collaborativeProject.getStatus().equals("Aceptado")) {
+            finishButton.setManaged(true);
+            finishButton.setVisible(true);
+        }
         seeFeedbackButton.setVisible(false);
     }
 

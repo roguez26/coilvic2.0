@@ -23,10 +23,12 @@ public class PDFCreator {
         LocalDate date = LocalDate.now();
         String destionationCertificatePath;
         
-        if (certificateDestination == null || certificateDestination.equals("")) {
+        if (certificateDestination == null || certificateDestination.isEmpty()) {
             throw new IOException ("Es necesario especificar la ruta para iniciar la descarga");
         }
-
+        if (!templateExists()) {
+            throw new IOException("No se encontraron los recursos para generar la constancia");
+        }
         try {
             try (PdfReader reader = new PdfReader(CERTIFICATE_TEMPLATE_PATH)) {
                 destionationCertificatePath = certificateDestination + "\\" + date + "-" + name + "-constancia.pdf";

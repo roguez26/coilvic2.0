@@ -93,7 +93,6 @@ public class ProfessorManagerController implements Initializable {
             } else {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
             }
-
         } catch (IOException exception) {
             Log.getLogger(ProfessorManagerController.class).error(exception.getMessage(), exception);
         }
@@ -149,7 +148,6 @@ public class ProfessorManagerController implements Initializable {
             Log.getLogger(ProfessorManagerController.class).error(exception.getMessage(), exception);
         } catch (IllegalArgumentException exception) {
             handleValidationException(exception);
-            Log.getLogger(ProfessorManagerController.class).error(exception.getMessage(), exception);
         }
     }
 

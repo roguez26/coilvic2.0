@@ -133,7 +133,6 @@ public class ValidateCollaborativeProjectController implements Initializable {
         } catch (IllegalArgumentException exception) {
             handleValidationException(exception);
         }
-
     }
 
     private void handleValidationException(IllegalArgumentException exception) {
@@ -171,7 +170,7 @@ public class ValidateCollaborativeProjectController implements Initializable {
     }
 
     private boolean confirmAccept() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar Aceptacion", 
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar aceptación", 
                 "¿Deseas aceptar este proyecto colaborativo?");
         return response.isPresent() && response.get() == DialogController.BUTTON_YES;
     }

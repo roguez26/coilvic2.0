@@ -195,13 +195,13 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
 
     private boolean wasNotUpdatedConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(
-                "Informacion no actualizada", "Los cambios no se pudieron realizar");
+                "Información no actualizada", "Los cambios no se pudieron realizar");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
     private boolean wasUpdatedConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(
-                "Informacion actualizada", "Los cambios fueron realizados con exito");
+                "Información actualizada", "Los cambios fueron realizados con éxito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 

@@ -14,20 +14,16 @@ public class FileManagerTest {
 
     private final FileManager FILE_MANAGER_FOR_TEST = new FileManager();
 
-    private File intializeValidFile() {
-        File file = new File("files\\File.txt");
-        return file;
-    }
-
     private File initializeLargeFile() throws IOException {
         File largeFile = File.createTempFile("LargeFile", ".txt");
-
+      
         try (FileWriter writer = new FileWriter(largeFile)) {
             StringBuilder data = new StringBuilder();
             for (int i = 0; i < 1000000; i++) {
                 data.append("Lorem ipsum dolor sit amet, consectetur adipiscing elit. ");
             }
             writer.write(data.toString());
+            
         } catch (IOException exception) {
             Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
         }
@@ -43,24 +39,92 @@ public class FileManagerTest {
         String result = "";
         File file = new File("files\\template\\certificate.pdf");
 
-        FILE_MANAGER_FOR_TEST.setFile(file);
-        FILE_MANAGER_FOR_TEST.setDestinationDirectory(idCollaborativeProjectExample);
         try {
-            result = FILE_MANAGER_FOR_TEST.saveFile();
+            result = FILE_MANAGER_FOR_TEST.saveAssignment(file, idCollaborativeProjectExample);
         } catch (IOException exception) {
             Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
         }
         assertEquals(expectedDestionationPath, result);
         File savedFile = new File(result);
         System.out.println(savedFile);
-        FILE_MANAGER_FOR_TEST.deleteFile(savedFile);
+        try {
+            FILE_MANAGER_FOR_TEST.deleteFile(savedFile);
+        } catch (IOException exception) {
+            Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
+        } 
+    }
+    
+    @Test
+    public void testSaveSyllabus() {
+        int idCollaborativeProjectRequestExample = 1234;
+        String expectedDestionationPath = "files\\syllabus" + "\\" + idCollaborativeProjectRequestExample
+                + "\\certificate.pdf";
+        String result = "";
+        File file = new File("files\\template\\certificate.pdf");
+
+        try {
+            result = FILE_MANAGER_FOR_TEST.saveSyllabus(file, idCollaborativeProjectRequestExample);
+        } catch (IOException exception) {
+            Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
+        }
+        assertEquals(expectedDestionationPath, result);
+        File savedFile = new File(result);
+        System.out.println(savedFile);
+        try {
+            FILE_MANAGER_FOR_TEST.deleteFile(savedFile);
+        } catch (IOException exception) {
+            Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
+        } 
+    }
+    
+    @Test
+    public void testSaveSyllabusFailByAllreadyFileAlready() {
+        int idCollaborativeProjectRequestExample = 1234;
+        String result = "";
+        File file = new File("files\\template\\certificate.pdf");
+
+        try {
+            result = FILE_MANAGER_FOR_TEST.saveSyllabus(file, idCollaborativeProjectRequestExample);
+        } catch (IOException exception) {
+            Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
+        }
+        IllegalArgumentException exception= assertThrows(IllegalArgumentException.class, ()-> FILE_MANAGER_FOR_TEST.saveSyllabus(file, idCollaborativeProjectRequestExample));
+        System.out.println(exception.getMessage());
+        File savedFile = new File(result);
+        try {
+            FILE_MANAGER_FOR_TEST.deleteFile(savedFile);
+        } catch (IOException ioException) {
+            Log.getLogger(FileManagerTest.class).error(ioException.getMessage(), ioException);
+        } 
+    }
+    
+    @Test
+    public void testSaveAssignmentFailByAllreadyFileAlready() {
+        int idCollaborativeProjectExample = 1234;
+        String result = "";
+        File file = new File("files\\template\\certificate.pdf");
+
+        try {
+            result = FILE_MANAGER_FOR_TEST.saveAssignment(file, idCollaborativeProjectExample);
+        } catch (IOException exception) {
+            Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
+        }
+        IllegalArgumentException exception= assertThrows(IllegalArgumentException.class, ()-> FILE_MANAGER_FOR_TEST.saveAssignment(file, idCollaborativeProjectExample));
+        System.out.println(exception.getMessage());
+        File savedFile = new File(result);
+        try {
+            FILE_MANAGER_FOR_TEST.deleteFile(savedFile);
+        } catch (IOException ioException) {
+            Log.getLogger(FileManagerTest.class).error(ioException.getMessage(), ioException);
+        } 
     }
 
     @Test
     public void isValidForSaveSucces() {
         boolean result = false;
+        
         try {
-            result = FILE_MANAGER_FOR_TEST.isValidFileForSave(intializeValidFile());
+            result = FILE_MANAGER_FOR_TEST.isValidFileForSave(new File("files\\template\\certificate.pdf"));
         } catch (IllegalArgumentException exception) {
             Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
         }
@@ -84,23 +148,13 @@ public class FileManagerTest {
     }
 
     @Test
-    public void isValidForSaveFailByExistenceFileAlready() {
-        int idCollaborativeProjectExample = 1234;
-        File file = new File("files\\template\\certificate.pdf");
-        String destionationPath = "";
-
-        FILE_MANAGER_FOR_TEST.setFile(file);
-        FILE_MANAGER_FOR_TEST.setDestinationDirectory(idCollaborativeProjectExample);
-        try {
-            destionationPath = FILE_MANAGER_FOR_TEST.saveFile();
-        } catch (IOException exception) {
-            Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
-        }
+    public void isValidForSaveFailByExistenceFile() {
+        File file = new File("certificateEjemploArchivoNoExistente.pdf");
         
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, ()->
                 FILE_MANAGER_FOR_TEST.isValidFileForSave(file));
         System.out.println(exception.getMessage());
-        FILE_MANAGER_FOR_TEST.deleteFile(new File(destionationPath));
+        
     }
     
     @Test

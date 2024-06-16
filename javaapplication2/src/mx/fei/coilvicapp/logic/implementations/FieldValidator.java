@@ -25,6 +25,7 @@ public class FieldValidator {
     private final String TERM_REGEX = "^(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre"
             + "|Octubre|Noviembre|Diciembre)\\"
             + "d{4}-(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)\\d{4}$";
+    private final String QUESTION_REGEX = "^[\\p{L}\\p{N} ¿?]+$";
 
     public void checkEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
@@ -82,6 +83,7 @@ public class FieldValidator {
         if (stringForCheck != null) {
             Matcher matcher = pattern.matcher(stringForCheck);
             if (matcher.matches()) {
+                checkNoRepeatedCharacters(stringForCheck);
                 return;
             }
         }
@@ -96,6 +98,7 @@ public class FieldValidator {
         if (stringForCheck != null) {
             Matcher matcher = pattern.matcher(stringForCheck);
             if (matcher.matches()) {
+                checkNoRepeatedCharacters(stringForCheck);
                 return;
             }
         }
@@ -163,6 +166,7 @@ public class FieldValidator {
         if (text != null) {
             Matcher matcher = pattern.matcher(text);
             if (matcher.matches()) {
+                checkNoRepeatedCharacters(text);
                 return;
             }
         }
@@ -196,4 +200,18 @@ public class FieldValidator {
                 + "consecutivamente.\n");
     }
 
+    public void checkQuestion(String questionText) {
+        Pattern pattern = Pattern.compile(QUESTION_REGEX);
+        if (questionText != null) {
+            Matcher matcher = pattern.matcher(questionText);
+            if (matcher.matches()) {
+                checkNoRepeatedCharacters(questionText);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Las preguntas deben tener las siguientes características:\n"
+                + "1.- Se aceptan letras de cualquier idioma\n"
+                + "2.- Se aceptan números\n"
+                + "3.- Solo se permiten los simbolos: ¿?");
+    }
 }

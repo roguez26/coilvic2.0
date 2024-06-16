@@ -829,4 +829,54 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
         }
         return collaborativeProjectRequest;
     }
+    
+    @Override
+    public boolean areThereAvailableRequests(int idProfessor) throws DAOException {
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String statement = "SELECT EXISTS ( "
+                + "    SELECT 1 "
+                + "    FROM solicitudproyectocolaborativo s "
+                + "    JOIN curso c1 ON s.idCursoSolicitante = c1.idCurso "
+                + "    JOIN curso c2 ON s.idCursoSolicitado = c2.idCurso "
+                + "    LEFT JOIN proyectocolaborativo p ON (s.idCursoSolicitante = p.idCursoSolicitante OR "
+                + "s.idCursoSolicitado = p.idCursoSolicitado) "
+                + "    WHERE (c1.idProfesor = ? OR c2.idProfesor = ?) "
+                + "      AND s.estado = 'Aceptado' "
+                + "      AND p.idProyectoColaborativo IS NULL "
+                + ") AS solicitudDisponible;";
+        ResultSet resultSet = null;
+        boolean solicitudDisponible = false;
+
+        try {
+            connection = databaseManager.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1, idProfessor);
+            preparedStatement.setInt(2, idProfessor);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet != null && resultSet.next()) {
+                solicitudDisponible = resultSet.getBoolean(1);
+            }
+        } catch (SQLException exception) {
+            Log.getLogger(CollaborativeProjectRequestDAO.class).error(exception.getMessage(), exception);
+            throw new DAOException("No fue posible revisar si hay solicitudes disponibles", Status.ERROR);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException exception) {
+                Log.getLogger(CollaborativeProjectRequestDAO.class).error(exception.getMessage(), exception);
+            }
+        }
+
+        return solicitudDisponible;
+    }
 }

@@ -12,7 +12,7 @@ public class AlertMessage {
 
     public AlertMessage(String content, Status alertType) {
         if (content == null || alertType == null) {
-            throw new IllegalArgumentException("Debes ingresar un mensaje y un estádo en el mensaje de alerta");
+            throw new IllegalArgumentException("Debes ingresar un mensaje y un estado en el mensaje de alerta");
         }
         this.content = content;
         this.alertType = alertType;

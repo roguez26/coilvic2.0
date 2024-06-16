@@ -66,7 +66,7 @@ public class CollaborativeProjectDetailsController implements Initializable {
         } catch (IllegalArgumentException exception) {
             DialogController.getInformativeConfirmationDialog("Lo sentimos", exception.getMessage());
         } catch (IOException exception) {
-            DialogController.getInformativeConfirmationDialog("Algo salio mal", exception.getMessage());
+            DialogController.getInformativeConfirmationDialog("Algo salió mal", exception.getMessage());
         }
 
     }

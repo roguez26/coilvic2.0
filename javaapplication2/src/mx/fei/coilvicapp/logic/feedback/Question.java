@@ -30,7 +30,7 @@ public class Question {
     }
 
     public void setQuestionText(String questionText) {
-        fieldValidator.checkLongRange(questionText);
+        fieldValidator.checkQuestion(questionText);
         this.questionText = questionText;
     }
 
