@@ -192,12 +192,12 @@ public class ProfessorRegisterController implements Initializable {
             }
             if (idRegisteredProfessor > 0) {
                 DialogController.getInformativeConfirmationDialog("Registrado","Se ha registrado su información"
-                        + " con éxito, se le notificara cuando se haya validado su información");
+                        + " con éxito, se le notificará cuando se haya validado su información");
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
             }
         } else {
             DialogController.getInformativeConfirmationDialog(
-                    "Campos vacios", "Asegurese de llenar todos los campos con *");
+                    "Campos vacios", "Asegúrese de llenar todos los campos con *");
         }
     }
 

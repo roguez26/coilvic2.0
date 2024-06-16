@@ -56,7 +56,7 @@ public class MainApp extends Application {
         Parent root = fxmlLoader.load();
         Scene newScene = new Scene(root);
         Stage stage = new Stage();
-        scene.setFill(Color.BLUE);
+        
 
         stage.setScene(newScene);
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -69,7 +69,7 @@ public class MainApp extends Application {
             Stage mainStage = (Stage) newScene.getWindow();
             mainStage.show();
         });
-
+        scene.setFill(Color.BLUE);
         stage.showAndWait();
     }
 

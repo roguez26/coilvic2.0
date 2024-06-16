@@ -102,7 +102,7 @@ public class FileManager {
         Path sourcePath = Paths.get(FILE_PATH);
 
         if (!Files.exists(sourcePath)) {
-            throw new IllegalArgumentException("Debe validar profesores");
+            throw new IllegalArgumentException("No se encontraron los recursos para generar el archivo");
         }
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(window);
@@ -177,5 +177,4 @@ public class FileManager {
             throw new IOException("Ocurrió un error al intentar abrir el archivo");
         }
     }
-
 }

@@ -21,25 +21,25 @@
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="470.0" prefWidth="381.0" spacing="10.0">
                <children>
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Nombre" />
-                  <TextField fx:id="nameTextField" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <TextField fx:id="nameTextField" editable="false" stylesheets="@../../../../../stylesheets/textField.css" />
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Profesores" />
-                  <TextField fx:id="professorOneTextField" stylesheets="@../../../../../stylesheets/textField.css" />
-                  <TextField fx:id="professorTwoTextField" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <TextField fx:id="professorOneTextField" editable="false" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <TextField fx:id="professorTwoTextField" editable="false" stylesheets="@../../../../../stylesheets/textField.css" />
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Cursos" />
-                  <TextField fx:id="courseOneTextField" stylesheets="@../../../../../stylesheets/textField.css" />
-                  <TextField fx:id="courseTwoTextField" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <TextField fx:id="courseOneTextField" editable="false" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <TextField fx:id="courseTwoTextField" editable="false" stylesheets="@../../../../../stylesheets/textField.css" />
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Modalidad" />
-                  <TextField fx:id="modalityTextField" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <TextField fx:id="modalityTextField" editable="false" stylesheets="@../../../../../stylesheets/textField.css" />
                </children>
             </VBox>
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="467.0" prefWidth="395.0" spacing="10.0">
                <children>
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Objetivo General" />
-                  <TextArea fx:id="generalObjetiveTextArea" prefHeight="74.0" prefWidth="514.0" stylesheets="@../../../../../stylesheets/textArea.css" />
+                  <TextArea fx:id="generalObjetiveTextArea" editable="false" prefHeight="74.0" prefWidth="514.0" stylesheets="@../../../../../stylesheets/textArea.css" />
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Descripción" />
-                  <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../../../../stylesheets/textArea.css" />
+                  <TextArea fx:id="descriptionTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../../../../stylesheets/textArea.css" />
                   <Label stylesheets="@../../../../../stylesheets/label.css" text="Código" />
-                  <TextField fx:id="codeTextField" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <TextField fx:id="codeTextField" editable="false" stylesheets="@../../../../../stylesheets/textField.css" />
                </children>
             </VBox>
          </children>
@@ -49,10 +49,10 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="66.0" prefWidth="863.0" spacing="15.0">
          <children>
-            <Button fx:id="seeFeedbackButton" mnemonicParsing="false" onAction="#seeFeedbackButtonIsPressed" prefHeight="26.0" prefWidth="150.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Ver retroalimentación" />
-            <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishButtonIsPressed" prefHeight="26.0" prefWidth="150.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Concluir" visible="false" />
-            <Button fx:id="seeActivitiesButton" mnemonicParsing="false" onAction="#seeActivitiesButtonIsPressed" prefHeight="26.0" prefWidth="150.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Ver actividades" />
-            <Button fx:id="seeSyllabusButton" minWidth="150.0" mnemonicParsing="false" onAction="#seeSyllabusButtonIsPressed" prefHeight="27.0" prefWidth="150.0" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Ver syllabus" />
+            <Button fx:id="seeFeedbackButton" mnemonicParsing="false" onAction="#seeFeedbackButtonIsPressed" prefHeight="26.0" prefWidth="131.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Ver retroalimentación" />
+            <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishButtonIsPressed" prefHeight="26.0" prefWidth="100.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Concluir" visible="false" />
+            <Button fx:id="seeActivitiesButton" mnemonicParsing="false" onAction="#seeActivitiesButtonIsPressed" prefHeight="26.0" prefWidth="100.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Ver actividades" />
+            <Button fx:id="seeSyllabusButton" minWidth="100.0" mnemonicParsing="false" onAction="#seeSyllabusButtonIsPressed" prefHeight="27.0" prefWidth="100.0" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Ver syllabus" />
          </children>
       </HBox>
    </children>

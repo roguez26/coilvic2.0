@@ -332,7 +332,7 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
     
     private boolean wasCancelledConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
-        ("Solictud cancelada","Se cancelo la solicitud con éxito");
+        ("Solictud cancelada","Se canceló la solicitud con éxito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
     
@@ -344,7 +344,7 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
     
     private boolean wasRejectedConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
-        ("Solictud rechazada","Se rechazo la solicitud con éxito");
+        ("Solictud rechazada","Se rechazó la solicitud con éxito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
@@ -356,7 +356,7 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
     
     private boolean wasAcceptedConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
-        ("Solictud aceptada","Se acepto la solicitud con éxito");
+        ("Solictud aceptada","Se aceptó la solicitud con éxito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     } 
     

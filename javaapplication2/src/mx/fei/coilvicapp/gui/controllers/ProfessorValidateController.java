@@ -304,7 +304,7 @@ public class ProfessorValidateController implements Initializable {
 
     private boolean validationConfirmation(String validationAction) {
         Optional<ButtonType> response = DialogController.getConfirmationDialog(
-                "Validacion del profesor", "¿Desea " + validationAction + " al profesor?");
+                "Validación del profesor", "¿Desea " + validationAction + " al profesor?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
@@ -322,13 +322,13 @@ public class ProfessorValidateController implements Initializable {
 
     private boolean wasNotUpdatedConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(
-                "Informacion no actualizada", "Los cambios no se pudieron realizar");
+                "Información no actualizada", "Los cambios no se pudieron realizar");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
     private boolean wasUpdatedConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(
-                "Informacion actualizada", "Los cambios fueron realizados con exito");
+                "Información actualizada", "Los cambios fueron realizados con exito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 

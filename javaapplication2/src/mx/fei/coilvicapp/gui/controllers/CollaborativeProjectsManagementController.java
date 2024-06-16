@@ -14,7 +14,6 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import log.Log;
 import main.MainApp;
@@ -63,10 +62,10 @@ public class CollaborativeProjectsManagementController implements Initializable 
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-        intializeUniversitiesTable();
+        intializeCollaborativeProjectsTable();
     }
 
-    private void intializeUniversitiesTable() {
+    private void intializeCollaborativeProjectsTable() {
         ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         ArrayList<CollaborativeProject> collaborativeProjectsList = new ArrayList<>();
         
@@ -182,7 +181,7 @@ public class CollaborativeProjectsManagementController implements Initializable 
                     selectedCollaborativeProject);
         } else {
             DialogController.getInformativeConfirmationDialog("Sin proyecto seleccionado", "Necesita "
-                    + "seleccionar un proyecto para poder inciar la validacion");
+                    + "seleccionar un proyecto para poder inciar la validación");
         }
     }
 

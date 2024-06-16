@@ -76,7 +76,7 @@ public class RegisterUniversityController implements Initializable {
     }
 
     private boolean confirmCancelation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", 
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelación", 
                 "¿Deseas cancelar el registro?");
         return (response.get() == DialogController.BUTTON_YES);
     }
@@ -104,7 +104,7 @@ public class RegisterUniversityController implements Initializable {
             IUniversity UniversityDAO = new UniversityDAO();
             if (UniversityDAO.registerUniversity(university) > 0) {
                 DialogController.getInformativeConfirmationDialog("Registrada", "La universidad fue registrada"
-                        + " con exito");
+                        + " con éxito");
                 cleanFields();
             }
         }

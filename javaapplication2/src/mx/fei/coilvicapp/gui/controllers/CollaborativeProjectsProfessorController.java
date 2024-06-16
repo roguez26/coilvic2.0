@@ -20,6 +20,8 @@ import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.logic.collaborativeproject.ICollaborativeProject;
+import mx.fei.coilvicapp.logic.collaborativeprojectrequest.CollaborativeProjectRequestDAO;
+import mx.fei.coilvicapp.logic.collaborativeprojectrequest.ICollaborativeProjectRequest;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
@@ -97,13 +99,21 @@ public class CollaborativeProjectsProfessorController implements Initializable {
     void registerButtonIsPressed(ActionEvent event) {
         try {
             if (professor != null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
-                        + "RegisterCollaborativeProject.fxml"));
-                MainApp.changeView(fxmlLoader);
-                RegisterCollaborativeProjectController registerCollaborativeProjectController
-                        = fxmlLoader.getController();
-                registerCollaborativeProjectController.setProfessor(professor);
+                ICollaborativeProjectRequest collaborativeProjectRequestDAO = new CollaborativeProjectRequestDAO();
+                if (collaborativeProjectRequestDAO.areThereAvailableRequests(professor.getIdProfessor())) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                            + "RegisterCollaborativeProject.fxml"));
+                    MainApp.changeView(fxmlLoader);
+                    RegisterCollaborativeProjectController registerCollaborativeProjectController
+                            = fxmlLoader.getController();
+                    registerCollaborativeProjectController.setProfessor(professor);
+                } else {
+                    DialogController.getInformativeConfirmationDialog("Sin solicitudes disponibles", "No cuentas con"
+                            + " solicitudes aceptadas para registrar un nuevo proyecto colaborativo");
+                }
             }
+        } catch (DAOException exception) {
+            handleDAOException(exception);
         } catch (IOException exception) {
             Log.getLogger(CollaborativeProjectsProfessorController.class).error(exception.getMessage(),
                     exception);

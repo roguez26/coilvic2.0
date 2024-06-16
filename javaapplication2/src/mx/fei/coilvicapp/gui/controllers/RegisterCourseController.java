@@ -145,7 +145,7 @@ public class RegisterCourseController implements Initializable {
     }
 
     private boolean emptyFieldsConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Campos vacios", "Debe completar todos los campos");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Campos vacíos", "Debe completar todos los campos");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 

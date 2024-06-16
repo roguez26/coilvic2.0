@@ -243,7 +243,7 @@ public class RegisterStudentController implements Initializable {
 
     private boolean confirmCancelation() {
         Optional<ButtonType> response = DialogController.getConfirmationDialog(
-                "Confirmar cancelacion", "¿Deseas cancelar el registro?");
+                "Confirmar cancelación", "¿Deseas cancelar el registro?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 

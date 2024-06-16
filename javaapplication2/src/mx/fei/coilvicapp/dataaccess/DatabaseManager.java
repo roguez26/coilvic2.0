@@ -19,33 +19,38 @@ public class DatabaseManager {
     private static final String DATABASE_USER = "mysql.db.user";
     private static final String DATABASE_PASSWORD = "mysql.db.password";
 
-    public DatabaseManager() {
-
-    }
-
     public Connection getConnection() throws DAOException {
         try {
             if (connection == null || connection.isClosed()) {
                 connection = connect();
             }
         } catch (SQLException exception) {
-            Log.getLogger(DatabaseManager.class).error(exception.getMessage(), exception);
-            throw new DAOException("No se pudo realizar la conexión a la base de datos", Status.FATAL);
+             Log.getLogger(DatabaseManager.class).error(exception.getMessage(), exception);
+            throw new DAOException("Ocurrió un error al querer conectar a la base de datos", Status.FATAL);
         }
         return connection;
     }
 
-    public Connection connect() throws SQLException {
+    public Connection connect() throws DAOException {
         Connection newConnection = null;
         Properties properties = getPropertiesFile();
         if (properties != null) {
-            newConnection = DriverManager.getConnection(
-                    properties.getProperty(DATABASE_URL),
-                    properties.getProperty(DATABASE_USER),
-                    properties.getProperty(DATABASE_PASSWORD));
-
+            try {
+                newConnection = DriverManager.getConnection(
+                        properties.getProperty(DATABASE_URL),
+                        properties.getProperty(DATABASE_USER),
+                        properties.getProperty(DATABASE_PASSWORD));
+            } catch (SQLException exception) {
+                Log.getLogger(DatabaseManager.class).error(exception.getMessage(), exception);
+                if ("28000".equals(exception.getSQLState())) {
+                    throw new DAOException("El usuario no se pudo conectar a la base de datos", Status.FATAL);
+                } else {
+                    throw new DAOException("No fue posible realizar la conexión a la base de datos", Status.FATAL);
+                }
+            }
         } else {
-            throw new SQLException("No fue posible encontrar las credenciales de la base de datos");
+            throw new DAOException("No se encontraron las credenciales para acceder a la base "
+                    + "de datos", Status.FATAL);
         }
         return newConnection;
     }
