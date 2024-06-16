@@ -173,7 +173,6 @@ public class UploadAssignmentController implements Initializable {
         Assignment newAssignment = new Assignment();
         newAssignment.setName(nameTextField.getText());
         newAssignment.setDescription(descriptionTextArea.getText());
-        newAssignment.setIdColaborativeProject(collaborativeProject.getIdCollaborativeProject());
         return newAssignment;
     }
 
