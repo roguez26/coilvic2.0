@@ -3,10 +3,6 @@ package mx.fei.coilvicapp.logic.feedback;
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 
-/**
- *
- * @author ivanr
- */
 public class Response {
 
     private int idResponse = 0;

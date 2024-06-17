@@ -10,10 +10,6 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
-/**
- *
- * @author ivanr
- */
 public class PDFCreatorTest {
 
     private final PDFCreator PDF_CREATOR = new PDFCreator();

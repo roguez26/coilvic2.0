@@ -3,10 +3,6 @@ package mx.fei.coilvicapp.logic.course;
 import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 
-/*
- * @author d0ubl3_d
- */
-
 public interface ICourse {
 
     public int registerCourse(Course course) throws DAOException;

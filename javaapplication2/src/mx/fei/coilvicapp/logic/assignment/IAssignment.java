@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 
-/* 
- * @author d0ubl3_d
- */
-
 public interface IAssignment {
     
     public int registerAssignment(Assignment assignment, CollaborativeProject collaborativeProject) throws DAOException;

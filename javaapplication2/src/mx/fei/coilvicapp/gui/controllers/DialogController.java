@@ -5,10 +5,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert;
 import java.util.Optional;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
-/**
- *
- * @author ivanr
- */
+
 public class DialogController {
     
     public static final ButtonType BUTTON_YES = new ButtonType("Sí", ButtonBar.ButtonData.YES);

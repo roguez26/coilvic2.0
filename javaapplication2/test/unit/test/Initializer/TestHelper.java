@@ -23,10 +23,6 @@ import mx.fei.coilvicapp.logic.term.TermDAO;
 import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 
-/**
- *
- * @author ivanr
- */
 public class TestHelper {
 
     private Language language;

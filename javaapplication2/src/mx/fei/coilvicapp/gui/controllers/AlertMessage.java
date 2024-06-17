@@ -1,10 +1,6 @@
 package mx.fei.coilvicapp.gui.controllers;
 import mx.fei.coilvicapp.logic.implementations.Status;
 
-/**
- *
- * @author ivanr
- */
 public class AlertMessage {
  
     private String content = "La operación se ha realizado exitosamente";

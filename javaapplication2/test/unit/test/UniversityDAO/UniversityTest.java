@@ -15,10 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import unit.test.Initializer.TestHelper;
 
-/**
- *
- * @author ivanr
- */
 public class UniversityTest {
 
     private static final UniversityDAO UNIVERSITY_DAO = new UniversityDAO();

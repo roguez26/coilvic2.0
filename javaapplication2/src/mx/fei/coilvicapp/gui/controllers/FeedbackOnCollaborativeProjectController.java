@@ -27,10 +27,6 @@ import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.student.Student;
 
-/**
- *
- * @author ivanr
- */
 public class FeedbackOnCollaborativeProjectController implements Initializable {
 
     @FXML

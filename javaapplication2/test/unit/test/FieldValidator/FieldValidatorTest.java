@@ -6,10 +6,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertThrows;
 import org.junit.Test;
 
-/**
- *
- * @author ivanr
- */
 public class FieldValidatorTest {
 
     private static final FieldValidator FIELD_VALIDATOR = new FieldValidator();

@@ -10,10 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import log.Log;
 
-/**
- *
- * @author ivanr
- */
 public class EmailSenderDAO implements IEmailSender {
 
     @Override

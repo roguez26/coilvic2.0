@@ -48,7 +48,7 @@ public class DatabaseManagerTest {
         Connection connection = null;
         try {
             connection = DATABASE_MANAGER.connect();
-        } catch (SQLException exception) {
+        } catch (DAOException exception) {
             Log.getLogger(DatabaseManagerTest.class).error(exception.getMessage(), exception);
         }
         Assert.assertNotNull(connection);

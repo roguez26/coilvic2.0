@@ -22,11 +22,6 @@ import javafx.scene.control.ButtonType;
 import main.MainApp;
 import log.Log;
 
-/**
- * FXML Controller class
- *
- * @author ivanr
- */
 public class RegisterUniversityController implements Initializable {
 
     @FXML

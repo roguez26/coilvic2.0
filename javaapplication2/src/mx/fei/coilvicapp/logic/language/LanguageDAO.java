@@ -10,9 +10,6 @@ import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 
-/*
- * @author d0ubl3_d
- */
 public class LanguageDAO implements ILanguage {
     
     @Override

@@ -5,9 +5,6 @@ import mx.fei.coilvicapp.logic.course.Course;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.modality.Modality;
 
-/*
- * @author d0ubl3_d
- */
 public class CollaborativeProject {
 
     private int idCollaborativeProject = 0;

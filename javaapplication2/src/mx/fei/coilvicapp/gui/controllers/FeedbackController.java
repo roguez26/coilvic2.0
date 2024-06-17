@@ -1,9 +1,5 @@
 package mx.fei.coilvicapp.gui.controllers;
 
-/**
- *
- * @author ivanr
- */
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;

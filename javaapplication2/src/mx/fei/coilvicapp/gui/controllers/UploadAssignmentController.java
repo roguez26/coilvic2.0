@@ -13,7 +13,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import log.Log;
 import main.MainApp;
@@ -26,10 +25,6 @@ import mx.fei.coilvicapp.logic.implementations.FileManager;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
-/**
- *
- * @author ivanr
- */
 public class UploadAssignmentController implements Initializable {
 
 

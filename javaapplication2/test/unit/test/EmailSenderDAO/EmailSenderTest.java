@@ -7,10 +7,6 @@ import mx.fei.coilvicapp.logic.professor.Professor;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-/**
- *
- * @author ivanr
- */
 public class EmailSenderTest {
 
     private EmailSender initializeEmailSender() {

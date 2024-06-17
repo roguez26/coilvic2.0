@@ -13,9 +13,6 @@ import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 
-/*
- * @author d0ubl3_d
- */
 public class AssignmentDAO implements IAssignment {
 
     @Override

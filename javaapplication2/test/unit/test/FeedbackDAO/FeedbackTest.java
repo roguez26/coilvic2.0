@@ -17,10 +17,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import unit.test.Initializer.TestHelper;
 
-/**
- *
- * @author ivanr
- */
 public class FeedbackTest {
 
     private CollaborativeProject auxCollaborativeProject;

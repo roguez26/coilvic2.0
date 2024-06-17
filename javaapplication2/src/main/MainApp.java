@@ -10,10 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 
-/**
- *
- * @author ivanr
- */
 public class MainApp extends Application {
 
     private static Scene scene;

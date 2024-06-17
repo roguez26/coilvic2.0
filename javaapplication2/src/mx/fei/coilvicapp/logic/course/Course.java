@@ -6,9 +6,6 @@ import mx.fei.coilvicapp.logic.language.Language;
 import mx.fei.coilvicapp.logic.professor.*;
 import mx.fei.coilvicapp.logic.term.Term;
 
-/*
- * @author d0ubl3_d
- */
 public class Course {
 
     private Professor professor;

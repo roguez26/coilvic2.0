@@ -4,10 +4,6 @@ import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.university.University;
 
-/**
- *
- * @author ivanr
- */
 public class InstitutionalRepresentative {
 
     private int idInstitutionalRepresentative = 0;

@@ -17,10 +17,6 @@ import log.Log;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.professor.Professor;
 
-/**
- *
- * @author ivanr
- */
 public class EmailSender {
 
     private int idEmail;

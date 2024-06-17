@@ -3,10 +3,6 @@ package mx.fei.coilvicapp.logic.feedback;
 import java.util.ArrayList;
 import java.util.Objects;
 
-/**
- *
- * @author ivanr
- */
 public class Feedback {
 
     private int idFeedback = 0;

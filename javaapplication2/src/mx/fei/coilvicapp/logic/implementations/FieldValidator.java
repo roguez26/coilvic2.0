@@ -3,10 +3,6 @@ package mx.fei.coilvicapp.logic.implementations;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- *
- * @author ivanr
- */
 public class FieldValidator {
 
     private final String EMAIL_REGEX = "^(?=.{3,45}$)(?!.*\\.{2})(?![-._])[a-zA-Z0-9_-]+(?:\\.[a-zA-"

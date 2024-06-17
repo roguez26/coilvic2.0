@@ -25,10 +25,6 @@ import main.MainApp;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
-/**
- *
- * @author ivanr
- */
 public class UpdateUniversityController implements Initializable {
 
     @FXML

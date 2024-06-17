@@ -23,11 +23,6 @@ import mx.fei.coilvicapp.logic.language.Language;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.term.Term;
 
-/**
- * FXML Controller class
- *
- * @author d0ubl3_d
- */
 public class ProfessorCourseManagementController implements Initializable {
 
     @FXML

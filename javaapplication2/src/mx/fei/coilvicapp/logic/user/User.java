@@ -1,10 +1,7 @@
 package mx.fei.coilvicapp.logic.user;
 
 import java.util.Objects;
-/**
- *
- * @author ivanr
- */
+
 public class User {
 
     private int idUser = 0;

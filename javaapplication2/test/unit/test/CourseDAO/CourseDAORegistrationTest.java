@@ -1,9 +1,5 @@
 package unit.test.CourseDAO;
 
-/*
- * @author d0ubl3_d
- */
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mx.fei.coilvicapp.logic.course.*;

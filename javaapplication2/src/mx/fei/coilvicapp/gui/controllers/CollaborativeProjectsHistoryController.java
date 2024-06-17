@@ -21,11 +21,6 @@ import mx.fei.coilvicapp.logic.collaborativeproject.ICollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.professor.Professor;
 
-/**
- * FXML Controller class for CollaborativeProjectsHistory view.
- *
- * author ivanr
- */
 public class CollaborativeProjectsHistoryController implements Initializable {
 
     @FXML

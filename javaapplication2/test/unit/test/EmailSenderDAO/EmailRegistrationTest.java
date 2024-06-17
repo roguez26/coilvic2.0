@@ -12,10 +12,6 @@ import log.Log;
 import static org.junit.Assert.assertThrows;
 import unit.test.Initializer.TestHelper;
 
-/**
- *
- * @author ivanr
- */
 public class EmailRegistrationTest {
 
     private static final EmailSenderDAO EMAIL_SENDER_DAO = new EmailSenderDAO();

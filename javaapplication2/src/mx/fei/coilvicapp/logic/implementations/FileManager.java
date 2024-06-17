@@ -12,10 +12,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import log.Log;
 
-/**
- *
- * @author ivanr
- */
 public class FileManager {
 
     private final long MAX_SIZE_BYTES = 10 * 1024 * 1024;

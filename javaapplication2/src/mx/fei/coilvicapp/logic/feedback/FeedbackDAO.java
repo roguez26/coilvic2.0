@@ -14,10 +14,6 @@ import mx.fei.coilvicapp.logic.implementations.Status;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.student.Student;
 
-/**
- *
- * @author ivanr
- */
 public class FeedbackDAO implements IFeedback {
 
     private boolean checkQuestionDuplication(Question question) throws DAOException {
