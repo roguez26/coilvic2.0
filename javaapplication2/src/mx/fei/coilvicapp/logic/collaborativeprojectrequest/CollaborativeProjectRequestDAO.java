@@ -11,9 +11,6 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 import mx.fei.coilvicapp.logic.course.*;
 
-/*
- * @author d0ubl3_d
- */
 public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequest {
     
     public CollaborativeProjectRequestDAO() {

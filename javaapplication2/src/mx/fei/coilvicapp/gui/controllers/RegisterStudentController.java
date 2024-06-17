@@ -15,7 +15,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.academicarea.AcademicArea;
@@ -32,10 +31,6 @@ import mx.fei.coilvicapp.logic.university.IUniversity;
 import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 
-/**
- *
- * @author ivanr
- */
 public class RegisterStudentController implements Initializable {
 
     @FXML

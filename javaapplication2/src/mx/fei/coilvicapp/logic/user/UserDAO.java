@@ -14,10 +14,6 @@ import java.sql.Statement;
 import log.Log;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 
-/**
- *
- * @author ivanr
- */
 public class UserDAO implements IUser {
 
     @Override

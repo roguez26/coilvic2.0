@@ -27,10 +27,6 @@ import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.Professor;
 
-/**
- *
- * @author ivanr
- */
 public class CollaborativeProjectsProfessorController implements Initializable {
 
     @FXML

@@ -1,8 +1,6 @@
 package unit.test.CountryDAO;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import log.Log;
 import mx.fei.coilvicapp.logic.country.Country;
 import mx.fei.coilvicapp.logic.country.CountryDAO;
@@ -16,10 +14,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- * @author ivanr
- */
 public class CountryTest {
 
     private static final CountryDAO COUNTRY_DAO = new CountryDAO();

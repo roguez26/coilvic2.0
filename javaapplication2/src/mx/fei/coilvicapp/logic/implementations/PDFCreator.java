@@ -1,9 +1,5 @@
 package mx.fei.coilvicapp.logic.implementations;
 
-/**
- *
- * @author ivanr
- */
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;

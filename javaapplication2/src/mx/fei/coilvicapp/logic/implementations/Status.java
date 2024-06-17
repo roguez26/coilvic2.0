@@ -1,9 +1,5 @@
 package mx.fei.coilvicapp.logic.implementations;
 
-/**
- *
- * @author ivanr
- */
 public enum Status {
     SUCCESS("100"),
     WARNING("200"),

@@ -25,11 +25,6 @@ import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.Professor;
 
-/**
- * FXML Controller class
- *
- * @author d0ubl3_d_CHECKED
- */
 public class CollaborativeProjectRequestsManagementController implements Initializable {
 
     @FXML

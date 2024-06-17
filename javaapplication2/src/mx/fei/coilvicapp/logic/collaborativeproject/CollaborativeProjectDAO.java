@@ -15,9 +15,6 @@ import mx.fei.coilvicapp.logic.implementations.Status;
 import mx.fei.coilvicapp.logic.course.*;
 import mx.fei.coilvicapp.logic.modality.ModalityDAO;
 
-/*
- * @author d0ubl3_d
- */
 public class CollaborativeProjectDAO implements ICollaborativeProject {
 
     public CollaborativeProjectDAO() {

@@ -4,8 +4,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
@@ -27,12 +25,6 @@ import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.language.*;
 import mx.fei.coilvicapp.logic.professor.*;
 import mx.fei.coilvicapp.logic.term.*;
-
-/**
- * FXML Controller class
- *
- * @author d0ubl3_d_CHECKED
- */
 
 public class CourseDetailsController implements Initializable {
         

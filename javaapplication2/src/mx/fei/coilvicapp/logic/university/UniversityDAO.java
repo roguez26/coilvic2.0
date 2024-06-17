@@ -15,10 +15,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import log.Log;
 
-/**
- *
- * @author ivanr
- */
 public class UniversityDAO implements IUniversity {
 
     @Override

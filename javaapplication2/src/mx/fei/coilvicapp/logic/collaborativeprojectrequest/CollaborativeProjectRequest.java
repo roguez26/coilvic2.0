@@ -3,9 +3,6 @@ package mx.fei.coilvicapp.logic.collaborativeprojectrequest;
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.course.Course;
 
-/*
- * @author d0ubl3_d
- */
 public class CollaborativeProjectRequest {
 
     private int idCollaborativeProjectRequest = 0;

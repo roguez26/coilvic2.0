@@ -13,10 +13,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import log.Log;
 
-/**
- *
- * @author ivanr
- */
 public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentative {
 
     @Override

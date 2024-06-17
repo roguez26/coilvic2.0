@@ -3,10 +3,6 @@ package mx.fei.coilvicapp.logic.collaborativeprojectrequest;
 import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 
-/*
- * @author d0ubl3_d
- */
-
 public interface ICollaborativeProjectRequest {
  
     public int registerCollaborativeProjectRequest(CollaborativeProjectRequest collaborativeProjectRequest) throws DAOException;

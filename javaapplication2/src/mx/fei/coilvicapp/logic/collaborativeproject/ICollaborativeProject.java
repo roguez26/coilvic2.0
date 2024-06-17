@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.collaborativeprojectrequest.CollaborativeProjectRequest;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 
-/*
- * @author d0ubl3_d
- */
-
 public interface ICollaborativeProject {
     
     public int registerCollaborativeProject(CollaborativeProject collaborativeProject,

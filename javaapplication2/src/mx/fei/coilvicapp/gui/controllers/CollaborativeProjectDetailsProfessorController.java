@@ -25,11 +25,7 @@ import mx.fei.coilvicapp.logic.implementations.PDFCreator;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.Professor;
-
-/**
- *
- * @author ivanr
- */
+  
 public class CollaborativeProjectDetailsProfessorController implements Initializable {
 
     @FXML
@@ -162,7 +158,6 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
             Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), 
                     exception);
         }
-
     }
 
     @FXML
@@ -201,7 +196,8 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
-        if (collaborativeProject.getStatus().equals("Pendiente") || collaborativeProject.getStatus().equals("Rechazado")) {
+        if (collaborativeProject.getStatus().equals("Pendiente") || collaborativeProject.getStatus().
+                equals("Rechazado")) {
             seeActivitiesButton.setVisible(false);
         }
 

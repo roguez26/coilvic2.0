@@ -2,10 +2,7 @@ package mx.fei.coilvicapp.logic.feedback;
 
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
-/**
- *
- * @author ivanr
- */
+
 public class Question {
 
     private int idQuestion = 0;

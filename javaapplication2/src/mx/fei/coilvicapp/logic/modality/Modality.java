@@ -3,9 +3,6 @@ package mx.fei.coilvicapp.logic.modality;
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 
-/*
- * @author d0ubl3_d
- */
 public class Modality {
 
     private int idModality = 0;
