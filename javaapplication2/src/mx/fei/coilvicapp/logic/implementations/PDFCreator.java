@@ -19,7 +19,7 @@ public class PDFCreator {
 
     private final String CERTIFICATE_TEMPLATE_PATH = "files\\template\\certificate.pdf";
 
-    public String generateCertificate(String name, String certificateDestination) throws IOException {
+    public String generateCertificate(String fullName, String certificateDestination) throws IOException {
         LocalDate date = LocalDate.now();
         String destionationCertificatePath;
         
@@ -31,11 +31,11 @@ public class PDFCreator {
         }
         try {
             try (PdfReader reader = new PdfReader(CERTIFICATE_TEMPLATE_PATH)) {
-                destionationCertificatePath = certificateDestination + "\\" + date + "-" + name + "-constancia.pdf";
+                destionationCertificatePath = certificateDestination + "\\" + date + "-" + fullName + "-constancia.pdf";
                 PdfWriter writer = new PdfWriter(destionationCertificatePath);
                 try (PdfDocument pdfDocument = new PdfDocument(reader, writer); Document document = new Document(
                         pdfDocument)) {
-                    Paragraph paragraph = new Paragraph(name);
+                    Paragraph paragraph = new Paragraph(fullName);
                     paragraph.setFixedPosition(0, 335, 855);
                     paragraph.setTextAlignment(TextAlignment.CENTER);
                     paragraph.setFontSize(20);

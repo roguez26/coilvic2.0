@@ -47,8 +47,13 @@
             <Insets top="20.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="66.0" prefWidth="863.0" spacing="15.0">
+      <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="66.0" prefWidth="892.0" spacing="15.0">
          <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="66.0" prefWidth="426.0">
+               <children>
+                  <Button fx:id="generateCertificateButton" mnemonicParsing="false" onAction="#generateCertificateButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Generar constancia" visible="false" />
+               </children>
+            </HBox>
             <Button fx:id="seeFeedbackButton" mnemonicParsing="false" onAction="#seeFeedbackButtonIsPressed" prefHeight="26.0" prefWidth="131.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Ver retroalimentación" />
             <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishButtonIsPressed" prefHeight="26.0" prefWidth="100.0" stylesheets="@../../../../../stylesheets/buttonred.css" text="Concluir" visible="false" />
             <Button fx:id="seeActivitiesButton" mnemonicParsing="false" onAction="#seeActivitiesButtonIsPressed" prefHeight="26.0" prefWidth="100.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Ver actividades" />

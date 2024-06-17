@@ -51,9 +51,15 @@ public class FileManager {
     }
 
     public String saveFile(File fileForSave, String destinationPath) throws IOException {
+        if (destinationPath == null || destinationPath.length() == 0) {
+            throw new IOException("El directorio destion no puede ser nulo");
+        }
         if (!directoryExists(destinationPath)) {
             File newDirectory = new File(destinationPath);
             newDirectory.mkdir();
+        }
+        if (fileForSave == null) {
+            throw new IOException ("El archivo para guardar no puede estar vacío");
         }
         Path destination = Paths.get(destinationPath);
         Path fileDestination = destination.resolve(fileForSave.getName());
@@ -66,11 +72,9 @@ public class FileManager {
         if (fileForCheck == null) {
             throw new IllegalArgumentException("El archivo no puede estar vacío");
         }
-        
         if (!fileForCheck.exists()) {
             throw new IllegalArgumentException("No se encontró el archivo que se desea guardar");
         }
-        
         if (!isFileLenghtValid(fileForCheck)) {
             throw new IllegalArgumentException("El archivo debe ser menor o igual a 10MB");
         } 
@@ -127,7 +131,6 @@ public class FileManager {
             throw new IllegalArgumentException("El archivo no puede estar vacío");
         }
         return directoryPath;
-
     }
 
     private boolean fileExists(String filePath) {

@@ -12,7 +12,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
@@ -38,9 +37,6 @@ public class ValidateCollaborativeProjectController implements Initializable {
 
     @FXML
     private Button backButton;
-
-    @FXML
-    private VBox backgroundVBox;
 
     @FXML
     private Label codeLabel;

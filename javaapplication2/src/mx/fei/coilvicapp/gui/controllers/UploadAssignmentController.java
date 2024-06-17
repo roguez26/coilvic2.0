@@ -32,8 +32,6 @@ import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
  */
 public class UploadAssignmentController implements Initializable {
 
-    @FXML
-    private VBox backgroundVBox;
 
     @FXML
     private Button acceptButton;
@@ -98,7 +96,6 @@ public class UploadAssignmentController implements Initializable {
             try {
                 invokeRegisterAssignment(newAssignment);
             } catch (DAOException exception) {
-                System.out.println(newPath);
                 fileManager.deleteFile(new File(newPath));
                 handleDAOException(exception);
             }
@@ -184,7 +181,7 @@ public class UploadAssignmentController implements Initializable {
     @FXML
     void selectFileButtonIsPressed(ActionEvent event) {
         FileManager fileManager = new FileManager();
-        selectedFile = fileManager.selectPDF(backgroundVBox.getScene().getWindow());
+        selectedFile = fileManager.selectPDF(acceptButton.getScene().getWindow());
         if (selectedFile != null) {
             fileTextField.setText(selectedFile.getName());
         } else {
@@ -278,7 +275,7 @@ public class UploadAssignmentController implements Initializable {
     }
 
     private void closeWindow() {
-        Stage stage = (Stage) backgroundVBox.getScene().getWindow();
+        Stage stage = (Stage) acceptButton.getScene().getWindow();
         stage.close();
     }
 

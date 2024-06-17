@@ -17,7 +17,6 @@ import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonType;
 import main.MainApp;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javax.mail.MessagingException;
 import log.Log;
@@ -32,9 +31,6 @@ public class NotifyProfessorController implements Initializable {
 
     @FXML
     private Button sendButton;
-
-    @FXML
-    private VBox backgroundVBox;
 
     @FXML
     private Button cancelButton;

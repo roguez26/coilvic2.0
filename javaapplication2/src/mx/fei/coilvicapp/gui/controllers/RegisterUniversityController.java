@@ -20,7 +20,6 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonType;
 import main.MainApp;
-import javafx.scene.layout.VBox;
 import log.Log;
 
 /**
@@ -41,8 +40,6 @@ public class RegisterUniversityController implements Initializable {
 
     @FXML
     private TextField cityTextField;
-    @FXML
-    private VBox backgroundVBox;
 
     @FXML
     private ComboBox<Country> countryCombobox;
