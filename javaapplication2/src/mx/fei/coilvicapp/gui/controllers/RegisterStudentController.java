@@ -42,9 +42,6 @@ public class RegisterStudentController implements Initializable {
     private Button acceptButton;
 
     @FXML
-    private VBox backgroundVBox;
-
-    @FXML
     private Button cancelButton;
 
     @FXML

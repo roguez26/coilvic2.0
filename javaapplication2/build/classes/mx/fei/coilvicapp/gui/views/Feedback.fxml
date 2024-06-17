@@ -17,13 +17,13 @@
             <Label stylesheets="@../../../../../stylesheets/titleLabel.css" text="Retroalimentación de proyecto colaborativo" />
          </children>
       </HBox>
-      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="558.0" prefWidth="964.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="524.0" prefWidth="877.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
          <children>
-            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="494.0" prefWidth="874.0" spacing="15.0">
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="494.0" prefWidth="842.0" spacing="15.0">
                <children>
                   <VBox prefHeight="494.0" prefWidth="342.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="358.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="76.0" prefWidth="342.0" spacing="10.0">
                            <children>
                               <MenuButton mnemonicParsing="false" stylesheets="@../../../../../stylesheets/menuButton.css" text="Participante">
                                 <items>
@@ -31,6 +31,7 @@
                                   <MenuItem fx:id="professorQuestionsMenuItem" mnemonicParsing="false" onAction="#professorQuestionsMenuItemIsSelected" text="Profesores" />
                                 </items>
                               </MenuButton>
+                              <Button fx:id="seeResponsesButton" mnemonicParsing="false" onAction="#seeResponsesButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Ver respuestas" />
                            </children>
                         </HBox>
                         <TableView fx:id="questionsTableView" prefHeight="438.0" prefWidth="339.0" stylesheets="@../../../../../stylesheets/tableview.css">
@@ -43,11 +44,11 @@
                         </TableView>
                      </children>
                   </VBox>
-                  <VBox prefHeight="503.0" prefWidth="573.0">
+                  <VBox prefHeight="494.0" prefWidth="474.0">
                      <children>
-                        <TableView fx:id="responsesTableView" prefHeight="567.0" prefWidth="495.0" stylesheets="@../../../../../stylesheets/tableview.css">
+                        <TableView fx:id="responsesTableView" prefHeight="494.0" prefWidth="445.0" stylesheets="@../../../../../stylesheets/tableview.css">
                           <columns>
-                            <TableColumn fx:id="responseTableColumn" prefWidth="494.39999998807906" text="Respuestas" />
+                            <TableColumn fx:id="responseTableColumn" prefWidth="494.39999998807906" text="Respuestas obtenidas" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -59,10 +60,6 @@
             </HBox>
          </children>
       </VBox>
-      <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="105.0" prefWidth="875.0" stylesheets="@../../../../../stylesheets/buttonblue.css">
-         <children>
-            <Button fx:id="seeResponsesButton" mnemonicParsing="false" onAction="#seeResponsesButtonIsPressed" text="Ver respuestas" />
-         </children>
-      </HBox>
+      <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="98.0" prefWidth="820.0" />
    </children>
 </VBox>

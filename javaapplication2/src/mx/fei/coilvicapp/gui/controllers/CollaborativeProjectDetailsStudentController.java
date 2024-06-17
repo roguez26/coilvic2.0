@@ -10,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
@@ -28,8 +27,6 @@ import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
  */
 public class CollaborativeProjectDetailsStudentController implements Initializable {
 
-    @FXML
-    private VBox backgroundVBox;
 
     @FXML
     private Label collaborativeProjectNameLabel;
@@ -87,14 +84,14 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
             
             if (certificateCreator.templateExists()) {
                 try {
-                    certificateCreator.generateCertificate(student.getName(), new FileManager().selectDirectoryPath(
-                            backgroundVBox.getScene().getWindow()));
+                    certificateCreator.generateCertificate(student.toString(), new FileManager().selectDirectoryPath(
+                            startFeedBackButton.getScene().getWindow()));
                     DialogController.getInformativeConfirmationDialog("Aviso", "La constancia se descargó con éxito");
                 } catch (IOException exception) {
                     handleIOException(exception);
                 }
             } else {
-                DialogController.getInformativeConfirmationDialog("Aviso", "No se encontraron los recursos para "
+                DialogController.getInformativeConfirmationDialog("Lo sentimos", "No se encontraron los recursos para "
                         + "generar la constancia");
             }
         } else {

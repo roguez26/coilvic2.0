@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.ActivitiesManagementController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.ActivitiesManagementController">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="86.0" prefWidth="737.0" spacing="300.0">
          <children>
@@ -37,7 +37,7 @@
          <children>
             <Button fx:id="addButton" mnemonicParsing="false" onAction="#addButtonIsPressed" prefHeight="26.0" prefWidth="91.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Añadir" visible="false" />
             <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButtonIsPressed" prefHeight="26.0" prefWidth="79.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Editar" visible="false" />
-            <Button fx:id="seeActivityButton" mnemonicParsing="false" onAction="#seeActivityButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Ver actividad" />
+            <Button fx:id="seeActivityButton" mnemonicParsing="false" onAction="#seeActivityButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Ver actividad" />
          </children>
       </HBox>
    </children>

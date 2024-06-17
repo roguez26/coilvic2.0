@@ -21,6 +21,7 @@ import mx.fei.coilvicapp.logic.feedback.FeedbackDAO;
 import mx.fei.coilvicapp.logic.feedback.IFeedback;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.FileManager;
+import mx.fei.coilvicapp.logic.implementations.PDFCreator;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.Professor;
@@ -33,6 +34,9 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
     @FXML
     private TextField codeTextField;
+    
+    @FXML
+    private Button generateCertificateButton;
 
     @FXML
     private TextField courseOneTextField;
@@ -203,12 +207,33 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
         initializeFields(collaborativeProject);
     }
+    
+    @FXML
+    void generateCertificateButtonIsPressed() {
+        PDFCreator certificateCreator = new PDFCreator();
+            
+            if (certificateCreator.templateExists()) {
+                try {
+                    certificateCreator.generateCertificate(professor.toString(), new FileManager().selectDirectoryPath(
+                            generateCertificateButton.getScene().getWindow()));
+                    DialogController.getInformativeConfirmationDialog("Aviso", "La constancia se descargó con éxito");
+                } catch (IOException exception) {
+                    handleIOException(exception);
+                }
+            } else {
+                DialogController.getInformativeConfirmationDialog("Lo sentimos", "No se encontraron los recursos para "
+                        + "generar la constancia");
+            }
+        
+    }
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
         if (collaborativeProject.getStatus().equals("Aceptado")) {
             finishButton.setManaged(true);
             finishButton.setVisible(true);
+        } else if (collaborativeProject.getStatus().equals("Finalizado")) {
+            generateCertificateButton.setVisible(true);
         }
         seeFeedbackButton.setVisible(false);
     }
@@ -259,5 +284,9 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
             Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(ioException.getMessage(),
                     ioException);
         }
+    }
+    
+    private void handleIOException(IOException exception) {
+        DialogController.getInformativeConfirmationDialog("Lo sentimos", exception.getMessage());
     }
 }

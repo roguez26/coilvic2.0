@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="backgroundVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="611.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.NotifyProfessorController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="611.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.NotifyProfessorController">
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="493.0" prefWidth="498.0" spacing="10.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
          <children>
