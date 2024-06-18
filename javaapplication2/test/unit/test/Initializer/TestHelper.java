@@ -34,10 +34,6 @@ import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import mx.fei.coilvicapp.logic.user.User;
 
-/**
- *
- * @author ivanr
- */
 public class TestHelper {
 
     private Language language;

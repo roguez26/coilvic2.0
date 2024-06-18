@@ -15,10 +15,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import log.Log;
 
-/**
- *
- * @author ivanr
- */
 public class UniversityDAO implements IUniversity {
 
     @Override
@@ -80,7 +76,8 @@ public class UniversityDAO implements IUniversity {
         } catch (DAOException exception) {
             throw new DAOException("No fue posible realizar la validacion, intente mas tarde", Status.ERROR);
         }
-        if (universityForCheck.getIdUniversity() != university.getIdUniversity() && universityForCheck.getIdUniversity() > 0) {
+        if (universityForCheck.getIdUniversity() != university.getIdUniversity() && universityForCheck.
+                getIdUniversity() > 0) {
             throw new DAOException("El nombre de esta universidad ya esta registrado", Status.WARNING);
         }
         return false;
@@ -93,7 +90,8 @@ public class UniversityDAO implements IUniversity {
         try {
             country = countryDAO.getCountryById(idCountry);
         } catch (DAOException exception) {
-            throw new DAOException("No se pudo hacer la validacion para registrar la universidad", Status.ERROR);
+            throw new DAOException("No se pudo hacer la validacion para registrar la universidad", 
+                    Status.ERROR);
         }
         if (country.getIdCountry() <= 0) {
             throw new DAOException("Este pais aun no se encuentra registrado", Status.WARNING);
@@ -106,13 +104,16 @@ public class UniversityDAO implements IUniversity {
         InstitutionalRepresentative intitutionalRepresentative = new InstitutionalRepresentative();
 
         try {
-            intitutionalRepresentative = institutionalRepresentativeDAO.getInstitutionalRepresentativeByUniversityId(idUniversity);
+            intitutionalRepresentative = institutionalRepresentativeDAO.
+                    getInstitutionalRepresentativeByUniversityId(idUniversity);
         } catch (DAOException exception) {
             Log.getLogger(UniversityDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible realizar la validacion para eliminar la universidad", Status.ERROR);
+            throw new DAOException("No fue posible realizar la validacion para eliminar la universidad", 
+                    Status.ERROR);
         }
         if (intitutionalRepresentative.getIdInstitutionalRepresentative() > 0) {
-            throw new DAOException("No se pudo eliminar la universidad debido a que existen representates relacionados con esta universidad", Status.WARNING);
+            throw new DAOException("No se pudo eliminar la universidad debido a que existen "
+                    + "representates relacionados con esta universidad", Status.WARNING);
         }
         return true;
     }
@@ -129,9 +130,11 @@ public class UniversityDAO implements IUniversity {
 
     public int insertUniversityTransaction(University university) throws DAOException {
         int result = -1;
-        String statement = "INSERT INTO Universidad(nombre, acronimo, jurisdiccion, ciudad, idPais) values (?, ?, ?, ?, ?)";
+        String statement = "INSERT INTO Universidad(nombre, acronimo, jurisdiccion, ciudad, idPais)"
+                + " values (?, ?, ?, ?, ?)";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = initializeStatement(connection, statement, university);) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement 
+                preparedStatement = initializeStatement(connection, statement, university);) {
             result = preparedStatement.executeUpdate();
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 if (resultSet.next()) {
@@ -150,7 +153,8 @@ public class UniversityDAO implements IUniversity {
         String statement = "UPDATE Universidad SET nombre = ?, acronimo = ?, jurisdiccion = ?, ciudad = ?, "
                 + "idPais = ? WHERE idUniversidad = ?";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = initializeStatement(connection, statement, university)) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement
+                preparedStatement = initializeStatement(connection, statement, university)) {
             preparedStatement.setInt(6, university.getIdUniversity());
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
@@ -164,7 +168,8 @@ public class UniversityDAO implements IUniversity {
         int result = -1;
         String statement = "DELETE FROM Universidad where idUniversidad=?";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement
+                preparedStatement = connection.prepareStatement(statement)) {
             preparedStatement.setInt(1, idUniversity);
             result = preparedStatement.executeUpdate();
         } catch (SQLException exception) {
@@ -195,7 +200,8 @@ public class UniversityDAO implements IUniversity {
     @Override
     public ArrayList<University> getAvailableUniversities() throws DAOException {
         ArrayList<University> universitiesList = new ArrayList<>();
-        String statement = "select * from universidad where idUniversidad not in (select idUniversidad from representanteinstitucional)";
+        String statement = "select * from universidad where idUniversidad not in (select idUniversidad"
+                + " from representanteinstitucional)";
         
         try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement
                 preparedStatement = connection.prepareCall(statement); ResultSet resultSet = 
@@ -214,7 +220,8 @@ public class UniversityDAO implements IUniversity {
         University university = new University();
         String statement = "SELECT * FROM Universidad WHERE idUniversidad=?";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareCall(statement)) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement
+                preparedStatement = connection.prepareCall(statement)) {
             preparedStatement.setInt(1, idUniversity);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -232,7 +239,8 @@ public class UniversityDAO implements IUniversity {
         University university = new University();
         String statement = "SELECT * FROM Universidad WHERE idPais=?";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareCall(statement);) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement 
+                preparedStatement = connection.prepareCall(statement);) {
             preparedStatement.setInt(1, idCountry);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -251,7 +259,8 @@ public class UniversityDAO implements IUniversity {
         University university = new University();
         String statement = "SELECT * FROM Universidad WHERE nombre=?";
 
-        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement
+                preparedStatement = connection.prepareStatement(statement)) {
             preparedStatement.setString(1, universityName);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -265,7 +274,8 @@ public class UniversityDAO implements IUniversity {
         return university;
     }
 
-    private PreparedStatement initializeStatement(Connection connection, String statement, University university) throws SQLException {
+    private PreparedStatement initializeStatement(Connection connection, String statement,
+            University university) throws SQLException {
         PreparedStatement preparedStatement;
         preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, university.getName());

@@ -127,7 +127,7 @@ public class LoginParticipantController implements Initializable {
                 changeViewForStudent(student, collaborativeProject);
             } else {
                 DialogController.getInformativeConfirmationDialog("Proyecto no encontrado",
-                        "No se encontró ningún proyecto con el codigo: " + identifierPasswordField.getText());
+                        "No se encontró ningún proyecto con el código: " + identifierPasswordField.getText());
             }
         } else {
             DialogController.getInformativeConfirmationDialog("Estudiante no encontrado",
@@ -145,7 +145,8 @@ public class LoginParticipantController implements Initializable {
         if (userDAO.authenticateUser(emailTextField.getText(), identifierPasswordField.getText())) {
             IProfessor professorDAO = new ProfessorDAO();
             professor = professorDAO.getProfessorByEmail(emailTextField.getText());
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                    + "ProfessorMainMenu.fxml"));
 
             MainApp.changeView(fxmlLoader);
             ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
@@ -174,18 +175,20 @@ public class LoginParticipantController implements Initializable {
             } else if (user.getType().equalsIgnoreCase("A")) {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
             } else {
-                throw new IllegalArgumentException("No se encontró ningun usuario con esos datos");
+                throw new IllegalArgumentException("No se encontró ningún usuario con esos datos");
             }
 
         }
     }
 
-    private void changeViewForStudent(Student student, CollaborativeProject collaborativeProject) throws IOException {
+    private void changeViewForStudent(Student student, CollaborativeProject collaborativeProject) throws 
+            IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                 "/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent.fxml"));
 
         MainApp.changeView(fxmlLoader);
-        CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController = fxmlLoader.getController();
+        CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController = 
+                fxmlLoader.getController();
         collaborativeProjectDetailsStudentController.setStudent(student);
         collaborativeProjectDetailsStudentController.setCollaborativeProject(collaborativeProject);
     }

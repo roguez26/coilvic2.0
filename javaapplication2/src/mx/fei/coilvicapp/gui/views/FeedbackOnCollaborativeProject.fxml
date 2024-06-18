@@ -15,7 +15,7 @@
             <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="151.0" prefWidth="576.0" spacing="70.0">
                <children>
                   <Label fx:id="titleLabel" alignment="CENTER" prefHeight="30.0" prefWidth="318.0" stylesheets="@../../../../../stylesheets/titleLabel.css" text="Retroalimentar Proyecto Colaborativo" />
-                  <ImageView fitHeight="55.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../../stylesheets/Imagen1.png" />
                      </image>
@@ -32,7 +32,7 @@
                   </HBox>
                   <HBox alignment="TOP_RIGHT" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="27.0" prefWidth="439.0" spacing="10.0">
                      <children>
-                        <Button fx:id="previousButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="51.0" mnemonicParsing="false" onAction="#previousButtonIsPressed" prefHeight="27.0" prefWidth="30.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="❮" />
+                        <Button fx:id="previousButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="51.0" mnemonicParsing="false" onAction="#previousButtonIsPressed" prefHeight="27.0" prefWidth="34.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="❮" />
                         <Button fx:id="nextButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="33.0" mnemonicParsing="false" onAction="#nextButtonIsPressed" prefHeight="27.0" prefWidth="30.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="❯" />
                      </children>
                   </HBox>

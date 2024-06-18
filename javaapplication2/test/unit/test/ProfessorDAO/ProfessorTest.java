@@ -1,8 +1,6 @@
 package unit.test.ProfessorDAO;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import log.Log;
 import mx.fei.coilvicapp.logic.academicarea.AcademicAreaDAO;
 import mx.fei.coilvicapp.logic.hiringcategory.HiringCategoryDAO;
@@ -87,7 +85,7 @@ public class ProfessorTest {
             idProfessor = PROFESSOR_DAO.registerProfessor(AUX_TEST_PROFESSOR);
             PROFESSOR_DAO.deleteProfessorByID(idProfessor);
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
         }
         assertTrue(idProfessor > 0);
     }

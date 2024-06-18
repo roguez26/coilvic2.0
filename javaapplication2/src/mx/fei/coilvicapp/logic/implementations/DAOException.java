@@ -1,9 +1,5 @@
 package mx.fei.coilvicapp.logic.implementations;
 
-/**
- *
- * @author ivanr
- */
 public class DAOException extends Exception {
     private final Status status;
 

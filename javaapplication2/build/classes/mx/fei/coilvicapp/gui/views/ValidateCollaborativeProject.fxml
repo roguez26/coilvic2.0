@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="backgroundVBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.ValidateCollaborativeProjectController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.ValidateCollaborativeProjectController">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="91.0" prefWidth="772.0" spacing="200.0">
          <children>
@@ -79,7 +79,7 @@
       </VBox>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="78.0" prefWidth="878.0" spacing="15.0">
          <children>
-            <Button fx:id="openSyllabusButton" mnemonicParsing="false" onAction="#openSyllabusButtonIsPressed" prefHeight="27.0" prefWidth="518.0" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Ver syllabus" />
+            <Button fx:id="openSyllabusButton" mnemonicParsing="false" onAction="#openSyllabusButtonIsPressed" prefHeight="27.0" prefWidth="170.0" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Ver syllabus" />
             <Button fx:id="rejectButton" mnemonicParsing="false" onAction="#rejectButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonred.css" text="Rechazar" />
             <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" />
          </children>

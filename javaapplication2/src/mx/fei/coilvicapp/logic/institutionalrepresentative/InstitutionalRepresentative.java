@@ -4,10 +4,6 @@ import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.university.University;
 
-/**
- *
- * @author ivanr
- */
 public class InstitutionalRepresentative {
 
     private int idInstitutionalRepresentative = 0;
@@ -91,6 +87,9 @@ public class InstitutionalRepresentative {
     }
     
     public void setUniversity(University university) {
+        if (university == null) {
+            throw new IllegalArgumentException("Es necesario asignarle una universidad al representante");
+        }
         this.university = university;
     }
 

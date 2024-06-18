@@ -15,7 +15,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.academicarea.AcademicArea;
@@ -32,17 +31,10 @@ import mx.fei.coilvicapp.logic.university.IUniversity;
 import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 
-/**
- *
- * @author ivanr
- */
 public class RegisterStudentController implements Initializable {
 
     @FXML
     private Button acceptButton;
-
-    @FXML
-    private VBox backgroundVBox;
 
     @FXML
     private Button cancelButton;
@@ -98,8 +90,10 @@ public class RegisterStudentController implements Initializable {
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
         gendersCombobox.setItems(FXCollections.observableArrayList(initializeGendersArrayForComboBox()));
-        universitiesCombobox.setItems(FXCollections.observableArrayList(initializeUniversitiesArrayForComboBox()));
-        academicAreaCombobox.setItems(FXCollections.observableArrayList(initializeAcademicAreasArrayForComboBox()));
+        universitiesCombobox.setItems(FXCollections.observableArrayList(
+                initializeUniversitiesArrayForComboBox()));
+        academicAreaCombobox.setItems(FXCollections.observableArrayList(
+                initializeAcademicAreasArrayForComboBox()));
         initializeLineajesArrayForCombobox();
         regionCombobox.setItems(FXCollections.observableArrayList(initializeRegionsArrayForComboBox())); 
     }
@@ -241,7 +235,7 @@ public class RegisterStudentController implements Initializable {
 
     private boolean confirmCancelation() {
         Optional<ButtonType> response = DialogController.getConfirmationDialog(
-                "Confirmar cancelacion", "¿Deseas cancelar el registro?");
+                "Confirmar cancelación", "¿Deseas cancelar el registro?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 

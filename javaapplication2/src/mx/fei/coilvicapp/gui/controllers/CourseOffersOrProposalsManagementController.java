@@ -25,11 +25,6 @@ import mx.fei.coilvicapp.logic.language.Language;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.term.Term;
 
-/**
- * FXML Controller class
- *
- * @author d0ubl3_d
- */
 public class CourseOffersOrProposalsManagementController implements Initializable {
 
     @FXML
@@ -88,9 +83,7 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
         if (professor != null) {
             this.professor = professor;
             initializeAll();
-        } else {
-            // ERROR
-        }
+        } 
     }
 
     @FXML
@@ -103,7 +96,6 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
     private void goBack() {
         try {
             if (professor == null) {
-                // VENTANA DE LA ADMINISTRACION COILVIC
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
             } else {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));

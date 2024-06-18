@@ -14,25 +14,21 @@ import mx.fei.coilvicapp.logic.implementations.Status;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.student.Student;
 
-/**
- *
- * @author ivanr
- */
 public class FeedbackDAO implements IFeedback {
 
     private boolean checkQuestionDuplication(Question question) throws DAOException {
-        Question instance;
+        Question axuQuestion;
         int idQuestion = 0;
 
         try {
-            instance = getQuestionByQuestionText(question.getQuestionText());
-            idQuestion = instance.getIdQuestion();
+            axuQuestion = getQuestionByQuestionText(question.getQuestionText());
+            idQuestion = axuQuestion.getIdQuestion();
         } catch (DAOException exception) {
             throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", 
                     Status.ERROR);
         }
         if (idQuestion != question.getIdQuestion() && idQuestion > 0 && 
-                instance.getQuestionType().equals(question.getQuestionType())) {
+                axuQuestion.getQuestionType().equals(question.getQuestionType())) {
             throw new DAOException("La pregunta ya se encuentra registrada", Status.WARNING);
         }
         return false;
@@ -283,7 +279,8 @@ public class FeedbackDAO implements IFeedback {
     }
     
     @Override
-    public int deleteProfessorResponsesByIdAndIdCollaborativeProject(int idProfessor, int idCollaborativeProject) throws DAOException {
+    public int deleteProfessorResponsesByIdAndIdCollaborativeProject(int idProfessor, int
+            idCollaborativeProject) throws DAOException {
         int result = -1;
         String statement = "DELETE FROM RespuestaProfessor WHERE idProfesor=? AND idProyectoColaborativo=?";
         
@@ -300,9 +297,11 @@ public class FeedbackDAO implements IFeedback {
     }
     
     @Override
-    public int deleteStudentResponsesByIdAndIdCollaborativeProject(int idStudent, int idCollaborativeProject) throws DAOException {
+    public int deleteStudentResponsesByIdAndIdCollaborativeProject(int idStudent, int
+            idCollaborativeProject) throws DAOException {
         int result = -1;
-        String statement = "DELETE FROM RespuestaEstudiante WHERE idEstudiante = ? AND idProyectoColaborativo = ?";
+        String statement = "DELETE FROM RespuestaEstudiante WHERE idEstudiante = ? AND "
+                + "idProyectoColaborativo = ?";
         
         try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement
                 preparedStatement = connection.prepareStatement(statement);) {

@@ -103,7 +103,8 @@ public class ProfessorValidateController implements Initializable {
                 if (isForValidation) {
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
                 } else {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                            + "ProfessorMainMenu.fxml"));
                     MainApp.changeView(fxmlLoader);
                     ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
                     professorMainMenuController.setProfessor(professor);
@@ -303,12 +304,13 @@ public class ProfessorValidateController implements Initializable {
 
     private boolean validationConfirmation(String validationAction) {
         Optional<ButtonType> response = DialogController.getConfirmationDialog(
-                "Validacion del profesor", "¿Desea " + validationAction + " al profesor?");
+                "Validación del profesor", "¿Desea " + validationAction + " al profesor?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
     private boolean backConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar", "¿Desea regresar?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar", 
+                "¿Desea regresar?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
@@ -320,13 +322,13 @@ public class ProfessorValidateController implements Initializable {
 
     private boolean wasNotUpdatedConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(
-                "Informacion no actualizada", "Los cambios no se pudieron realizar");
+                "Información no actualizada", "Los cambios no se pudieron realizar");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
     private boolean wasUpdatedConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog(
-                "Informacion actualizada", "Los cambios fueron realizados con exito");
+                "Información actualizada", "Los cambios fueron realizados con exito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 

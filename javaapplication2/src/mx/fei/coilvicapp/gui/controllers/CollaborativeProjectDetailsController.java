@@ -18,10 +18,6 @@ import mx.fei.coilvicapp.logic.implementations.FileManager;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
-/**
- *
- * @author ivanr
- */
 public class CollaborativeProjectDetailsController implements Initializable {
 
     @FXML
@@ -66,7 +62,7 @@ public class CollaborativeProjectDetailsController implements Initializable {
         } catch (IllegalArgumentException exception) {
             DialogController.getInformativeConfirmationDialog("Lo sentimos", exception.getMessage());
         } catch (IOException exception) {
-            DialogController.getInformativeConfirmationDialog("Algo salio mal", exception.getMessage());
+            DialogController.getInformativeConfirmationDialog("Algo salió mal", exception.getMessage());
         }
 
     }
@@ -100,7 +96,8 @@ public class CollaborativeProjectDetailsController implements Initializable {
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(ioException.getMessage(), 
+                    ioException);
         }
     }
 

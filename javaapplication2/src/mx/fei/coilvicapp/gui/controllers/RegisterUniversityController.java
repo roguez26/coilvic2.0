@@ -20,14 +20,8 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonType;
 import main.MainApp;
-import javafx.scene.layout.VBox;
 import log.Log;
 
-/**
- * FXML Controller class
- *
- * @author ivanr
- */
 public class RegisterUniversityController implements Initializable {
 
     @FXML
@@ -41,8 +35,6 @@ public class RegisterUniversityController implements Initializable {
 
     @FXML
     private TextField cityTextField;
-    @FXML
-    private VBox backgroundVBox;
 
     @FXML
     private ComboBox<Country> countryCombobox;
@@ -70,17 +62,20 @@ public class RegisterUniversityController implements Initializable {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityManager");
         } catch (IOException exception) {
-            Log.getLogger(RegisterUniversityController.class).error(exception.getMessage(), exception);
+            Log.getLogger(RegisterUniversityController.class).error(exception.getMessage(), 
+                    exception);
         }
     }
 
     private boolean confirmCancelation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", "¿Deseas cancelar el registro?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelación", 
+                "¿Deseas cancelar el registro?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
     private boolean confirmRegistration() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar registro", "¿Deseas añadir esta nueva universidad?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar registro", 
+                "¿Deseas añadir esta nueva universidad?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
@@ -88,10 +83,10 @@ public class RegisterUniversityController implements Initializable {
     private void acceptButtonIsPressed(ActionEvent event) throws IOException {
         try {
             invokeUniversityRegistration();
-        } catch (IllegalArgumentException iaException) {
-            handleValidationException(iaException);
-        } catch (DAOException daoException) {
-            handleDAOException(daoException);
+        } catch (IllegalArgumentException exception) {
+            handleValidationException(exception);
+        } catch (DAOException exception) {
+            handleDAOException(exception);
         }
     }
 
@@ -100,7 +95,8 @@ public class RegisterUniversityController implements Initializable {
         if (confirmRegistration()) {
             IUniversity UniversityDAO = new UniversityDAO();
             if (UniversityDAO.registerUniversity(university) > 0) {
-                DialogController.getInformativeConfirmationDialog("Registrada", "La universidad fue registrada con exito");
+                DialogController.getInformativeConfirmationDialog("Registrada", "La universidad fue registrada"
+                        + " con éxito");
                 cleanFields();
             }
         }

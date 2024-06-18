@@ -7,10 +7,6 @@ import mx.fei.coilvicapp.logic.professor.Professor;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-/**
- *
- * @author ivanr
- */
 public class EmailSenderTest {
 
     private EmailSender initializeEmailSender() {
@@ -30,13 +26,15 @@ public class EmailSenderTest {
     public void testCreateEmailSuccess() {
         EmailSender emailSender = initializeEmailSender();
         boolean result = emailSender.createEmail();
+        System.out.println(result);
         assertTrue(result);
     }
 
     @Test
     public void testCreateEmailSenderFailByNoReceiver() {
         EmailSender emailSender = initializeEmailSender();
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> emailSender.setReceiver(null));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
+                emailSender.setReceiver(null));
         System.out.println(exception.getMessage());
     }
 
@@ -45,6 +43,7 @@ public class EmailSenderTest {
         EmailSender emailSender = initializeEmailSender();
         emailSender.setPassword("no password");
         boolean result = emailSender.createEmail();
+        System.out.println(result);
         assertTrue(!result);
     }
 
@@ -53,6 +52,7 @@ public class EmailSenderTest {
         EmailSender emailSender = initializeEmailSender();
         emailSender.setSender("no sender");
         boolean result = emailSender.createEmail();
+        System.out.println(result);
         assertTrue(!result);
     }
 
@@ -61,13 +61,15 @@ public class EmailSenderTest {
         EmailSender emailSender = initializeEmailSender();
         emailSender.createEmail();
         boolean result = emailSender.sendEmail();
+        System.out.println(result);
         assertTrue(result);
     }
 
     @Test
     public void testSendEmailFailByNotCreatedEmail() {
         EmailSender emailSender = initializeEmailSender();
-        MessagingException exception = assertThrows(MessagingException.class, () -> emailSender.sendEmail());
+        MessagingException exception = assertThrows(MessagingException.class, () -> 
+                emailSender.sendEmail());
         System.out.println(exception.getMessage());
     }
 

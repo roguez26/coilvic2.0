@@ -17,10 +17,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import unit.test.Initializer.TestHelper;
 
-/**
- *
- * @author ivanr
- */
 public class AssignmentTest {
 
     private final Assignment ASSIGNMENT_FOR_TESTING = new Assignment();
@@ -59,6 +55,7 @@ public class AssignmentTest {
         } catch (DAOException exception) {
             Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(idAssignment);
         assertTrue(idAssignment > 0);
     }
 
@@ -71,7 +68,8 @@ public class AssignmentTest {
         } catch (DAOException exception) {
             Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
-        DAOException exception = assertThrows(DAOException.class, () -> ASSIGNMENT_DAO.registerAssignment(ASSIGNMENT_FOR_TESTING, auxCollaborativeProject)
+        DAOException exception = assertThrows(DAOException.class, () -> ASSIGNMENT_DAO.registerAssignment(
+                ASSIGNMENT_FOR_TESTING, auxCollaborativeProject)
         );
         System.out.println(exception.getMessage());
     }
@@ -84,7 +82,8 @@ public class AssignmentTest {
         try {
             idAssignment = ASSIGNMENT_DAO.registerAssignment(ASSIGNMENT_FOR_TESTING, auxCollaborativeProject);
             ASSIGNMENT_FOR_TESTING.setIdAssignment(idAssignment);
-            result = ASSIGNMENT_DAO.deleteAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment(), auxCollaborativeProject);
+            result = ASSIGNMENT_DAO.deleteAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment(), 
+                    auxCollaborativeProject);
         } catch (DAOException exception) {
             Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
@@ -105,7 +104,8 @@ public class AssignmentTest {
             Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
         
-        DAOException exception = assertThrows(DAOException.class, ()-> ASSIGNMENT_DAO.deleteAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment(), auxCollaborativeProject));
+        DAOException exception = assertThrows(DAOException.class, ()-> ASSIGNMENT_DAO.deleteAssignment(
+                ASSIGNMENT_FOR_TESTING.getIdAssignment(), auxCollaborativeProject));
         System.out.println(exception.getMessage());
     }
 
@@ -128,7 +128,6 @@ public class AssignmentTest {
     public void updateAssignmentFailByInappropiateState() {
         CollaborativeProjectDAO collaborativeProjectDAO = new CollaborativeProjectDAO();
         int idAssignment;
-        DAOException result = null;
         try {
             idAssignment = ASSIGNMENT_DAO.registerAssignment(ASSIGNMENT_FOR_TESTING, auxCollaborativeProject);
             ASSIGNMENT_FOR_TESTING.setIdAssignment(idAssignment);
@@ -139,7 +138,8 @@ public class AssignmentTest {
             Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
         
-        DAOException exception = assertThrows(DAOException.class, ()->  ASSIGNMENT_DAO.updateAssignment(ASSIGNMENT_FOR_TESTING, auxCollaborativeProject));
+        DAOException exception = assertThrows(DAOException.class, ()->  ASSIGNMENT_DAO.updateAssignment(
+                ASSIGNMENT_FOR_TESTING, auxCollaborativeProject));
         System.out.println(exception.getMessage());
     }
 
@@ -149,24 +149,27 @@ public class AssignmentTest {
 
         initializeAssignmentes();
         try {
-            result = ASSIGNMENT_DAO.getAssignmentsByIdProjectColaborative(auxCollaborativeProject.getIdCollaborativeProject());
+            result = ASSIGNMENT_DAO.getAssignmentsByIdProjectColaborative(
+                    auxCollaborativeProject.getIdCollaborativeProject());
         } catch (DAOException exception) {
             Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
         }
         deleteAssignments();
+        System.out.println(result);
         assertEquals(ASSGIGNMENTES_FOR_TESTING, result);
     }
 
     private void initializeAssignment() {
         ASSIGNMENT_FOR_TESTING.setName("Rompehielos");
-        ASSIGNMENT_FOR_TESTING.setDescription("Actividad donde se presentaron los alumnos de Programación y los de Bases de Datos");
+        ASSIGNMENT_FOR_TESTING.setDescription("Actividad donde se presentaron los alumnos de "
+                + "Programación y los de Bases de Datos");
         ASSIGNMENT_FOR_TESTING.setPath("/files/id/Rompehielos.pdf");
-        ASSIGNMENT_FOR_TESTING.setIdColaborativeProject(auxCollaborativeProject.getIdCollaborativeProject());
     }
 
     private void initializeAssignmentes() {
         String names[] = {"Rompehielos", "Ejercicios", "Presentacion"};
-        String descriptions[] = {"Actividad para presentacion", "Actividades sobre culturizacion", "Descripcion sobre la colaboracion"};
+        String descriptions[] = {"Actividad para presentacion", "Actividades sobre culturizacion", 
+            "Descripcion sobre la colaboracion"};
         String paths[] = {"/files/1/Rompehielos.pdf", "/files/2/ejercicios.pdf", "/files/3/presentacion.pdf"};
         LocalDateTime currentDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -190,7 +193,8 @@ public class AssignmentTest {
     private void deleteAssignments() {
         try {
             for (int i = 0; i < 3; i++) {
-                ASSIGNMENT_DAO.deleteAssignment(ASSGIGNMENTES_FOR_TESTING.get(i).getIdAssignment(), auxCollaborativeProject);
+                ASSIGNMENT_DAO.deleteAssignment(ASSGIGNMENTES_FOR_TESTING.get(i).getIdAssignment(), 
+                        auxCollaborativeProject);
             }
         } catch (DAOException exception) {
             Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);

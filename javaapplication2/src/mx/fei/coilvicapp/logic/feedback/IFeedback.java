@@ -6,10 +6,6 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.student.Student;
 
-/**
- *
- * @author ivanr
- */
 public interface IFeedback {
 
     public int registerQuestion(Question question) throws DAOException;

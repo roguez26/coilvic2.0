@@ -1,10 +1,7 @@
 package mx.fei.coilvicapp.logic.user;
 
 import java.util.Objects;
-/**
- *
- * @author ivanr
- */
+
 public class User {
 
     private int idUser = 0;
@@ -35,8 +32,6 @@ public class User {
     public void setType(String type) {
         this.type = type;
     }
-    
-
 
     @Override
     public boolean equals(Object object) {

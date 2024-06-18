@@ -12,7 +12,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import log.Log;
 import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
@@ -24,10 +23,6 @@ import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.Professor;
 
-/**
- *
- * @author ivanr
- */
 public class ValidateCollaborativeProjectController implements Initializable {
     
     @FXML
@@ -38,9 +33,6 @@ public class ValidateCollaborativeProjectController implements Initializable {
 
     @FXML
     private Button backButton;
-
-    @FXML
-    private VBox backgroundVBox;
 
     @FXML
     private Label codeLabel;
@@ -133,7 +125,6 @@ public class ValidateCollaborativeProjectController implements Initializable {
         } catch (IllegalArgumentException exception) {
             handleValidationException(exception);
         }
-
     }
 
     private void handleValidationException(IllegalArgumentException exception) {
@@ -159,17 +150,20 @@ public class ValidateCollaborativeProjectController implements Initializable {
     }
 
     private void wasValidatedConfirmation() {
-        DialogController.getInformativeConfirmationDialog("Proyecto Validado", "El proyecto colaborativo fue validado con éxito");
+        DialogController.getInformativeConfirmationDialog("Proyecto Validado", "El proyecto colaborativo "
+                + "fue validado con éxito");
         goBack();
     }
 
     private boolean confirmReject() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar rechazo", "¿Deseas rechazar este proyecto colaborativo?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar rechazo", "¿Deseas"
+                + " rechazar este proyecto colaborativo?");
         return response.isPresent() && response.get() == DialogController.BUTTON_YES;
     }
 
     private boolean confirmAccept() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar Aceptacion", "¿Deseas aceptar este proyecto colaborativo?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar aceptación", 
+                "¿Deseas aceptar este proyecto colaborativo?");
         return response.isPresent() && response.get() == DialogController.BUTTON_YES;
     }
 
@@ -202,7 +196,8 @@ public class ValidateCollaborativeProjectController implements Initializable {
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(ValidateCollaborativeProjectController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(ValidateCollaborativeProjectController.class).error(ioException.getMessage(), 
+                    ioException);
         }
     }
 
@@ -241,7 +236,8 @@ public class ValidateCollaborativeProjectController implements Initializable {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsManagement");
         } catch (IOException exception) {
-            Log.getLogger(ValidateCollaborativeProjectController.class).error(exception.getMessage(), exception);
+            Log.getLogger(ValidateCollaborativeProjectController.class).error(exception.getMessage(), 
+                    exception);
         }
     }
 }

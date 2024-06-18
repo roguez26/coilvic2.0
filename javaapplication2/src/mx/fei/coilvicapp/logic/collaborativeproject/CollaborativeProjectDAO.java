@@ -15,9 +15,6 @@ import mx.fei.coilvicapp.logic.implementations.Status;
 import mx.fei.coilvicapp.logic.course.*;
 import mx.fei.coilvicapp.logic.modality.ModalityDAO;
 
-/*
- * @author d0ubl3_d
- */
 public class CollaborativeProjectDAO implements ICollaborativeProject {
 
     public CollaborativeProjectDAO() {
@@ -437,7 +434,7 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
         String statement = "UPDATE ProyectoColaborativo"
         + " SET idModalidad = ?, nombre = ?, estado = 'Pendiente',"
         + " descripcion = ?, objetivoGeneral = ?,"
-        + " modalidad = ?, codigo = ?, rutaSyllabus = ?";
+        + " codigo = ?, rutaSyllabus = ?";
         int rowsAffected = -1;
 
         try {

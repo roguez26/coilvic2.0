@@ -3,30 +3,15 @@ package mx.fei.coilvicapp.logic.assignment;
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 
-/*
- * @author d0ubl3_d
- */
 public class Assignment {
-
-    private int idColaborativeProject;
 
     private int idAssignment = 0;
     private String name;
     private String description;
     private String date;
     private String path;
-    private final FieldValidator fieldValidator;
 
     public Assignment() {
-        fieldValidator = new FieldValidator();
-    }
-
-    public int getIdColaborativeProject() {
-        return idColaborativeProject;
-    }
-
-    public void setIdColaborativeProject(int idColaborativeProject) {
-        this.idColaborativeProject = idColaborativeProject;
     }
 
     public int getIdAssignment() {
@@ -42,6 +27,7 @@ public class Assignment {
     }
 
     public void setName(String name) {
+        FieldValidator fieldValidator = new FieldValidator();
         fieldValidator.checkName(name);
         this.name = name;
     }
@@ -51,6 +37,7 @@ public class Assignment {
     }
 
     public void setDescription(String description) {
+        FieldValidator fieldValidator = new FieldValidator();
         fieldValidator.checkLongRange(description);
         this.description = description;
     }

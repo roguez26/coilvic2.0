@@ -14,10 +14,6 @@ import java.sql.Statement;
 import log.Log;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 
-/**
- *
- * @author ivanr
- */
 public class UserDAO implements IUser {
 
     @Override
@@ -26,11 +22,7 @@ public class UserDAO implements IUser {
         Professor professor = new Professor();
         boolean result = false;
 
-//        try {
-            professor = professorDAO.getProfessorByEmail(email);
-        //} catch (DAOException exception) {
-//            throw new DAOException("No fue posible hacer la validacion", Status.WARNING);
-//        }
+        professor = professorDAO.getProfessorByEmail(email);
         if (professor.getIdProfessor() > 0) {
             if (professor.getUser().getIdUser() > 0 && professor.getUser().getPassword().equals(encryptPassword(password))) {
                 result = true;
@@ -42,7 +34,7 @@ public class UserDAO implements IUser {
         }
         return result;
     }
-    
+
     @Override
     public boolean authenticateAdministrativeUser(int idAdministrative, String password) throws DAOException {
         User user = new User();
@@ -59,7 +51,7 @@ public class UserDAO implements IUser {
             throw new DAOException("El usuario no se encuentra registrado", Status.WARNING);
         }
         return result;
-    }    
+    }
 
     @Override
     public int registerUser(User user) throws DAOException {
@@ -78,7 +70,7 @@ public class UserDAO implements IUser {
         int result = -1;
         String statement = "INSERT INTO usuario(contrasenia, tipo) VALUES (?, ?)";
         String encryptedPassword = encryptPassword(user.getPassword());
-        
+
         try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);) {
             preparedStatement.setString(1, encryptedPassword);
             preparedStatement.setString(2, user.getType());
@@ -134,14 +126,13 @@ public class UserDAO implements IUser {
         }
         return encryptedPassword;
     }
-    
+
     @Override
     public int updateUserPassword(User user) throws DAOException {
         int rowsAffected = -1;
         String statement = "UPDATE usuario SET contrasenia = ? WHERE idUsuario = ?";
 
-        try (Connection connection = new DatabaseManager().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+        try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 
             preparedStatement.setString(1, encryptPassword(user.getPassword()));
             preparedStatement.setInt(2, user.getIdUser());
@@ -155,7 +146,7 @@ public class UserDAO implements IUser {
 
         return rowsAffected;
     }
-    
+
     @Override
     public User getUserById(int idUser) throws DAOException {
         User user = new User();

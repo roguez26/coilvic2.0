@@ -5,21 +5,21 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert;
 import java.util.Optional;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
-/**
- *
- * @author ivanr
- */
+
 public class DialogController {
     
     public static final ButtonType BUTTON_YES = new ButtonType("Sí", ButtonBar.ButtonData.YES);
     public static final ButtonType BUTTON_NO = new ButtonType("No", ButtonBar.ButtonData.NO);
-    public static final ButtonType BUTTON_ACCEPT = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
+    public static final ButtonType BUTTON_ACCEPT = new ButtonType("Aceptar", 
+            ButtonBar.ButtonData.OK_DONE);
     
     public static Optional<ButtonType> getDialog(AlertMessage message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         if (null != message.getAlertType()) {
             switch (message.getAlertType()) {
                 case SUCCESS -> {
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("Exito");
                 }
                 case WARNING -> {
                     alert = new Alert(Alert.AlertType.WARNING);

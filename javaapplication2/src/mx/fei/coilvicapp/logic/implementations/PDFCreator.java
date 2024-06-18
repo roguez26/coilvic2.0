@@ -1,9 +1,5 @@
 package mx.fei.coilvicapp.logic.implementations;
 
-/**
- *
- * @author ivanr
- */
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -19,20 +15,23 @@ public class PDFCreator {
 
     private final String CERTIFICATE_TEMPLATE_PATH = "files\\template\\certificate.pdf";
 
-    public String generateCertificate(String name, String certificateDestination) throws IOException {
+    public String generateCertificate(String fullName, String certificateDestination) throws IOException {
         LocalDate date = LocalDate.now();
         String destionationCertificatePath;
         
-        if (certificateDestination == null || certificateDestination.equals("")) {
+        if (certificateDestination == null || certificateDestination.isEmpty()) {
             throw new IOException ("Es necesario especificar la ruta para iniciar la descarga");
         }
-
+        if (!templateExists()) {
+            throw new IOException("No se encontraron los recursos para generar la constancia");
+        }
         try {
             try (PdfReader reader = new PdfReader(CERTIFICATE_TEMPLATE_PATH)) {
-                destionationCertificatePath = certificateDestination + "\\" + date + "-" + name + "-constancia.pdf";
+                destionationCertificatePath = certificateDestination + "\\" + date + "-" + fullName + "-constancia.pdf";
                 PdfWriter writer = new PdfWriter(destionationCertificatePath);
-                try (PdfDocument pdfDocument = new PdfDocument(reader, writer); Document document = new Document(pdfDocument)) {
-                    Paragraph paragraph = new Paragraph(name);
+                try (PdfDocument pdfDocument = new PdfDocument(reader, writer); Document document = new Document(
+                        pdfDocument)) {
+                    Paragraph paragraph = new Paragraph(fullName);
                     paragraph.setFixedPosition(0, 335, 855);
                     paragraph.setTextAlignment(TextAlignment.CENTER);
                     paragraph.setFontSize(20);

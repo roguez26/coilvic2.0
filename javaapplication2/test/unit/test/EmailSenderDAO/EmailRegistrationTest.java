@@ -12,10 +12,6 @@ import log.Log;
 import static org.junit.Assert.assertThrows;
 import unit.test.Initializer.TestHelper;
 
-/**
- *
- * @author ivanr
- */
 public class EmailRegistrationTest {
 
     private static final EmailSenderDAO EMAIL_SENDER_DAO = new EmailSenderDAO();
@@ -49,6 +45,7 @@ public class EmailRegistrationTest {
         } catch (DAOException exception) {
             Log.getLogger(EmailRegistrationTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(idEmail);
         assertTrue(idEmail > 0);
     }
     

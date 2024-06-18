@@ -3,9 +3,6 @@ package mx.fei.coilvicapp.logic.term;
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 
-/*
- * @author d0ubl3_d
- */
 public class Term {
 
     private int idTerm = 0;

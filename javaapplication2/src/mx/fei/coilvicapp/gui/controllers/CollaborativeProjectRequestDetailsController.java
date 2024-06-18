@@ -23,11 +23,6 @@ import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.*;
 
-/**
- * FXML Controller class
- *
- * @author d0ubl3_d_CHECKED
- */
 public class CollaborativeProjectRequestDetailsController implements Initializable {
 
     
@@ -200,6 +195,10 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
                 }
                 if (result > 0) {                
                     wasRejectedConfirmation();
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
+                        NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                        notifyProfessorController.setProfessor(professor);
+                    });
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource
                     ("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
                     MainApp.changeView(fxmlLoader);
@@ -226,6 +225,10 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
                 }
                 if (result > 0) {                
                     wasAcceptedConfirmation();
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
+                        NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                        notifyProfessorController.setProfessor(professor);
+                    });
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource
                     ("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
                     MainApp.changeView(fxmlLoader);
@@ -332,7 +335,7 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
     
     private boolean wasCancelledConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
-        ("Solictud cancelada","Se cancelo la solicitud con éxito");
+        ("Solictud cancelada","Se canceló la solicitud con éxito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
     
@@ -344,7 +347,7 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
     
     private boolean wasRejectedConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
-        ("Solictud rechazada","Se rechazo la solicitud con éxito");
+        ("Solictud rechazada","Se rechazó la solicitud con éxito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
@@ -356,7 +359,7 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
     
     private boolean wasAcceptedConfirmation() {
         Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
-        ("Solictud aceptada","Se acepto la solicitud con éxito");
+        ("Solictud aceptada","Se aceptó la solicitud con éxito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     } 
     

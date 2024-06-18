@@ -3,10 +3,6 @@ package mx.fei.coilvicapp.logic.language;
 import java.util.Objects;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 
-
-/*
- * @author d0ubl3_d
- */
 public class Language {
 
     private int idLanguage = 0;

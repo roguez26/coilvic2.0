@@ -21,11 +21,6 @@ import mx.fei.coilvicapp.logic.collaborativeproject.ICollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.professor.Professor;
 
-/**
- * FXML Controller class for CollaborativeProjectsHistory view.
- *
- * author ivanr
- */
 public class CollaborativeProjectsHistoryController implements Initializable {
 
     @FXML
@@ -58,7 +53,8 @@ public class CollaborativeProjectsHistoryController implements Initializable {
     }
 
     private void changeToProfessorDetails() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorDetails.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                + "ProfessorDetails.fxml"));
         try {
             MainApp.changeView(fxmlLoader);
             ProfessorDetailsController professorDetailsController = fxmlLoader.getController();
@@ -67,24 +63,29 @@ public class CollaborativeProjectsHistoryController implements Initializable {
                 professorDetailsController.setProfessorSession(professorSession);
             }
         } catch (IOException exception) {
-            Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), 
+                    exception);
         }
     }
 
     @FXML
     void seeDetailsButtonIsPressed(ActionEvent event) {
-        CollaborativeProject selectedCollaborativeProject = collaborativeProjectsTableView.getSelectionModel().getSelectedItem();
+        CollaborativeProject selectedCollaborativeProject = collaborativeProjectsTableView
+                .getSelectionModel().getSelectedItem();
         if (selectedCollaborativeProject != null) {
             try {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetails", controller -> {
-                    CollaborativeProjectDetailsController collaborativeProjectDetailsController = (CollaborativeProjectDetailsController) controller;
+                    CollaborativeProjectDetailsController collaborativeProjectDetailsController = 
+                            (CollaborativeProjectDetailsController) controller;
                     collaborativeProjectDetailsController.setCollaborativeProject(selectedCollaborativeProject);
                 });
             } catch (IOException exception) {
-                Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), exception);
+                Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), 
+                        exception);
             }
         } else {
-            DialogController.getInformativeConfirmationDialog("Sin selección", "Seleccione un proyecto colaborativo para ver sus detalles");
+            DialogController.getInformativeConfirmationDialog("Sin selección", "Seleccione un proyecto "
+                    + "colaborativo para ver sus detalles");
         }
 
     }
@@ -98,9 +99,11 @@ public class CollaborativeProjectsHistoryController implements Initializable {
         ArrayList<CollaborativeProject> collaborativeProjectList = new ArrayList<>();
         ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         try {
-            collaborativeProjectList = collaborativeProjectDAO.getFinishedCollaborativeProjectsByProfessor(professor.getIdProfessor());
+            collaborativeProjectList = collaborativeProjectDAO.getFinishedCollaborativeProjectsByProfessor(
+                    professor.getIdProfessor());
         } catch (DAOException exception) {
-            Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), exception);
+            Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), 
+                    exception);
         }
 
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));

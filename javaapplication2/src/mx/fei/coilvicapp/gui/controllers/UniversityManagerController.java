@@ -72,8 +72,8 @@ public class UniversityManagerController implements Initializable {
     private void goBack() {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
-        } catch (IOException ioException) {
-            Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
+        } catch (IOException exception) {
+            Log.getLogger(UniversityManagerController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -81,8 +81,8 @@ public class UniversityManagerController implements Initializable {
     private void registerButton(ActionEvent event) {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/registerUniversity");
-        } catch (IOException ioException) {
-            Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
+        } catch (IOException exception) {
+            Log.getLogger(UniversityManagerController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -97,8 +97,8 @@ public class UniversityManagerController implements Initializable {
                 UpdateUniversityController updateUniversitycontroller = fxmlLoader.getController();
                 
                 updateUniversitycontroller.setUniversity(university);
-            } catch (IOException ioException) {
-                Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
+            } catch (IOException exception) {
+                Log.getLogger(UniversityManagerController.class).error(exception.getMessage(), exception);
             }
         } 
     }

@@ -4,10 +4,6 @@ import java.util.Objects;
 import mx.fei.coilvicapp.logic.country.Country;
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 
-/**
- *
- * @author ivanr
- */
 public class University {
 
     private int idUniversity = 0;

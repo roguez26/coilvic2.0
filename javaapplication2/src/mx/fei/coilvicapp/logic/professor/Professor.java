@@ -104,6 +104,9 @@ public class Professor {
     }
 
     public void setUniversity(University university) {
+        if (university == null) {
+            throw new IllegalArgumentException("Es necesario asignar una universidad al profesor");
+        }
         this.university = university;
     }
 

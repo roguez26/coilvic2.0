@@ -17,10 +17,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import unit.test.Initializer.TestHelper;
 
-/**
- *
- * @author ivanr
- */
 public class FeedbackTest {
 
     private CollaborativeProject auxCollaborativeProject;
@@ -69,6 +65,7 @@ public class FeedbackTest {
         } catch (DAOException exception) {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result);
     }
 
@@ -80,6 +77,7 @@ public class FeedbackTest {
         } catch (DAOException exception) {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(!result);
     }
 
@@ -92,6 +90,7 @@ public class FeedbackTest {
         } catch (DAOException exception) {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result);
     }
 
@@ -103,6 +102,7 @@ public class FeedbackTest {
         } catch (DAOException exception) {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(!result);
     }
 
@@ -117,6 +117,7 @@ public class FeedbackTest {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
         deleteProfessorResponses();
+        System.out.println(result);
         assertTrue(result > 0);
     }
 
@@ -131,6 +132,7 @@ public class FeedbackTest {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
         deleteStudentResponses();
+        System.out.println(result);
         assertTrue(result > 0);
     }
 
@@ -148,6 +150,7 @@ public class FeedbackTest {
         }
         expected.add(RESPONSES_FOR_TESTING.get(1));
         deleteStudentResponses();
+        System.out.println(result);
         assertEquals(expected, result);
     }
 
@@ -161,6 +164,7 @@ public class FeedbackTest {
         } catch (DAOException exception) {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(idQuestion);
         assertTrue(idQuestion > 0);
     }
 
@@ -175,6 +179,7 @@ public class FeedbackTest {
         } catch (DAOException exception) {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result > 0);
     }
 
@@ -210,6 +215,7 @@ public class FeedbackTest {
         } catch (DAOException exception) {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(result);
         assertTrue(result > 0);
     }
     

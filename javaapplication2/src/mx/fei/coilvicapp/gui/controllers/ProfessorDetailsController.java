@@ -67,7 +67,8 @@ public class ProfessorDetailsController implements Initializable {
     
     private void changeToProfessorManager() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorManager.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                    + "ProfessorManager.fxml"));
 
             MainApp.changeView(fxmlLoader);
             ProfessorManagerController professorManagerController = fxmlLoader.getController();
@@ -79,7 +80,8 @@ public class ProfessorDetailsController implements Initializable {
     
     private void changeToProfessorManagerAsProfessor() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorManager.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                    + "ProfessorManager.fxml"));
 
             MainApp.changeView(fxmlLoader);
             ProfessorManagerController professorManagerController = fxmlLoader.getController();
@@ -92,7 +94,8 @@ public class ProfessorDetailsController implements Initializable {
 
     @FXML
     void showHistoryButtonIsPressed(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectsHistory.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                + "CollaborativeProjectsHistory.fxml"));
         MainApp.changeView(fxmlLoader);
         CollaborativeProjectsHistoryController collaborativeProjectsHistoryController = fxmlLoader.getController();
         if (professorSession != null) {
@@ -107,18 +110,9 @@ public class ProfessorDetailsController implements Initializable {
         maternalSurnameTextField.setText(professor.getMaternalSurname());
         emailTextField.setText(professor.getEmail());
         telefonoTextField.setText(professor.getPhoneNumber());
+        gendersComboBox.setValue(professorForSeeDetails.getGender());
         universitiesComboBox.setValue(professor.getUniversity());
         countryCodeTextField.setText(professor.getUniversity().getCountry().getCountryCode());
-    }
-
-    private void initializeTextFields() {
-        nombreTextField.setText(professorForSeeDetails.getName());
-        paternalSurnameTextField.setText(professorForSeeDetails.getPaternalSurname());
-        maternalSurnameTextField.setText(professorForSeeDetails.getMaternalSurname());
-        emailTextField.setText(professorForSeeDetails.getEmail());
-        telefonoTextField.setText(professorForSeeDetails.getPhoneNumber());
-        gendersComboBox.setValue(professorForSeeDetails.getGender());
-        universitiesComboBox.setValue(professorForSeeDetails.getUniversity());
     }
 
     public void setProfessor(Professor professor) {

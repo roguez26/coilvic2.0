@@ -27,10 +27,6 @@ import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.student.Student;
 
-/**
- *
- * @author ivanr
- */
 public class FeedbackOnCollaborativeProjectController implements Initializable {
 
     @FXML
@@ -57,11 +53,11 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
     @FXML
     private Label titleLabel;
 
-    private final ArrayList<Response> responsesList = new ArrayList<>();
+    private ArrayList<Response> responsesList = null;
     private int currentQuestion;
     private Professor professor = null;
     private Student student = null;
-    CollaborativeProject collaborativeProject;
+    private CollaborativeProject collaborativeProject = null;
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
@@ -81,6 +77,7 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
     }
 
     public void initializeResponses(ArrayList<Question> questionsList) {
+        responsesList = new ArrayList<>();
         int idParticipant = 0;
 
         if (student != null) {
@@ -100,7 +97,8 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
 
     public void updateQuestion() {
         if (currentQuestion < responsesList.size()) {
-            questionNumberLabel.setText(String.valueOf(currentQuestion + 1) + "/" + String.valueOf(responsesList.size()));
+            questionNumberLabel.setText(String.valueOf(currentQuestion + 1) + "/" + String.valueOf(
+                    responsesList.size()));
             questionTextLabel.setText(responsesList.get(currentQuestion).getQuestion().getQuestionText());
             responseTextArea.setText(responsesList.get(currentQuestion).getResponseText());
         }
@@ -114,20 +112,13 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
     @FXML
     void finishButtonIsPressed(ActionEvent event) {
         try {
-            getResponseText();
             if (finishConfirmation()) {
-                IFeedback feedbackDAO = new FeedbackDAO();
-                if (student != null) {
-                    if (allQuestionsHaveBeenResponsed()) {
-                        feedbackDAO.registerStudentResponses(responsesList);
-                        changeToCollaborativeProjectDetailsStudent();
-                    } else {
-                        DialogController.getInformativeConfirmationDialog("No completado", "Debes completar todas las preguntas");
-                    }
-
-                } else if (professor != null) {
-                    feedbackDAO.registerProfessorResponses(responsesList);
-                    closeWindow();
+                if (questionsHasBeenAnswered()) {
+                    getResponseText();
+                    registerResponses();
+                } else {
+                    DialogController.getInformativeConfirmationDialog("No completado", "Debes completar todas "
+                            + "las preguntas");
                 }
             }
         } catch (DAOException exception) {
@@ -137,12 +128,31 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
         }
     }
 
-    private boolean allQuestionsHaveBeenResponsed() {
-        int responseCounter = 0;
-        while (responseCounter < responsesList.size() && responsesList.get(responseCounter).getResponseText() != null) {
-            responseCounter++;
+    private boolean questionsHasBeenAnswered() {
+        int cont = 0;
+        boolean areAnswered = false;
+        
+        if (responsesList == null || responsesList.isEmpty()) {
+            areAnswered = false;
+        } else {
+            while (responsesList.get(cont).getResponseText() != null) {
+                cont = cont + 1;
+            }
+            areAnswered = cont == responsesList.size() - 1;
         }
-        return responseCounter == responsesList.size();
+        return areAnswered;
+    }
+
+    private void registerResponses() throws DAOException {
+        IFeedback feedbackDAO = new FeedbackDAO();
+        if (student != null) {
+            feedbackDAO.registerStudentResponses(responsesList);
+            changeToCollaborativeProjectDetailsStudent();
+
+        } else if (professor != null) {
+            feedbackDAO.registerProfessorResponses(responsesList);
+            closeWindow();
+        }
     }
 
     @FXML
@@ -163,29 +173,36 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
                 getResponseText();
                 currentQuestion++;
                 updateQuestion();
+                hideButtons();
             } catch (IllegalArgumentException exception) {
                 handleValidationException(exception);
             }
-            hideButtons();
         }
     }
 
     @FXML
     void previousButtonIsPressed(ActionEvent event) {
         if (currentQuestion > 0) {
-            currentQuestion--;
-            updateQuestion();
-            hideButtons();
+            try {
+                getResponseText();
+                currentQuestion--;
+                updateQuestion();
+                hideButtons();
+            } catch (IllegalArgumentException exception) {
+                handleValidationException(exception);
+            }
         }
     }
 
     private boolean cancelConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelación", "¿Deseas cancelar la retroalimentación?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelación",
+                "¿Deseas cancelar la retroalimentación?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
     private boolean finishConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar finalización", "¿Deseas finalizar el proceso de retroalimentación?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar finalización",
+                "¿Deseas finalizar el proceso de retroalimentación?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
@@ -213,19 +230,23 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
                     MainApp.handleFatal();
             }
         } catch (IOException ioException) {
-            Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(ioException.getMessage(),
+                    ioException);
         }
     }
 
     private void changeToCollaborativeProjectDetailsStudent() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                + "CollaborativeProjectDetailsStudent.fxml"));
         try {
             MainApp.changeView(fxmlLoader);
-            CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController = fxmlLoader.getController();
+            CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController
+                    = fxmlLoader.getController();
             collaborativeProjectDetailsStudentController.setStudent(student);
             collaborativeProjectDetailsStudentController.setCollaborativeProject(collaborativeProject);
         } catch (IOException exception) {
-            Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(exception.getMessage(), exception);
+            Log.getLogger(FeedbackOnCollaborativeProjectController.class).error(exception.getMessage(),
+                    exception);
         }
     }
 

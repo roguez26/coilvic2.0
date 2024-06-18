@@ -3,9 +3,6 @@ package mx.fei.coilvicapp.logic.modality;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import java.util.ArrayList;
 
-/*
- * @author d0ubl3_d
- */
 public interface IModality {
     
     public int registerModality(Modality modality) throws DAOException;

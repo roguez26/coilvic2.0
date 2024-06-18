@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.ActivitiesManagementController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.ActivitiesManagementController">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="86.0" prefWidth="737.0" spacing="300.0">
          <children>
@@ -23,7 +23,7 @@
                     <columns>
                       <TableColumn fx:id="nameTableColumn" prefWidth="190.40009152889252" text="Nombre" />
                       <TableColumn fx:id="descriptionTableColumn" prefWidth="462.39990234375" text="Descripción" />
-                        <TableColumn fx:id="dateTableColumn" minWidth="6.400054931640625" prefWidth="112.00006103515625" text="Fecha" />
+                        <TableColumn fx:id="dateTableColumn" minWidth="6.400054931640625" prefWidth="112.00006103515625" text="Fecha de subida" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -36,8 +36,8 @@
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="819.0" spacing="15.0">
          <children>
             <Button fx:id="addButton" mnemonicParsing="false" onAction="#addButtonIsPressed" prefHeight="26.0" prefWidth="91.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Añadir" visible="false" />
-            <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButtonIsPressed" prefHeight="26.0" prefWidth="79.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Editar" />
-            <Button fx:id="seeActivityButton" mnemonicParsing="false" onAction="#seeActivityButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Ver actividad" />
+            <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButtonIsPressed" prefHeight="26.0" prefWidth="79.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Editar" visible="false" />
+            <Button fx:id="seeActivityButton" mnemonicParsing="false" onAction="#seeActivityButtonIsPressed" prefHeight="26.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonFile.css" text="Ver actividad" />
          </children>
       </HBox>
    </children>

@@ -10,10 +10,6 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
-/**
- *
- * @author ivanr
- */
 public class PDFCreatorTest {
 
     private final PDFCreator PDF_CREATOR = new PDFCreator();
@@ -33,6 +29,7 @@ public class PDFCreatorTest {
         }
 
         File file = new File(generatedCertificate);
+        System.out.println(file.exists());
         assertTrue(file.exists());
         file.delete();
     }
@@ -42,7 +39,8 @@ public class PDFCreatorTest {
         String nameParticipantExample = "Abraham Gonzales Hernández";
         String destinationPath = "";
 
-        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath));
+        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(
+                nameParticipantExample, destinationPath));
         System.out.println(exception.getMessage());
     }
 
@@ -51,7 +49,8 @@ public class PDFCreatorTest {
         String nameParticipantExample = "Abraham Gonzales Hernández";
         String destinationPath = null;
 
-        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath));
+        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(
+                nameParticipantExample, destinationPath));
         System.out.println(exception.getMessage());
     }
 
@@ -79,7 +78,8 @@ public class PDFCreatorTest {
         File fileForTest = new File(ORIGINAL_TEMPLATE_PATH);
         File fileTemporary = new File(TEMPORARY_PATH);
         fileForTest.delete();
-        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath));
+        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(
+                nameParticipantExample, destinationPath));
         System.out.println(exception.getMessage());
 
         returnFileToOriginalPath();
@@ -88,6 +88,7 @@ public class PDFCreatorTest {
 
     @Test
     public void testTemplateExistsSuccess() {
+        System.out.println(PDF_CREATOR.templateExists());
         assertTrue(PDF_CREATOR.templateExists());
     }
 
@@ -97,6 +98,7 @@ public class PDFCreatorTest {
         File fileForTest = new File(ORIGINAL_TEMPLATE_PATH);
         File fileTemporary = new File(TEMPORARY_PATH);
         fileForTest.delete();
+        System.out.println(PDF_CREATOR.templateExists());
         assertTrue(!PDF_CREATOR.templateExists());
         returnFileToOriginalPath();
         fileTemporary.delete();

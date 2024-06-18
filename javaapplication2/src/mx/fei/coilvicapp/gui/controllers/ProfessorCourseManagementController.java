@@ -23,11 +23,6 @@ import mx.fei.coilvicapp.logic.language.Language;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.term.Term;
 
-/**
- * FXML Controller class
- *
- * @author d0ubl3_d
- */
 public class ProfessorCourseManagementController implements Initializable {
 
     @FXML
@@ -97,9 +92,7 @@ public class ProfessorCourseManagementController implements Initializable {
                 MainApp.changeView(fxmlLoader);
                 ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
                 professorMainMenuController.setProfessor(professor);
-            } else {
-                // ALGUN ERROR
-            }
+            } 
         } catch (IOException exception) {
             Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
         }

@@ -81,7 +81,8 @@ public class ProfessorManagerController implements Initializable {
     private void goBack() {
         try {
             if (professorSession != null) {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/ProfessorMainMenu.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                            + "ProfessorMainMenu.fxml"));
 
                     MainApp.changeView(fxmlLoader);
                     ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
@@ -92,7 +93,6 @@ public class ProfessorManagerController implements Initializable {
             } else {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
             }
-
         } catch (IOException exception) {
             Log.getLogger(ProfessorManagerController.class).error(exception.getMessage(), exception);
         }
@@ -148,7 +148,6 @@ public class ProfessorManagerController implements Initializable {
             Log.getLogger(ProfessorManagerController.class).error(exception.getMessage(), exception);
         } catch (IllegalArgumentException exception) {
             handleValidationException(exception);
-            Log.getLogger(ProfessorManagerController.class).error(exception.getMessage(), exception);
         }
     }
 

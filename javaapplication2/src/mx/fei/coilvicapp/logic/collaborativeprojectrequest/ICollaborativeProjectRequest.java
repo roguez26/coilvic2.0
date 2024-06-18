@@ -3,10 +3,6 @@ package mx.fei.coilvicapp.logic.collaborativeprojectrequest;
 import java.util.ArrayList;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 
-/*
- * @author d0ubl3_d
- */
-
 public interface ICollaborativeProjectRequest {
  
     public int registerCollaborativeProjectRequest(CollaborativeProjectRequest collaborativeProjectRequest) throws DAOException;
@@ -32,4 +28,8 @@ public interface ICollaborativeProjectRequest {
     
     public ArrayList<CollaborativeProjectRequest> getAceptedCollaborativeProjectRequestsByIdProfessor
     (int idProfessor) throws DAOException;
+    
+    public CollaborativeProjectRequest getCollaborativeProjectByCoursesId(int idRequestedCourse, int idRequesterCourse) throws DAOException;
+    
+    public boolean areThereAvailableRequests(int idProfessor) throws DAOException;
 }
