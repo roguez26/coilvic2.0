@@ -17,6 +17,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import log.Log;
 import main.MainApp;
+import mx.fei.coilvicapp.logic.country.CountryDAO;
+import mx.fei.coilvicapp.logic.country.ICountry;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
@@ -80,7 +82,16 @@ public class UniversityManagerController implements Initializable {
     @FXML
     private void registerButton(ActionEvent event) {
         try {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/registerUniversity");
+            ICountry countryDAO = new CountryDAO();
+            if (countryDAO.isThereAtLeastOneCountry()) {
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/registerUniversity");
+            } else {
+                DialogController.getInformativeConfirmationDialog("Aviso", "No puedes registrar universidades "
+                        + "si no hay paises registrados");
+            }
+            
+        } catch (DAOException exception) { 
+            handleDAOException(exception);
         } catch (IOException exception) {
             Log.getLogger(UniversityManagerController.class).error(exception.getMessage(), exception);
         }
