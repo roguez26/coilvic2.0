@@ -16,6 +16,12 @@ import java.util.ArrayList;
 import log.Log;
 
 public class UniversityDAO implements IUniversity {
+    
+   /**
+    * Este método revisa que haya al menos una universidad registrada en la base de datos
+    * @return true si hay al menos una universidad, false si no hay al menos una
+    * @throws DAOException en caso de que ocurra una excepción del tipo SQL
+    */
 
     @Override
     public boolean isThereAtLeastOneUniversity() throws DAOException {
@@ -34,7 +40,17 @@ public class UniversityDAO implements IUniversity {
             throw new DAOException("No fue posible verificar que haya universidades", Status.ERROR);
         }
         return result;
-    }     
+    }  
+    /**
+     * Este método se utiliza para registrar una nueva universidad, es implementada para ser pública
+     * y poder ser utilizada desde al interfaz
+     * @param university Ésta es la universidad que será registrada en la base de datos
+     * @return 0 en caso de no poder registrarse, en otro caso de poder registrar la universidad 
+     * retornará el id autoincremental generada en la base de datos
+     * @throws DAOException Puede lanzar una DAOException en los siguientes casos: cuando se encuentra 
+     * una universidad registrada con el mismo nombre, cuando no se encuentra el país con el que se 
+     * quiere registrar o cuando ocurre una excepción del tipo SQL
+     */
     
     @Override
     public int registerUniversity(University university) throws DAOException {
@@ -47,6 +63,16 @@ public class UniversityDAO implements IUniversity {
         }
         return result;
     }
+    
+    /**
+     * Este método se utiliza para actualizar una universidad en la base de datos, es implementada 
+     * para ser pública y poder ser utilizada desde la interfaz IUniversity
+     * @param university Ésta es la universidad que será actualizada en la base de datos
+     * @return 0 en caso de que no se pudo ser actualizada, en otro caso retornará la cantidad
+     * de filas afectadas en la base de datos, lo esperado siempre es 1
+     * @throws DAOException Puede lanzar una DAOException en los siguientes casos: cuando ya
+     * existe una universidad con el mismo nombre o cuando ocurre una excepción del tipo SQL
+     */
 
     @Override
     public int updateUniversity(University university) throws DAOException {
@@ -57,6 +83,16 @@ public class UniversityDAO implements IUniversity {
         }
         return result;
     }
+    /**
+     * Este método se utiliza para eliminar universidades de la base de datos, es implementada
+     * para se pública y poder ser utiliada desde la interfaz IUniversity
+     * @param idUniversity Éste es el id asignado de la universidad la cual será actualizada
+     * @return 0 en caso de que no se pueda actualizar la universida, en otro caso retornará 
+     * la cantidad de filas afectadas que será 1
+     * @throws DAOException  Puede lanzar una DAOException en caso de que exista un representante
+     * institucional asignado a esta universidad o en caso de que ocurra una excepción
+     * del tipo SQL 
+     */
 
     @Override
     public int deleteUniversity(int idUniversity) throws DAOException {
@@ -82,24 +118,24 @@ public class UniversityDAO implements IUniversity {
         }
         return false;
     }
-
-    public boolean checkCountryExistence(int idCountry) throws DAOException {
+    
+    private boolean checkCountryExistence(int idCountry) throws DAOException {
         CountryDAO countryDAO = new CountryDAO();
         Country country;
 
         try {
             country = countryDAO.getCountryById(idCountry);
         } catch (DAOException exception) {
-            throw new DAOException("No se pudo hacer la validacion para registrar la universidad", 
+            throw new DAOException("No se pudo hacer la validación para registrar la universidad", 
                     Status.ERROR);
         }
         if (country.getIdCountry() <= 0) {
-            throw new DAOException("Este pais aun no se encuentra registrado", Status.WARNING);
+            throw new DAOException("Este país aún no se encuentra registrado", Status.WARNING);
         }
         return true;
     }
-
-    public boolean validateUniversityForDelete(int idUniversity) throws DAOException {
+    
+    private boolean validateUniversityForDelete(int idUniversity) throws DAOException {
         InstitutionalRepresentativeDAO institutionalRepresentativeDAO = new InstitutionalRepresentativeDAO();
         InstitutionalRepresentative intitutionalRepresentative = new InstitutionalRepresentative();
 
@@ -117,8 +153,8 @@ public class UniversityDAO implements IUniversity {
         }
         return true;
     }
-
-    public boolean validateUniversityForUpdate(University university) throws DAOException {
+    
+    private boolean validateUniversityForUpdate(University university) throws DAOException {
         University oldUniversity = getUniversityById(university.getIdUniversity());
         boolean result = true;
 
@@ -128,7 +164,7 @@ public class UniversityDAO implements IUniversity {
         return result;
     }
 
-    public int insertUniversityTransaction(University university) throws DAOException {
+    private int insertUniversityTransaction(University university) throws DAOException {
         int result = -1;
         String statement = "INSERT INTO Universidad(nombre, acronimo, jurisdiccion, ciudad, idPais)"
                 + " values (?, ?, ?, ?, ?)";
@@ -147,8 +183,8 @@ public class UniversityDAO implements IUniversity {
         }
         return result;
     }
-
-    public int updateUniversityTransaction(University university) throws DAOException {
+    
+    private int updateUniversityTransaction(University university) throws DAOException {
         int result = -1;
         String statement = "UPDATE Universidad SET nombre = ?, acronimo = ?, jurisdiccion = ?, ciudad = ?, "
                 + "idPais = ? WHERE idUniversidad = ?";
@@ -164,7 +200,7 @@ public class UniversityDAO implements IUniversity {
         return result;
     }
 
-    public int deleteUniversityTransaction(int idUniversity) throws DAOException {
+    private int deleteUniversityTransaction(int idUniversity) throws DAOException {
         int result = -1;
         String statement = "DELETE FROM Universidad where idUniversidad=?";
 
@@ -178,6 +214,15 @@ public class UniversityDAO implements IUniversity {
         }
         return result;
     }
+    
+    /**
+     * Este método se utiliza para obtener todas las universidades registradas en la base de datos,
+     * público para que pueda ser implementado desde la interfaz IUniversity
+     * @return Retornará un arreglo de universidades, en caso de que no lo encuentre el arreglo 
+     * retornará vacío
+     * @throws DAOException Puede lanzar una DAOException en caso de que ocurra una excepción
+     * del tipo SQL
+     */
 
     @Override
     public ArrayList<University> getAllUniversities() throws DAOException {
@@ -197,6 +242,15 @@ public class UniversityDAO implements IUniversity {
         return universitiesList;
     }
     
+    /**
+     * Este método se utiliza para obtener las universidades que no cuentan con un representante, 
+     * público para que pueda ser utilizado desde la interfaz IUniversity
+     * @return Retornará un arreglo de universidades, en caso de que no lo encuentre el arreglo 
+     * retornará vacío
+     * @throws DAOException Puede lanzar una DAOException en caso de que ocurra una excepción
+     * del tipo SQL
+     */
+    
     @Override
     public ArrayList<University> getAvailableUniversities() throws DAOException {
         ArrayList<University> universitiesList = new ArrayList<>();
@@ -215,6 +269,15 @@ public class UniversityDAO implements IUniversity {
         }
         return universitiesList;
     }
+    
+    /**
+     * Este método se utiliza para recuperar universidades con base en su id
+     * @param idUniversity Éste es el id de la universidad la cual se desea recuperar
+     * @return Retornará un objeto Universidad, en caso de no encontrarlo el arreglo se retornará
+     * vacío
+     * @throws DAOException Puede lanzar una DAOException en caso de que ocurra una excepción
+     * del tipo SQL
+     */
 
     public University getUniversityById(int idUniversity) throws DAOException {
         University university = new University();
@@ -234,6 +297,15 @@ public class UniversityDAO implements IUniversity {
         }
         return university;
     }
+    
+     /**
+      * Este método se utiliza para recuperar un objeto universidad con base en el id de un país
+      * @param idCountry Éste es el id del país del que se quiere recupera la universidad
+      * @return Retornará un objeto Universidad, en caso de no encontrar ninguno retornará el objeto 
+      * vacío
+      * @throws DAOException Puede lanzar una DAOException en caso de que ocurra una excepción
+     * del tipo SQL
+      */
 
     public University getUniversityByCountryId(int idCountry) throws DAOException {
         University university = new University();
@@ -253,6 +325,16 @@ public class UniversityDAO implements IUniversity {
         }
         return university;
     }
+    
+    /**
+     * Este método se utiliza para recuperar una universidad con base en su nombre, público para
+     * que pude ser implementado desde la interfaz IUniversity
+     * @param universityName Éste es el nombre de la universidad el cual se quiere buscar
+     * @return Retornará un objeto University, en caso de no encontrar ninguno retornará el objeto 
+      * vacío
+     * @throws DAOException Puede lanzar una DAOException en caso de que ocurra una excepción
+     * del tipo SQL
+     */
 
     @Override
     public University getUniversityByName(String universityName) throws DAOException {
@@ -273,7 +355,7 @@ public class UniversityDAO implements IUniversity {
         }
         return university;
     }
-
+    
     private PreparedStatement initializeStatement(Connection connection, String statement,
             University university) throws SQLException {
         PreparedStatement preparedStatement;

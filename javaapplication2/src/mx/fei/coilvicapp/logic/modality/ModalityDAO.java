@@ -12,6 +12,17 @@ import mx.fei.coilvicapp.logic.implementations.Status;
 
 public class ModalityDAO implements IModality {
     
+    /**
+     * Este método se utiliza para poder registrar nuevas modalidades dentro
+     * de la base de datos
+     * @param modality Ésta será la nueva modalidad que se desea será registrada, 
+     * modality contiene los nuevos datos que serán registrados
+     * @return 0 en caso de que el registro no resulte, de otro modo retornará
+     * el id generado automáticamente por la base de datos
+     * @throws DAOException Puede lanzar DAOException en caso de que el nombre 
+     * ya se encuentre registrao o en caso de que ocurra una excepción del tipo
+     * SQL
+     */
     @Override
     public int registerModality(Modality modality) throws DAOException {
         int result = 0;
@@ -20,6 +31,18 @@ public class ModalityDAO implements IModality {
         }
         return result;        
     }
+    
+    /**
+     * Este método se utiliza para poder actualizar alguna de las modalidades dentro
+     * de la base de datos
+     * @param modality Éste contiene los nuevos datos de la modalidad que se desean
+     * serán los nuevos
+     * @return 0 en caso de que no pueda ser actualizado, 1 en caso de que la actualización
+     * sea exitosa
+     * @throws DAOException Puede lanzar DAOException en caso de que el nombre 
+     * ya se encuentre registrao o en caso de que ocurra una excepción del tipo
+     * SQL 
+     */
     
     @Override
     public int updateModality(Modality modality) throws DAOException {
@@ -30,6 +53,17 @@ public class ModalityDAO implements IModality {
         }
         return result;          
     }    
+    
+    /**
+     * Este método se utiliza para poder eliminar modalidades que se encuentren
+     * dentro de la base de datos
+     * @param idModality Éste sera el id de la modalidad que se desea será eliminada
+     * @return -1 en caso de que no pueda ser eliminada, 1 en caso de que la eliminación
+     * result exitosa
+     * @throws DAOException Puede lanzar DAOException en caso de que el nombre 
+     * ya se encuentre registrao o en caso de que ocurra una excepción del tipo
+     * SQL  
+     */
     
     @Override
     public int deleteModality(int idModality) throws DAOException {
@@ -63,6 +97,17 @@ public class ModalityDAO implements IModality {
         } 
         return result;
     }
+    
+    /**
+     * Este método se utiliza para recupera una modalidad que se encuentre en la base
+     * de datos con base en su nombre
+     * @param modalityName Éste serpa el nombre por el que se realiza la consulta
+     * @return Retornará un objeto modalidad, en caso de que la consulta no resulte
+     * el objeto retornará con datos vacíos
+     * @throws DAOException Puede lanzar DAOException en caso de que el nombre 
+     * ya se encuentre registrao o en caso de que ocurra una excepción del tipo
+     * SQL   
+     */
     
     @Override
     public Modality getModalityByName(String modalityName) throws DAOException {
@@ -105,6 +150,16 @@ public class ModalityDAO implements IModality {
         return modality;
     }
     
+    /**
+     * Este método se utiliza para poder recuperar una modalidad con base en su id
+     * @param idModality Éste será el id de la modalidad que se desea recuperar
+     * de la base de datos
+     * @return Retornará un objeto modalidad, en caso de que la consulta no resulte
+     * el objeto retornará con datos vacíos
+     * @throws DAOException Puede lanzar DAOException en caso de que el nombre 
+     * ya se encuentre registrao o en caso de que ocurra una excepción del tipo
+     * SQL 
+     */
     @Override
     public Modality getModalityByIdModality(int idModality) throws DAOException {        
         Modality modality = new Modality();
@@ -145,6 +200,16 @@ public class ModalityDAO implements IModality {
         }
         return modality;
     }    
+    
+    /**
+     * Este método se utiliza para poder recuperar todas la modalidades que se encuentran en la base de 
+     * datos
+     * @return Un arreglo de modalidades con los datos de todos los registros, de otro modo
+     * en caso de no resultar la consulta retornará un arreglo vacío
+     * @throws DAOException Puede lanzar DAOException en caso de que el nombre 
+     * ya se encuentre registrao o en caso de que ocurra una excepción del tipo
+     * SQL  
+     */
     
     @Override
     public ArrayList<Modality> getModalities() throws DAOException {

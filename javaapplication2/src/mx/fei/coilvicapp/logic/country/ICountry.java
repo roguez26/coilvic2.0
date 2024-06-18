@@ -14,5 +14,7 @@ public interface ICountry {
     public int updateCountry(Country country) throws DAOException;
     
     public int deleteCountry(int country) throws DAOException;
+    
+    public boolean isThereAtLeastOneCountry() throws DAOException;
 
 }

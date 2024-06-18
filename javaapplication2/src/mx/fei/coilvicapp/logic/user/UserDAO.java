@@ -16,6 +16,19 @@ import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 
 public class UserDAO implements IUser {
 
+    /**
+     * Este método sirve para poder verificar que los datos del usuarios coinciden
+     * con alguno de los registrados en la base de datos
+     * @param email Éste es el correo que sirve como usuario para poder encontrar
+     * algún profesor que contenga este correo
+     * @param password Ésta será la contraseña que tiene el usuario para poder 
+     * acceder al sistema
+     * @return true en caso de que encuentre un profesor con ese correo y la contraseña
+     * coicida con la proporcionada, false si no encontró nada de lo anterior
+     * @throws DAOException Puede lanzar DAOException en caso de que la constraseña no 
+     * coincida o que no se encuentre el correo, además puede lanzada una DAOException en 
+     * caso de que ocurrra una excepción del tipo SQL
+     */
     @Override
     public boolean authenticateUser(String email, String password) throws DAOException {
         ProfessorDAO professorDAO = new ProfessorDAO();
@@ -27,7 +40,7 @@ public class UserDAO implements IUser {
             if (professor.getUser().getIdUser() > 0 && professor.getUser().getPassword().equals(encryptPassword(password))) {
                 result = true;
             } else {
-                throw new DAOException("La contraseña proporcinada es incorrecta", Status.WARNING);
+                throw new DAOException("La contraseña proporcionada es incorrecta", Status.WARNING);
             }
         } else {
             throw new DAOException("El correo no se encuentra registrado", Status.WARNING);
@@ -35,6 +48,19 @@ public class UserDAO implements IUser {
         return result;
     }
 
+    /**
+     * Este método sirve para poder verificar que los datos del usuarios coinciden
+     * con alguno de los registrados en la base de datos
+     * @param idAdministrative Éste es el id del usuario del administrativo que
+     * se encuentra registrado en la base de datos
+     * @param password Ésta será la contraseña que tiene el usuario para poder 
+     * acceder al sistema
+     * @return true en caso de que encuentre un profesor con ese correo y la contraseña
+     * coicida con la proporcionada, false si no encontró nada de lo anterior
+     * @throws DAOException Puede lanzar DAOException en caso de que la constraseña no 
+     * coincida o que no se encuentre el correo, además puede lanzada una DAOException en 
+     * caso de que ocurrra una excepción del tipo SQL 
+     */
     @Override
     public boolean authenticateAdministrativeUser(int idAdministrative, String password) throws DAOException {
         User user = new User();
@@ -45,7 +71,7 @@ public class UserDAO implements IUser {
             if (user.getPassword().equals(encryptPassword(password))) {
                 result = true;
             } else {
-                throw new DAOException("La contraseña proporcinada es incorrecta", Status.WARNING);
+                throw new DAOException("La contraseña proporcionada es incorrecta", Status.WARNING);
             }
         } else {
             throw new DAOException("El usuario no se encuentra registrado", Status.WARNING);
@@ -53,12 +79,29 @@ public class UserDAO implements IUser {
         return result;
     }
 
+    /**
+     * Éste método sirve para poder registrar un usuario en la base de datos
+     * @param user Éste sera el usuario que contiene los datos que serán registrados 
+     * en la base de datos
+     * @return -1 en caso de no poder insertarlo, de otro modo retornará el id autoincremental
+     * generado en la base de datos
+     * @throws DAOException 
+     */
     @Override
     public int registerUser(User user) throws DAOException {
         int result = insertUserTransaction(user);
 
         return result;
     }
+    
+    /**
+     * Éste método sirve para eliminar usuarios de la base de datos
+     * @param idUser Éste será el id del usuario que se desea será eliminada
+     * @return -1 en caso de no poder eliminarlo, de otro modo retornará el número de filas
+     * afectadas que será 1
+     * @throws DAOException Puede lanzar DAOException en caso de que ocurra una excepción
+     * del tipo SQL
+     */
 
     @Override
     public int deleteUser(int idUser) throws DAOException {
@@ -66,7 +109,7 @@ public class UserDAO implements IUser {
         return deleteUserTransaction(idUser);
     }
 
-    public int insertUserTransaction(User user) throws DAOException {
+    private int insertUserTransaction(User user) throws DAOException {
         int result = -1;
         String statement = "INSERT INTO usuario(contrasenia, tipo) VALUES (?, ?)";
         String encryptedPassword = encryptPassword(user.getPassword());
@@ -87,7 +130,7 @@ public class UserDAO implements IUser {
         return result;
     }
 
-    public int deleteUserTransaction(int idUser) throws DAOException {
+    private int deleteUserTransaction(int idUser) throws DAOException {
         int result = -1;
         String statement = "DELETE FROM usuario WHERE idUsuario = ?";
 
@@ -106,7 +149,7 @@ public class UserDAO implements IUser {
         return result;
     }
 
-    public String encryptPassword(String password) throws DAOException {
+    private String encryptPassword(String password) throws DAOException {
         String encryptedPassword;
 
         try {
@@ -126,6 +169,15 @@ public class UserDAO implements IUser {
         }
         return encryptedPassword;
     }
+    
+    /**
+     * Este método es utilizado para poder actualizar usuarios que se encuentran en la base de datos
+     * @param user Éste es el usuario que se desea actualizar, contiene los nuevos datos
+     * @return -1 en caso de que no se pueda actualizar, de otro modo retornará el número de 
+     * filas afectadas que será 1
+     * @throws DAOException Puede lanzar DAOException en caso de que ocurra una excepción
+     * del tipo SQL  
+     */
 
     @Override
     public int updateUserPassword(User user) throws DAOException {
@@ -147,6 +199,14 @@ public class UserDAO implements IUser {
         return rowsAffected;
     }
 
+    /**
+     * Éste método se utiliza para obtener usuarios de la base de datos con base en su id
+     * @param idUser Éste es el id del usuario que se desea buscar
+     * @return Retornará un objeto User que contendrá los datos del usuario solicitado, 
+     * en caso de no encontrarlo retornará el objeto con los datos vacíos
+     * @throws DAOException Puede lanzar DAOException en caso de que ocurra una excepción
+     * del tipo SQL  
+     */
     @Override
     public User getUserById(int idUser) throws DAOException {
         User user = new User();

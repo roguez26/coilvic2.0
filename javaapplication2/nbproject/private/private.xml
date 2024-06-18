@@ -2,6 +2,9 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
 <<<<<<< HEAD
             <file>file:/C:/Users/axel_/OneDrive/Escritorio/coilvic/coilvic2.0/javaapplication2/src/mx/fei/coilvicapp/logic/student/StudentDAO.java</file>
@@ -31,5 +34,6 @@
             <file>file:/C:/Users/ivanr/OneDrive/Escritorio/ConstruccionCoilVic/JavaApplication2/src/mx/fei/coilvicapp/logic/collaborativeprojectrequest/CollaborativeProjectRequestDAO.java</file>
 >>>>>>> 6f2d5ba5a1bc718b25c06800b23cd950d5369f78
         </group>
+>>>>>>> f48bd9e2b8eba545621a7d3ed364dff5c6914946
     </open-files>
 </project-private>
