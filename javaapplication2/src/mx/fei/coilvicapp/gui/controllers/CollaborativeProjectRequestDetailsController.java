@@ -195,6 +195,10 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
                 }
                 if (result > 0) {                
                     wasRejectedConfirmation();
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
+                        NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                        notifyProfessorController.setProfessor(professor);
+                    });
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource
                     ("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
                     MainApp.changeView(fxmlLoader);
@@ -221,6 +225,10 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
                 }
                 if (result > 0) {                
                     wasAcceptedConfirmation();
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
+                        NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                        notifyProfessorController.setProfessor(professor);
+                    });
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource
                     ("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
                     MainApp.changeView(fxmlLoader);

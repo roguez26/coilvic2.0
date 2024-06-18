@@ -164,6 +164,10 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
                     }
                     if (result > 0) {
                         collaborativeProjectRequestConfirmationSent();
+                        MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
+                            NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                            notifyProfessorController.setProfessor(professor);
+                        });
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement.fxml"));
                         MainApp.changeView(fxmlLoader);
                         CourseOffersOrProposalsManagementController courseOffersOrProposalsManagementController = fxmlLoader.getController();
@@ -190,6 +194,10 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
                 }
                 if (result > 0) {
                     wasRejectedConfirmation();
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
+                        NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                        notifyProfessorController.setProfessor(professor);
+                    });
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement");
                 }
             }
@@ -210,6 +218,10 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
                 }
                 if (result > 0) {
                     wasAcceptedConfirmation();
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
+                        NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                        notifyProfessorController.setProfessor(professor);
+                    });
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement");
                 }
             }
