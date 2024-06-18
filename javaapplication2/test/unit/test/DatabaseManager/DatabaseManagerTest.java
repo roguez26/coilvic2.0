@@ -41,7 +41,7 @@ public class DatabaseManagerTest {
             Log.getLogger(DatabaseManagerTest.class).error(exception.getMessage(), exception);
         }
         Assert.assertNotNull(connection);
-    }
+    } 
     
     @Test
     public void testConnectSuccess() {
@@ -63,6 +63,6 @@ public class DatabaseManagerTest {
             Log.getLogger(DatabaseManagerTest.class).error(exception.getMessage(), exception);
         }
         Assert.assertTrue(isClosed);
-    }
+    } 
 
 }

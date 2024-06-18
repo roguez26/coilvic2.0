@@ -135,24 +135,28 @@ public class Professor {
         } else if (object != null && getClass() == object.getClass()) {
             Professor toCompare = (Professor) object;
             isEqual = idProfessor == toCompare.idProfessor
-                    && Objects.equals(name, toCompare.name)
-                    && Objects.equals(paternalSurname, toCompare.paternalSurname)
-                    && Objects.equals(maternalSurname, toCompare.maternalSurname)
-                    && Objects.equals(email, toCompare.email)
-                    && Objects.equals(gender, toCompare.gender)
-                    && Objects.equals(phoneNumber, toCompare.phoneNumber)
-                    && Objects.equals(state, toCompare.state);
+                && Objects.equals(name, toCompare.name)
+                && Objects.equals(paternalSurname, toCompare.paternalSurname)
+                && Objects.equals(maternalSurname, toCompare.maternalSurname)
+                && Objects.equals(email, toCompare.email)
+                && Objects.equals(gender, toCompare.gender)
+                && Objects.equals(phoneNumber, toCompare.phoneNumber)
+                && Objects.equals(state, toCompare.state)
+                && Objects.equals(university, toCompare.university)
+                && Objects.equals(user, toCompare.user);
         }
         return isEqual;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProfessor, name, paternalSurname, maternalSurname, email, gender, phoneNumber, state);
+        return Objects.hash(idProfessor, name, paternalSurname, maternalSurname, email, gender, 
+                phoneNumber, state, university, user);
     }
 
     @Override
     public String toString() {
         return name + " " + paternalSurname + " " + maternalSurname;
     }
+   
 }

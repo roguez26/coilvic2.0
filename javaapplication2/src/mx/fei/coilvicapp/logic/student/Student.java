@@ -145,5 +145,10 @@ public class Student {
     public int hashCode() {
         return Objects.hash(idStudent, name, paternalSurname, maternalSurname, email, gender, lineage, university);
     }
-
+    
+    @Override
+    public String toString() {
+        return name;
+    }
+    
 }

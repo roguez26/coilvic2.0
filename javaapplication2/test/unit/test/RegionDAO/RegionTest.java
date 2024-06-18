@@ -1,8 +1,7 @@
 package unit.test.RegionDAO;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.ArrayList;
+import log.Log;
 import mx.fei.coilvicapp.logic.region.*;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import static org.junit.Assert.assertEquals;
@@ -22,9 +21,8 @@ public class RegionTest {
         try {
             int idTestRegion = REGION_DAO.registerRegion(TEST_REGION);
             TEST_REGION.setIdRegion(idTestRegion);
-            System.out.println(idTestRegion);
         } catch(DAOException exception) {
-            Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         }
     }
     
@@ -33,9 +31,32 @@ public class RegionTest {
         try{
             REGION_DAO.deleteRegion(TEST_REGION.getIdRegion());
         } catch(DAOException exception) {
-            Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         }
     }
+    
+    @Test
+    public void testSuccessIsThereAtLeastOneRegion() {
+        boolean result = false;
+        try{
+            result = REGION_DAO.isThereAtLeastOneRegion();
+        } catch(DAOException exception) {
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
+        }
+        Assert.assertTrue(result);        
+    }
+    
+    @Test
+    public void testFailureIsThereAtLeastOneRegion() {
+        boolean result = false;
+        try{
+            REGION_DAO.deleteRegion(TEST_REGION.getIdRegion());
+            result = REGION_DAO.isThereAtLeastOneRegion();
+        } catch(DAOException exception) {
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
+        }
+        Assert.assertTrue(!result);        
+    }    
     
     @Test
     public void testSuccessInsertRegion() {
@@ -47,7 +68,7 @@ public class RegionTest {
             idTestRegion = REGION_DAO.registerRegion(region);
             REGION_DAO.deleteRegion(idTestRegion);
         } catch (DAOException exception) {
-            Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         }    
         Assert.assertTrue(idTestRegion > 0);
     } 
@@ -62,9 +83,9 @@ public class RegionTest {
             idTestRegion = REGION_DAO.registerRegion(region);
             REGION_DAO.deleteRegion(idTestRegion);
         } catch (DAOException exception) {
-            Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         }    
-        Assert.assertTrue(idTestRegion > 0);
+        Assert.assertTrue(idTestRegion == 0);
     } 
 
     @Test
@@ -77,34 +98,34 @@ public class RegionTest {
         try {            
             result = REGION_DAO.updateRegion(region);
         } catch (DAOException exception) {
-            Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         } 
         Assert.assertTrue(result > 0);
     }
     
     @Test
     public void testFailureUpdateRegionByAlreadyRegisteredName() {
-        int result = 0;
-        int idTestRegion = 0;        
         Region region = new Region();
-        
         region.setName("Veracruz");
         region.setIdRegion(TEST_REGION.getIdRegion());
-        try {                        
-            Region auxRegion = new Region();
-            auxRegion.setName("Veracruz");            
+        Region auxRegion = new Region();
+        auxRegion.setName("Veracruz");        
+        int idTestRegion = 0;
+        
+        try {
             idTestRegion = REGION_DAO.registerRegion(auxRegion);
-            result = REGION_DAO.updateRegion(region);
+            Assert.assertThrows(DAOException.class, () -> {
+                REGION_DAO.updateRegion(region);
+            });
         } catch (DAOException exception) {
-            Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         } finally {
             try {
                 REGION_DAO.deleteRegion(idTestRegion);
-            } catch(DAOException exception) {
-                Logger.getLogger(RegionTest.class.getName()).log(Level.SEVERE, null, exception);
+            } catch (DAOException exception) {
+                Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
             }
         }
-        Assert.assertTrue(result > 0);
     }
     
     @Test
@@ -114,7 +135,7 @@ public class RegionTest {
         try {
             result = REGION_DAO.deleteRegion(TEST_REGION.getIdRegion());
         } catch (DAOException exception) {
-            Logger.getLogger(Region.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         }
         Assert.assertTrue(result > 0);
     }
@@ -126,9 +147,9 @@ public class RegionTest {
         try {
             result = REGION_DAO.deleteRegion(999);
         } catch (DAOException exception) {
-            Logger.getLogger(Region.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         }
-        Assert.assertTrue(result > 0);
+        Assert.assertTrue(result == 0);
     }
     
     @Test
@@ -138,7 +159,7 @@ public class RegionTest {
         try {
             region = REGION_DAO.getRegionByName(TEST_REGION.getName());            
         } catch (DAOException exception) {
-            Logger.getLogger(Region.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         }
         Assert.assertEquals(TEST_REGION, region);
     }
@@ -150,9 +171,9 @@ public class RegionTest {
         try {
             region = REGION_DAO.getRegionByName("Poza Rica Tuxpan");            
         } catch (DAOException exception) {
-            Logger.getLogger(Region.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         }
-        Assert.assertEquals(TEST_REGION, region);
+        Assert.assertNotEquals(TEST_REGION, region);
     }
     
     @Test
@@ -162,7 +183,7 @@ public class RegionTest {
         try {
             region = REGION_DAO.getRegionById(TEST_REGION.getIdRegion());            
         } catch (DAOException exception) {
-            Logger.getLogger(Region.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         }
         Assert.assertEquals(TEST_REGION, region);
     }
@@ -174,9 +195,9 @@ public class RegionTest {
         try {
             region = REGION_DAO.getRegionById(999);            
         } catch (DAOException exception) {
-            Logger.getLogger(Region.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         }
-        Assert.assertEquals(TEST_REGION, region);
+        Assert.assertNotEquals(TEST_REGION, region);
     }    
     
     @Test 
@@ -188,7 +209,7 @@ public class RegionTest {
         try {
             actualRegions = REGION_DAO.getRegions();
         } catch (DAOException exception) {
-            Logger.getLogger(Region.class.getName()).log(Level.SEVERE, null, exception); 
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         } finally {
             tearDownRegionsArray(expectedRegions);
         }
@@ -212,7 +233,7 @@ public class RegionTest {
             regionAux2.setIdRegion(idRegion);
             regions.add(regionAux2);
         } catch (DAOException exception) {
-            Logger.getLogger(Region.class.getName()).log(Level.SEVERE, null, exception); 
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         }
         return regions;
     }
@@ -222,7 +243,7 @@ public class RegionTest {
             REGION_DAO.deleteRegion(regions.get(1).getIdRegion());
             REGION_DAO.deleteRegion(regions.get(2).getIdRegion());
         } catch (DAOException exception) {
-            Logger.getLogger(Region.class.getName()).log(Level.SEVERE, null, exception); 
+            Log.getLogger(RegionTest.class).error(exception.getMessage(), exception);
         }
     }
     

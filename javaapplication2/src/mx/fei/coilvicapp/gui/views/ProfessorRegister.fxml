@@ -55,14 +55,14 @@
                   <ComboBox fx:id="universitiesComboBox" onAction="#universidadVeracruzanaIsSelected" prefHeight="28.0" prefWidth="428.0" stylesheets="@../../../../../stylesheets/combobox.css" />
                   <Label fx:id="uvPersonalNumberLabel" managed="false" stylesheets="@../../../../../stylesheets/label.css" text="Numero de personal UV *" visible="false" />
                   <TextField fx:id="uvPersonalNumberTextField" managed="false" stylesheets="@../../../../../stylesheets/textField.css" visible="false" />
-                  <Label fx:id="regionLabel" managed="false" stylesheets="@../../../../../stylesheets/label.css" text="Region *" />
-                  <ComboBox fx:id="regionsComboBox" managed="false" prefHeight="26.0" prefWidth="412.0" stylesheets="@../../../../../stylesheets/combobox.css" />
-                  <Label fx:id="academicAreaLabel" managed="false" stylesheets="@../../../../../stylesheets/label.css" text="Area Academica *" />
-                  <ComboBox fx:id="academicAreasComboBox" managed="false" prefHeight="26.0" prefWidth="410.0" stylesheets="@../../../../../stylesheets/combobox.css" />
-                  <Label fx:id="hiringTypeLabel" managed="false" stylesheets="@../../../../../stylesheets/label.css" text="Tipo de contratacion *" />
-                  <ComboBox fx:id="hiringTypesComboBox" managed="false" prefHeight="26.0" prefWidth="405.0" stylesheets="@../../../../../stylesheets/combobox.css" />
-                  <Label fx:id="hiringCategoryLabel" managed="false" stylesheets="@../../../../../stylesheets/label.css" text="Categoria de contratacion *" />
-                  <ComboBox fx:id="hiringCategoriesComboBox" managed="false" prefHeight="26.0" prefWidth="50.0" stylesheets="@../../../../../stylesheets/combobox.css" />
+                  <Label fx:id="regionLabel" visible="false" managed="false" stylesheets="@../../../../../stylesheets/label.css" text="Region *" />
+                  <ComboBox fx:id="regionsComboBox" visible="false" managed="false" prefHeight="26.0" prefWidth="412.0" stylesheets="@../../../../../stylesheets/combobox.css" />
+                  <Label fx:id="academicAreaLabel" visible="false" managed="false" stylesheets="@../../../../../stylesheets/label.css" text="Area Academica *" />
+                  <ComboBox fx:id="academicAreasComboBox" visible="false" managed="false" prefHeight="26.0" prefWidth="410.0" stylesheets="@../../../../../stylesheets/combobox.css" />
+                  <Label fx:id="hiringTypeLabel" visible="false" managed="false" stylesheets="@../../../../../stylesheets/label.css" text="Tipo de contratacion *" />
+                  <ComboBox fx:id="hiringTypesComboBox" visible="false" managed="false" prefHeight="26.0" prefWidth="405.0" stylesheets="@../../../../../stylesheets/combobox.css" />
+                  <Label fx:id="hiringCategoryLabel" visible="false" managed="false" stylesheets="@../../../../../stylesheets/label.css" text="Categoria de contratacion *" />
+                  <ComboBox fx:id="hiringCategoriesComboBox" visible="false" managed="false" prefHeight="26.0" prefWidth="405.0" stylesheets="@../../../../../stylesheets/combobox.css" />
                </children>
             </VBox>
             <HBox alignment="CENTER" prefHeight="55.0" prefWidth="200.0" spacing="40.0">

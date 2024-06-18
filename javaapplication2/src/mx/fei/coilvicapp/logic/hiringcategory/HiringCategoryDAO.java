@@ -12,6 +12,12 @@ import mx.fei.coilvicapp.logic.implementations.Status;
 
 public class HiringCategoryDAO implements IHiringCategory{
        
+    /**
+     * Verifica si hay al menos una categoría de contratación registrada en la base de datos.
+     * 
+     * @return true si hay al menos una categoría de contratación registrada, false si no hay ninguna
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public boolean isThereAtLeastOneHiringCategory() throws DAOException {
         boolean result = false;
@@ -26,11 +32,18 @@ public class HiringCategoryDAO implements IHiringCategory{
             }
         } catch (SQLException exception) {
             Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible verificar que haya categorias de contratacion", Status.ERROR);
+            throw new DAOException("No fue posible verificar que haya categorias de contratacion", Status.WARNING);
         }
         return result;
     }
     
+    /**
+     * Registra una nueva categoría de contratación en la base de datos.
+     * 
+     * @param hiringCategory El objeto HiringCategory que representa la categoría de contratación a registrar
+     * @return El número de registros afectados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public int registerHiringCategory(HiringCategory hiringCategory) throws DAOException {
         int result = 0;
@@ -41,6 +54,13 @@ public class HiringCategoryDAO implements IHiringCategory{
         return result;        
     }
     
+    /**
+     * Actualiza la información de una categoría de contratación en la base de datos.
+     * 
+     * @param newHiringCategory El objeto HiringCategory con la nueva información
+     * @return El número de registros actualizados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public int updateHiringCategory(HiringCategory newHiringCategory) throws DAOException {   
         int result = 0;
@@ -51,6 +71,13 @@ public class HiringCategoryDAO implements IHiringCategory{
         return result;          
     }  
     
+    /**
+     * Elimina una categoría de contratación de la base de datos por su ID.
+     * 
+     * @param idHiringCategory El ID de la categoría de contratación a eliminar
+     * @return El número de registros eliminados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public int deleteHiringCategory(int idHiringCategory) throws DAOException {
         int result = -1;
@@ -63,11 +90,18 @@ public class HiringCategoryDAO implements IHiringCategory{
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
             Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible eliminar la categoria academica", Status.ERROR);
+            throw new DAOException("No fue posible eliminar la categoria academica", Status.WARNING);
         }
         return result;
     }
     
+    /**
+     * Obtiene una categoría de contratación por su nombre desde la base de datos.
+     * 
+     * @param hiringCategoryName El nombre de la categoría de contratación a buscar
+     * @return El objeto HiringCategory si se encuentra, null si no se encuentra
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public HiringCategory getHiringCategoryByName(String academicAreaName) throws DAOException {
         HiringCategory hiringCategory = new HiringCategory();
@@ -85,11 +119,18 @@ public class HiringCategoryDAO implements IHiringCategory{
             } 
         } catch (SQLException exception) {
             Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible obtener la categoria de contratacion", Status.ERROR);
+            throw new DAOException("No fue posible obtener la categoria de contratacion", Status.WARNING);
         } 
         return hiringCategory;         
     }
     
+    /**
+     * Obtiene una categoría de contratación por su ID desde la base de datos.
+     * 
+     * @param idHiringCategory El ID de la categoría de contratación a buscar
+     * @return El objeto HiringCategory si se encuentra, null si no se encuentra
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public HiringCategory getHiringCategoryById(int idAcademicArea) throws DAOException {
         HiringCategory hiringCategory = new HiringCategory();
@@ -107,11 +148,17 @@ public class HiringCategoryDAO implements IHiringCategory{
             } 
         } catch (SQLException exception) {
             Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible obtener la categoria de contratacion", Status.ERROR);
+            throw new DAOException("No fue posible obtener la categoria de contratacion", Status.WARNING);
         } 
         return hiringCategory;         
     }    
     
+    /**
+     * Obtiene todas las categorías de contratación registradas en la base de datos.
+     * 
+     * @return Una lista de objetos HiringCategory con todas las categorías de contratación encontradas
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public ArrayList<HiringCategory> getHiringCategories() throws DAOException {
         ArrayList<HiringCategory> hiringCategories = new ArrayList<>();
@@ -130,7 +177,7 @@ public class HiringCategoryDAO implements IHiringCategory{
             }
         } catch (SQLException exception) {
             Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible obtener las categorias de contratacion", Status.ERROR);
+            throw new DAOException("No fue posible obtener las categorias de contratacion", Status.WARNING);
         } 
         return hiringCategories;
     }
@@ -141,7 +188,8 @@ public class HiringCategoryDAO implements IHiringCategory{
         DatabaseManager databaseManager = new DatabaseManager();
         
         try (Connection connection = databaseManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(statement, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(statement, 
+                    PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, hiringCategory.getName());
             preparedStatement.executeUpdate();   
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
@@ -152,7 +200,7 @@ public class HiringCategoryDAO implements IHiringCategory{
             }
         } catch (SQLException exception) {
             Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible registrar la categoria de contratacion", Status.ERROR);
+            throw new DAOException("No fue posible registrar la categoria de contratacion", Status.WARNING);
         } 
         return result;
     }
@@ -165,7 +213,7 @@ public class HiringCategoryDAO implements IHiringCategory{
             hiringCategoryAux = getHiringCategoryByName(hiringCategory.getName());
             idHiringCategory = hiringCategoryAux.getIdHiringCategory();
         } catch (DAOException exception) {
-            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", Status.ERROR);
+            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", Status.WARNING);
         }
         if (idHiringCategory != hiringCategory.getIdHiringCategory() && idHiringCategory > 0) {
             throw new DAOException("La categoria de contratacion ya se encuentra registrada", Status.WARNING);
@@ -185,7 +233,7 @@ public class HiringCategoryDAO implements IHiringCategory{
             result = preparedStatement.executeUpdate();      
         } catch (SQLException exception) {
             Log.getLogger(HiringCategoryDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible actualizar la categoria de contratacion", Status.ERROR);
+            throw new DAOException("No fue posible actualizar la categoria de contratacion", Status.WARNING);
         }
         return result;
     }

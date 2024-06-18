@@ -48,11 +48,7 @@ public class UserDAO implements IUser {
         User user = new User();
         boolean result = false;
 
-//        try {
-            user = this.getUserById(idAdministrative);
-//        } catch (DAOException exception) {
-//            throw new DAOException("No fue posible hacer la validacion", Status.WARNING);
-//        }
+        user = this.getUserById(idAdministrative);
         if (user.getIdUser()> 0) {
             if (user.getPassword().equals(encryptPassword(password))) {
                 result = true;

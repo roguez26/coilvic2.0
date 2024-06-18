@@ -40,19 +40,19 @@ public class UniversityTest {
         initializeAuxiliarInstitutionalRepresentative();
     }
 
-    @After
-    public void tearDown() {
-        try {
-            REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(AUX_REPRESENTATIVE);
-            for (int i = 0; i < UNIVERSITIES_FOR_TESTING.size(); i++) {
-                UNIVERSITY_DAO.deleteUniversity(UNIVERSITIES_FOR_TESTING.get(i).getIdUniversity());
-            }
-            UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING.getIdUniversity());
-        } catch (DAOException exception) {
-            Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
-        }
-        TEST_HELPER.deleteAll();
-    }
+//    @After
+//    public void tearDown() {
+//        try {
+//            REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(AUX_REPRESENTATIVE);
+//            for (int i = 0; i < UNIVERSITIES_FOR_TESTING.size(); i++) {
+//                UNIVERSITY_DAO.deleteUniversity(UNIVERSITIES_FOR_TESTING.get(i).getIdUniversity());
+//            }
+//            UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING.getIdUniversity());
+//        } catch (DAOException exception) {
+//            Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
+//        }
+//        TEST_HELPER.deleteAll();
+//    }
 
     private void initializeAuxiliarInstitutionalRepresentative() {
         AUX_REPRESENTATIVE.setName("Carlos");

@@ -10,14 +10,19 @@ import log.Log;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import mx.fei.coilvicapp.logic.academicarea.AcademicAreaDAO;
-import mx.fei.coilvicapp.logic.hiringcategory.HiringCategoryDAO;
-import mx.fei.coilvicapp.logic.hiringtype.HiringTypeDAO;
 import mx.fei.coilvicapp.logic.region.RegionDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.Status;
 
 public class StudentDAO implements IStudent {
 
+    /**
+     * Registra un nuevo estudiante en la base de datos.
+     * 
+     * @param student El objeto Student que representa al estudiante a registrar
+     * @return El número de registros afectados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public int registerStudent(Student student) throws DAOException {
         int result = 0;
@@ -28,6 +33,12 @@ public class StudentDAO implements IStudent {
         return result;
     }
 
+    /**
+     * Verifica si se cumplen todas las precondiciones necesarias en la base de datos.
+     * 
+     * @return true si se cumplen las precondiciones, false si no se cumplen
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public boolean checkPreconditions() throws DAOException {
         UniversityDAO universityDAO = new UniversityDAO();
@@ -37,8 +48,15 @@ public class StudentDAO implements IStudent {
         return universityDAO.isThereAtLeastOneUniversity()
                 && academicAreaDAO.isThereAtLeastOneAcademicArea()
                 && regionDAO.isThereAtLeastOneRegion();
-    }
+    }   
 
+    /**
+     * Registra un nuevo estudiante UV en la base de datos.
+     * 
+     * @param studentUV El objeto StudentUV que representa al estudiante UV a registrar
+     * @return El número de registros afectados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public int registerStudentUV(StudentUV studentUV) throws DAOException {
         int result = 0;
@@ -49,6 +67,13 @@ public class StudentDAO implements IStudent {
         return result;
     }
 
+    /**
+     * Actualiza la información de un estudiante en la base de datos.
+     * 
+     * @param newStudentInformation El objeto Student con la nueva información
+     * @return El número de registros actualizados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public int updateStudent(Student newStudentInformation) throws DAOException {
         int result = 0;
@@ -59,6 +84,13 @@ public class StudentDAO implements IStudent {
         return result;
     }
 
+    /**
+     * Actualiza la información de un estudiante UV en la base de datos.
+     * 
+     * @param newStudentUVInformation El objeto StudentUV con la nueva información
+     * @return El número de registros actualizados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public int updateStudentUV(StudentUV newStudentUVInformation) throws DAOException {
         int result = 0;
@@ -69,6 +101,13 @@ public class StudentDAO implements IStudent {
         return result;
     }
 
+    /**
+     * Elimina un estudiante de la base de datos por su ID.
+     * 
+     * @param idStudent El ID del estudiante a eliminar
+     * @return El número de registros eliminados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public int deleteStudentById(int idStudent) throws DAOException {
         int result = -1;
@@ -86,6 +125,13 @@ public class StudentDAO implements IStudent {
         return result;
     }
 
+    /**
+     * Elimina un estudiante universitario de la base de datos por su ID.
+     * 
+     * @param idStudent El ID del estudiante UV a eliminar
+     * @return El número de registros eliminados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public int deleteStudentUVById(int idStudent) throws DAOException {
         int result = -1;
@@ -104,6 +150,13 @@ public class StudentDAO implements IStudent {
         return result;
     }
 
+     /**
+     * Obtiene un estudiante por su ID desde la base de datos.
+     * 
+     * @param idStudent El ID del estudiante a buscar
+     * @return El objeto Student si se encuentra, null si no se encuentra
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public Student getStudentById(int idStudent) throws DAOException {
         Student student = null;
@@ -124,6 +177,13 @@ public class StudentDAO implements IStudent {
         return student;
     }
 
+    /**
+     * Obtiene un estudiante por su dirección de correo electrónico desde la base de datos.
+     * 
+     * @param studentEmail La dirección de correo electrónico del estudiante a buscar
+     * @return El objeto Student si se encuentra
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public Student getStudentByEmail(String studentEmail) throws DAOException {
         Student student = new Student();
@@ -144,6 +204,13 @@ public class StudentDAO implements IStudent {
         return student;
     }
 
+    /**
+     * Obtiene un estudiante universitario por su matrícula desde la base de datos.
+     * 
+     * @param studentUVEnrollment La matrícula del estudiante UV a buscar
+     * @return El objeto StudentUV si se encuentra
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public StudentUV getStudentUVByEnrollment(String studentUVEnrollment) throws DAOException {
         StudentUV studentUV = new StudentUV();
@@ -166,12 +233,20 @@ public class StudentDAO implements IStudent {
         return studentUV;
     }
 
+    /**
+     * Obtiene todos los estudiantes registrados en la base de datos.
+     * 
+     * @return Una lista de objetos Student con todos los estudiantes encontrados
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public ArrayList<Student> getAllStudents() throws DAOException {
         ArrayList<Student> students = new ArrayList<>();
         DatabaseManager databaseManager = new DatabaseManager();
         String statement = "SELECT * FROM estudiante";
-        try (Connection connection = databaseManager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement); ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (Connection connection = databaseManager.getConnection(); 
+                PreparedStatement preparedStatement = connection.prepareStatement(statement); 
+                ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 Student student = initializeStudent(resultSet);
                 students.add(student);
@@ -182,6 +257,7 @@ public class StudentDAO implements IStudent {
         }
         return students;
     }
+
 
     private boolean checkEmailDuplication(Student student) throws DAOException {
         Student studentAux;

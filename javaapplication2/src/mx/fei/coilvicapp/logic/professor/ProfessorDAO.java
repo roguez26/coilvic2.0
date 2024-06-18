@@ -12,7 +12,6 @@ import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import mx.fei.coilvicapp.logic.academicarea.AcademicAreaDAO;
 import mx.fei.coilvicapp.logic.emailSender.EmailSender;
-import mx.fei.coilvicapp.logic.emailSender.EmailSenderDAO;
 import mx.fei.coilvicapp.logic.hiringcategory.HiringCategoryDAO;
 import mx.fei.coilvicapp.logic.hiringtype.HiringTypeDAO;
 import mx.fei.coilvicapp.logic.region.RegionDAO;
@@ -24,6 +23,14 @@ import mx.fei.coilvicapp.logic.user.UserDAO;
 
 public class ProfessorDAO implements IProfessor {
            
+    /**
+     * Verifica que se cumplan todas las precondiciones necesarias antes de insertar un profesor.
+     * Las precondiciones incluyen verificar si al menos una universidad, área académica,
+     * categoría de contratación, tipo de contratación y región existen en el sistema.
+     * 
+     * @return true si se cumplen todas las precondiciones, false en caso contrario
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public boolean checkPreconditions() throws DAOException {
         UniversityDAO universityDAO = new UniversityDAO();
@@ -47,10 +54,18 @@ public class ProfessorDAO implements IProfessor {
             professorAux = getProfessorByEmail(professor.getEmail());
             idProfessor = professorAux.getIdProfessor();
         } catch (DAOException exception) {
-            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde.", Status.ERROR);
+            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde.", 
+                    Status.ERROR);
         }
         if (idProfessor != professor.getIdProfessor() && idProfessor > 0) {
-            throw new DAOException("El correo ya se encuentra registrado", Status.WARNING);
+            if("Rechazado".equals(professorAux.getState())) {
+                professor.setIdProfessor(idProfessor);
+                updateProfessorTransaction(professor);
+                throw new DAOException("Su informacion habia sido rechazada previamente, "
+                        + "se ha actualizado para poder volver a validarse", Status.WARNING);                                
+            } else {
+                throw new DAOException("El correo ya se encuentra registrado", Status.WARNING);                                
+            }
         }
         return false;
     }
@@ -63,7 +78,8 @@ public class ProfessorDAO implements IProfessor {
             professorUVAux = getProfessorUVByPersonalNumber(professorUV.getPersonalNumber());
             idProfessorUV = professorUVAux.getIdProfessor();
         } catch (DAOException exception) {
-            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde.", Status.ERROR);
+            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde.", 
+                    Status.ERROR);
         }
         if (idProfessorUV != professorUV.getIdProfessor() && idProfessorUV > 0) {
             throw new DAOException("El numero de personal ya se encuentra registrado", Status.WARNING);
@@ -71,17 +87,29 @@ public class ProfessorDAO implements IProfessor {
         return false;
     }   
        
-    
+    /**
+     * Registra a un nuevo profesor en la base de datos.
+     * 
+     * @param professor El objeto Professor a registrar
+     * @return El ID del profesor registrado
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public int registerProfessor(Professor professor) throws DAOException {
         int result = 0;
-
         if (!checkEmailDuplication(professor)) {
             result = insertProfessorTransaction(professor);
-        }
+        } 
         return result;        
     }
-    
+        
+    /**
+     * Registra a un nuevo profesor UV (Universidad Veracruzana) en la base de datos.
+     * 
+     * @param professorUV El objeto ProfessorUV a registrar
+     * @return El ID del profesor UV registrado
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public int registerProfessorUV(ProfessorUV professorUV) throws DAOException {
         int result = 0;
@@ -94,12 +122,13 @@ public class ProfessorDAO implements IProfessor {
     
     private int insertProfessorTransaction(Professor professor) throws DAOException {
         int result = -1;
-        String statement = "INSERT INTO profesor(nombre, apellidoPaterno, apellidoMaterno, correo, genero, telefono, idUniversidad) "
-                + "VALUES(?, ?, ?, ?, ?, ?, ?);";
+        String statement = "INSERT INTO profesor(nombre, apellidoPaterno, apellidoMaterno, correo, genero, "
+                + "telefono, idUniversidad) VALUES(?, ?, ?, ?, ?, ?, ?);";
         DatabaseManager databaseManager = new DatabaseManager();
 
         try (Connection connection = databaseManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(statement, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(statement, 
+                    PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, professor.getName());
             preparedStatement.setString(2, professor.getPaternalSurname());
@@ -152,8 +181,13 @@ public class ProfessorDAO implements IProfessor {
         } 
         return idProfessor;         
     }
-
     
+    /**
+     * Actualiza la información de un profesor en la base de datos.
+     * 
+     * @param professor El objeto Professor con la información actualizada
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public int updateProfessor(Professor newProfessorInformation) throws DAOException {   
         int result = 0;
@@ -164,6 +198,13 @@ public class ProfessorDAO implements IProfessor {
         return result;          
     }
     
+    /**
+     * Actualiza la información de un profesor UV (Universidad Veracruzana) en la base de datos.
+     * 
+     * @param newProfessorUVInformation El objeto ProfessorUV con la nueva información
+     * @return El número de registros actualizados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public int updateProfessorUV(ProfessorUV newProfessorUVInformation) throws DAOException{   
         int result = 0;
@@ -179,7 +220,7 @@ public class ProfessorDAO implements IProfessor {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         String statement = "UPDATE profesor SET nombre = ?, apellidoPaterno = ?,"
-                + " apellidoMaterno = ?, correo = ?, genero = ?, telefono = ? WHERE idProfesor = ?";
+                + " apellidoMaterno = ?, correo = ?, genero = ?, telefono = ?, estado = 'Pendiente' WHERE idProfesor = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         
         try {
@@ -211,6 +252,13 @@ public class ProfessorDAO implements IProfessor {
         return result;
     }
 
+    /**
+     * Elimina un profesor de la base de datos por su ID.
+     * 
+     * @param idProfessor El ID del profesor a eliminar
+     * @return El número de registros eliminados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public int deleteProfessorByID(int idProfessor) throws DAOException {     
         int result = -1;
@@ -242,6 +290,13 @@ public class ProfessorDAO implements IProfessor {
         return result;
     }
     
+    /**
+     * Elimina un profesor UV (Universidad Veracruzana) de la base de datos por su ID.
+     * 
+     * @param idProfessor El ID del profesor UV a eliminar
+     * @return El número de registros eliminados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public int deleteProfessorUVByID(int idProfessor) throws DAOException {     
         int result = -1;
@@ -273,6 +328,13 @@ public class ProfessorDAO implements IProfessor {
         return result;
     }    
 
+    /**
+     * Obtiene un profesor por su ID desde la base de datos.
+     * 
+     * @param idProfessor El ID del profesor a buscar
+     * @return El objeto Professor si se encuentra, null si no se encuentra
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public Professor getProfessorById(int idProfessor) throws DAOException {        
         Professor professor = new Professor();
@@ -312,6 +374,13 @@ public class ProfessorDAO implements IProfessor {
         return professor;          
     }
     
+    /**
+     * Obtiene un profesor por su correo electrónico desde la base de datos.
+     * 
+     * @param email El correo electrónico del profesor a buscar
+     * @return El objeto Professor si se encuentra, null si no se encuentra
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public Professor getProfessorByEmail(String professorEmail) throws DAOException {
         Professor professor = new Professor();
@@ -351,6 +420,13 @@ public class ProfessorDAO implements IProfessor {
         return professor;          
     }
     
+    /**
+     * Obtiene un profesor UV (Universidad Veracruzana) por su número personal desde la base de datos.
+     * 
+     * @param personalNumber El número personal del profesor UV a buscar
+     * @return El objeto ProfessorUV si se encuentra, null si no se encuentra
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public ProfessorUV getProfessorUVByPersonalNumber(int personalNumber) throws DAOException {
         ProfessorUV professorUV = new ProfessorUV();
@@ -368,7 +444,8 @@ public class ProfessorDAO implements IProfessor {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    professorUV = initializeProfessorUV(resultSet);                    
+                    professorUV = initializeProfessorUV(resultSet); 
+                    System.out.println("3 "+professorUV);
                 }
             }
         } catch (SQLException exception) {
@@ -378,7 +455,12 @@ public class ProfessorDAO implements IProfessor {
         return professorUV;
     }
 
-    
+    /**
+     * Obtiene todos los profesores registrados en la base de datos.
+     * 
+     * @return Una lista de objetos Professor con todos los profesores encontrados
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public ArrayList<Professor> getAllProfessors() throws DAOException {
         ArrayList<Professor> professors = new ArrayList<>();
@@ -416,6 +498,12 @@ public class ProfessorDAO implements IProfessor {
         return professors;
     }
     
+    /**
+     * Obtiene una lista de profesores que están en estado pendiente.
+     * 
+     * @return Una lista de objetos Professor con los profesores en estado pendiente
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public ArrayList<Professor> getProfessorsByPendingStatus() throws DAOException {
         ArrayList<Professor> professors = new ArrayList<>();
@@ -453,6 +541,13 @@ public class ProfessorDAO implements IProfessor {
         return professors;        
     }
     
+    /**
+     * Acepta la solicitud de registro de un profesor, actualizando su estado en la base de datos.
+     * 
+     * @param professor El objeto Professor que representa al profesor a aceptar
+     * @return El número de registros actualizados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public int acceptProfessor(Professor professor) throws DAOException {
         int result = -1;
@@ -496,6 +591,13 @@ public class ProfessorDAO implements IProfessor {
         return result;
     }
     
+    /**
+     * Rechaza la solicitud de registro de un profesor, eliminando su información de la base de datos.
+     * 
+     * @param professor El objeto Professor que representa al profesor a rechazar
+     * @return El número de registros eliminados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */    
     @Override
     public int rejectProfessor(Professor professor) throws DAOException {
         int result;
@@ -558,10 +660,11 @@ public class ProfessorDAO implements IProfessor {
         
         try {              
             professorUV.setUniversity(universityDAO.getUniversityById(resultSet.getInt("idUniversidad")));
-            professorUV.setUser(userDAO.getUserById(resultSet.getInt("idUsuario")));
-            professorUV.setHiringCategory(hiringCategoryDAO.getHiringCategoryById(resultSet.getInt("idCategoriaContratación")));
+            professorUV.setHiringCategory(hiringCategoryDAO.getHiringCategoryById(resultSet.getInt(
+                    "idCategoriaContratación")));
             professorUV.setHiringType(hiringTypeDAO.getHiringTypeById(resultSet.getInt("idTipoContratación")));
-            professorUV.setAcademicArea(academicAreaDAO.getAcademicAreaById(resultSet.getInt("idAreaAcademica")));
+            professorUV.setAcademicArea(academicAreaDAO.getAcademicAreaById(resultSet.getInt(
+                    "idAreaAcademica")));
             professorUV.setRegion(regionDAO.getRegionById(resultSet.getInt("idRegion")));
         } catch (DAOException exception) {
             Log.getLogger(ProfessorDAO.class).error(exception.getMessage(), exception);

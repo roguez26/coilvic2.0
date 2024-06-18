@@ -12,6 +12,12 @@ import mx.fei.coilvicapp.logic.implementations.Status;
 
 public class RegionDAO implements IRegion {
         
+    /**
+     * Verifica si hay al menos una región registrada en la base de datos.
+     * 
+     * @return true si hay al menos una región registrada, false si no hay ninguna
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public boolean isThereAtLeastOneRegion() throws DAOException {
         boolean result = false;
@@ -31,6 +37,13 @@ public class RegionDAO implements IRegion {
         return result;
     }
         
+    /**
+     * Registra una nueva región en la base de datos.
+     * 
+     * @param region El objeto Region que representa la región a registrar
+     * @return El número de registros afectados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public int registerRegion(Region region) throws DAOException {
         int result = 0;
@@ -41,6 +54,13 @@ public class RegionDAO implements IRegion {
         return result;        
     }
     
+    /**
+     * Actualiza la información de una región en la base de datos.
+     * 
+     * @param newRegionInformation El objeto Region con la nueva información
+     * @return El número de registros actualizados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public int updateRegion(Region newRegionInformation) throws DAOException {   
         int result = 0;
@@ -51,6 +71,13 @@ public class RegionDAO implements IRegion {
         return result;          
     }    
     
+    /**
+     * Elimina una región de la base de datos por su ID.
+     * 
+     * @param idRegion El ID de la región a eliminar
+     * @return El número de registros eliminados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public int deleteRegion(int idRegion) throws DAOException {
         int result = -1;
@@ -68,6 +95,13 @@ public class RegionDAO implements IRegion {
         return result;
     }
     
+    /**
+     * Obtiene una región por su nombre desde la base de datos.
+     * 
+     * @param regionName El nombre de la región a buscar
+     * @return El objeto Region si se encuentra, null si no se encuentra
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public Region getRegionByName(String regionName) throws DAOException {
         Region region = new Region();
@@ -90,6 +124,13 @@ public class RegionDAO implements IRegion {
         return region;
     }
     
+    /**
+     * Obtiene una región por su ID desde la base de datos.
+     * 
+     * @param idRegion El ID de la región a buscar
+     * @return El objeto Region si se encuentra, null si no se encuentra
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public Region getRegionById(int idRegion) throws DAOException {
         Region region = new Region();
@@ -112,6 +153,12 @@ public class RegionDAO implements IRegion {
         return region;
     }    
     
+    /**
+     * Obtiene todas las regiones registradas en la base de datos.
+     * 
+     * @return Una lista de objetos Region con todas las regiones encontradas
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public ArrayList<Region> getRegions() throws DAOException {
         ArrayList<Region> regions = new ArrayList<>();

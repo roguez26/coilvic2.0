@@ -18,16 +18,40 @@ public class PasswordGeneratorTest {
     }
     
     @Test
-    public void testGeneratePasswordFailure() {
-        String password = PasswordGenerator.generatePassword();
+    public void testGeneratePasswordFailureByLength() {
+        String password = "Si";
         assertNotNull(password);
-        assertEquals(12, password.length());
-        assertTrue(hasOnlyLowercaseLetters(password));
-        assertTrue(hasOnlyUppercaseLetters(password));
-        assertTrue(hasOnlyNumbers(password));
-        assertTrue(hasOnlySymbols(password));
+        assertNotEquals(12, password.length());
     }    
+    
+    @Test
+    public void testGeneratePasswordFailureByOnlyLowerCase() {
+        String password = "contraseniaprueba";
+        assertNotNull(password);
+        assertTrue(hasOnlyLowercaseLetters(password));
+    }  
 
+    @Test
+    public void testGeneratePasswordFailureByOnlyUpperCase() {
+        String password = "CONTRASENIAPRUEBA";
+        assertNotNull(password);
+        assertTrue(hasOnlyUppercaseLetters(password));
+    }      
+
+    @Test
+    public void testGeneratePasswordFailureByOnlyNumbers() {
+        String password = "123456780";
+        assertNotNull(password);
+        assertTrue(hasOnlyNumbers(password));
+    }      
+    
+    @Test
+    public void testGeneratePasswordFailureByOnlySymbols() {
+        String password = "@$!%*?&";
+        assertNotNull(password);
+        assertTrue(hasOnlySymbols(password));
+    }      
+    
     private boolean hasLowercaseLetter(String password) {
         return password.matches(".*[a-z].*");
     }

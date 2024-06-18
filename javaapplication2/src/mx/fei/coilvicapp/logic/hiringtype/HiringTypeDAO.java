@@ -12,6 +12,12 @@ import mx.fei.coilvicapp.logic.implementations.Status;
 
 public class HiringTypeDAO implements IHiringType{
     
+    /**
+     * Verifica si hay al menos un tipo de contratación registrado en la base de datos.
+     * 
+     * @return true si hay al menos un tipo de contratación registrado, false si no hay ninguno
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public boolean isThereAtLeastOneHiringType() throws DAOException {
         boolean result = false;
@@ -26,11 +32,18 @@ public class HiringTypeDAO implements IHiringType{
             }
         } catch (SQLException exception) {
             Log.getLogger(HiringTypeDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible verificar que haya tipos de contratacion", Status.ERROR);
+            throw new DAOException("No fue posible verificar que haya tipos de contratacion", Status.WARNING);
         }
         return result;
     }
     
+    /**
+     * Registra un nuevo tipo de contratación en la base de datos.
+     * 
+     * @param hiringType El objeto HiringType que representa el tipo de contratación a registrar
+     * @return El número de registros afectados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public int registerHiringType(HiringType hiringType) throws DAOException {
         int result = 0;
@@ -41,6 +54,13 @@ public class HiringTypeDAO implements IHiringType{
         return result;         
     }
     
+    /**
+     * Actualiza la información de un tipo de contratación en la base de datos.
+     * 
+     * @param newHiringType El objeto HiringType con la nueva información
+     * @return El número de registros actualizados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public int updateHiringType(HiringType newHiringTypeInformation) throws DAOException {   
         int result = 0;
@@ -51,6 +71,13 @@ public class HiringTypeDAO implements IHiringType{
         return result;          
     } 
     
+    /**
+     * Elimina un tipo de contratación de la base de datos por su ID.
+     * 
+     * @param idHiringType El ID del tipo de contratación a eliminar
+     * @return El número de registros eliminados en la base de datos (debería ser 1)
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public int deleteHiringType(int idHiringType) throws DAOException {
         int result = -1;
@@ -63,11 +90,18 @@ public class HiringTypeDAO implements IHiringType{
             result = preparedStatement.executeUpdate();       
         } catch (SQLException exception) {
             Log.getLogger(HiringTypeDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible eliminar el tipo de contratacion", Status.ERROR);
+            throw new DAOException("No fue posible eliminar el tipo de contratacion", Status.WARNING);
         }     
         return result;
     }
     
+    /**
+     * Obtiene un tipo de contratación por su nombre desde la base de datos.
+     * 
+     * @param hiringTypeName El nombre del tipo de contratación a buscar
+     * @return El objeto HiringType si se encuentra, null si no se encuentra
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public HiringType getHiringTypeByName(String hiringTypeName) throws DAOException {
         HiringType hiringType = new HiringType();
@@ -85,11 +119,18 @@ public class HiringTypeDAO implements IHiringType{
             }
         } catch (SQLException exception) {
             Log.getLogger(HiringTypeDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible obtener el tipo de contratacion", Status.ERROR);
+            throw new DAOException("No fue posible obtener el tipo de contratacion", Status.WARNING);
         } 
         return hiringType;        
     }
     
+    /**
+     * Obtiene un tipo de contratación por su ID desde la base de datos.
+     * 
+     * @param idHiringType El ID del tipo de contratación a buscar
+     * @return El objeto HiringType si se encuentra, null si no se encuentra
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public HiringType getHiringTypeById(int IdHiringType) throws DAOException {
         HiringType hiringType = new HiringType();
@@ -107,11 +148,17 @@ public class HiringTypeDAO implements IHiringType{
             }
         } catch (SQLException exception) {
             Log.getLogger(HiringTypeDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible obtener el tipo de contratacion", Status.ERROR);
+            throw new DAOException("No fue posible obtener el tipo de contratacion", Status.WARNING);
         } 
         return hiringType;        
     }    
     
+    /**
+     * Obtiene todos los tipos de contratación registrados en la base de datos.
+     * 
+     * @return Una lista de objetos HiringType con todos los tipos de contratación encontrados
+     * @throws DAOException si ocurre un error durante el acceso a la base de datos
+     */
     @Override
     public ArrayList<HiringType> getHiringTypes() throws DAOException {
         ArrayList<HiringType> hiringTypes = new ArrayList<>();        
@@ -130,7 +177,7 @@ public class HiringTypeDAO implements IHiringType{
             }
         } catch (SQLException exception) {
             Log.getLogger(HiringTypeDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible obtener los tipos de contratacion", Status.ERROR);
+            throw new DAOException("No fue posible obtener los tipos de contratacion", Status.WARNING);
         } 
         return hiringTypes;
     }
@@ -143,7 +190,8 @@ public class HiringTypeDAO implements IHiringType{
             hiringTypeAux = getHiringTypeByName(hiringType.getName());
             idHiringType = hiringTypeAux.getIdHiringType();
         } catch (DAOException exception) {
-            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", Status.ERROR);
+            throw new DAOException("No fue posible realizar la validacion, intente registrar mas tarde", 
+                    Status.WARNING);
         }
         if (idHiringType != hiringType.getIdHiringType() && idHiringType > 0) {
             throw new DAOException("El tipo de contratacion ya se encuentra registrada", Status.WARNING);
@@ -167,7 +215,7 @@ public class HiringTypeDAO implements IHiringType{
             }    
         } catch (SQLException exception) {
             Log.getLogger(HiringTypeDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible registrar el tipo de contratacion", Status.ERROR);
+            throw new DAOException("No fue posible registrar el tipo de contratacion", Status.WARNING);
         } 
         return result;
     }     
@@ -184,7 +232,7 @@ public class HiringTypeDAO implements IHiringType{
             result = preparedStatement.executeUpdate();       
         } catch (SQLException exception) {
             Log.getLogger(HiringTypeDAO.class).error(exception.getMessage(), exception);
-            throw new DAOException("No fue posible actualizar el tipo de contratacion", Status.ERROR);
+            throw new DAOException("No fue posible actualizar el tipo de contratacion", Status.WARNING);
         }    
         return result;
     }
