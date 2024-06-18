@@ -12,6 +12,17 @@ import mx.fei.coilvicapp.logic.implementations.Status;
 
 public class TermDAO implements ITerm {
     
+    /**
+     * Este método se utiliza para poder registrar periodos dentro de la base de datos
+     * @param term Éste es el nuevo periodo que se desea registrar, term contiene 
+     * todos los nuevos datos del periodo 
+     * @return 0 en caso de que el registro no pueda ser realizado, de otro modo
+     * retornará el id generado automáticamente en la base de datos
+     * @throws DAOException Puede lanza DAOExcpetion en caso de que el nombre del 
+     * periodo ya se encuentre registrado o en caso de que se presenta una excepción
+     * del tipo SQL
+     */
+    
     @Override
     public int registerTerm(Term term) throws DAOException {
         int result = 0;
@@ -20,6 +31,18 @@ public class TermDAO implements ITerm {
         }
         return result;        
     }
+    
+    /**
+     * Este método sirve para poder actualizar un periodo registrado en la base 
+     * de datos
+     * @param term Éste es el periodo que se desea registrar, term contiene los nuevos
+     * datos que se desean serán los nuevos en la base de datos
+     * @return 0 en caso de que la actualización no result, de otro modo retornará 
+     * 1 que es el número de filas afectadas
+     * @throws DAOException Puede lanza DAOExcpetion en caso de que el nombre del 
+     * periodo ya se encuentre registrado o en caso de que se presenta una excepción
+     * del tipo SQL
+     */
     
     @Override
     public int updateTerm(Term term) throws DAOException {
@@ -30,6 +53,16 @@ public class TermDAO implements ITerm {
         }
         return result;          
     }    
+    
+    /**
+     * Este método se utiliza para eliminar periodos registrados dentro de la base de
+     * datos
+     * @param idTerm Éste es el id del periodo que se desea eliminar
+     * @return -1 en caso de que no pueda ser eliminado, de otro modo retornará 1 
+     * que es el número de filas afectado
+     * @throws DAOException Puede lanzar una DAOException en caso que ocurra una 
+     * excepción del tipo SQL
+     */
     
     @Override
     public int deleteTerm(int idTerm) throws DAOException {
@@ -63,6 +96,16 @@ public class TermDAO implements ITerm {
         } 
         return result;
     }
+    
+    /**
+     * Este método se utiliza para recuperar periodos que se
+     * encuentran registrados en la base de datos por el nombre 
+     * @param termName Éste es el nombre por el que se desea buscar
+     * @return Retornará un objeto Term con los datos obtenidos por la consulta,
+     * de otro modo retornará el objeto con los datos vacíos
+     * @throws DAOException Puede lanzar una DAOException en caso que ocurra una 
+     * excepción del tipo SQL 
+     */
     
     @Override
     public Term getTermByName(String termName) throws DAOException {
@@ -105,6 +148,14 @@ public class TermDAO implements ITerm {
         return term;
     }
     
+    /**
+     * Este método se utiliza para poder obtener periodos con base en el id del periodo
+     * @param idTerm Éste es el id del periodo que se desea recuperar
+     * @return Retornará un objeto Term con los datos del periodo con el id consultado, 
+     * de otro modo retornará el objeto con los datos vacíos 
+     * @throws DAOException Puede lanzar una DAOException en caso que ocurra una 
+     * excepción del tipo SQL 
+     */
     @Override
     public Term getTermByIdTerm(int idTerm) throws DAOException {
         Term term = new Term();
@@ -145,6 +196,16 @@ public class TermDAO implements ITerm {
         }
         return term;
     }    
+    
+    /**
+     * Este método se utiliza para poder recupera los periodos registrados
+     * en la base de datos
+     * @return Un arreglo de periodos con los datos de los periodos registrados en la
+     * base de datos, de otro modo puede retornar un arreglo vacío en caso de no haber
+     * periodos registrados
+     * @throws AOException Puede lanzar una DAOException en caso que ocurra una 
+     * excepción del tipo SQL  
+     */
     
     @Override
     public ArrayList<Term> getTerms() throws DAOException {

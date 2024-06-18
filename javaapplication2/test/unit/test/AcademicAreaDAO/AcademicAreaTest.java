@@ -1,15 +1,14 @@
 package unit.test.AcademicAreaDAO;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.ArrayList;
+import log.Log;
 import mx.fei.coilvicapp.logic.academicarea.*;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
-import static org.junit.Assert.assertEquals;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.After;
+import static org.junit.Assert.assertThrows;
 
 public class AcademicAreaTest {
     
@@ -22,9 +21,8 @@ public class AcademicAreaTest {
         try {
             int idTestAcademicArea = ACADEMIC_AREA_DAO.registerAcademicArea(TEST_ACADEMIC_AREA);
             TEST_ACADEMIC_AREA.setIdAreaAcademica(idTestAcademicArea);
-            System.out.println(idTestAcademicArea);
         } catch(DAOException exception) {
-            Logger.getLogger(AcademicAreaTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         }
     }
     
@@ -33,9 +31,32 @@ public class AcademicAreaTest {
         try{
             ACADEMIC_AREA_DAO.deleteAcademicArea(TEST_ACADEMIC_AREA.getIdAreaAcademica());
         } catch(DAOException exception) {
-            Logger.getLogger(AcademicAreaTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         }
     }
+    
+    @Test
+    public void TestSuccessIsThereAtLeastOneAcademicArea() {
+        boolean result = false;
+        try{
+            result = ACADEMIC_AREA_DAO.isThereAtLeastOneAcademicArea();
+        } catch(DAOException exception) {
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
+        }
+        Assert.assertTrue(result);
+    }
+    
+    @Test
+    public void testFailureIsThereAtLeastOneAcademicArea() {
+        boolean result = false;
+        try{
+            ACADEMIC_AREA_DAO.deleteAcademicArea(TEST_ACADEMIC_AREA.getIdAreaAcademica());
+            result = ACADEMIC_AREA_DAO.isThereAtLeastOneAcademicArea();
+        } catch(DAOException exception) {
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
+        }
+        Assert.assertTrue(!result);
+    }    
     
     @Test
     public void testSuccessInsertAcademicArea() {
@@ -47,24 +68,18 @@ public class AcademicAreaTest {
             idTestAcademicArea = ACADEMIC_AREA_DAO.registerAcademicArea(academicArea);
             ACADEMIC_AREA_DAO.deleteAcademicArea(idTestAcademicArea);
         } catch (DAOException exception) {
-            Logger.getLogger(AcademicAreaTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         }    
         Assert.assertTrue(idTestAcademicArea > 0);
     } 
         
     @Test
     public void testFailureInsertAcademicAreaByNameAlreadyRegistered() {
-        int idTestAcademicArea = 0;
         AcademicArea academicArea = new AcademicArea();
-        
         academicArea.setName(TEST_ACADEMIC_AREA.getName());
-        try {            
-            idTestAcademicArea = ACADEMIC_AREA_DAO.registerAcademicArea(academicArea);
-            ACADEMIC_AREA_DAO.deleteAcademicArea(idTestAcademicArea);
-        } catch (DAOException exception) {
-            Logger.getLogger(AcademicAreaTest.class.getName()).log(Level.SEVERE, null, exception);
-        }    
-        Assert.assertTrue(idTestAcademicArea > 0);
+        assertThrows(DAOException.class, () -> {
+            ACADEMIC_AREA_DAO.registerAcademicArea(academicArea);
+        });
     } 
 
     @Test
@@ -77,34 +92,34 @@ public class AcademicAreaTest {
         try {            
             result = ACADEMIC_AREA_DAO.updateAcademicArea(academicArea);
         } catch (DAOException exception) {
-            Logger.getLogger(AcademicAreaTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         } 
         Assert.assertTrue(result > 0);
     }
     
     @Test
     public void testFailureUpdateAcademicAreaByAlreadyRegisteredName() {
-        int result = 0;
-        int idTestAcademicArea = 0;        
         AcademicArea academicArea = new AcademicArea();
-        
         academicArea.setName("Tecnica");
         academicArea.setIdAreaAcademica(TEST_ACADEMIC_AREA.getIdAreaAcademica());
-        try {                        
-            AcademicArea auxAcademicArea= new AcademicArea();
-            auxAcademicArea.setName("Tecnica");            
+        AcademicArea auxAcademicArea = new AcademicArea();
+        auxAcademicArea.setName("Tecnica");        
+        int idTestAcademicArea = 0;
+        
+        try {
             idTestAcademicArea = ACADEMIC_AREA_DAO.registerAcademicArea(auxAcademicArea);
-            result = ACADEMIC_AREA_DAO.updateAcademicArea(academicArea);
-        } catch (DAOException exception) {
-            Logger.getLogger(AcademicAreaTest.class.getName()).log(Level.SEVERE, null, exception);
+            DAOException exception = assertThrows(DAOException.class, () -> {
+                ACADEMIC_AREA_DAO.updateAcademicArea(academicArea);
+            });            
+        } catch(DAOException exception) { 
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         } finally {
             try {
                 ACADEMIC_AREA_DAO.deleteAcademicArea(idTestAcademicArea);
-            } catch(DAOException exception) {
-                Logger.getLogger(AcademicAreaTest.class.getName()).log(Level.SEVERE, null, exception);
+            } catch (DAOException exception) {
+                Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
             }
         }
-        Assert.assertTrue(result > 0);
     }
     
     @Test
@@ -114,7 +129,7 @@ public class AcademicAreaTest {
         try {
             result = ACADEMIC_AREA_DAO.deleteAcademicArea(TEST_ACADEMIC_AREA.getIdAreaAcademica());
         } catch (DAOException exception) {
-            Logger.getLogger(AcademicArea.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         }
         Assert.assertTrue(result > 0);
     }
@@ -124,11 +139,11 @@ public class AcademicAreaTest {
         int result = 0;
         
         try {
-            result = ACADEMIC_AREA_DAO.deleteAcademicArea(1);
+            result = ACADEMIC_AREA_DAO.deleteAcademicArea(999);
         } catch (DAOException exception) {
-            Logger.getLogger(AcademicArea.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         }
-        Assert.assertTrue(result > 0);
+        Assert.assertTrue(result == 0);
     }
     
     @Test
@@ -138,9 +153,9 @@ public class AcademicAreaTest {
         try {
             academicArea = ACADEMIC_AREA_DAO.getAcademicAreaByName(TEST_ACADEMIC_AREA.getName());            
         } catch (DAOException exception) {
-            Logger.getLogger(AcademicArea.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         }
-        Assert.assertEquals(TEST_ACADEMIC_AREA.getName(), academicArea.getName());
+        Assert.assertEquals(TEST_ACADEMIC_AREA, academicArea);
     }
     
     @Test
@@ -150,9 +165,9 @@ public class AcademicAreaTest {
         try {
             academicArea = ACADEMIC_AREA_DAO.getAcademicAreaByName("Artes plasticas");            
         } catch (DAOException exception) {
-            Logger.getLogger(AcademicArea.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         }
-        Assert.assertEquals(TEST_ACADEMIC_AREA.getName(), academicArea.getName());
+        Assert.assertNotEquals(TEST_ACADEMIC_AREA, academicArea);
     }
     
     @Test
@@ -162,7 +177,7 @@ public class AcademicAreaTest {
         try {
             academicArea = ACADEMIC_AREA_DAO.getAcademicAreaById(TEST_ACADEMIC_AREA.getIdAreaAcademica());            
         } catch (DAOException exception) {
-            Logger.getLogger(AcademicArea.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         }
         Assert.assertEquals(TEST_ACADEMIC_AREA, academicArea);
     }
@@ -174,13 +189,13 @@ public class AcademicAreaTest {
         try {
             academicArea = ACADEMIC_AREA_DAO.getAcademicAreaById(999);            
         } catch (DAOException exception) {
-            Logger.getLogger(AcademicArea.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         }
-        Assert.assertEquals(TEST_ACADEMIC_AREA.getIdAreaAcademica(), academicArea.getIdAreaAcademica());
+        Assert.assertNotEquals(TEST_ACADEMIC_AREA, academicArea);
     }    
     
     @Test 
-    public void testGetAcademicAreas() {
+    public void testSuccessGetAcademicAreas() {
         ArrayList<AcademicArea> expectedAcademicAreas = new ArrayList<>();
         ArrayList<AcademicArea> actualAcademicAreas = new ArrayList<>();
         
@@ -188,12 +203,27 @@ public class AcademicAreaTest {
         try {
             actualAcademicAreas = ACADEMIC_AREA_DAO.getAcademicAreas();
         } catch (DAOException exception) {
-            Logger.getLogger(AcademicArea.class.getName()).log(Level.SEVERE, null, exception); 
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         } finally {
             tearDownAcademicAreasArray(expectedAcademicAreas);
         }
-        assertEquals(expectedAcademicAreas, actualAcademicAreas);
+        Assert.assertEquals(expectedAcademicAreas, actualAcademicAreas);
     }
+    
+    @Test 
+    public void testFailureGetAcademicAreas() {
+        ArrayList<AcademicArea> expectedAcademicAreas = new ArrayList<>();
+        ArrayList<AcademicArea> actualAcademicAreas = new ArrayList<>();
+        
+        expectedAcademicAreas = initializeAcademicAreasArray();
+        try {
+            tearDownAcademicAreasArray(expectedAcademicAreas);
+            actualAcademicAreas = ACADEMIC_AREA_DAO.getAcademicAreas();
+        } catch (DAOException exception) {
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
+        }
+        Assert.assertNotEquals(expectedAcademicAreas, actualAcademicAreas);
+    }    
     
     public ArrayList<AcademicArea> initializeAcademicAreasArray() {
         ArrayList<AcademicArea> academicAreas = new ArrayList<>();
@@ -212,7 +242,7 @@ public class AcademicAreaTest {
             academicAreaAux2.setIdAreaAcademica(idAcademicArea);
             academicAreas.add(academicAreaAux2);
         } catch (DAOException exception) {
-            Logger.getLogger(AcademicArea.class.getName()).log(Level.SEVERE, null, exception); 
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         }
         return academicAreas;
     }
@@ -222,7 +252,7 @@ public class AcademicAreaTest {
             ACADEMIC_AREA_DAO.deleteAcademicArea(academicAreas.get(1).getIdAreaAcademica());
             ACADEMIC_AREA_DAO.deleteAcademicArea(academicAreas.get(2).getIdAreaAcademica());
         } catch (DAOException exception) {
-            Logger.getLogger(AcademicArea.class.getName()).log(Level.SEVERE, null, exception); 
+            Log.getLogger(AcademicAreaTest.class).error(exception.getMessage(), exception);
         }
     }
     

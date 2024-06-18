@@ -1,72 +1,34 @@
 package unit.test.ProfessorDAO;
 
 import log.Log;
-import mx.fei.coilvicapp.logic.academicarea.AcademicArea;
-import mx.fei.coilvicapp.logic.academicarea.AcademicAreaDAO;
-import mx.fei.coilvicapp.logic.country.Country;
-import mx.fei.coilvicapp.logic.country.CountryDAO;
-import mx.fei.coilvicapp.logic.hiringcategory.HiringCategory;
-import mx.fei.coilvicapp.logic.hiringcategory.HiringCategoryDAO;
-import mx.fei.coilvicapp.logic.hiringtype.HiringType;
-import mx.fei.coilvicapp.logic.hiringtype.HiringTypeDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.professor.ProfessorDAO;
 import mx.fei.coilvicapp.logic.professor.ProfessorUV;
-import mx.fei.coilvicapp.logic.region.Region;
-import mx.fei.coilvicapp.logic.region.RegionDAO;
-import mx.fei.coilvicapp.logic.university.University;
-import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import org.junit.After;
 import org.junit.Assert;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import unit.test.Initializer.TestHelper;
 
 
 public class ProfessorUVTest {
     
-    private static final ProfessorUV TEST_PROFESSOR = new ProfessorUV();
-    private static final ProfessorUV AUX_TEST_PROFESSOR = new ProfessorUV();
+    private static ProfessorUV TEST_PROFESSOR = new ProfessorUV();
+    private static ProfessorUV AUX_TEST_PROFESSOR = new ProfessorUV();
     private static final ProfessorDAO PROFESSOR_DAO = new ProfessorDAO();
-    private static final UniversityDAO UNIVERSITY_DAO = new UniversityDAO();
-    private static final CountryDAO COUNTRY_DAO = new CountryDAO();
-    private static final AcademicAreaDAO ACADEMIC_AREA_DAO = new AcademicAreaDAO();
-    private static final HiringCategoryDAO HIRING_CATEGORY_DAO = new HiringCategoryDAO();
-    private static final HiringTypeDAO HIRING_TYPE_DAO = new HiringTypeDAO();
-    private static final RegionDAO REGION_DAO = new RegionDAO();
-    
+    private final TestHelper testHelper = new TestHelper();
+        
     @Before
     public void setUp() {
-        initializeTestProfessorUV();
-        try {
-            int idProfessorUV = PROFESSOR_DAO.registerProfessorUV(TEST_PROFESSOR);
-            TEST_PROFESSOR.setIdProfessor(idProfessorUV);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorUVTest.class).error(exception.getMessage(), exception);
-        }
+        testHelper.initializeProfessorsUV();
+        TEST_PROFESSOR = testHelper.getProfessorUVOne();
     }
     
-    @After 
-    public void tearDown(){
-        int idProfessorUV = TEST_PROFESSOR.getIdProfessor();
-        int idUniversity = TEST_PROFESSOR.getIdUniversity();
-        int idCountry = TEST_PROFESSOR.getUniversity().getIdCountry();
-        int idAcademicArea = TEST_PROFESSOR.getIdAcademicArea();
-        int idRegion = TEST_PROFESSOR.getIdRegion();
-        int idHiringType = TEST_PROFESSOR.getIdHiringType();
-        int idHiringCategory = TEST_PROFESSOR.getIdHiringCategory();
-        
-        try {
-            PROFESSOR_DAO.deleteProfessorUVByID(idProfessorUV);
-            UNIVERSITY_DAO.deleteUniversity(idUniversity);
-            COUNTRY_DAO.deleteCountry(idCountry);
-            ACADEMIC_AREA_DAO.deleteAcademicArea(idAcademicArea);
-            REGION_DAO.deleteRegion(idRegion);
-            HIRING_TYPE_DAO.deleteHiringType(idHiringType);
-            HIRING_CATEGORY_DAO.deleteHiringCategory(idHiringCategory);            
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorUVTest.class).error(exception.getMessage(), exception);
-        }                
-    }     
+    @After
+    public void tearDown() {
+        testHelper.deleteAll();
+    }    
     
     @Test
     public void testSuccessRegisterProfessorUV() {
@@ -81,111 +43,121 @@ public class ProfessorUVTest {
         Assert.assertTrue(idProfessorUV > 0);
     }
     
-    private Country initializeCountry() {
-        Country country = new Country();
-        
-        country.setName("Mexico");
-        try {
-            int idCountry = COUNTRY_DAO.registerCountry(country);
-            country.setIdCountry(idCountry);
+    @Test
+    public void testFailureRegisterProfessorUVByEmailAlreadyRegistered() {
+        int idProfessorUV = 0;
+        initializeAuxTestProfessorUV();
+        AUX_TEST_PROFESSOR.setEmail(TEST_PROFESSOR.getEmail());
+        try {          
+            idProfessorUV = PROFESSOR_DAO.registerProfessorUV(AUX_TEST_PROFESSOR);
+            PROFESSOR_DAO.deleteProfessorUVByID(idProfessorUV);
         } catch (DAOException exception) {
             Log.getLogger(ProfessorUVTest.class).error(exception.getMessage(), exception);
         }
-        return country;
-    }
-    
-    private AcademicArea initializeAcademicArea() {
-        AcademicArea academicArea = new AcademicArea();
-        
-        academicArea.setName("Economico Administrativo");
-        try {
-            int idAcademicArea = ACADEMIC_AREA_DAO.registerAcademicArea(academicArea);
-            academicArea.setIdAreaAcademica(idAcademicArea);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorUVTest.class).error(exception.getMessage(), exception);
-        }
-        return academicArea;
-    }
-    
-    private HiringCategory initializeHiringCategory() {
-        HiringCategory hiringCategory = new HiringCategory();
-        
-        hiringCategory.setName("Docente TC");
-        try {
-            int idHiringCategory = HIRING_CATEGORY_DAO.registerHiringCategory(hiringCategory);
-            hiringCategory.setIdHiringCategory(idHiringCategory);
-            System.out.println(idHiringCategory + "inicial");
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorUVTest.class).error(exception.getMessage(), exception);
-        }
-        return hiringCategory;
+        Assert.assertTrue(idProfessorUV <= 0);
     }  
     
-    private HiringType initializeHiringType() {
-        HiringType hiringType = new HiringType();
-        
-        hiringType.setName("Planta");
-        try {
-            int iHiringType = HIRING_TYPE_DAO.registerHiringType(hiringType);
-            hiringType.setIdHiringType(iHiringType);
+    @Test
+    public void testFailureRegisterProfessorUVByPersonalNumberAlreadyRegistered() {
+        int idProfessorUV = 0;
+        initializeAuxTestProfessorUV();
+        AUX_TEST_PROFESSOR.setPersonalNumber(TEST_PROFESSOR.getPersonalNumber());
+        try {          
+            idProfessorUV = PROFESSOR_DAO.registerProfessorUV(AUX_TEST_PROFESSOR);
+            PROFESSOR_DAO.deleteProfessorUVByID(idProfessorUV);
         } catch (DAOException exception) {
             Log.getLogger(ProfessorUVTest.class).error(exception.getMessage(), exception);
         }
-        return hiringType;
-    }  
-
-    private Region initializeRegion() {
-        Region region = new Region();
-        
-        region.setName("Xalapa");
-        try {
-            int idRegion = REGION_DAO.registerRegion(region);
-            region.setIdRegion(idRegion);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorUVTest.class).error(exception.getMessage(), exception);
-        }
-        return region;
+        Assert.assertTrue(idProfessorUV <= 0);
     }      
     
-    private University initializeUniversity() {
-        University university = new University();
+    @Test
+    public void testSuccesUpdateProfessor() {
+        int result = 0;        
         
-        university.setName("Universidad Veracruzana");
-        university.setAcronym("UV");
-        university.setJurisdiction("Veracruz");
-        university.setCity("Xalapa");
+        initializeAuxTestProfessorUV();
+        AUX_TEST_PROFESSOR.setIdProfessor(TEST_PROFESSOR.getIdProfessor());
         try {
-            university.setCountry(initializeCountry());
-            int idUniversity = UNIVERSITY_DAO.registerUniversity(university);
-            university.setIdUniversity(idUniversity);
+            result = PROFESSOR_DAO.updateProfessorUV(AUX_TEST_PROFESSOR);
         } catch (DAOException exception) {
-            Log.getLogger(ProfessorUVTest.class).error(exception.getMessage(), exception);
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
         }
-        return university;
-    }
+        assertTrue(result > 0);
+    }    
     
-    private void initializeTestProfessorUV() {        
-        TEST_PROFESSOR.setName("Maria");
-        TEST_PROFESSOR.setPaternalSurname("Arenas");
-        TEST_PROFESSOR.setMaternalSurname("Valdes");
-        TEST_PROFESSOR.setEmail("aaren@uv.mx");
-        TEST_PROFESSOR.setGender("Mujer");
-        TEST_PROFESSOR.setPhoneNumber("1234567890");
-        TEST_PROFESSOR.setUniversity(initializeUniversity());
-        TEST_PROFESSOR.setAcademicArea(initializeAcademicArea());
-        TEST_PROFESSOR.setHiringCategory(initializeHiringCategory());
-        TEST_PROFESSOR.setHiringType(initializeHiringType());
-        TEST_PROFESSOR.setRegion(initializeRegion());
-        TEST_PROFESSOR.setPersonalNumber(10000);  
-        System.out.println(TEST_PROFESSOR.toString() + "test");
-    }
+    @Test
+    public void testFailureUpdateProfessorByAlreadyRegisteredEmail() {
+        int result = 0;        
+        
+        initializeAuxTestProfessorUV();
+        AUX_TEST_PROFESSOR.setIdProfessor(TEST_PROFESSOR.getIdProfessor());
+        AUX_TEST_PROFESSOR.setEmail(TEST_PROFESSOR.getEmail());
+        try {
+            result = PROFESSOR_DAO.updateProfessorUV(AUX_TEST_PROFESSOR);
+        } catch (DAOException exception) {
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        }
+        assertTrue(result > 0);
+    }     
+    
+    @Test
+    public void testSuccessDeleteProfessorUV() {
+        int result = 0;
+        
+        try {
+            result = PROFESSOR_DAO.deleteProfessorUVByID(TEST_PROFESSOR.getIdProfessor());
+        } catch (DAOException exception) {
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        }
+        assertTrue(result > 0);
+    } 
+    
+    @Test
+    public void testFailureDeleteProfessorUVByIdNotFound() {
+        int result = 0;
+        
+        try {
+            result = PROFESSOR_DAO.deleteProfessorUVByID(999);
+        } catch (DAOException exception) {
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        }
+        assertTrue(result <= 0);
+    }     
+    
+    @Test
+    public void testSuccessGetProfessorUVByPersonalNumber() {
+        ProfessorUV professorUV = new ProfessorUV();
+        try {
+            professorUV = PROFESSOR_DAO.getProfessorUVByPersonalNumber(
+                    TEST_PROFESSOR.getPersonalNumber());            
+            System.out.println("1 "+professorUV);
+            System.out.println("2 "+TEST_PROFESSOR);
+        } catch (DAOException exception) {
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        }
+        Assert.assertEquals(professorUV.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());       
+    }  
+    
+    @Test
+    public void testFailureGetProfessorUVByPersonalNumber() {
+        ProfessorUV professorUV = new ProfessorUV();
+        try {
+            professorUV = PROFESSOR_DAO.getProfessorUVByPersonalNumber(999);            
+            System.out.println("1 "+professorUV);
+            System.out.println("2 "+TEST_PROFESSOR);
+        } catch (DAOException exception) {
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        }
+        Assert.assertNotEquals(professorUV.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());       
+    }      
     
     private void initializeAuxTestProfessorUV() {        
         AUX_TEST_PROFESSOR.setName("Jorge");
         AUX_TEST_PROFESSOR.setPaternalSurname("Ocharan");
         AUX_TEST_PROFESSOR.setMaternalSurname("Hernandez");
-        AUX_TEST_PROFESSOR.setEmail("jochar@uv.mx");
+        AUX_TEST_PROFESSOR.setEmail("jocha@uv.mx");
         AUX_TEST_PROFESSOR.setGender("Hombre");
+        AUX_TEST_PROFESSOR.setState("Pendiente");
         AUX_TEST_PROFESSOR.setPhoneNumber("1234567890");
         AUX_TEST_PROFESSOR.setUniversity(TEST_PROFESSOR.getUniversity());
         AUX_TEST_PROFESSOR.setAcademicArea(TEST_PROFESSOR.getAcademicArea());
@@ -193,6 +165,5 @@ public class ProfessorUVTest {
         AUX_TEST_PROFESSOR.setHiringType(TEST_PROFESSOR.getHiringType());
         AUX_TEST_PROFESSOR.setRegion(TEST_PROFESSOR.getRegion());
         AUX_TEST_PROFESSOR.setPersonalNumber(11000);
-        System.out.println(TEST_PROFESSOR.toString() + "aux");
     }
 }

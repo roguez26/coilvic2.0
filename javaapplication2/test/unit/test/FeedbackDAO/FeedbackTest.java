@@ -40,7 +40,7 @@ public class FeedbackTest {
         TEST_HELPER.initializeCollaborativeProject();
         auxCollaborativeProject = TEST_HELPER.getCollaborativeProject();
         auxProfessor = TEST_HELPER.getProfessorOne();
-        auxStudent = TEST_HELPER.getStudent();
+        auxStudent = TEST_HELPER.getStudentOne();
     }
 
     @After

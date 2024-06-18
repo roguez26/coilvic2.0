@@ -1,7 +1,10 @@
 package unit.test.ProfessorDAO;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import log.Log;
+import mx.fei.coilvicapp.logic.academicarea.AcademicAreaDAO;
+import mx.fei.coilvicapp.logic.hiringcategory.HiringCategoryDAO;
+import mx.fei.coilvicapp.logic.hiringtype.HiringTypeDAO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,47 +12,69 @@ import org.junit.After;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.professor.ProfessorDAO;
-import mx.fei.coilvicapp.logic.university.UniversityDAO;
-import mx.fei.coilvicapp.logic.university.University;
-import mx.fei.coilvicapp.logic.country.CountryDAO;
-import mx.fei.coilvicapp.logic.country.Country;
+import mx.fei.coilvicapp.logic.region.RegionDAO;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import unit.test.Initializer.TestHelper;
 
 public class ProfessorTest {
     
-    private static final Professor TEST_PROFESSOR = new Professor();
-    private static final Professor AUX_TEST_PROFESSOR = new Professor();
-    private static final ProfessorDAO PROFESSOR_DAO = new ProfessorDAO();
-    private static final UniversityDAO UNIVERSITY_DAO = new UniversityDAO();
-    private static final CountryDAO COUNTRY_DAO = new CountryDAO();
-    
+    private static Professor TEST_PROFESSOR = new Professor();
+    private static Professor AUX_TEST_PROFESSOR = new Professor();
+    private static final ProfessorDAO PROFESSOR_DAO = new ProfessorDAO();   
+    private final TestHelper testHelper = new TestHelper();
     
     @Before
     public void setUp() {
-        try {          
-            initializeTestProfessor();
-            int idTestProfessor = PROFESSOR_DAO.registerProfessor(TEST_PROFESSOR);
-            TEST_PROFESSOR.setIdProfessor(idTestProfessor);
-            System.out.println(idTestProfessor);
-        } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
-        }                  
+        testHelper.initializeProfessors();
+        TEST_PROFESSOR = testHelper.getProfessorOne();
     }
     
     @After
     public void tearDown() {
-        int idProfessor = TEST_PROFESSOR.getIdProfessor();
-        int idUniversity = TEST_PROFESSOR.getIdUniversity();
-        int idCountry = TEST_PROFESSOR.getUniversity().getIdCountry();
+        testHelper.deleteAll();
+    }
+    
+    @Test 
+    public void testSuccessCheckPreconditions() {
+        boolean result = false;
+        AcademicAreaDAO academicAreaDAO = new AcademicAreaDAO();
+        RegionDAO regionDAO = new RegionDAO();       
+        HiringTypeDAO hiringType = new HiringTypeDAO();
+        HiringCategoryDAO hiringCategory = new HiringCategoryDAO();
+        testHelper.initializeAcademicArea();
+        testHelper.initializeRegion();
+        testHelper.initializeHiringCategory();
+        testHelper.initializeHiringType();
         
         try {
-            PROFESSOR_DAO.deleteProfessorByID(idProfessor);
-            UNIVERSITY_DAO.deleteUniversity(idUniversity);
-            COUNTRY_DAO.deleteCountry(idCountry);
+            result = PROFESSOR_DAO.checkPreconditions();
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
-        }      
-    }
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        } finally {
+            try {
+                academicAreaDAO.deleteAcademicArea(testHelper.getAcademicArea().getIdAreaAcademica());
+                regionDAO.deleteRegion(testHelper.getRegion().getIdRegion());
+                hiringType.deleteHiringType(testHelper.getHiringType().getIdHiringType());
+                hiringCategory.deleteHiringCategory(testHelper.getHiringCategory().getIdHiringCategory());
+            } catch (DAOException exception) {
+                Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+            }            
+        }
+        Assert.assertTrue(result);
+    }    
+    
+    @Test 
+    public void testFailureCheckPreconditions() {
+        boolean result = false;
+        
+        try {
+            result = PROFESSOR_DAO.checkPreconditions();
+        } catch (DAOException exception) {
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        } 
+        Assert.assertTrue(!result);
+    }      
     
     @Test
     public void testSuccessRegisterProfessor() {
@@ -60,23 +85,18 @@ public class ProfessorTest {
             idProfessor = PROFESSOR_DAO.registerProfessor(AUX_TEST_PROFESSOR);
             PROFESSOR_DAO.deleteProfessorByID(idProfessor);
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
         }
         assertTrue(idProfessor > 0);
-        System.out.print("registerProfessor success");
     }
     
     @Test
     public void testFailureRegisterProfessorByEmailAlreadyRegistered() {
-        int idProfessor = 0;
-        
-        try {         
-            idProfessor = PROFESSOR_DAO.registerProfessor(TEST_PROFESSOR);
-        } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
-        }   
-        assertTrue(idProfessor > 0);
-        System.out.print("registerProfessor failure, email already registered");
+        initializeAuxTestProfessor();
+        AUX_TEST_PROFESSOR.setEmail(TEST_PROFESSOR.getEmail());
+        assertThrows(DAOException.class, () -> {
+            PROFESSOR_DAO.registerProfessor(AUX_TEST_PROFESSOR);
+        });
     }
     
     @Test
@@ -88,7 +108,7 @@ public class ProfessorTest {
         try {
             result = PROFESSOR_DAO.updateProfessor(AUX_TEST_PROFESSOR);
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
         }
         assertTrue(result > 0);
     }
@@ -96,40 +116,47 @@ public class ProfessorTest {
     @Test
     public void testFailureUpdateProfessorByEmailAlreadyRegistered() {
         int result = 0;
-        
+
         initializeAuxTestProfessor();
-        AUX_TEST_PROFESSOR.setIdProfessor(TEST_PROFESSOR.getIdProfessor());
         AUX_TEST_PROFESSOR.setEmail(TEST_PROFESSOR.getEmail());
         try {
-            result = PROFESSOR_DAO.updateProfessor(AUX_TEST_PROFESSOR);
+            result = PROFESSOR_DAO.registerProfessor(AUX_TEST_PROFESSOR);
+            DAOException exception = assertThrows(DAOException.class, () -> {
+                PROFESSOR_DAO.updateProfessor(AUX_TEST_PROFESSOR);
+            });            
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        } finally {
+            try {
+                PROFESSOR_DAO.deleteProfessorByID(AUX_TEST_PROFESSOR.getIdProfessor());
+            } catch (DAOException exception) {
+                Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+            }
         }
-        assertTrue(result > 0);
-    }    
+    }
     
     @Test
-    public void testSuccessDeleteInstitutionalRepresentative() {
+    public void testSuccessDeleteProfessor() {
         int result = 0;
         
         try {
             result = PROFESSOR_DAO.deleteProfessorByID(TEST_PROFESSOR.getIdProfessor());
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
         }
         assertTrue(result > 0);
     }  
     
     @Test
-    public void testFailureDeleteInstitutionalRepresentativeByIdNotFound() {
+    public void testFailureDeleteProfessorByIdNotFound() {
         int result = 0;
         
         try {
             result = PROFESSOR_DAO.deleteProfessorByID(3);
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
         }
-        assertTrue(result > 0);
+        assertTrue(result == 0);
     }  
     
     
@@ -139,7 +166,7 @@ public class ProfessorTest {
         try {
             professor = PROFESSOR_DAO.getProfessorById(TEST_PROFESSOR.getIdProfessor());            
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
         }
         Assert.assertEquals(professor.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());       
     }
@@ -148,11 +175,11 @@ public class ProfessorTest {
     public void testFailureGetProfessorByIDNotFound() {
         Professor professor = new Professor();
         try {
-            professor = PROFESSOR_DAO.getProfessorById(3);            
+            professor = PROFESSOR_DAO.getProfessorById(999);            
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
         }
-        Assert.assertEquals(professor.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());         
+        Assert.assertNotEquals(professor.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());         
     }
     
     @Test 
@@ -161,7 +188,7 @@ public class ProfessorTest {
         try {
             professor = PROFESSOR_DAO.getProfessorByEmail(TEST_PROFESSOR.getEmail());            
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
         }
         Assert.assertEquals(professor.getEmail(), TEST_PROFESSOR.getEmail());
     }
@@ -173,50 +200,121 @@ public class ProfessorTest {
         try {
             professor = PROFESSOR_DAO.getProfessorByEmail(emailToSearch);            
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
         }
-        Assert.assertEquals(professor.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());       
+        Assert.assertNotEquals(professor.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());       
     }  
-   
-    private Country initializeCountry() {
-        Country country = new Country();
+    
+    @Test
+    public void testSuccessGetAllProfessors() {
+        ArrayList<Professor> expectedProfessors = new ArrayList<>();
+        ArrayList<Professor> actualProfessors = new ArrayList<>();
         
-        country.setName("Mexico");
+        expectedProfessors = initializeProfessorsArray();
         try {
-            int idCountry = COUNTRY_DAO.registerCountry(country);
-            country.setIdCountry(idCountry);
+            actualProfessors = PROFESSOR_DAO.getAllProfessors();            
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
-        }
-        return country;
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        } 
+        Assert.assertEquals(expectedProfessors, actualProfessors);
     }
     
-    private University initializeUniversity() {
-        University university = new University();
+    @Test
+    public void testFailureGetAllProfessors() {
+        ArrayList<Professor> expectedProfessors = new ArrayList<>();
+        ArrayList<Professor> actualProfessors = new ArrayList<>();
         
-        university.setName("Universidad Veracruzana");
-        university.setAcronym("UV");
-        university.setJurisdiction("Veracruz");
-        university.setCity("Xalapa");
+        expectedProfessors = initializeProfessorsArray();
         try {
-            university.setCountry(initializeCountry());
-            int idUniversity = UNIVERSITY_DAO.registerUniversity(university);
-            university.setIdUniversity(idUniversity);
+            testHelper.deleteAll();
+            actualProfessors = PROFESSOR_DAO.getAllProfessors();
         } catch (DAOException exception) {
-            Logger.getLogger(ProfessorTest.class.getName()).log(Level.SEVERE, null, exception);
-        }
-        return university;
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        } 
+        Assert.assertNotEquals(expectedProfessors, actualProfessors);
+    }    
+    
+    @Test
+    public void testSuccessGetAllProfessorsByPendingStatus() {
+        ArrayList<Professor> expectedProfessors = new ArrayList<>();
+        ArrayList<Professor> actualProfessors = new ArrayList<>();
+        
+        expectedProfessors = initializeProfessorsArray();
+        try {
+            actualProfessors = PROFESSOR_DAO.getProfessorsByPendingStatus();
+        } catch (DAOException exception) {
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        } 
+        Assert.assertEquals(expectedProfessors, actualProfessors);
+    }    
+    
+    @Test
+    public void testFailureGetAllProfessorsByPendingStatus() {
+        ArrayList<Professor> expectedProfessors = new ArrayList<>();
+        ArrayList<Professor> actualProfessors = new ArrayList<>();
+        
+        try {
+            actualProfessors = PROFESSOR_DAO.getProfessorsByPendingStatus();
+        } catch (DAOException exception) {
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        } 
+        Assert.assertNotEquals(expectedProfessors, actualProfessors);
+    }       
+    
+    @Test
+    public void testSuccessAcceptProfessor() {
+        int result = 0;
+        try {
+            result = PROFESSOR_DAO.acceptProfessor(TEST_PROFESSOR);
+        } catch (DAOException exception) {
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        } 
+        Assert.assertTrue(result > 0);
     }
     
-    private void initializeTestProfessor() {        
-        TEST_PROFESSOR.setName("Maria");
-        TEST_PROFESSOR.setPaternalSurname("Arenas");
-        TEST_PROFESSOR.setMaternalSurname("Valdes");
-        TEST_PROFESSOR.setEmail("aaren@uv.mx");
-        TEST_PROFESSOR.setGender("Mujer");
-        TEST_PROFESSOR.setPhoneNumber("1234567890");
-        TEST_PROFESSOR.setUniversity(initializeUniversity());
+    @Test
+    public void testFailureAcceptProfessor() {
+        int result = 0;
+        
+        TEST_PROFESSOR.setIdProfessor(999);
+        try {
+            result = PROFESSOR_DAO.acceptProfessor(TEST_PROFESSOR);
+        } catch (DAOException exception) {
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        } 
+        Assert.assertTrue(result == 0);
+    }  
+    
+    @Test
+    public void testSuccessRejectProfessor() {
+        int result = 0;
+        try {
+            result = PROFESSOR_DAO.rejectProfessor(TEST_PROFESSOR);
+        } catch (DAOException exception) {
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        } 
+        Assert.assertTrue(result > 0);
     }
+    
+    @Test
+    public void testFailureRejectProfessor() {
+        int result = 0;
+        
+        TEST_PROFESSOR.setIdProfessor(999);
+        try {
+            result = PROFESSOR_DAO.rejectProfessor(TEST_PROFESSOR);
+        } catch (DAOException exception) {
+            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+        } 
+        Assert.assertTrue(result == 0);
+    }      
+    
+    public ArrayList<Professor> initializeProfessorsArray() {
+        ArrayList<Professor> professors = new ArrayList<>();
+        professors.add(testHelper.getProfessorOne());
+        professors.add(testHelper.getProfessorTwo());
+        return professors;
+    }    
     
     private void initializeAuxTestProfessor() {        
         AUX_TEST_PROFESSOR.setName("Jorge");

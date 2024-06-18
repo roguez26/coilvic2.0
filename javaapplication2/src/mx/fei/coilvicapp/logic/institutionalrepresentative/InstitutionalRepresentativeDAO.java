@@ -135,17 +135,6 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return institutionalRepresentative;
     }
-    
-    /**
-     * Este método se utiliza para verificar si hay otros representantes que tienen el mismo correo
-     * con base en un correo de entrada
-     * @param institutionalRepresentative Éste es el representante que posee el correo el cual se
-     * desea realizar la verificación
-     * @return false en caso de que no haya ninguna representante que tenga ese correo
-     * @throws DAOException Puede lanzar DAOException en caso de que exista un representante 
-     * institucional con el correo proporcionado o en caso de que ocurra una excepción del tipo
-     * SQL
-     */
 
     private boolean checkEmailDuplication(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         InstitutionalRepresentative institutionalRepresentativeForCheck;
@@ -162,15 +151,6 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return false;
     }
-    
-    /**
-     * Este método se utiliza para verificar que una universidad que se le asignará a un representante 
-     * realmente exista
-     * @param idUniversity Éste es el id de la universidad la cual se le quiere asignar al representante
-     * @return true en casod que la universidad sí exista
-     * @throws DAOException Puede lanzar DAOException en caso que la universidad ya no exista o en caso
-     * de que ocurra una excepción del tipo SQL
-     */
 
     private boolean checkUniversityExistence(int idUniversity) throws DAOException {
         UniversityDAO universityDAO = new UniversityDAO();
@@ -186,15 +166,6 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return true;
     }
-    
-    /**
-     * Este método se utiliza para validar que un representante institucional se encuentra en condiciones
-     * para poder ser actualizado
-     * @param institutionalRepresentative Éste es el representante institucional que se desea actualizar
-     * @return true en caso de que el representante pueda ser actualizado, false en caso de que no
-     * @throws DAOException Puede lanzar DAOException en caso de que el correo ya se encuentre 
-     * registrado o en caso de que ocurra una excepción del tipo SQL 
-     */
 
     private boolean validateInstitutionalRepresentativeForUpdate(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         InstitutionalRepresentative oldInstitutionalRepresentative = getInstitutionalRepresentativeById(institutionalRepresentative.getIdInstitutionalRepresentative());
@@ -205,14 +176,6 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return result;
     }
-    
-    /**
-     * Este método se utiliza para insertar un representante institucional dentro de la base de datos
-     * @param institutionalRepresentative Éste es el representante institucional que se desea registrar
-     * @return -1 en caso de que no pueda ser insertado, en otro caso retornará el id del representante
-     * @throws DAOException Puede lanzar DAOException en caso de que ocurra una excepción del 
-     * tipo SQL
-     */
 
     private int insertInstitutionalRepresentativeTransaction(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         int result = -1;
@@ -231,16 +194,6 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return result;
     }
-
-    /**
-     * Este método se utiliza para actualizar los datos de un representante institucional
-     * dentro de la base de datos
-     * @param institutionalRepresentative Éste posee los nuevos datos del representante que será
-     * actualizado
-     * @return -1 en caso de que no pueda ser registrado, de otro modo retornará 1
-     * @throws DAOException puede lanzar DAOException en caso de que ocurra una excepción
-     * del tipo SQL
-     */
     
     private int updateInstitutionalRepresentativeTransaction(
             InstitutionalRepresentative institutionalRepresentative) throws DAOException {
@@ -317,17 +270,6 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return institutionalRepresentative;
     }
-    
-    /**
-     * Este método sirve para inicializar un PreparedStatement para que pueda ser utilizado en 
-     * distintos métodos
-     * @param connection Conexión a la base de datos
-     * @param statement
-     * @param institutionalRepresentative
-     * @return Retornará el PreparedStatement con todos los datos configurados
-     * @throws SQLException Puede lanzar SQLException en caso de que ocurra un error en 
-     * la base de datos
-     */
 
     private PreparedStatement initializeStatement(Connection connection, String statement, 
             InstitutionalRepresentative institutionalRepresentative) throws SQLException {
@@ -343,16 +285,6 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         return preparedStatement;
     }
     
-    /**
-     * Este método se utiliza para inicializar un representante institucional con base en un 
-     * resultset obtenido en una consulta, con el objetivo de ser reutilizado en distintos métodos
-     * @param resultSet ResultSet de la consulta realizada
-     * @return Retornará un objeto InstitucionalRepresentative, en caso de una SQLException se 
-     * retornará con los datos vacíos
-     * @throws DAOException puede lanzar una DAOException generada por la consulta con base en el
-     * id del país
-     */
-
     private InstitutionalRepresentative initializeInstitutionalRepresentative(ResultSet resultSet) throws DAOException {
         UniversityDAO universityDAO = new UniversityDAO();
         InstitutionalRepresentative instutionalRepresentative = new InstitutionalRepresentative();

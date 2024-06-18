@@ -43,16 +43,6 @@ public class CountryDAO implements ICountry {
         }
         return result;
     }
-    
-    /**
-     * Este método se utiliza para verificar que un nombre no esté registrado previamente 
-     * en la base de datos
-     * @param country Éste es el país del que se quiere hacer la verificación
-     * @return
-     * @throws DAOException Puede lanzar una DAOException en caso de que el nombre ya se
-     * encuentre registrado en la base de datos o en caso de que ocurra una excepción el tipo
-     * SQL
-     */
 
     private boolean checkNameDuplication(Country country) throws DAOException {
         Country countryforCheck;
@@ -131,16 +121,6 @@ public class CountryDAO implements ICountry {
         return result;
     }
     
-    /**
-     * Este método se utiliza para verificar que un país se encuentra en las 
-     * condiciones para ser eliminado
-     * @param idCountry Éste es el id del país el cual se desea ser eliminado
-     * @return true en caso de que pueda ser eliminado
-     * @throws DAOException Puede lanzar una DAOException en caso de que aún existan universidades
-     * que están asociadas a esta país o en caso de que ocurra una excepción del tipo
-     * SQL
-     */
-
     private boolean validateCountryForDelete(int idCountry) throws DAOException {
         UniversityDAO universityDAO = new UniversityDAO();
         University university = new University();
@@ -157,16 +137,6 @@ public class CountryDAO implements ICountry {
         }
         return true;
     }
-    
-    /**
-     * Este método se utiliza para verificar que un país se encuentra en condiciones
-     * para poder ser actualizado
-     * @param country Éste es el país que se desea actualizar con los nuevos datos
-     * @return Retornará un objeto Country, en caso de no poder actualizarlo retornará
-     * el objeto con los datos vacíos
-     * @throws DAOException Puede lanzar DAOException en caso de que el nombre
-     * ya se encuentre registrado previamente
-     */
 
     private boolean validateCountryForUpdate(Country country) throws DAOException {
         Country oldCountry = getCountryById(country.getIdCountry());
@@ -178,16 +148,6 @@ public class CountryDAO implements ICountry {
         return result;
     }
     
-    /**
-     * Este método se utiliza para registrar un país dentro de la base de datos 
-     * @param country Éste es el objeto del país que se desea registrar y posee
-     * todos los nuevos datos del país
-     * @return -1 en caso de que el país no puede ser registrado, de otro modo
-     * retornará el id autoincrental generado
-     * @throws DAOException Puede lanzar una DAOException en caso de que ocurra
-     * una excepción del tipo SQL
-     */
-
     private int insertCountryTransaction(Country country) throws DAOException {
         int result = -1;
         String statement = "INSERT INTO Pais (nombre, codigoPais) VALUES (?, ?)";

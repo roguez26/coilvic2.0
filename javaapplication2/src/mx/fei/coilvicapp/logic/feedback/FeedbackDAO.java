@@ -34,12 +34,32 @@ public class FeedbackDAO implements IFeedback {
         return false;
     }
 
+    /**
+     * Este método sirve para revisar si un estudiante ha completado su retroalimentacion previa
+     * @param student Éste es el estudiante del que se desea saber si ha completado
+     * @param collaborativeProject Éste es el proyecto sobre el que se desea saber
+     * @return true en caso de que el estudiante haya completado la retroalimentación, false
+     * en caso de que no
+     * @throws DAOException Puede lanzar una DAOException en caso que ocurra una excepción del tipo
+     * SQL
+     */
+    
     @Override
     public boolean hasCompletedPreForm(Student student, CollaborativeProject collaborativeProject) 
             throws DAOException {
         return checkIsFormDone(student.getIdStudent(), 
                 collaborativeProject.getIdCollaborativeProject(), "Estudiante-PRE");
     }
+    
+    /**
+     * Este método sirve para revisar si un estudiante ha completado su retroalimentacion posterior
+     * @param student Éste es el estudiante del que se desea saber si ha completado
+     * @param collaborativeProject Éste es el proyecto sobre el que se desea saber
+     * @return true en caso de que el estudiante haya completado la retroalimentación, false
+     * en caso de que no
+     * @throws DAOException Puede lanzar una DAOException en caso que ocurra una excepción del tipo
+     * SQL
+     */
 
     @Override
     public boolean hasCompletedPostForm(Student student, CollaborativeProject 
@@ -47,6 +67,16 @@ public class FeedbackDAO implements IFeedback {
         return checkIsFormDone(student.getIdStudent(), 
                 collaborativeProject.getIdCollaborativeProject(), "Estudiante-POST");
     }
+    
+    /**
+     * Este método sirve para revisar si un profesor ha completado su retroalimentacion 
+     * @param professor Éste es el profesor del que se desea saber si ha completado
+     * @param collaborativeProject Éste es el proyecto sobre el que se desea saber
+     * @return true en caso de que el estudiante haya completado la retroalimentación, false
+     * en caso de que no
+     * @throws DAOException Puede lanzar una DAOException en caso que ocurra una excepción del tipo
+     * SQL
+     */
 
     @Override
     public boolean hasCompletedProfessorForm(Professor professor, CollaborativeProject 
@@ -86,6 +116,16 @@ public class FeedbackDAO implements IFeedback {
         return result;
     }
 
+    
+    /**
+     * Este método se utiliza para actualizar preguntas de la base de datos
+     * @param question Ésta será la pregunta que contiene los nuevos datos de la pregunta
+     * @return -1 en caso de que no se pueda actualizar, 1 en caso de que la actualización
+     * result exitosa
+     * @throws DAOException Puede lanzar una DAOException en caso que ocurra una excepción del tipo
+     * SQL
+     */
+    
     @Override
     public int updateQuestionTransaction(Question question) throws DAOException {
         int result = -1;
@@ -103,6 +143,15 @@ public class FeedbackDAO implements IFeedback {
         }
         return result;
     }
+    
+    /**
+     * Este método se utiliza para obtener preguntas con base en su tipo
+     * @param type Éste es el tipo con el cual se desea realizar la consulta
+     * @return Retornará un arreglo de preguntas con todas las preguntas que
+     * coincidan
+     * @throws DAOException Puede lanzar una DAOException en caso que ocurra una excepción del tipo
+     * SQL 
+     */
 
     @Override
     public ArrayList<Question> getQuestionByType(String type) throws DAOException {
@@ -136,6 +185,17 @@ public class FeedbackDAO implements IFeedback {
         }
         return questionsList;
     }
+    
+    /**
+     * Este método se utiliza para poder registrar nuevas preguntas en la base de datos
+     * @param question Ésta es la nueva pregunta que será registrada, question contiene
+     * los datos de la nueva pregunta
+     * @return 0 en caso de que no pueda ser registrada, de otro modo retornará el id
+     * generado automáticamente por la base de datos
+     * @throws DAOException Puede lanzar una DAOException en caso de que la pregunta
+     * ya se encuentre en la base de datos o en caso de que ocurra una excepción
+     * del tipo SQL
+     */
 
     @Override
     public int registerQuestion(Question question) throws DAOException {
@@ -146,10 +206,20 @@ public class FeedbackDAO implements IFeedback {
         }
         return result;
     }
+    
+    /**
+     * Este método se utiliza para poder eliminar preguntas de la base de datos
+     * @param question Ésta es la pregunta que se desea eliminar
+     * @return 0 en caso de que no pueda ser eliminada, 1 en caso de que la 
+     * eliminación resulte exitosa
+     * @throws DAOException Puede lanzar una DAOException en caso de que la pregunta
+     * ya aparezca en una retroalimentación o en caso de que ocurra una excepción
+     * del tipo SQL
+     */
 
     @Override
     public int deleteQuestion(Question question) throws DAOException {
-        int result;
+        int result = 0;
         if (!hasBeenUsed(question)) {
             result = deleteQuestionTransaction(question);
         } else {
@@ -160,7 +230,7 @@ public class FeedbackDAO implements IFeedback {
         return result;
     }
 
-    public boolean hasBeenUsed(Question question) throws DAOException {
+    private boolean hasBeenUsed(Question question) throws DAOException {
         boolean result = false;
         DatabaseManager databaseManager = new DatabaseManager();
         String statement = "SELECT EXISTS (SELECT 1 FROM respuestaestudiante WHERE idPregunta = ?)"
@@ -185,22 +255,51 @@ public class FeedbackDAO implements IFeedback {
         return result;
     }
 
+    /**
+     * Este método se utiliza para poder registrar las preguntas del estudiante dentro
+     * de la base de datos
+     * @param responses Éstas son las preguntas que serán registradas y contienen todos
+     * los datos a guardar
+     * @return -1 en caso de que que no puedan ser registradas, de otro modo devolverá
+     * el número de filas afectadas
+     * @throws DAOException Pueden lanzar una DAOException en caso de que ocurra una
+     * excepción del tipo SQL
+     */
+    
     @Override
     public int registerStudentResponses(ArrayList<Response> responses) throws DAOException {
-        int result;
+        int result = 0;
 
         result = insertStudentResponsesTransaction(responses);
         return result;
     }
 
+    /**
+     * Este método se utiliza para poder registrar las preguntas del profesor dentro
+     * de la base de datos
+     * @param responses Éstas son las preguntas que serán registradas y contienen todos
+     * los datos a guardar
+     * @return -1 en caso de que que no puedan ser registradas, de otro modo devolverá
+     * el número de filas afectadas
+     * @throws DAOException Pueden lanzar una DAOException en caso de que ocurra una
+     * excepción del tipo SQL 
+     */
     @Override
     public int registerProfessorResponses(ArrayList<Response> responses) throws DAOException {
-        int result;
+        int result = 0;
 
         result = insertProfessorResponsesTransaction(responses);
         return result;
     }
 
+    /**
+     * Este método se utiliza para revisar si existen preguntas para el estudiante dentro
+     * de la base de datos
+     * @return false en caso de que no haya, true en caso de que sí existan preguntas
+     * @throws DAOException Pueden lanzar una DAOException en caso de que ocurra una
+     * excepción del tipo SQL  
+     */
+    
     @Override
     public boolean areThereStudentQuestions() throws DAOException {
         boolean result = false;
@@ -221,6 +320,14 @@ public class FeedbackDAO implements IFeedback {
         return result;
     }
 
+    /**
+     * Este método se utiliza para revisar si existen preguntas para el profesor dentro
+     * de la base de datos
+     * @return false en caso de que no haya, true en caso de que sí existan preguntas
+     * @throws DAOException Pueden lanzar una DAOException en caso de que ocurra una
+     * excepción del tipo SQL 
+     */
+    
     @Override
     public boolean areThereProfessorQuestions() throws DAOException {
         boolean result = false;
@@ -241,7 +348,7 @@ public class FeedbackDAO implements IFeedback {
         return result;
     }
 
-    public int insertQuestionTransaction(Question question) throws DAOException {
+    private int insertQuestionTransaction(Question question) throws DAOException {
         int result = -1;
         String statement = "INSERT INTO pregunta (pregunta, tipo) VALUES (?, ?)";
 
@@ -263,7 +370,7 @@ public class FeedbackDAO implements IFeedback {
         return result;
     }
 
-    public int deleteQuestionTransaction(Question question) throws DAOException {
+    private int deleteQuestionTransaction(Question question) throws DAOException {
         int result = -1;
         String statement = "DELETE FROM Pregunta WHERE idPregunta=?";
 
@@ -277,6 +384,17 @@ public class FeedbackDAO implements IFeedback {
         }
         return result;
     }
+    
+    /**
+     * Este método se utiliza para eliminar respuestas del profesor de la base de datos
+     * @param idProfessor Éste es el id del profesor del que se deseana eliminar sus
+     * respuestas
+     * @param idCollaborativeProject Éste es el id del proyecto del que se desea eliminar las preguntas
+     * @return -1 en caso de que no se puedan eliminar, 1 en caso de que la eliminación
+     * result exitosa
+     * @throws DAOException Pueden lanzar una DAOException en caso de que ocurra una
+     * excepción del tipo SQL  
+     */
     
     @Override
     public int deleteProfessorResponsesByIdAndIdCollaborativeProject(int idProfessor, int
@@ -295,6 +413,17 @@ public class FeedbackDAO implements IFeedback {
         }
         return result;
     }
+    
+    /**
+     * Este método se utiliza para eliminar respuestas del estudiante de la base de datos
+     * @param idStudent Éste es el id del estudainte del que se deseana eliminar sus
+     * respuestas
+     * @param idCollaborativeProject Éste es el id del proyecto del que se desea eliminar las preguntas
+     * @return -1 en caso de que no se puedan eliminar, 1 en caso de que la eliminación
+     * result exitosa
+     * @throws DAOException Pueden lanzar una DAOException en caso de que ocurra una
+     * excepción del tipo SQL 
+     */
     
     @Override
     public int deleteStudentResponsesByIdAndIdCollaborativeProject(int idStudent, int
@@ -339,7 +468,7 @@ public class FeedbackDAO implements IFeedback {
         return result;
     }
 
-    public int insertProfessorResponsesTransaction(ArrayList<Response> responses) 
+    private int insertProfessorResponsesTransaction(ArrayList<Response> responses) 
             throws DAOException {
         int result = -1;
         String statement = configureProfessorInsertResponsesStatement(responses.size());
@@ -387,6 +516,18 @@ public class FeedbackDAO implements IFeedback {
         return statement;
     }
 
+    /**
+     * Este método se utiliza para obtener las respuestas sobre un proyecto colaborativo y sobre un 
+     * tipo de pregunta
+     * @param question Ésta es de la pregunta de la cual se desea consultar
+     * @param idCollaborativeProject Éste es el id del proyecto sobre el cual se desea saber las 
+     * preguntas
+     * @return Retornará un arreglo de preguntas, en caso de no encontrar el arreglo
+     * retornará vacío
+     * @throws DAOException Pueden lanzar una DAOException en caso de que ocurra una
+     * excepción del tipo SQL  
+     */
+    
     @Override
     public ArrayList<Response> getResponsesByQuestionAndIdCollaborativeProject(Question question, 
             int idCollaborativeProject) throws DAOException {
@@ -427,7 +568,7 @@ public class FeedbackDAO implements IFeedback {
         return responses;
     }
 
-    public Question getQuestionByQuestionText(String questionText) throws DAOException {
+    private Question getQuestionByQuestionText(String questionText) throws DAOException {
         Question question = new Question();
         String statement = "SELECT * FROM pregunta WHERE pregunta=?";
 
