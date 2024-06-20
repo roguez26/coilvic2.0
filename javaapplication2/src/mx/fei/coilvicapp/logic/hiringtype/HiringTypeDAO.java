@@ -57,7 +57,7 @@ public class HiringTypeDAO implements IHiringType{
     /**
      * Actualiza la información de un tipo de contratación en la base de datos.
      * 
-     * @param newHiringType El objeto HiringType con la nueva información
+     * @param newHiringTypeInformation El objeto HiringType con la nueva información
      * @return El número de registros actualizados en la base de datos (debería ser 1)
      * @throws DAOException si ocurre un error durante el acceso a la base de datos
      */
@@ -127,7 +127,7 @@ public class HiringTypeDAO implements IHiringType{
     /**
      * Obtiene un tipo de contratación por su ID desde la base de datos.
      * 
-     * @param idHiringType El ID del tipo de contratación a buscar
+     * @param IdHiringType El ID del tipo de contratación a buscar
      * @return El objeto HiringType si se encuentra, null si no se encuentra
      * @throws DAOException si ocurre un error durante el acceso a la base de datos
      */

@@ -20,6 +20,8 @@ import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.institutionalrepresentative.IInstitutionalRepresentative;
 import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentative;
 import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentativeDAO;
+import mx.fei.coilvicapp.logic.university.IUniversity;
+import mx.fei.coilvicapp.logic.university.UniversityDAO;
 
 public class InstitutionalRepresentativeManagerController implements Initializable {
 
@@ -101,7 +103,15 @@ public class InstitutionalRepresentativeManagerController implements Initializab
     @FXML
     private void registerButtonIsPressed(ActionEvent event) {
         try {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeRegister");
+            IUniversity universityDAO = new UniversityDAO();
+            if (universityDAO.isThereAtLeastOneUniversity()) {
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeRegister");
+            } else {
+                DialogController.getInformativeConfirmationDialog("Aviso", "No puedes registrar representantes "
+                        + "institucionales si no hay universidades registradas");
+            }
+        } catch (DAOException exception) { 
+            handleDAOException(exception);
         } catch (IOException exception) {
             Log.getLogger(InstitutionalRepresentativeManagerController.class).error(exception.getMessage(),
                     exception);

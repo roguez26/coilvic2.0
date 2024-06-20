@@ -14,6 +14,17 @@ import java.util.ArrayList;
 import log.Log;
 
 public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentative {
+    
+    /**
+     * Este método se utiliza para registrar nuevos representantes institucinales en la base de datos, 
+     * público para que pueda ser implementado desde la interfaz IInstitutionalRepresentative
+     * @param institutionalRepresentative Éste es el nuevo representante que se desea sea registrado
+     * @return 0 en caso de que no pueda ser registrado, en otro caso retornará el id autoincremental
+     * generado en la base de datos
+     * @throws DAOException Puede lanzar DAOException en los siguientes casos: en caso de que el
+     * nombre ya se encuentre registrado, en caso de que la universidad no exista o en caso de que 
+     * ocurra una excepción del tipo SQL
+     */
 
     @Override
     public int registerInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
@@ -26,6 +37,16 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return result;
     }
+    
+    /**
+     * Este método se utiliza para actualizar representantes institucionales que se encuentran
+     * registrados en la base de datos
+     * @param institutionalRepresentative Este es el representante que se desea actualizar
+     * @return 0 en caso de que no se pueda actualizar, en otro caso se retornará el número de 
+     * filas afectadas que será 1
+     * @throws DAOException Puede lanzar DAOException en caso de que ya exista un representante
+     * con el mismo correo o que ocurra una excepción del tipo SQL
+     */
 
     @Override
     public int updateInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
@@ -35,10 +56,20 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return result;
     }
+    
+    /**
+     * Este método se utiliza para eliminar representantes institucionales que se encuentren 
+     * registrados en la base de datos
+     * @param institutionalRepresentative Éste es el representantes que se desea eliminar
+     * @return 0 en caso de que no se pueda actualizar, en otro caso se retornará el número de 
+     * filas afectadas que será 1
+     * @throws DAOException Puede lanzar DAOException en caso de que ya exista un representante
+     * con el mismo correo o que ocurra una excepción del tipo SQL
+     */
 
     @Override
     public int deleteInstitutionalRepresentative(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
-        int result = -1;
+        int result = 0;
         String statement = "DELETE FROM RepresentanteInstitucional WHERE idrepresentante=?";
 
         try (Connection connection = new DatabaseManager().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
@@ -50,6 +81,15 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return result;
     }
+    
+    /**
+     * Este método se utiliza para obtener todos los representantes intitucionales registrados
+     * en la base de datos
+     * @return Retornará un arreglo de representantes, en caso de no poder obtenerlos el arreglo se
+     * retornará vacío
+     * @throws DAOException Puede lanzar DAOExceptcion en caso de que ocurra una excepción del tipo
+     * SQL 
+     */
 
     @Override
     public ArrayList<InstitutionalRepresentative> getAllInstitutionalRepresentatives() throws DAOException {
@@ -66,6 +106,16 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return representativesList;
     }
+    
+    /**
+     * Este método se utiliza para obtener representantes institucionales con base en su correo
+     * @param institutionalRepresentativeEmail Éste es el correo con el que se desea obtener un
+     * representante institucional
+     * @return Retornará un objeto InstitucionalRepresentative, en caso de no poder recuperarlo
+     * el objeto retornará con datos vacíos
+     * @throws DAOException Puede lanzar DAOExceptcion en caso de que ocurra una excepción del tipo
+     * SQL 
+     */
     
     @Override
     public InstitutionalRepresentative getInstitutionalRepresentativeByEmail(String institutionalRepresentativeEmail) throws DAOException {
@@ -117,7 +167,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         return true;
     }
 
-    public boolean validateInstitutionalRepresentativeForUpdate(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
+    private boolean validateInstitutionalRepresentativeForUpdate(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         InstitutionalRepresentative oldInstitutionalRepresentative = getInstitutionalRepresentativeById(institutionalRepresentative.getIdInstitutionalRepresentative());
         boolean result = true;
 
@@ -127,7 +177,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         return result;
     }
 
-    public int insertInstitutionalRepresentativeTransaction(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
+    private int insertInstitutionalRepresentativeTransaction(InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         int result = -1;
         String statement = "INSERT INTO RepresentanteInstitucional(nombre, apellidoPaterno, apellidoMaterno, correo, telefono, iduniversidad) VALUES (?, ?, ?, ?, ?, ?)";
         
@@ -144,8 +194,8 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return result;
     }
-
-    public int updateInstitutionalRepresentativeTransaction(
+    
+    private int updateInstitutionalRepresentativeTransaction(
             InstitutionalRepresentative institutionalRepresentative) throws DAOException {
         int result = -1;
         String statement = "UPDATE RepresentanteInstitucional SET nombre=?, apellidoPaterno=?,"
@@ -161,6 +211,16 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return result;
     }
+    
+    
+    /**
+     * Este método se utiliza para poder obtener un representante institucional con base en su id
+     * @param idInstitutionalRepresentative Éste es el id del representante que se desea obtener
+     * @return Retornará un objeteo InstitucionalRepresentative, en caso de poder encontrarlo
+     * retornaráel objeto con los datos vacíos
+     * @throws DAOException Puede lanzar una DAOException en caso de que ocurra una excepción
+     * del tipo SQL
+     */
 
     public InstitutionalRepresentative getInstitutionalRepresentativeById(int idInstitutionalRepresentative) throws DAOException {
         InstitutionalRepresentative institutionalRepresentative = new InstitutionalRepresentative();
@@ -180,6 +240,17 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         }
         return institutionalRepresentative;
     }
+    
+    /**
+     * Este método se utiliza para poder obtener un representante institucional con base en el id
+     * de la universidad a la que está asociado
+     * @param universityId Éste es el id la universidad de la que se espera obtener un representante
+     * institucional
+     * @return Retornará un objeteo InstitucionalRepresentative, en caso de poder encontrarlo
+     * retornaráel objeto con los datos vacíos
+     * @throws DAOException Puede lanzar una DAOException en caso de que ocurra una excepción
+     * del tipo SQL
+     */
 
     public InstitutionalRepresentative getInstitutionalRepresentativeByUniversityId(int universityId) throws DAOException {
         InstitutionalRepresentative institutionalRepresentative = new InstitutionalRepresentative();
@@ -213,7 +284,7 @@ public class InstitutionalRepresentativeDAO implements IInstitutionalRepresentat
         preparedStatement.setInt(6, institutionalRepresentative.getIdUniversity());
         return preparedStatement;
     }
-
+    
     private InstitutionalRepresentative initializeInstitutionalRepresentative(ResultSet resultSet) throws DAOException {
         UniversityDAO universityDAO = new UniversityDAO();
         InstitutionalRepresentative instutionalRepresentative = new InstitutionalRepresentative();

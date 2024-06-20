@@ -12,6 +12,17 @@ import log.Log;
 
 public class EmailSenderDAO implements IEmailSender {
 
+    /**
+     * Este método se utiliza para poder registrar un envío de correo dentro de 
+     * la base de datos
+     * @param emailSender Éste contiene los datos que se desean registrar dentro
+     * de la base de datos
+     * @return -1 si no se puede registrar la pregunta, de otro modo retornará
+     * el id generado en la base de datos
+     * @throws DAOException Puede lanzar una DAOException en caso de que ocurra
+     * una excepción del tipo SQL
+     */
+    
     @Override
     public int registerEmail(EmailSender emailSender) throws DAOException {
         int result = -1;

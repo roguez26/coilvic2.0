@@ -14,7 +14,6 @@ public class EmailSenderTest {
         Professor professor = new Professor();
 
         professor.setEmail("ivanrfcoc@gmail.com");
-        
         emailSender.setReceiver(professor);
         emailSender.setMessage("Este es un mensaje para hacer las pruebas");
         emailSender.setSubject("Asunto para prueba");
@@ -32,10 +31,12 @@ public class EmailSenderTest {
 
     @Test
     public void testCreateEmailSenderFailByNoReceiver() {
-        EmailSender emailSender = initializeEmailSender();
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
-                emailSender.setReceiver(null));
-        System.out.println(exception.getMessage());
+        EmailSender emailSender = new EmailSender();
+        emailSender.setMessage("Este es un mensaje para hacer las pruebas");
+        emailSender.setSubject("Asunto para prueba");
+        boolean result = emailSender.createEmail();
+        System.out.println(result);
+        assertTrue(!result);
     }
 
     @Test
@@ -65,12 +66,11 @@ public class EmailSenderTest {
         assertTrue(result);
     }
 
-    @Test
-    public void testSendEmailFailByNotCreatedEmail() {
+    @Test(expected = MessagingException.class)
+    public void testSendEmailFailByNotCreatedEmail() throws MessagingException {
         EmailSender emailSender = initializeEmailSender();
-        MessagingException exception = assertThrows(MessagingException.class, () -> 
-                emailSender.sendEmail());
-        System.out.println(exception.getMessage());
+        emailSender.sendEmail();
+
     }
 
 }

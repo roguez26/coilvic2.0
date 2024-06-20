@@ -15,6 +15,19 @@ import mx.fei.coilvicapp.logic.implementations.Status;
 
 public class AssignmentDAO implements IAssignment {
 
+    /**
+     * Este método se utiliza para poder registrar actividades en la base 
+     * de datos
+     * @param assignment Éste es la actividad que se desea registrar, assignment contiene 
+     * todos los datos
+     * @param collaborativeProject Éste es el proyecto del cual se desea registrar 
+     * una nueva actividad
+     * @return -1 en caso de que no se pueda registrar, de otro modo retornará el id de
+     * la actividad generada por la base de datos
+     * @throws DAOException Puede lanzar una DAOException en caso de que ocurra
+     * una excepción del tipo SQL 
+     */
+    
     @Override
     public int registerAssignment(Assignment assignment, CollaborativeProject collaborativeProject)
     throws DAOException {
@@ -93,11 +106,21 @@ public class AssignmentDAO implements IAssignment {
         return assignment;
     }
 
+    
+    /**
+     * Este método se utiliza pra obtener las actividades de un proyecto
+     * @param idCollaborativeProject Éste es el id del proyecto del cual se quiere obtener
+     * las actividades
+     * @return Retornará un arreglo de actividades relacionadas al proyecto, en caso
+     * de no encontrar el arreglo retornará vacío
+     * @throws DAOException Puede lanzar una DAOException en caso de que ocurra
+     * una excepción del tipo SQL   
+     */
+    
     @Override
     public ArrayList<Assignment> getAssignmentsByIdProjectColaborative(int idCollaborativeProject)
     throws DAOException {
         ArrayList<Assignment> assignments = new ArrayList<>();
-        Assignment assignment = new Assignment();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -135,6 +158,17 @@ public class AssignmentDAO implements IAssignment {
         return assignments;
     }
 
+    /**
+     * Este método es utilizado para poder actualizar las actividades que se encuentran en la base 
+     * de datos
+     * @param assignment Ésta es la actividad que se desea actualizar
+     * @param collaborativeProject Éste es el proyecto colaborativo a la cual pertenece la 
+     * actividad
+     * @return -1 si no pudo ser actualizada, 1 en caso de que la actualización result exitosa
+     * @throws DAOException Puede lanzar una DAOException en caso de que ocurra
+     * una excepción del tipo SQL  
+     */
+    
     @Override
     public int updateAssignment(Assignment assignment, CollaborativeProject collaborativeProject)
     throws DAOException {
@@ -186,6 +220,16 @@ public class AssignmentDAO implements IAssignment {
         }
         return rowsAffected;
     }
+    
+    /**
+     * Este método se utiliza para poder eliminar actividades de la base de datos
+     * @param idAssignment Éste es el id de la actividad que se desea eliminar
+     * @param collaborativeProject Éste es el proyecto al cual pertenece la actividad
+     * @return -1 en caso de que la actividad no fue eliminada, 1 en caso de que la
+     * actividad se elimina exitosamente
+     * @throws DAOException Puede lanzar una DAOException en caso de que ocurra
+     * una excepción del tipo SQL 
+     */
 
     @Override
     public int deleteAssignment(int idAssignment, CollaborativeProject collaborativeProject)
