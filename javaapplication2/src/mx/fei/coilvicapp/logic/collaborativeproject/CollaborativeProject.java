@@ -39,6 +39,11 @@ public class CollaborativeProject {
         if (requesterCourse == null) {
             throw new IllegalArgumentException("No se pudo recuperar la información de curso solicitante");
         }
+        if (requestedCourse != null && requestedCourse.getIdCourse() > 0 &&
+        requesterCourse.getProfessor().getIdProfessor() ==
+        requestedCourse.getProfessor().getIdProfessor()) {
+            throw new IllegalArgumentException("No puede crear un proyecto sin otro profesor");
+        }
         this.requesterCourse = requesterCourse;
     }
 
@@ -49,6 +54,11 @@ public class CollaborativeProject {
     public void setRequestedCourse(Course requestedCourse) {
         if (requestedCourse == null) {
             throw new IllegalArgumentException("No se pudo recuperar la información de curso solicitado");
+        }
+        if (requesterCourse != null && requesterCourse.getIdCourse() > 0 &&
+        requestedCourse.getProfessor().getIdProfessor() ==
+        requesterCourse.getProfessor().getIdProfessor()) {
+            throw new IllegalArgumentException("No puede crear un proyecto sin otro profesor");
         }
         this.requestedCourse = requestedCourse;
     }
@@ -135,7 +145,7 @@ public class CollaborativeProject {
                     && Objects.equals(requestedCourse, project.requestedCourse)
                     && Objects.equals(modality, project.modality)
                     && Objects.equals(name, project.name)
-                    && Objects.equals(status, project.status)
+                    //&& Objects.equals(status, project.status)
                     && Objects.equals(description, project.description)
                     && Objects.equals(generalObjective, project.generalObjective)
                     && Objects.equals(code, project.code)

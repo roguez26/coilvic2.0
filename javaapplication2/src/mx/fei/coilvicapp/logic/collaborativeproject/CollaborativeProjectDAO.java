@@ -30,7 +30,7 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
      */
     @Override
     public int registerCollaborativeProject(CollaborativeProject collaborativeProject,
-            CollaborativeProjectRequest collaborativeProjectRequest) throws DAOException {
+    CollaborativeProjectRequest collaborativeProjectRequest) throws DAOException {
         int result = -1;
         CollaborativeProjectRequestDAO collaboratibeProjectRequestDAO
                 = new CollaborativeProjectRequestDAO();
@@ -41,11 +41,11 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
                     result = insertCollaborativeProject(collaborativeProject);
                 }
             } else {
-                throw new DAOException("Ya existe un proyecto con esos cursos", Status.WARNING);
+                throw new DAOException("Ya existe un proyecto con alguno de esos cursos", Status.WARNING);
             }
         } else {
             throw new DAOException("La solicitud de proyecto colaborativo debe "
-                    + "ser aceptada antes de poder crear el proyecto colaborativo", Status.WARNING);
+            + "ser aceptada antes de poder crear el proyecto colaborativo", Status.WARNING);
         }
 
         return result;
@@ -122,21 +122,24 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
     }
 
     private int checkCoursesForCollaborativeProject(CollaborativeProject collaborativeProject)
-            throws DAOException {
+    throws DAOException {
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         String statement = "SELECT COUNT(*) FROM ProyectoColaborativo"
-                + " WHERE idCursoSolicitante = ? OR idCursoSolicitado = ?";
+        + " WHERE (idCursoSolicitante = ? OR idCursoSolicitado = ?)"
+        + " OR (idCursoSolicitante = ? OR idCursoSolicitado = ?)";
         int result = -1;
 
         try {
             connection = databaseManager.getConnection();
             preparedStatement = connection.prepareStatement(statement);
 
-            preparedStatement.setInt(1, collaborativeProject.getRequesterCourse().getIdCourse());
-            preparedStatement.setInt(2, collaborativeProject.getRequestedCourse().getIdCourse());
+            preparedStatement.setInt(1,collaborativeProject.getRequesterCourse().getIdCourse());
+            preparedStatement.setInt(2,collaborativeProject.getRequesterCourse().getIdCourse());
+            preparedStatement.setInt(3,collaborativeProject.getRequestedCourse().getIdCourse());
+            preparedStatement.setInt(4,collaborativeProject.getRequestedCourse().getIdCourse());
 
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -494,9 +497,9 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         String statement = "UPDATE ProyectoColaborativo"
-                + " SET idModalidad = ?, nombre = ?, estado = 'Pendiente',"
-                + " descripcion = ?, objetivoGeneral = ?,"
-                + " codigo = ?, rutaSyllabus = ?";
+        + " SET idModalidad = ?, nombre = ?, estado = 'Pendiente',"
+        + " descripcion = ?, objetivoGeneral = ?,"
+        + " codigo = ?, rutaSyllabus = ?";
         int rowsAffected = -1;
 
         try {
@@ -543,7 +546,7 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
         int result = -1;
 
         switch (checkCollaborativeProjectStatus(collaborativeProject)) {
-            case "Pendiete", "Rechazado" -> {
+            case "Pendiente", "Rechazado" -> {
                 if (!checkDuplicateCollaborativeProjectCode(collaborativeProject)) {
                     result = updateCollaborativeProjectPrivate(collaborativeProject);
                 }

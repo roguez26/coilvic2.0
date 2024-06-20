@@ -29,8 +29,9 @@ public class CollaborativeProjectRequest {
         if (requesterCourse == null) {
             throw new IllegalArgumentException("Debe sleecionar uno de sus cursos para enviar la solicitud");
         }
-        if (requestedCourse != null && requesterCourse.getProfessor().getIdProfessor()
-                == requestedCourse.getProfessor().getIdProfessor()) {
+        if (requestedCourse != null && requestedCourse.getIdCourse() > 0 &&
+        requesterCourse.getProfessor().getIdProfessor() ==
+        requestedCourse.getProfessor().getIdProfessor()) {
             throw new IllegalArgumentException("No puede enviar una solicitud a si mismo");
         }
         this.requesterCourse = requesterCourse;
@@ -44,8 +45,9 @@ public class CollaborativeProjectRequest {
         if (requestedCourse == null) {
             throw new IllegalArgumentException("Debe sleecionar un curso al que enviar solicitud");
         }
-        if (requesterCourse != null && requestedCourse.getProfessor().getIdProfessor()
-                == requesterCourse.getProfessor().getIdProfessor()) {
+        if (requesterCourse != null && requesterCourse.getIdCourse() > 0 &&
+        requestedCourse.getProfessor().getIdProfessor() ==
+        requesterCourse.getProfessor().getIdProfessor()) {
             throw new IllegalArgumentException("No puede enviar una solicitud a si mismo");
         }
         this.requestedCourse = requestedCourse;
@@ -94,7 +96,7 @@ public class CollaborativeProjectRequest {
             isEqual = idCollaborativeProjectRequest == request.idCollaborativeProjectRequest
                     && Objects.equals(requesterCourse, request.requesterCourse)
                     && Objects.equals(requestedCourse, request.requestedCourse)
-                    && Objects.equals(status, request.status)
+                    //&& Objects.equals(status, request.status)
                     && Objects.equals(requestDate, request.requestDate)
                     && Objects.equals(validationDate, request.validationDate);
         }

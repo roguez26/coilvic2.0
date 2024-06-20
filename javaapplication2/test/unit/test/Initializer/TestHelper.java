@@ -3,6 +3,8 @@ package unit.test.Initializer;
 import log.Log;
 import mx.fei.coilvicapp.logic.academicarea.AcademicArea;
 import mx.fei.coilvicapp.logic.academicarea.AcademicAreaDAO;
+import mx.fei.coilvicapp.logic.assignment.Assignment;
+import mx.fei.coilvicapp.logic.assignment.AssignmentDAO;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.logic.collaborativeprojectrequest.CollaborativeProjectRequest;
@@ -49,8 +51,17 @@ public class TestHelper {
     private ProfessorUV professorUVTwo;
     private Course courseOne;
     private Course courseTwo;
+    private Course courseThree;
+    private Course courseFour;    
     private CollaborativeProjectRequest collaborativeProjectRequest;
+    private CollaborativeProjectRequest collaborativeProjectRequestTwo;
+    private CollaborativeProjectRequest rejectedCollaborativeProjectRequest;
     private CollaborativeProject collaborativeProject;
+    
+    private Assignment assignmentOne;
+    private Assignment assignmentTwo;
+    private Assignment assignmentThree;
+    
     private Student studentOne;
     private Student studentTwo;
     private StudentUV studentUVOne;
@@ -74,8 +85,17 @@ public class TestHelper {
         professorUVTwo = new ProfessorUV();
         courseOne = new Course();
         courseTwo = new Course();
+        courseThree = new Course();
+        courseFour = new Course();
         collaborativeProjectRequest = new CollaborativeProjectRequest();
+        collaborativeProjectRequestTwo = new CollaborativeProjectRequest();
+        rejectedCollaborativeProjectRequest = new CollaborativeProjectRequest();
         collaborativeProject = new CollaborativeProject();
+        
+        assignmentOne = new Assignment();
+        assignmentTwo = new Assignment();
+        assignmentThree = new Assignment();
+        
         studentUVOne = new StudentUV();
         studentUVTwo = new StudentUV();
         studentOne = new Student();
@@ -85,11 +105,11 @@ public class TestHelper {
         hiringType = new HiringType();
         hiringCategory = new HiringCategory();
     }
-
+    
     public void initializeAcademicArea() {
         AcademicAreaDAO academicAreaDAO = new AcademicAreaDAO();
         academicArea.setName("Economico Administrativo");
-
+        
         try {
             int idAcademicArea = academicAreaDAO.registerAcademicArea(academicArea);
             academicArea.setIdAreaAcademica(idAcademicArea);
@@ -97,34 +117,34 @@ public class TestHelper {
             Log.getLogger(TestHelper.class).error(exception.getMessage(), exception);
         }
     }
-
+    
     public void initializeRegion() {
         RegionDAO regionDAO = new RegionDAO();
         region.setName("Xalapa");
-
+        
         try {
             int idRegion = regionDAO.registerRegion(region);
             region.setIdRegion(idRegion);
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class).error(exception.getMessage(), exception);
-        }
-    }
-
+        }        
+    }  
+    
     public void initializeHiringType() {
         HiringTypeDAO hiringTypeDAO = new HiringTypeDAO();
         hiringType.setName("Interino por Plaza");
-
+        
         try {
             int idHiringType = hiringTypeDAO.registerHiringType(hiringType);
             hiringType.setIdHiringType(idHiringType);
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class).error(exception.getMessage(), exception);
-        }
-    }
+        }        
+    } 
 
     public void initializeHiringCategory() {
         HiringCategoryDAO hiringCategoryDAO = new HiringCategoryDAO();
-        hiringCategory = new HiringCategory();
+        hiringCategory = new HiringCategory();  
         hiringCategory.setName("Docente TC");
 
         try {
@@ -132,8 +152,8 @@ public class TestHelper {
             hiringCategory.setIdHiringCategory(idHiringCategory);
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class).error(exception.getMessage(), exception);
-        }
-    }
+        }        
+    }    
 
     public void initializeLanguage() {
         LanguageDAO languageDAO = new LanguageDAO();
@@ -167,6 +187,7 @@ public class TestHelper {
 
         try {
             modality.setIdModality(modalityDAO.registerModality(modality));
+
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
@@ -175,6 +196,8 @@ public class TestHelper {
 
     public void initializeCountries() {
         CountryDAO countryDAO = new CountryDAO();
+        countryOne = new Country();
+        countryTwo = new Country();
         countryOne.setName("México");
         countryOne.setCountryCode("+52");
         countryTwo.setName("Venezuela");
@@ -183,6 +206,7 @@ public class TestHelper {
         try {
             countryOne.setIdCountry(countryDAO.registerCountry(countryOne));
             countryTwo.setIdCountry(countryDAO.registerCountry(countryTwo));
+
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
@@ -217,10 +241,10 @@ public class TestHelper {
         initializeUniversities();
         ProfessorDAO professorDAO = new ProfessorDAO();
         User user = new User();
-
+        
         user.setIdUser(0);
         user.setPassword(null);
-        user.setType(null);
+        user.setType(null);        
         professorOne.setName("Maria");
         professorOne.setPaternalSurname("Arenas");
         professorOne.setMaternalSurname("Valdes");
@@ -249,19 +273,19 @@ public class TestHelper {
             ).error(exception.getMessage(), exception);
         }
     }
-
+    
     public void initializeProfessorsUV() {
         initializeUniversities();
         initializeHiringCategory();
         initializeHiringType();
         initializeRegion();
-        initializeAcademicArea();
+        initializeAcademicArea();        
         ProfessorDAO professorDAO = new ProfessorDAO();
         User user = new User();
-
+        
         user.setIdUser(0);
         user.setPassword(null);
-        user.setType(null);
+        user.setType(null);        
         professorUVOne.setName("Maria");
         professorUVOne.setPaternalSurname("Arenas");
         professorUVOne.setMaternalSurname("Valdes");
@@ -290,7 +314,7 @@ public class TestHelper {
         professorUVTwo.setHiringCategory(hiringCategory);
         professorUVTwo.setHiringType(hiringType);
         professorUVTwo.setRegion(region);
-        professorUVTwo.setPersonalNumber(54321);
+        professorUVTwo.setPersonalNumber(54321);        
         try {
             professorUVOne.setIdProfessor(professorDAO.registerProfessorUV(professorUVOne));
             professorUVTwo.setIdProfessor(professorDAO.registerProfessorUV(professorUVTwo));
@@ -299,7 +323,7 @@ public class TestHelper {
             Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
         }
-    }
+    }    
 
     public void intializeCourses() {
         initializeProfessors();
@@ -329,45 +353,107 @@ public class TestHelper {
         courseTwo.setAdditionalInformation("Además de bases de datos relacionales, "
                 + "se introducirá a bases de datos NoSQL y técnicas avanzadas de optimización.");
         courseTwo.setProfessor(professorTwo);
-        try {
-            courseTwo.setIdCourse(courseDAO.registerCourse(courseTwo));
+        
+        courseThree.setName("Estructuras de Datos");
+        courseThree.setGeneralObjective("Los alumnos comprendan el diseño, "
+                + "implementación y uso eficiente de diversas estructuras de datos.");
+        courseThree.setTopicsInterest("Listas, Pilas, Colas, Árboles, Grafos, Algoritmos de Búsqueda y Ordenamiento");
+        courseThree.setNumberStudents(40);
+        courseThree.setStudentsProfile("Ingeniería en Sistemas Computacionales");
+        courseThree.setTerm(term);
+        courseThree.setLanguage(language);
+        courseThree.setAdditionalInformation("Además de las estructuras de datos tradicionales, "
+                + "se introducirá a estructuras de datos avanzadas y técnicas de optimización.");
+
+        courseThree.setProfessor(professorOne);
+        
+        courseFour.setName("Algoritmos");
+        courseFour.setGeneralObjective("Los alumnos comprendan el diseño, "
+                + "análisis y optimización de algoritmos.");
+        courseFour.setTopicsInterest("Algoritmos de Búsqueda, Algoritmos de Ordenamiento, "
+                + "Algoritmos de Grafos, Algoritmos de Programación Dinámica, Complejidad Computacional");
+        courseFour.setNumberStudents(40);
+        courseFour.setStudentsProfile("Ingeniería en Sistemas Computacionales");
+        courseFour.setTerm(term);
+        courseFour.setLanguage(language);
+        courseFour.setAdditionalInformation("Además de los algoritmos tradicionales, "
+                + "se introducirá a técnicas avanzadas de análisis y diseño de algoritmos.");
+
+        courseFour.setProfessor(professorTwo);
+        
+        
+        try {            
             courseOne.setIdCourse(courseDAO.registerCourse(courseOne));
-            courseDAO.evaluateCourseProposal(courseTwo, "Aceptado");
+            courseTwo.setIdCourse(courseDAO.registerCourse(courseTwo));
+            courseThree.setIdCourse(courseDAO.registerCourse(courseThree));
+            courseFour.setIdCourse(courseDAO.registerCourse(courseFour));            
             courseDAO.evaluateCourseProposal(courseOne, "Aceptado");
+            courseDAO.evaluateCourseProposal(courseTwo, "Aceptado");
+            courseDAO.evaluateCourseProposal(courseThree, "Aceptado");
+            courseDAO.evaluateCourseProposal(courseFour, "Aceptado");
 
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
-        }
-        courseTwo.setStatus("Aceptado");
+        }        
         courseOne.setStatus("Aceptado");
+        courseTwo.setStatus("Aceptado");
+        courseThree.setStatus("Aceptado");
+        courseFour.setStatus("Aceptado");
     }
 
     public void initializeCollaborativeProjectRequest() {
         intializeCourses();
         CollaborativeProjectRequestDAO collaborativeProjectRequestDAO = new CollaborativeProjectRequestDAO();
-        collaborativeProjectRequest.setRequestedCourse(courseOne);
-        collaborativeProjectRequest.setRequesterCourse(courseTwo);
-
+        collaborativeProjectRequest.setRequesterCourse(courseOne);
+        collaborativeProjectRequest.setRequestedCourse(courseTwo);
+        collaborativeProjectRequestTwo.setRequesterCourse(courseThree);
+        collaborativeProjectRequestTwo.setRequestedCourse(courseFour);
+                        
+                
         try {
             collaborativeProjectRequest.setIdCollaborativeProjectRequest(
                     collaborativeProjectRequestDAO.registerCollaborativeProjectRequest(
                             collaborativeProjectRequest));
+            collaborativeProjectRequestTwo.setIdCollaborativeProjectRequest(
+                    collaborativeProjectRequestDAO.registerCollaborativeProjectRequest(
+                            collaborativeProjectRequestTwo));
             collaborativeProjectRequestDAO.attendCollaborativeProjectRequest(collaborativeProjectRequest, "Aceptado");
+            collaborativeProjectRequestDAO.attendCollaborativeProjectRequest(collaborativeProjectRequestTwo, "Aceptado");
 
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
         }
         collaborativeProjectRequest.setStatus("Aceptado");
+        collaborativeProjectRequestTwo.setStatus("Aceptado");
     }
+    
+    
+    public void initializeRejectedCollaborativeProjectRequest() {
+        intializeCourses();
+        CollaborativeProjectRequestDAO collaborativeProjectRequestDAO = new CollaborativeProjectRequestDAO();
+        rejectedCollaborativeProjectRequest.setRequesterCourse(courseOne);
+        rejectedCollaborativeProjectRequest.setRequestedCourse(courseTwo);
 
+        try {
+            rejectedCollaborativeProjectRequest.setIdCollaborativeProjectRequest(
+                    collaborativeProjectRequestDAO.registerCollaborativeProjectRequest(
+                            rejectedCollaborativeProjectRequest));
+            collaborativeProjectRequestDAO.attendCollaborativeProjectRequest(rejectedCollaborativeProjectRequest, "Rechazado");
+
+        } catch (DAOException exception) {
+            Log.getLogger(TestHelper.class
+            ).error(exception.getMessage(), exception);
+        }
+        collaborativeProjectRequest.setStatus("Rechazado");
+    }
+    
     public void initializeStudent() {
         StudentDAO studentDAO = new StudentDAO();
         if (universityOne == null && universityTwo == null) {
             initializeUniversities();
-        }
-
+        }        
         studentOne.setName("Edgar");
         studentOne.setPaternalSurname("Montiel");
         studentOne.setMaternalSurname("Acosta");
@@ -375,7 +461,7 @@ public class TestHelper {
         studentOne.setGender("Masculino");
         studentOne.setLineage("Mexicano");
         studentOne.setUniversity(universityTwo);
-
+        
         studentTwo.setName("Ivan");
         studentTwo.setPaternalSurname("Rodriguez");
         studentTwo.setMaternalSurname("Franco");
@@ -383,7 +469,7 @@ public class TestHelper {
         studentTwo.setGender("Masculino");
         studentTwo.setLineage("Mexicano");
         studentTwo.setUniversity(universityTwo);
-
+        
         try {
             studentOne.setIdStudent(studentDAO.registerStudent(studentOne));
             studentTwo.setIdStudent(studentDAO.registerStudent(studentTwo));
@@ -391,7 +477,7 @@ public class TestHelper {
             Log.getLogger(TestHelper.class).error(exception.getMessage(), exception);
         }
     }
-
+    
     public void initializeStudentUV() {
         StudentDAO studentDAO = new StudentDAO();
         initializeUniversities();
@@ -407,7 +493,7 @@ public class TestHelper {
         studentUVOne.setUniversity(universityOne);
         studentUVOne.setAcademicArea(academicArea);
         studentUVOne.setRegion(region);
-
+        
         studentUVTwo.setName("Ivan");
         studentUVTwo.setPaternalSurname("Rodriguez");
         studentUVTwo.setMaternalSurname("Franco");
@@ -417,15 +503,15 @@ public class TestHelper {
         studentUVTwo.setEnrollment("S22013629");
         studentUVTwo.setUniversity(universityOne);
         studentUVTwo.setAcademicArea(academicArea);
-        studentUVTwo.setRegion(region);
-
+        studentUVTwo.setRegion(region);        
+        
         try {
             studentUVOne.setIdStudent(studentDAO.registerStudentUV(studentUVOne));
             studentUVTwo.setIdStudent(studentDAO.registerStudentUV(studentUVTwo));
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class).error(exception.getMessage(), exception);
         }
-    }
+    }    
 
     public void initializeCollaborativeProject() {
         initializeCollaborativeProjectRequest();
@@ -433,7 +519,7 @@ public class TestHelper {
         initializeStudent();
         CollaborativeProjectDAO collaborativeProjectDAO = new CollaborativeProjectDAO();
         collaborativeProject.setName("Programación y Bases de Datos");
-        collaborativeProject.setStatus("Aceptado");
+        collaborativeProject.setStatus("Pendiente");
         collaborativeProject.setDescription("Este proyecto combina los conocimientos de programación orientada a objetos y bases de datos "
                 + "para desarrollar una aplicación completa que gestione información de manera eficiente.");
         collaborativeProject.setGeneralObjective("Integrar conceptos de programación y bases de datos para desarrollar una solución software completa.");
@@ -452,14 +538,49 @@ public class TestHelper {
         }
         collaborativeProject.setStatus("Aceptado");
     }
+    
+    public void initializeAssignments() {
+        initializeCollaborativeProject();
+        AssignmentDAO assignmentDAO = new AssignmentDAO();        
+        assignmentOne.setName("Rompehielos");
+        assignmentOne.setDescription("Actividad donde se presentaron los alumnos de "
+        + "Programación y los de Bases de Datos");
+        assignmentOne.setPath("/files/id/Rompehielos.pdf");
+        
+        assignmentTwo.setName("Ejercicios");
+        assignmentTwo.setDescription("Actividades sobre culturizacion");
+        assignmentTwo.setPath("/files/id/Rompehielos.pdf");
+        
+        assignmentThree.setName("Presentacion");
+        assignmentThree.setDescription("Descripcion sobre la colaboracion");
+        assignmentThree.setPath("/files/id/Rompehielos.pdf");
+        try {
+            assignmentOne.setIdAssignment(assignmentDAO.registerAssignment(assignmentOne, collaborativeProject));
+            assignmentTwo.setIdAssignment(assignmentDAO.registerAssignment(assignmentTwo, collaborativeProject));
+            assignmentThree.setIdAssignment(assignmentDAO.registerAssignment(assignmentThree, collaborativeProject));
+        } catch (DAOException exception) {
+            Log.getLogger(TestHelper.class
+            ).error(exception.getMessage(), exception);
+        }
+        
+    } 
 
     public void deleteAll() {
         try {
+            if (collaborativeProject.getIdCollaborativeProject() > 0 &&  assignmentOne.getIdAssignment() > 0) {
+                new AssignmentDAO().deleteAssignment(assignmentOne.getIdAssignment(), collaborativeProject);
+                new AssignmentDAO().deleteAssignment(assignmentTwo.getIdAssignment(), collaborativeProject);
+                new AssignmentDAO().deleteAssignment(assignmentThree.getIdAssignment(), collaborativeProject);
+            }
             new CollaborativeProjectDAO().deleteCollaborativeProjectByidCollaborativeProject(collaborativeProject.getIdCollaborativeProject());
             new CollaborativeProjectRequestDAO().deleteCollaborativeProjectRequestByidCollaborativeProjectRequest(collaborativeProjectRequest.getIdCollaborativeProjectRequest());
+            new CollaborativeProjectRequestDAO().deleteCollaborativeProjectRequestByidCollaborativeProjectRequest(collaborativeProjectRequestTwo.getIdCollaborativeProjectRequest());            
+            new CollaborativeProjectRequestDAO().deleteCollaborativeProjectRequestByidCollaborativeProjectRequest(rejectedCollaborativeProjectRequest.getIdCollaborativeProjectRequest());
             new ModalityDAO().deleteModality(modality.getIdModality());
             new CourseDAO().deleteCourseByIdCourse(courseOne.getIdCourse());
-            new CourseDAO().deleteCourseByIdCourse(courseTwo.getIdCourse());
+            new CourseDAO().deleteCourseByIdCourse(courseTwo.getIdCourse());            
+            new CourseDAO().deleteCourseByIdCourse(courseThree.getIdCourse());
+            new CourseDAO().deleteCourseByIdCourse(courseFour.getIdCourse());            
             new LanguageDAO().deleteLanguage(language.getIdLanguage());
             new TermDAO().deleteTerm(term.getIdTerm());
             new StudentDAO().deleteStudentUVById(studentUVOne.getIdStudent());
@@ -557,7 +678,7 @@ public class TestHelper {
     public void setProfessorTwo(Professor professorTwo) {
         this.professorTwo = professorTwo;
     }
-
+    
     public ProfessorUV getProfessorUVOne() {
         return professorUVOne;
     }
@@ -572,7 +693,7 @@ public class TestHelper {
 
     public void setProfessorUVTwo(ProfessorUV professorUVTwo) {
         this.professorUVTwo = professorUVTwo;
-    }
+    }    
 
     public Course getCourseOne() {
         return courseOne;
@@ -589,6 +710,22 @@ public class TestHelper {
     public void setCourseTwo(Course courseTwo) {
         this.courseTwo = courseTwo;
     }
+    
+    public Course getCourseThree() {
+        return courseThree;
+    }
+
+    public void setCourseThree(Course courseThree) {
+        this.courseThree = courseThree;
+    }
+    
+    public Course getCourseFour() {
+        return courseFour;
+    }
+
+    public void setCourseFour(Course courseFour) {
+        this.courseFour = courseFour;
+    }
 
     public CollaborativeProjectRequest getCollaborativeProjectRequest() {
         return collaborativeProjectRequest;
@@ -596,6 +733,22 @@ public class TestHelper {
 
     public void setCollaborativeProjectRequest(CollaborativeProjectRequest collaborativeProjectRequest) {
         this.collaborativeProjectRequest = collaborativeProjectRequest;
+    }
+    
+    public CollaborativeProjectRequest getCollaborativeProjectRequestTwo() {
+        return collaborativeProjectRequestTwo;
+    }
+
+    public void setCollaborativeProjectRequestTwo(CollaborativeProjectRequest collaborativeProjectRequestTwo) {
+        this.collaborativeProjectRequestTwo = collaborativeProjectRequestTwo;
+    }
+    
+    public CollaborativeProjectRequest getRejectedCollaborativeProjectRequest() {
+        return rejectedCollaborativeProjectRequest;
+    }
+
+    public void setRejectedCollaborativeProjectRequest(CollaborativeProjectRequest rejectedCollaborativeProjectRequest) {
+        this.rejectedCollaborativeProjectRequest = rejectedCollaborativeProjectRequest;
     }
 
     public CollaborativeProject getCollaborativeProject() {
@@ -605,11 +758,11 @@ public class TestHelper {
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
     }
-
+    
     public void setStudentOne(Student student) {
         this.studentOne = student;
     }
-
+    
     public Student getStudentOne() {
         return studentOne;
     }
@@ -617,15 +770,15 @@ public class TestHelper {
     public void setStudentTwo(Student student) {
         this.studentTwo = student;
     }
-
+    
     public Student getStudentTwo() {
         return studentTwo;
-    }
-
+    } 
+    
     public void setStudentUVOne(StudentUV studentUV) {
         this.studentUVOne = studentUV;
     }
-
+    
     public StudentUV getStudentUVOne() {
         return studentUVOne;
     }
@@ -633,27 +786,27 @@ public class TestHelper {
     public void setStudentUVTwo(StudentUV studentUV) {
         this.studentUVTwo = studentUV;
     }
-
+    
     public StudentUV getStudentUVTwo() {
         return studentUVTwo;
-    }
-
+    }     
+    
     public void setAcademicArea(AcademicArea academicArea) {
         this.academicArea = academicArea;
     }
-
+    
     public AcademicArea getAcademicArea() {
         return academicArea;
-    }
-
+    }    
+    
     public void setRegion(Region region) {
         this.region = region;
     }
-
+    
     public Region getRegion() {
         return region;
-    }
-
+    }    
+    
     public HiringType getHiringType() {
         return hiringType;
     }
@@ -669,5 +822,5 @@ public class TestHelper {
     public void setHiringCategory(HiringCategory hiringCategory) {
         this.hiringCategory = hiringCategory;
     }
-
+    
 }
