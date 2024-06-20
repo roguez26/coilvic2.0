@@ -44,6 +44,8 @@ public class DatabaseManager {
                 Log.getLogger(DatabaseManager.class).error(exception.getMessage(), exception);
                 if ("28000".equals(exception.getSQLState())) {
                     throw new DAOException("El usuario no se pudo conectar a la base de datos", Status.FATAL);
+                } else if ("08S01".equals(exception.getSQLState())){
+                    throw new DAOException("Error de comunicacion con el servicio de MYSQL", Status.FATAL);
                 } else {
                     throw new DAOException("No fue posible realizar la conexión a la base de datos", Status.FATAL);
                 }
