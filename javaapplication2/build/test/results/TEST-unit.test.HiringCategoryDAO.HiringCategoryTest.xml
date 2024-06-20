@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="3" failures="6" hostname="roguez" name="unit.test.HiringCategoryDAO.HiringCategoryTest" skipped="0" tests="14" time="1.767" timestamp="2024-06-20T06:48:24">
+<testsuite errors="3" failures="6" hostname="roguez" name="unit.test.HiringCategoryDAO.HiringCategoryTest" skipped="0" tests="14" time="1.827" timestamp="2024-06-20T22:05:32">
   <properties>
     <property name="" value="======" />
     <property name="libs.spring-framework300.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\org-apache-commons-logging.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\cglib-2.2.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aop-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aspects-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-beans-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-support-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-core-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-expression-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-tomcat-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jdbc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jms-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-orm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-oxm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-struts-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-test-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-tx-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-web-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-portlet-3.2.18.RELEASE.jar" />
@@ -23,7 +23,7 @@
     <property name="libs.JWSAntTasks.javadoc" value="" />
     <property name="file.reference.log4j-1.2.17.jar" value="C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar" />
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.HiringCategoryDAO.HiringCategoryTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.HiringCategoryDAO.HiringCategoryTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher12619356918806087999.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit14005718763714165734.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.HiringCategoryDAO.HiringCategoryTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.HiringCategoryDAO.HiringCategoryTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher3919903140021652484.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit7996188931415209491.properties" />
     <property name="jdk.debug" value="release" />
     <property name="libs.spring-framework300.src" value="" />
     <property name="javadoc.use" value="true" />
@@ -507,7 +507,7 @@
     <property name="libs.javaee-web-api-7.0.src" value="" />
     <property name="libs.javaee-endorsed-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\javax.annotation.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\jaxb-api-osgi.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\webservices-api-osgi.jar" />
   </properties>
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testSuccessGetHiringCategories" time="0.741">
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testSuccessGetHiringCategories" time="0.855">
     <error message="Index 1 out of bounds for length 1" type="java.lang.IndexOutOfBoundsException">java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 1
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -521,8 +521,8 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </error>
   </testcase>
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="TestIsThereAtLeastOneHiringCategorySuccess" time="0.07" />
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testFailureDeleteHiringCategoryByIdNotAvailable" time="0.071">
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="TestIsThereAtLeastOneHiringCategorySuccess" time="0.078" />
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testFailureDeleteHiringCategoryByIdNotAvailable" time="0.065">
     <failure message="expected mx.fei.coilvicapp.logic.implementations.DAOException to be thrown, but nothing was thrown" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected mx.fei.coilvicapp.logic.implementations.DAOException to be thrown, but nothing was thrown
 	at unit.test.HiringCategoryDAO.HiringCategoryTest.testFailureDeleteHiringCategoryByIdNotAvailable(HiringCategoryTest.java:140)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -530,7 +530,7 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testSuccessInsertHiringCategory" time="0.045">
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testSuccessInsertHiringCategory" time="0.048">
     <error message="El nombre debe tener las siguientes características:&#xa;1.- Los únicos símbolos permitidos son espacios, ., -, y &apos;&#xa;2.- No debe contener dos símbolos consecutivos.&#xa;3.- No debe terminar con espacios en blanco, &apos; o -&#xa;4.- No debe contener números" type="java.lang.IllegalArgumentException">java.lang.IllegalArgumentException: El nombre debe tener las siguientes características:
 1.- Los únicos símbolos permitidos son espacios, ., -, y &apos;
 2.- No debe contener dos símbolos consecutivos.
@@ -544,7 +544,7 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </error>
   </testcase>
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="TestIsThereAtLeastOneHiringCategoryFailure" time="0.071">
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="TestIsThereAtLeastOneHiringCategoryFailure" time="0.06">
     <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
 	at unit.test.HiringCategoryDAO.HiringCategoryTest.TestIsThereAtLeastOneHiringCategoryFailure(HiringCategoryTest.java:58)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -552,9 +552,9 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testFailureGetHiringCategoryByIdNotAvailable" time="0.064" />
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testFailureUpdateHiringCategoryByAlreadyRegisteredName" time="0.078" />
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testSuccessGetHiringCategoryById" time="0.058">
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testFailureGetHiringCategoryByIdNotAvailable" time="0.073" />
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testFailureUpdateHiringCategoryByAlreadyRegisteredName" time="0.076" />
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testSuccessGetHiringCategoryById" time="0.047">
     <failure message="expected:&lt;Docente TC&gt; but was:&lt;null&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;Docente TC&gt; but was:&lt;null&gt;
 	at unit.test.HiringCategoryDAO.HiringCategoryTest.testSuccessGetHiringCategoryById(HiringCategoryTest.java:175)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -562,7 +562,7 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testSuccessUpdateHiringCategory" time="0.071">
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testSuccessUpdateHiringCategory" time="0.053">
     <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
 	at unit.test.HiringCategoryDAO.HiringCategoryTest.testSuccessUpdateHiringCategory(HiringCategoryTest.java:98)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -570,7 +570,7 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testSuccessGetHiringCategoryByName" time="0.058">
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testSuccessGetHiringCategoryByName" time="0.05">
     <failure message="expected: mx.fei.coilvicapp.logic.hiringcategory.HiringCategory&lt;Docente TC&gt; but was: mx.fei.coilvicapp.logic.hiringcategory.HiringCategory&lt;Docente TC&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected: mx.fei.coilvicapp.logic.hiringcategory.HiringCategory&lt;Docente TC&gt; but was: mx.fei.coilvicapp.logic.hiringcategory.HiringCategory&lt;Docente TC&gt;
 	at unit.test.HiringCategoryDAO.HiringCategoryTest.testSuccessGetHiringCategoryByName(HiringCategoryTest.java:153)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -578,7 +578,7 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testFailureGetHiringCategories" time="0.071">
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testFailureGetHiringCategories" time="0.061">
     <error message="Index 1 out of bounds for length 1" type="java.lang.IndexOutOfBoundsException">java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 1
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -592,7 +592,7 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </error>
   </testcase>
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testSuccessDeleteHiringCategory" time="0.06">
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testSuccessDeleteHiringCategory" time="0.054">
     <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
 	at unit.test.HiringCategoryDAO.HiringCategoryTest.testSuccessDeleteHiringCategory(HiringCategoryTest.java:135)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -600,8 +600,8 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testFailureInsertHiringCategoryByNameAlreadyRegistered" time="0.063" />
-  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testFailureGetHiringCategoryByNameNotAvailable" time="0.069" />
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testFailureInsertHiringCategoryByNameAlreadyRegistered" time="0.052" />
+  <testcase classname="unit.test.HiringCategoryDAO.HiringCategoryTest" name="testFailureGetHiringCategoryByNameNotAvailable" time="0.045" />
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -25,42 +25,36 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
      * diversas razones.
      */
     @Override
-    public int registerCollaborativeProjectRequest(CollaborativeProjectRequest collaborativeProjectRequest) throws DAOException {
+    public int registerCollaborativeProjectRequest
+    (CollaborativeProjectRequest collaborativeProjectRequest) throws DAOException {
         int result = -1;
         CourseDAO courseDAO = new CourseDAO();
-
+        
         if (checkCollaborativeProjectRequestsSent(collaborativeProjectRequest) == 0) {
             switch (courseDAO.checkCourseStatus(collaborativeProjectRequest.getRequesterCourse())) {
                 case "Aceptado" -> {
-                    switch (collaborativeProjectRequest.getRequestedCourse().getStatus()) {
-                        case "Aceptado" ->
-                            result = insertCollaborativeProjectRequest(collaborativeProjectRequest);
-                        case "Pendiente" ->
-                            throw new DAOException("No se pudo enviar la solicitud, el curso que solicitó aun no ha sido aceptado", Status.WARNING);
-                        case "Rechazado" ->
-                            throw new DAOException("No se pudo enviar la solicitud, el curso que solicitó fue rechazado", Status.WARNING);
-                        case "Colaboracion" ->
-                            throw new DAOException("No se pudo enviar la solicitud,"
-                                    + " el curso que solicitó ya forma parte de un proyecto colaborativo", Status.WARNING);
-                        default -> {
-                        }
-                    }
+                switch (courseDAO.checkCourseStatus(collaborativeProjectRequest.getRequestedCourse())) {
+                    case "Aceptado" -> result = insertCollaborativeProjectRequest(collaborativeProjectRequest);
+                    case "Pendiente" -> throw new DAOException
+                    ("No se pudo enviar la solicitud, el curso que solicitó aun no ha sido aceptado", Status.WARNING);
+                    case "Rechazado" -> throw new DAOException
+                    ("No se pudo enviar la solicitud, el curso que solicitó fue rechazado", Status.WARNING);
+                    case "Colaboracion" -> throw new DAOException("No se pudo enviar la solicitud,"
+                    + " el curso que solicitó ya forma parte de un proyecto colaborativo", Status.WARNING);
+                    default -> {}
                 }
-                case "Pendiente" ->
-                    throw new DAOException("No se pudo enviar la solicitud,"
-                            + " su curso aun no ha sido aceptado", Status.WARNING);
-                case "Rechazado" ->
-                    throw new DAOException("No se pudo enviar la solicitud,"
-                            + " su curso fue rechazado", Status.WARNING);
-                case "Colaboracion" ->
-                    throw new DAOException("No se pudo enviar la solicitud,"
-                            + " el curso ya forma parte de un proyecto colaborativo", Status.WARNING);
-                default -> {
                 }
+                case "Pendiente" -> throw new DAOException("No se pudo enviar la solicitud,"
+                + " su curso aun no ha sido aceptado", Status.WARNING);
+                case "Rechazado" -> throw new DAOException("No se pudo enviar la solicitud,"
+                + " su curso fue rechazado", Status.WARNING);
+                case "Colaboracion" -> throw new DAOException("No se pudo enviar la solicitud,"
+                + " el curso ya forma parte de un proyecto colaborativo", Status.WARNING);
+                default -> {}
             }
         } else {
             throw new DAOException("No puedes enviar mas de una solicitud de"
-                    + " proyecto colaborativo con el mismo curso", Status.WARNING);
+            + " proyecto colaborativo con el mismo curso", Status.WARNING);
         }
         return result;
     }
@@ -717,7 +711,7 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
         int result = -1;
 
         if (checkCollaborativeProjectRequestStatus(collaborativeProjectRequest).equals("Aceptado")) {
-            updateCollaborativeProjectRequestStatusById(collaborativeProjectRequest.getIdCollaborativeProjectRequest(), "Finalizado");
+            result = updateCollaborativeProjectRequestStatusById(collaborativeProjectRequest.getIdCollaborativeProjectRequest(), "Finalizado");
         } else {
             throw new DAOException("No puede finalizar una solicitud que no fue aceptada", Status.WARNING);
         }

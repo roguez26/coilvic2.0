@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="4" hostname="roguez" name="unit.test.CourseDAO.CourseRegistrationTest" skipped="0" tests="4" time="2.474" timestamp="2024-06-20T06:47:39">
+<testsuite errors="0" failures="4" hostname="roguez" name="unit.test.CourseDAO.CourseRegistrationTest" skipped="0" tests="4" time="1.646" timestamp="2024-06-20T22:05:01">
   <properties>
     <property name="" value="======" />
     <property name="libs.spring-framework300.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\org-apache-commons-logging.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\cglib-2.2.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aop-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aspects-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-beans-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-support-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-core-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-expression-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-tomcat-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jdbc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jms-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-orm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-oxm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-struts-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-test-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-tx-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-web-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-portlet-3.2.18.RELEASE.jar" />
@@ -23,7 +23,7 @@
     <property name="libs.JWSAntTasks.javadoc" value="" />
     <property name="file.reference.log4j-1.2.17.jar" value="C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar" />
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.CourseDAO.CourseRegistrationTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.CourseDAO.CourseRegistrationTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher3504852194712613759.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit502977574701860748.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.CourseDAO.CourseRegistrationTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.CourseDAO.CourseRegistrationTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher11996574714910804749.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit6715918817674681997.properties" />
     <property name="jdk.debug" value="release" />
     <property name="libs.spring-framework300.src" value="" />
     <property name="javadoc.use" value="true" />
@@ -507,7 +507,7 @@
     <property name="libs.javaee-web-api-7.0.src" value="" />
     <property name="libs.javaee-endorsed-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\javax.annotation.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\jaxb-api-osgi.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\webservices-api-osgi.jar" />
   </properties>
-  <testcase classname="unit.test.CourseDAO.CourseRegistrationTest" name="testRegisterCourseSucces" time="1.535">
+  <testcase classname="unit.test.CourseDAO.CourseRegistrationTest" name="testRegisterCourseSucces" time="0.96">
     <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
 	at unit.test.CourseDAO.CourseRegistrationTest.testRegisterCourseSucces(CourseRegistrationTest.java:155)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -515,7 +515,7 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseRegistrationTest" name="testRegisterCourseFailByNonExistenceTerm" time="0.269">
+  <testcase classname="unit.test.CourseDAO.CourseRegistrationTest" name="testRegisterCourseFailByNonExistenceTerm" time="0.167">
     <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
 	at unit.test.CourseDAO.CourseRegistrationTest.testRegisterCourseFailByNonExistenceTerm(CourseRegistrationTest.java:205)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -523,7 +523,7 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseRegistrationTest" name="testRegisterCourseFailByNonExistenceLanguage" time="0.211">
+  <testcase classname="unit.test.CourseDAO.CourseRegistrationTest" name="testRegisterCourseFailByNonExistenceLanguage" time="0.196">
     <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
 	at unit.test.CourseDAO.CourseRegistrationTest.testRegisterCourseFailByNonExistenceLanguage(CourseRegistrationTest.java:187)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -531,7 +531,7 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseRegistrationTest" name="testRegisterCourseFailByDuplicateCourse" time="0.22">
+  <testcase classname="unit.test.CourseDAO.CourseRegistrationTest" name="testRegisterCourseFailByDuplicateCourse" time="0.158">
     <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
 	at unit.test.CourseDAO.CourseRegistrationTest.testRegisterCourseFailByDuplicateCourse(CourseRegistrationTest.java:169)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -543,7 +543,7 @@
 No fue posible registrar el curso
 No fue posible registrar el curso
 ]]></system-out>
-  <system-err><![CDATA[jun. 20, 2024 12:47:41 A. M. unit.test.CourseDAO.CourseRegistrationTest setUp
+  <system-err><![CDATA[jun. 20, 2024 4:05:02 P. M. unit.test.CourseDAO.CourseRegistrationTest setUp
 SEVERE: null
 mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el país
 	at mx.fei.coilvicapp.logic.country.CountryDAO.insertCountryTransaction(CountryDAO.java:166)
@@ -575,7 +575,7 @@ mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar e
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1196)
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:1041)
 
-jun. 20, 2024 12:47:41 A. M. unit.test.CourseDAO.CourseRegistrationTest registerAuxiliaryCourse
+jun. 20, 2024 4:05:02 P. M. unit.test.CourseDAO.CourseRegistrationTest registerAuxiliaryCourse
 SEVERE: null
 mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
 	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:88)
@@ -608,7 +608,7 @@ mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar e
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1196)
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:1041)
 
-jun. 20, 2024 12:47:41 A. M. unit.test.CourseDAO.CourseRegistrationTest testRegisterCourseSucces
+jun. 20, 2024 4:05:02 P. M. unit.test.CourseDAO.CourseRegistrationTest testRegisterCourseSucces
 SEVERE: null
 mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
 	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:88)
@@ -640,7 +640,7 @@ mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar e
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1196)
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:1041)
 
-jun. 20, 2024 12:47:41 A. M. unit.test.CourseDAO.CourseRegistrationTest setUp
+jun. 20, 2024 4:05:02 P. M. unit.test.CourseDAO.CourseRegistrationTest setUp
 SEVERE: null
 mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el país
 	at mx.fei.coilvicapp.logic.country.CountryDAO.insertCountryTransaction(CountryDAO.java:166)
@@ -672,7 +672,7 @@ mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar e
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1196)
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:1041)
 
-jun. 20, 2024 12:47:41 A. M. unit.test.CourseDAO.CourseRegistrationTest registerAuxiliaryCourse
+jun. 20, 2024 4:05:02 P. M. unit.test.CourseDAO.CourseRegistrationTest registerAuxiliaryCourse
 SEVERE: null
 mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
 	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:88)
@@ -705,7 +705,7 @@ mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar e
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1196)
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:1041)
 
-jun. 20, 2024 12:47:41 A. M. unit.test.CourseDAO.CourseRegistrationTest testRegisterCourseFailByNonExistenceTerm
+jun. 20, 2024 4:05:02 P. M. unit.test.CourseDAO.CourseRegistrationTest testRegisterCourseFailByNonExistenceTerm
 SEVERE: null
 mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
 	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:88)
@@ -737,7 +737,7 @@ mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar e
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1196)
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:1041)
 
-jun. 20, 2024 12:47:41 A. M. unit.test.CourseDAO.CourseRegistrationTest setUp
+jun. 20, 2024 4:05:02 P. M. unit.test.CourseDAO.CourseRegistrationTest setUp
 SEVERE: null
 mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el país
 	at mx.fei.coilvicapp.logic.country.CountryDAO.insertCountryTransaction(CountryDAO.java:166)
@@ -769,7 +769,7 @@ mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar e
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1196)
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:1041)
 
-jun. 20, 2024 12:47:42 A. M. unit.test.CourseDAO.CourseRegistrationTest registerAuxiliaryCourse
+jun. 20, 2024 4:05:02 P. M. unit.test.CourseDAO.CourseRegistrationTest registerAuxiliaryCourse
 SEVERE: null
 mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
 	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:88)
@@ -802,7 +802,7 @@ mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar e
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1196)
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:1041)
 
-jun. 20, 2024 12:47:42 A. M. unit.test.CourseDAO.CourseRegistrationTest testRegisterCourseFailByNonExistenceLanguage
+jun. 20, 2024 4:05:02 P. M. unit.test.CourseDAO.CourseRegistrationTest testRegisterCourseFailByNonExistenceLanguage
 SEVERE: null
 mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
 	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:88)
@@ -834,7 +834,7 @@ mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar e
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1196)
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:1041)
 
-jun. 20, 2024 12:47:42 A. M. unit.test.CourseDAO.CourseRegistrationTest setUp
+jun. 20, 2024 4:05:02 P. M. unit.test.CourseDAO.CourseRegistrationTest setUp
 SEVERE: null
 mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el país
 	at mx.fei.coilvicapp.logic.country.CountryDAO.insertCountryTransaction(CountryDAO.java:166)
@@ -866,7 +866,7 @@ mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar e
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1196)
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:1041)
 
-jun. 20, 2024 12:47:42 A. M. unit.test.CourseDAO.CourseRegistrationTest registerAuxiliaryCourse
+jun. 20, 2024 4:05:02 P. M. unit.test.CourseDAO.CourseRegistrationTest registerAuxiliaryCourse
 SEVERE: null
 mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
 	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:88)
@@ -899,7 +899,7 @@ mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar e
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1196)
 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:1041)
 
-jun. 20, 2024 12:47:42 A. M. unit.test.CourseDAO.CourseRegistrationTest testRegisterCourseFailByDuplicateCourse
+jun. 20, 2024 4:05:02 P. M. unit.test.CourseDAO.CourseRegistrationTest testRegisterCourseFailByDuplicateCourse
 SEVERE: null
 mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
 	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:88)
