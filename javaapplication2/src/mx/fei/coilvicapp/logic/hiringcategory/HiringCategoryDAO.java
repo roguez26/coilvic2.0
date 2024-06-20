@@ -98,7 +98,7 @@ public class HiringCategoryDAO implements IHiringCategory{
     /**
      * Obtiene una categoría de contratación por su nombre desde la base de datos.
      * 
-     * @param hiringCategoryName El nombre de la categoría de contratación a buscar
+     * @param academicAreaName El nombre de la categoría de contratación a buscar
      * @return El objeto HiringCategory si se encuentra, null si no se encuentra
      * @throws DAOException si ocurre un error durante el acceso a la base de datos
      */
@@ -127,7 +127,7 @@ public class HiringCategoryDAO implements IHiringCategory{
     /**
      * Obtiene una categoría de contratación por su ID desde la base de datos.
      * 
-     * @param idHiringCategory El ID de la categoría de contratación a buscar
+     * @param idAcademicArea El ID de la categoría de contratación a buscar
      * @return El objeto HiringCategory si se encuentra, null si no se encuentra
      * @throws DAOException si ocurre un error durante el acceso a la base de datos
      */

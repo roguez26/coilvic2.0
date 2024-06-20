@@ -149,7 +149,7 @@ public class UserDAO implements IUser {
         return result;
     }
 
-    private String encryptPassword(String password) throws DAOException {
+    public String encryptPassword(String password) throws DAOException {
         String encryptedPassword;
 
         try {

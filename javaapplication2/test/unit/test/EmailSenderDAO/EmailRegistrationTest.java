@@ -6,8 +6,6 @@ import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
 import log.Log;
 import static org.junit.Assert.assertThrows;
 import unit.test.Initializer.TestHelper;
@@ -22,7 +20,6 @@ public class EmailRegistrationTest {
     private final TestHelper TEST_HELPER = new TestHelper();
 
 
-    @Before
     public void setUp() {
         TEST_HELPER.initializeProfessors();
         auxProfessor = TEST_HELPER.getProfessorOne();
@@ -37,6 +34,7 @@ public class EmailRegistrationTest {
     
     @Test
     public void testRegisterSentEmailSuccess() {
+        setUp();
         int idEmail = 0;
         
         try {
@@ -47,18 +45,20 @@ public class EmailRegistrationTest {
         }
         System.out.println(idEmail);
         assertTrue(idEmail > 0);
+        tearDown();
     }
     
     @Test
     public void testRegisterSentEmailFailByNoReceiver() {
+        setUp();
         EMAIL_SENDER_FOR_TESTING.setReceiver(new Professor());
         
         DAOException exception = assertThrows(DAOException.class, () ->
                 EMAIL_SENDER_DAO.registerEmail(EMAIL_SENDER_FOR_TESTING));
         System.out.println(exception.getMessage());
+        tearDown();
     }
-    
-    @After
+
     public void tearDown() {
         try {
             EMAIL_SENDER_DAO.deleteEmail(EMAIL_SENDER_FOR_TESTING.getIdEmail());

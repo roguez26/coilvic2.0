@@ -128,7 +128,7 @@ public class CountryDAO implements ICountry {
         try {
             university = universityDAO.getUniversityByCountryId(idCountry);
         } catch (DAOException exception) {
-            Logger.getLogger(CountryDAO.class.getName()).log(Level.SEVERE, null, exception);
+            Log.getLogger(CountryDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible realizar la validacion para eliminar el pais", Status.ERROR);
         }
         if (university.getIdUniversity() > 0) {

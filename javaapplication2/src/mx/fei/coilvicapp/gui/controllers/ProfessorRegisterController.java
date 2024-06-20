@@ -120,6 +120,11 @@ public class ProfessorRegisterController implements Initializable {
                 phoneNumberTextField.setText(oldValue);
             }
         });
+        uvPersonalNumberTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 5) {
+                uvPersonalNumberTextField.setText(oldValue);
+            }
+        });
 
     }
 

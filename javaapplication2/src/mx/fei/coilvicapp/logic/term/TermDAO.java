@@ -203,7 +203,7 @@ public class TermDAO implements ITerm {
      * @return Un arreglo de periodos con los datos de los periodos registrados en la
      * base de datos, de otro modo puede retornar un arreglo vacío en caso de no haber
      * periodos registrados
-     * @throws AOException Puede lanzar una DAOException en caso que ocurra una 
+     * @throws DAOException Puede lanzar una DAOException en caso que ocurra una 
      * excepción del tipo SQL  
      */
     

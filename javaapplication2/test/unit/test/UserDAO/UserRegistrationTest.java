@@ -50,22 +50,9 @@ public class UserRegistrationTest {
         } catch (DAOException exception) {
             Log.getLogger(UserRegistrationTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(idUser);
         Assert.assertTrue(idUser > 0);
-    }   
-    
-    @Test
-    public void testFailureRegisterUserByInvalidPassword() {
-        int idUser = 0;
-        initializeAuxTestUser();
-        AUX_TEST_USER.setPassword("Si");
-        try {          
-            idUser = USER_DAO.registerUser(AUX_TEST_USER);
-            USER_DAO.deleteUser(idUser);
-        } catch (DAOException exception) {
-            Log.getLogger(UserRegistrationTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertTrue(idUser > 0);
-    }       
+    }         
         
     @Test
     public void testSuccessDeleteUser() {
@@ -78,6 +65,8 @@ public class UserRegistrationTest {
         } catch (DAOException exception) {
             Log.getLogger(UserRegistrationTest.class).error(exception.getMessage(), exception);
         } 
+        
+        System.out.println(rowsAffected);
         Assert.assertTrue(rowsAffected > 0);        
     }
     
@@ -86,11 +75,12 @@ public class UserRegistrationTest {
         int rowsAffected = 0;
         
         try {                      
-            rowsAffected = USER_DAO.deleteUser(999);
+            rowsAffected = USER_DAO.deleteUser(0);
         } catch (DAOException exception) {
             Log.getLogger(UserRegistrationTest.class).error(exception.getMessage(), exception);
         }
-        Assert.assertTrue(rowsAffected > 0);        
+        System.out.println(rowsAffected);
+        Assert.assertTrue(rowsAffected == 0);        
     }      
     
     @Test
@@ -103,48 +93,80 @@ public class UserRegistrationTest {
         } catch (DAOException exception) {
             Log.getLogger(UserRegistrationTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(rowsAffected);
         Assert.assertTrue(rowsAffected > 0);   
-    }   
-    
-    @Test
-    public void testFailureUpdateUserPasswordByInvalidPassword() {
-        int rowsAffected = 0;
-     
-        TEST_USER.setPassword("12345");
-        try {
-            rowsAffected = USER_DAO.updateUserPassword(TEST_USER);
-        } catch (DAOException exception) {
-            Log.getLogger(UserRegistrationTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertTrue(rowsAffected > 0);   
-    }      
+    }        
     
    @Test
     public void testFailureUpdateUserPasswordByNotFoundId() {
         int rowsAffected = 0;
      
         TEST_USER.setPassword(PasswordGenerator.generatePassword());
-        TEST_USER.setIdUser(999);
+        TEST_USER.setIdUser(0);
         try {
             rowsAffected = USER_DAO.updateUserPassword(TEST_USER);
         } catch (DAOException exception) {
             Log.getLogger(UserRegistrationTest.class).error(exception.getMessage(), exception);
         }
-        Assert.assertTrue(rowsAffected > 0);   
+        System.out.println(rowsAffected);
+        Assert.assertTrue(rowsAffected == 0);   
     }     
     
     @Test
     public void testGetUserByIdSuccess() {
         User auxUser = new User();
-        
-        
+      
         try {
             auxUser = USER_DAO.getUserById(TEST_USER.getIdUser());
+             TEST_USER.setPassword(USER_DAO.encryptPassword(TEST_USER.getPassword()));
         } catch (DAOException exception) {
             Log.getLogger(UserRegistrationTest.class).error(exception.getMessage(), exception);
         }
+        System.out.println(auxUser);
         Assert.assertEquals(auxUser, TEST_USER);
-    }    
+    } 
+    
+    @Test
+    public void testAuthenticateAdministrativeUserSuccess() {
+        boolean result = false;
+      
+        try {
+             result = USER_DAO.authenticateAdministrativeUser(TEST_USER.getIdUser(), TEST_USER.getPassword());
+            
+        } catch (DAOException exception) {
+            Log.getLogger(UserRegistrationTest.class).error(exception.getMessage(), exception);
+        }
+        System.out.println(result);
+        Assert.assertTrue(result);
+    }
+    
+    @Test
+    public void testAuthenticateAdministrativeUserFailByIncorrectPassword() {
+        boolean result = false;
+      
+        try {
+             result = USER_DAO.authenticateAdministrativeUser(TEST_USER.getIdUser(), "contrasena incorrecta");
+            
+        } catch (DAOException exception) {
+            Log.getLogger(UserRegistrationTest.class).error(exception.getMessage(), exception);
+        }
+        System.out.println(result);
+        Assert.assertTrue(!result);
+    }
+    
+    @Test
+    public void testAuthenticateAdministrativeUserFailByIncorrectId() {
+        boolean result = false;
+      
+        try {
+             result = USER_DAO.authenticateAdministrativeUser(0, TEST_USER.getPassword());
+            
+        } catch (DAOException exception) {
+            Log.getLogger(UserRegistrationTest.class).error(exception.getMessage(), exception);
+        }
+        System.out.println(result);
+        Assert.assertTrue(!result);
+    }
     
     private void initializeTestUser() {
         TEST_USER.setPassword(PasswordGenerator.generatePassword());

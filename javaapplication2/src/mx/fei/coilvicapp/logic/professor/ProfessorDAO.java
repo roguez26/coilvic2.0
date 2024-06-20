@@ -185,7 +185,7 @@ public class ProfessorDAO implements IProfessor {
     /**
      * Actualiza la información de un profesor en la base de datos.
      * 
-     * @param professor El objeto Professor con la información actualizada
+     * @param newProfessorInformation El objeto Professor con la información actualizada
      * @throws DAOException si ocurre un error durante el acceso a la base de datos
      */    
     @Override
@@ -377,7 +377,7 @@ public class ProfessorDAO implements IProfessor {
     /**
      * Obtiene un profesor por su correo electrónico desde la base de datos.
      * 
-     * @param email El correo electrónico del profesor a buscar
+     * @param professorEmail El correo electrónico del profesor a buscar
      * @return El objeto Professor si se encuentra, null si no se encuentra
      * @throws DAOException si ocurre un error durante el acceso a la base de datos
      */    
@@ -445,7 +445,6 @@ public class ProfessorDAO implements IProfessor {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     professorUV = initializeProfessorUV(resultSet); 
-                    System.out.println("3 "+professorUV);
                 }
             }
         } catch (SQLException exception) {
