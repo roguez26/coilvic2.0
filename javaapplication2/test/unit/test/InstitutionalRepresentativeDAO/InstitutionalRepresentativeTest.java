@@ -6,11 +6,9 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentative;
 import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentativeDAO;
 import mx.fei.coilvicapp.logic.university.University;
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
 import org.junit.Test;
 import unit.test.Initializer.TestHelper;
 
@@ -24,7 +22,6 @@ public class InstitutionalRepresentativeTest {
 
     private final TestHelper TEST_HELPER = new TestHelper();
 
-    @Before
     public void setUp() {
         TEST_HELPER.initializeUniversities();
         auxUniversity = TEST_HELPER.getUniversityOne();
@@ -32,7 +29,6 @@ public class InstitutionalRepresentativeTest {
         initializeInstitutionalRepresentative();
     }
 
-    @After
     public void tearDown() {
         try {
             for (int i = 0; i < 3; i++) {
@@ -80,6 +76,7 @@ public class InstitutionalRepresentativeTest {
 
     @Test
     public void testRegisterInstitutionalRepresentativeSuccess() {
+        setUp();
         int idRepresentative = 0;
 
         try {
@@ -90,27 +87,33 @@ public class InstitutionalRepresentativeTest {
         }
         System.out.println(idRepresentative);
         assertTrue(idRepresentative > 0);
+        tearDown();
     }
 
     @Test
     public void testRegisterInstitutionalRepresentativeFailByEmailDuplicated() {
+        setUp();
         INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setEmail(REPRESENTATIVES_FOR_TESTING.get(2).getEmail());
         DAOException exception = assertThrows(DAOException.class, () -> REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
         System.out.println(exception.getMessage());
+        tearDown();
     }
 
     @Test
     public void testRegisterInstitutionalRepresentativeFailByNonexistenceUniversity() {
+        setUp();
         int idUniversity = 0;
         idUniversity = INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.getIdUniversity();
         INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdUniversity(0);
         DAOException exception = assertThrows(DAOException.class, ()-> REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
         System.out.println(exception.getMessage());
         INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdUniversity(idUniversity);
+        tearDown();
     }
 
     @Test
     public void testDeleteInstitutionalRepresentativeSuccess() {
+        setUp();
         int rowsAffected = 0;
         try {
             INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
@@ -120,10 +123,12 @@ public class InstitutionalRepresentativeTest {
         }
         System.out.println(rowsAffected);
         assertTrue(rowsAffected > 0);
+        tearDown();
     }
 
     @Test
     public void testUpdateInstitutionalRepresentativeSuccess() {
+        setUp();
         String newEmail = "javier2@gmail.com";
         int rowsAffected = 0;
 
@@ -136,10 +141,12 @@ public class InstitutionalRepresentativeTest {
         }
         System.out.println(rowsAffected);
         assertTrue(rowsAffected > 0);
+        tearDown();
     }
 
     @Test
     public void testUpdateInstitutionalRepresentativeFailByDuplicatedEmail() {
+        setUp();
         try {
             INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
             INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setEmail(REPRESENTATIVES_FOR_TESTING.get(2).getEmail());
@@ -149,10 +156,12 @@ public class InstitutionalRepresentativeTest {
         
         DAOException exception = assertThrows(DAOException.class, ()-> REPRESENTATIVE_DAO.updateInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
         System.out.println(exception.getMessage());
+        tearDown();
     }
 
     @Test
     public void testGetAllInstitutionalRepresentativesSuccesss() {
+        setUp();
         ArrayList<InstitutionalRepresentative> result = new ArrayList<>();
 
         try {
@@ -162,10 +171,12 @@ public class InstitutionalRepresentativeTest {
         }
         System.out.println(result);
         assertEquals(REPRESENTATIVES_FOR_TESTING, result);
+        tearDown();
     }
 
     @Test
     public void testGetInstitutionalRepresentativeByIdSuccess() {
+        setUp();
         InstitutionalRepresentative result = new InstitutionalRepresentative();
         int ForSearch = 1;
 
@@ -176,10 +187,12 @@ public class InstitutionalRepresentativeTest {
         }
         System.out.println(result);
         assertEquals(REPRESENTATIVES_FOR_TESTING.get(ForSearch), result);
+        tearDown();
     }
 
     @Test
     public void testGetInstitutionalRepresentativeByIdFailByNonexistenceId() {
+        setUp();
         InstitutionalRepresentative result = new InstitutionalRepresentative();
         int nonexistenceId = 0;
 
@@ -190,10 +203,12 @@ public class InstitutionalRepresentativeTest {
         }
         System.out.println(result.getIdInstitutionalRepresentative());
         assertTrue(result.getIdInstitutionalRepresentative() == 0);
+        tearDown();
     }
 
     @Test
     public void testGetInstitutionalRepresentativeByEmailSuccess() {
+        setUp();
         InstitutionalRepresentative result = new InstitutionalRepresentative();
         int ForSearch = 1;
 
@@ -204,10 +219,12 @@ public class InstitutionalRepresentativeTest {
         }
         System.out.println(result);
         assertEquals(REPRESENTATIVES_FOR_TESTING.get(ForSearch), result);
+        tearDown();
     }
 
     @Test
     public void testGetInstitutionalRepresentativeByEmailFailByNonexistenceEmail() {
+        setUp();
         InstitutionalRepresentative result = new InstitutionalRepresentative();
         String nonexistenceEmail = "xxxx@gmail.com";
 
@@ -218,6 +235,7 @@ public class InstitutionalRepresentativeTest {
         }
         System.out.println(result);
         assertTrue(result.getIdInstitutionalRepresentative() == 0);
+        tearDown();
     }
 
 }

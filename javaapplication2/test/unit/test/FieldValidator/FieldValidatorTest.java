@@ -379,12 +379,5 @@ public class FieldValidatorTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, ()-> FIELD_VALIDATOR.checkText(invalidText));
         System.out.println(exception.getMessage()); 
     }
-
-    
-    
-       
-
-    
-    
     
 }

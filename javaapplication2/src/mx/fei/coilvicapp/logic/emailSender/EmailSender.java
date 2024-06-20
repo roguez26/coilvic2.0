@@ -49,7 +49,7 @@ public class EmailSender {
 
         String senderPermisions = mailPermisionsFile.getProperty(this.sender);
         String passwordPermisions = mailPermisionsFile.getProperty(this.password);
-        if (senderPermisions != null && passwordPermisions != null) {
+        if (senderPermisions != null && passwordPermisions != null && receiver != null) {
             try {
                 mail = new MimeMessage(session);
                 mail.setFrom(new InternetAddress(senderPermisions));

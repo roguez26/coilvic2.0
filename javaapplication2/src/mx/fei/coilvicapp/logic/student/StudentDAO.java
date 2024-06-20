@@ -121,7 +121,6 @@ public class StudentDAO implements IStudent {
             Log.getLogger(StudentDAO.class).error(exception.getMessage(), exception);
             throw new DAOException("No fue posible eliminar al estudiante", Status.ERROR);
         }
-        System.out.println(result);
         return result;
     }
 

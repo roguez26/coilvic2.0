@@ -248,7 +248,7 @@ public class AssignmentDAO implements IAssignment {
         return result;
     }
 
-    private int deleteAssignmentByIdAssignment(int idAssignment) throws DAOException {
+    public int deleteAssignmentByIdAssignment(int idAssignment) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         String statement = "delete from Actividad where idActividad = ?";

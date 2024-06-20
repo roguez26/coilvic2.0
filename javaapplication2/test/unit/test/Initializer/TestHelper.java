@@ -85,11 +85,11 @@ public class TestHelper {
         hiringType = new HiringType();
         hiringCategory = new HiringCategory();
     }
-    
+
     public void initializeAcademicArea() {
         AcademicAreaDAO academicAreaDAO = new AcademicAreaDAO();
         academicArea.setName("Economico Administrativo");
-        
+
         try {
             int idAcademicArea = academicAreaDAO.registerAcademicArea(academicArea);
             academicArea.setIdAreaAcademica(idAcademicArea);
@@ -97,34 +97,34 @@ public class TestHelper {
             Log.getLogger(TestHelper.class).error(exception.getMessage(), exception);
         }
     }
-    
+
     public void initializeRegion() {
         RegionDAO regionDAO = new RegionDAO();
         region.setName("Xalapa");
-        
+
         try {
             int idRegion = regionDAO.registerRegion(region);
             region.setIdRegion(idRegion);
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class).error(exception.getMessage(), exception);
-        }        
-    }  
-    
+        }
+    }
+
     public void initializeHiringType() {
         HiringTypeDAO hiringTypeDAO = new HiringTypeDAO();
         hiringType.setName("Interino por Plaza");
-        
+
         try {
             int idHiringType = hiringTypeDAO.registerHiringType(hiringType);
             hiringType.setIdHiringType(idHiringType);
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class).error(exception.getMessage(), exception);
-        }        
-    } 
+        }
+    }
 
     public void initializeHiringCategory() {
         HiringCategoryDAO hiringCategoryDAO = new HiringCategoryDAO();
-        hiringCategory = new HiringCategory();  
+        hiringCategory = new HiringCategory();
         hiringCategory.setName("Docente TC");
 
         try {
@@ -132,8 +132,8 @@ public class TestHelper {
             hiringCategory.setIdHiringCategory(idHiringCategory);
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class).error(exception.getMessage(), exception);
-        }        
-    }    
+        }
+    }
 
     public void initializeLanguage() {
         LanguageDAO languageDAO = new LanguageDAO();
@@ -167,7 +167,6 @@ public class TestHelper {
 
         try {
             modality.setIdModality(modalityDAO.registerModality(modality));
-
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
@@ -176,8 +175,6 @@ public class TestHelper {
 
     public void initializeCountries() {
         CountryDAO countryDAO = new CountryDAO();
-        countryOne = new Country();
-        countryTwo = new Country();
         countryOne.setName("México");
         countryOne.setCountryCode("+52");
         countryTwo.setName("Venezuela");
@@ -186,7 +183,6 @@ public class TestHelper {
         try {
             countryOne.setIdCountry(countryDAO.registerCountry(countryOne));
             countryTwo.setIdCountry(countryDAO.registerCountry(countryTwo));
-
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
@@ -221,10 +217,10 @@ public class TestHelper {
         initializeUniversities();
         ProfessorDAO professorDAO = new ProfessorDAO();
         User user = new User();
-        
+
         user.setIdUser(0);
         user.setPassword(null);
-        user.setType(null);        
+        user.setType(null);
         professorOne.setName("Maria");
         professorOne.setPaternalSurname("Arenas");
         professorOne.setMaternalSurname("Valdes");
@@ -253,19 +249,19 @@ public class TestHelper {
             ).error(exception.getMessage(), exception);
         }
     }
-    
+
     public void initializeProfessorsUV() {
         initializeUniversities();
         initializeHiringCategory();
         initializeHiringType();
         initializeRegion();
-        initializeAcademicArea();        
+        initializeAcademicArea();
         ProfessorDAO professorDAO = new ProfessorDAO();
         User user = new User();
-        
+
         user.setIdUser(0);
         user.setPassword(null);
-        user.setType(null);        
+        user.setType(null);
         professorUVOne.setName("Maria");
         professorUVOne.setPaternalSurname("Arenas");
         professorUVOne.setMaternalSurname("Valdes");
@@ -294,7 +290,7 @@ public class TestHelper {
         professorUVTwo.setHiringCategory(hiringCategory);
         professorUVTwo.setHiringType(hiringType);
         professorUVTwo.setRegion(region);
-        professorUVTwo.setPersonalNumber(54321);        
+        professorUVTwo.setPersonalNumber(54321);
         try {
             professorUVOne.setIdProfessor(professorDAO.registerProfessorUV(professorUVOne));
             professorUVTwo.setIdProfessor(professorDAO.registerProfessorUV(professorUVTwo));
@@ -303,7 +299,7 @@ public class TestHelper {
             Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
         }
-    }    
+    }
 
     public void intializeCourses() {
         initializeProfessors();
@@ -365,10 +361,13 @@ public class TestHelper {
         }
         collaborativeProjectRequest.setStatus("Aceptado");
     }
-    
+
     public void initializeStudent() {
         StudentDAO studentDAO = new StudentDAO();
-        initializeUniversities();
+        if (universityOne == null && universityTwo == null) {
+            initializeUniversities();
+        }
+
         studentOne.setName("Edgar");
         studentOne.setPaternalSurname("Montiel");
         studentOne.setMaternalSurname("Acosta");
@@ -376,7 +375,7 @@ public class TestHelper {
         studentOne.setGender("Masculino");
         studentOne.setLineage("Mexicano");
         studentOne.setUniversity(universityTwo);
-        
+
         studentTwo.setName("Ivan");
         studentTwo.setPaternalSurname("Rodriguez");
         studentTwo.setMaternalSurname("Franco");
@@ -384,7 +383,7 @@ public class TestHelper {
         studentTwo.setGender("Masculino");
         studentTwo.setLineage("Mexicano");
         studentTwo.setUniversity(universityTwo);
-        
+
         try {
             studentOne.setIdStudent(studentDAO.registerStudent(studentOne));
             studentTwo.setIdStudent(studentDAO.registerStudent(studentTwo));
@@ -392,7 +391,7 @@ public class TestHelper {
             Log.getLogger(TestHelper.class).error(exception.getMessage(), exception);
         }
     }
-    
+
     public void initializeStudentUV() {
         StudentDAO studentDAO = new StudentDAO();
         initializeUniversities();
@@ -408,7 +407,7 @@ public class TestHelper {
         studentUVOne.setUniversity(universityOne);
         studentUVOne.setAcademicArea(academicArea);
         studentUVOne.setRegion(region);
-        
+
         studentUVTwo.setName("Ivan");
         studentUVTwo.setPaternalSurname("Rodriguez");
         studentUVTwo.setMaternalSurname("Franco");
@@ -418,15 +417,15 @@ public class TestHelper {
         studentUVTwo.setEnrollment("S22013629");
         studentUVTwo.setUniversity(universityOne);
         studentUVTwo.setAcademicArea(academicArea);
-        studentUVTwo.setRegion(region);        
-        
+        studentUVTwo.setRegion(region);
+
         try {
             studentUVOne.setIdStudent(studentDAO.registerStudentUV(studentUVOne));
             studentUVTwo.setIdStudent(studentDAO.registerStudentUV(studentUVTwo));
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class).error(exception.getMessage(), exception);
         }
-    }    
+    }
 
     public void initializeCollaborativeProject() {
         initializeCollaborativeProjectRequest();
@@ -558,7 +557,7 @@ public class TestHelper {
     public void setProfessorTwo(Professor professorTwo) {
         this.professorTwo = professorTwo;
     }
-    
+
     public ProfessorUV getProfessorUVOne() {
         return professorUVOne;
     }
@@ -573,7 +572,7 @@ public class TestHelper {
 
     public void setProfessorUVTwo(ProfessorUV professorUVTwo) {
         this.professorUVTwo = professorUVTwo;
-    }    
+    }
 
     public Course getCourseOne() {
         return courseOne;
@@ -606,11 +605,11 @@ public class TestHelper {
     public void setCollaborativeProject(CollaborativeProject collaborativeProject) {
         this.collaborativeProject = collaborativeProject;
     }
-    
+
     public void setStudentOne(Student student) {
         this.studentOne = student;
     }
-    
+
     public Student getStudentOne() {
         return studentOne;
     }
@@ -618,15 +617,15 @@ public class TestHelper {
     public void setStudentTwo(Student student) {
         this.studentTwo = student;
     }
-    
+
     public Student getStudentTwo() {
         return studentTwo;
-    } 
-    
+    }
+
     public void setStudentUVOne(StudentUV studentUV) {
         this.studentUVOne = studentUV;
     }
-    
+
     public StudentUV getStudentUVOne() {
         return studentUVOne;
     }
@@ -634,27 +633,27 @@ public class TestHelper {
     public void setStudentUVTwo(StudentUV studentUV) {
         this.studentUVTwo = studentUV;
     }
-    
+
     public StudentUV getStudentUVTwo() {
         return studentUVTwo;
-    }     
-    
+    }
+
     public void setAcademicArea(AcademicArea academicArea) {
         this.academicArea = academicArea;
     }
-    
+
     public AcademicArea getAcademicArea() {
         return academicArea;
-    }    
-    
+    }
+
     public void setRegion(Region region) {
         this.region = region;
     }
-    
+
     public Region getRegion() {
         return region;
-    }    
-    
+    }
+
     public HiringType getHiringType() {
         return hiringType;
     }
@@ -670,5 +669,5 @@ public class TestHelper {
     public void setHiringCategory(HiringCategory hiringCategory) {
         this.hiringCategory = hiringCategory;
     }
-    
+
 }

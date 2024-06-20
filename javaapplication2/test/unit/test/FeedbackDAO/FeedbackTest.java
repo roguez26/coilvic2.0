@@ -3,8 +3,6 @@ package unit.test.FeedbackDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
 import java.util.ArrayList;
 import log.Log;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
@@ -24,29 +22,25 @@ public class FeedbackTest {
     private Student auxStudent;
 
     private final FeedbackDAO FEEDBACK_DAO = new FeedbackDAO();
-    private static final Question QUESTION_FOR_TESTING = new Question();
+    private final Question QUESTION_FOR_TESTING = new Question();
 
-    private static final ArrayList<Question> QUESTIONS_FOR_TESTING = new ArrayList<>();
+    private final ArrayList<Question> QUESTIONS_FOR_TESTING = new ArrayList<>();
 
-    private static final ArrayList<Response> RESPONSES_FOR_TESTING = new ArrayList<>();
+    private final ArrayList<Response> RESPONSES_FOR_TESTING = new ArrayList<>();
     private final TestHelper TEST_HELPER = new TestHelper();
 
-    public FeedbackTest() {
-
-    }
-
-    @Before
     public void setUp() {
         TEST_HELPER.initializeCollaborativeProject();
         auxCollaborativeProject = TEST_HELPER.getCollaborativeProject();
         auxProfessor = TEST_HELPER.getProfessorOne();
         auxStudent = TEST_HELPER.getStudentOne();
     }
-
-    @After
+    
     public void tearDown() {
         try {
-            FEEDBACK_DAO.deleteQuestion(QUESTION_FOR_TESTING);
+            if (QUESTION_FOR_TESTING != null) {
+                FEEDBACK_DAO.deleteQuestion(QUESTION_FOR_TESTING);
+            }
             if (!QUESTIONS_FOR_TESTING.isEmpty()) {
                 deleteQuestions();
             }
@@ -58,6 +52,7 @@ public class FeedbackTest {
 
     @Test
     public void testAreThereProfessorQuestionsSuccess() {
+        setUp();
         boolean result = false;
         initializeProfessorQuestions();
         try {
@@ -67,10 +62,12 @@ public class FeedbackTest {
         }
         System.out.println(result);
         assertTrue(result);
+        tearDown();
     }
 
     @Test
     public void testAreThereProfessorQuestionsFailByNoQuestions() {
+        setUp();
         boolean result = false;
         try {
             result = FEEDBACK_DAO.areThereProfessorQuestions();
@@ -79,10 +76,12 @@ public class FeedbackTest {
         }
         System.out.println(result);
         assertTrue(!result);
+        tearDown();
     }
 
     @Test
     public void testAreThereStudentQuestionsSuccess() {
+        setUp();
         boolean result = false;
         initializeStudentQuestions();
         try {
@@ -92,10 +91,12 @@ public class FeedbackTest {
         }
         System.out.println(result);
         assertTrue(result);
+        tearDown();
     }
 
     @Test
     public void testAreThereStudentQuestionsFailByNoQuestions() {
+        setUp();
         boolean result = false;
         try {
             result = FEEDBACK_DAO.areThereStudentQuestions();
@@ -104,10 +105,12 @@ public class FeedbackTest {
         }
         System.out.println(result);
         assertTrue(!result);
+        tearDown();
     }
 
     @Test
     public void testRegisterProfessorResponsesSuccess() {
+        setUp();
         int result = 0;
         initializeProfessorQuestions();
         initializeProfessorResponses();
@@ -119,10 +122,12 @@ public class FeedbackTest {
         deleteProfessorResponses();
         System.out.println(result);
         assertTrue(result > 0);
+        tearDown();
     }
 
     @Test
     public void testRegisterStudentResponsesSuccess() {
+        setUp();
         int result = 0;
         initializeStudentQuestions();
         initializeStudentResponses();
@@ -134,10 +139,12 @@ public class FeedbackTest {
         deleteStudentResponses();
         System.out.println(result);
         assertTrue(result > 0);
+        tearDown();
     }
 
     @Test
     public void testGetResponsesByQuestionAndIdCollaborativeProjectSuccess() {
+        setUp();
         ArrayList<Response> result = new ArrayList<>();
         ArrayList<Response> expected = new ArrayList<>();
         initializeStudentQuestions();
@@ -152,10 +159,12 @@ public class FeedbackTest {
         deleteStudentResponses();
         System.out.println(result);
         assertEquals(expected, result);
+        tearDown();
     }
 
     @Test
     public void testRegisterQuestionSuccess() {
+        setUp();
         int idQuestion = 0;
         initializeQuestion();
         try {
@@ -166,10 +175,12 @@ public class FeedbackTest {
         }
         System.out.println(idQuestion);
         assertTrue(idQuestion > 0);
+        tearDown();
     }
 
     @Test
     public void testUpdateQuestionSuccess() {
+        setUp();
         int result = 0;
         initializeQuestion();
         try {
@@ -181,10 +192,12 @@ public class FeedbackTest {
         }
         System.out.println(result);
         assertTrue(result > 0);
+        tearDown();
     }
 
     @Test
     public void testUpdateQuestionFailByDuplicatedQuestion() {
+        setUp();
         initializeStudentQuestions();
 
         QUESTION_FOR_TESTING.setQuestionType(QUESTIONS_FOR_TESTING.get(2).getQuestionType());
@@ -192,10 +205,12 @@ public class FeedbackTest {
         
         DAOException exception  = assertThrows(DAOException.class, () -> FEEDBACK_DAO.registerQuestion(QUESTION_FOR_TESTING));
         System.out.println(exception.getMessage());
+        tearDown();
     }
 
     @Test
     public void testRegisterQuestionFailByDuplicatedQuestion() {
+        setUp();
         initializeStudentQuestions();
         QUESTION_FOR_TESTING.setQuestionText(QUESTIONS_FOR_TESTING.get(2).getQuestionText());
         QUESTION_FOR_TESTING.setQuestionType(QUESTIONS_FOR_TESTING.get(2).getQuestionType());
@@ -203,10 +218,12 @@ public class FeedbackTest {
         DAOException exception = assertThrows(DAOException.class, () -> FEEDBACK_DAO.registerQuestion(QUESTION_FOR_TESTING));
 
         System.out.println(exception.getMessage());
+        tearDown();
     }
     
     @Test
     public void testDeleteQuestionSuccess() {
+        setUp();
         int result = 0;
         initializeQuestion();
         try {
@@ -217,21 +234,23 @@ public class FeedbackTest {
         }
         System.out.println(result);
         assertTrue(result > 0);
+        tearDown();
     }
     
     @Test
     public void testDeleteQuestionFailByQuestionUsed() {
+        setUp();
         initializeStudentQuestions();
         initializeStudentResponses();
         try {
             FEEDBACK_DAO.registerStudentResponses(RESPONSES_FOR_TESTING);
-            
         } catch (DAOException exception) {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
         DAOException exception = assertThrows(DAOException.class, () -> FEEDBACK_DAO.deleteQuestion(QUESTIONS_FOR_TESTING.get(1)));
         System.out.println(exception.getMessage());
         deleteStudentResponses();
+        tearDown();
     }
 
     public void initializeProfessorQuestions() {
@@ -256,6 +275,7 @@ public class FeedbackTest {
             for (int i = 0; i < 3; i++) {
                 FEEDBACK_DAO.deleteQuestion(QUESTIONS_FOR_TESTING.get(i));
             }
+            QUESTIONS_FOR_TESTING.clear();
         } catch (DAOException exception) {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
@@ -317,6 +337,7 @@ public class FeedbackTest {
             feedbackDAO.deleteProfessorResponsesByIdAndIdCollaborativeProject(
                     auxProfessor.getIdProfessor(),
                     auxCollaborativeProject.getIdCollaborativeProject());
+            RESPONSES_FOR_TESTING.clear();
         } catch (DAOException exception) {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
@@ -328,6 +349,7 @@ public class FeedbackTest {
             feedbackDAO.deleteStudentResponsesByIdAndIdCollaborativeProject(
                     auxStudent.getIdStudent(),
                     auxCollaborativeProject.getIdCollaborativeProject());
+            RESPONSES_FOR_TESTING.clear();
         } catch (DAOException exception) {
             Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
         }
