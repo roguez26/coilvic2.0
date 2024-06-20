@@ -2,88 +2,58 @@ package unit.test.PDFCreator;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import log.Log;
 import mx.fei.coilvicapp.logic.implementations.PDFCreator;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class PDFCreatorTest {
 
     private final PDFCreator PDF_CREATOR = new PDFCreator();
-    private final String ORIGINAL_TEMPLATE_PATH = "files\\template\\certificate.pdf";
-    private final String TEMPORARY_PATH = "files\\certificate2.pdf";
 
     @Test
-    public void testGenerateCertificateSuccess() {
+    public void testGenerateCertificateSuccess() throws IOException {
         String nameParticipantExample = "Abraham Gonzales Hernández";
         String destinationPath = "files";
         String generatedCertificate = "";
 
-        try {
-            generatedCertificate = PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath);
-        } catch (IOException exception) {
-            Log.getLogger(PDFCreatorTest.class).error(exception.getMessage(), exception);
-        }
-
+        generatedCertificate = PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath);
         File file = new File(generatedCertificate);
         System.out.println(file.exists());
         assertTrue(file.exists());
         file.delete();
     }
 
-    @Test
-    public void testGenerateCertificateFailByNoSelectedDestination() {
+    @Test(expected = IOException.class)
+    public void testGenerateCertificateFailByNoSelectedDestination() throws IOException {
         String nameParticipantExample = "Abraham Gonzales Hernández";
         String destinationPath = "";
 
-        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(
-                nameParticipantExample, destinationPath));
-        System.out.println(exception.getMessage());
+        PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath);
     }
 
-    @Test
-    public void testGenerateCertificateFailByNullDestination() {
+    @Test(expected = IOException.class)
+    public void testGenerateCertificateFailByNullDestination() throws IOException {
         String nameParticipantExample = "Abraham Gonzales Hernández";
         String destinationPath = null;
 
-        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(
-                nameParticipantExample, destinationPath));
-        System.out.println(exception.getMessage());
+        PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath);
+
     }
 
-    private void saveFileTemporary() {
-        try {
-            Files.copy(Paths.get(ORIGINAL_TEMPLATE_PATH), Paths.get(TEMPORARY_PATH));
-        } catch (IOException exception) {
-            Log.getLogger(PDFCreatorTest.class).error(exception.getMessage(), exception);
-        }
-    }
-
-    private void returnFileToOriginalPath() {
-        try {
-            Files.copy(Paths.get(TEMPORARY_PATH), Paths.get(ORIGINAL_TEMPLATE_PATH));
-        } catch (IOException exception) {
-            Log.getLogger(PDFCreatorTest.class).error(exception.getMessage(), exception);
-        }
-    }
-
-    @Test
-    public void testGenerateCertificateFailByNonexistenceTemplate() {
+    @Test(expected = IOException.class)
+    public void testGenerateCertificateFailByNonexistenceTemplate() throws IOException {
         String nameParticipantExample = "Abraham Gonzales Hernández";
         String destinationPath = "files";
-        saveFileTemporary();
-        File fileForTest = new File(ORIGINAL_TEMPLATE_PATH);
-        File fileTemporary = new File(TEMPORARY_PATH);
-        fileForTest.delete();
-        IOException exception = assertThrows(IOException.class, () -> PDF_CREATOR.generateCertificate(
-                nameParticipantExample, destinationPath));
-        System.out.println(exception.getMessage());
+        File originalTemplate = new File("files\\template\\certificate.pdf");
+        File auxTemplate = new File("files\\template\\certificate2.pdf");
+        originalTemplate.renameTo(auxTemplate);
 
-        returnFileToOriginalPath();
-        fileTemporary.delete();
+        try {
+            PDF_CREATOR.generateCertificate(
+                    nameParticipantExample, destinationPath);
+        } finally {
+            auxTemplate.renameTo(originalTemplate);
+        }
     }
 
     @Test
@@ -94,13 +64,11 @@ public class PDFCreatorTest {
 
     @Test
     public void testTemplateExistsFailByNonexistenceTemplate() {
-        saveFileTemporary();
-        File fileForTest = new File(ORIGINAL_TEMPLATE_PATH);
-        File fileTemporary = new File(TEMPORARY_PATH);
-        fileForTest.delete();
+        File originalTemplate = new File("files\\template\\certificate.pdf");
+        File auxTemplate = new File("files\\template\\certificate2.pdf");
+        originalTemplate.renameTo(auxTemplate);
         System.out.println(PDF_CREATOR.templateExists());
         assertTrue(!PDF_CREATOR.templateExists());
-        returnFileToOriginalPath();
-        fileTemporary.delete();
+        auxTemplate.renameTo(originalTemplate);
     }
 }

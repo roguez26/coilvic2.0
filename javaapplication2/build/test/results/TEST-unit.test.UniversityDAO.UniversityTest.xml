@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="8" hostname="roguez" name="unit.test.UniversityDAO.UniversityTest" skipped="0" tests="12" time="7.211" timestamp="2024-06-20T02:17:00">
+<testsuite errors="4" failures="2" hostname="roguez" name="unit.test.UniversityDAO.UniversityTest" skipped="0" tests="12" time="8.561" timestamp="2024-06-20T06:49:29">
   <properties>
     <property name="" value="======" />
     <property name="libs.spring-framework300.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\org-apache-commons-logging.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\cglib-2.2.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aop-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aspects-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-beans-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-support-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-core-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-expression-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-tomcat-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jdbc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jms-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-orm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-oxm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-struts-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-test-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-tx-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-web-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-portlet-3.2.18.RELEASE.jar" />
@@ -23,7 +23,7 @@
     <property name="libs.JWSAntTasks.javadoc" value="" />
     <property name="file.reference.log4j-1.2.17.jar" value="C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar" />
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.UniversityDAO.UniversityTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.UniversityDAO.UniversityTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher3875353479828194912.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit6208819114180009225.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.UniversityDAO.UniversityTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.UniversityDAO.UniversityTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher18302340813473684638.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit13047245776722943743.properties" />
     <property name="jdk.debug" value="release" />
     <property name="libs.spring-framework300.src" value="" />
     <property name="javadoc.use" value="true" />
@@ -507,87 +507,71 @@
     <property name="libs.javaee-web-api-7.0.src" value="" />
     <property name="libs.javaee-endorsed-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\javax.annotation.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\jaxb-api-osgi.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\webservices-api-osgi.jar" />
   </properties>
-  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testRegisterUniverityFailByNameDuplication" time="2.536" />
-  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testGetUniversityByNameFailByNonexistenceName" time="1.02" />
-  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testUpdateUniversitySuccess" time="0.201">
-    <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
-	at unit.test.UniversityDAO.UniversityTest.testUpdateUniversitySuccess(UniversityTest.java:207)
+  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testRegisterUniverityFailByNameDuplication" time="1.846" />
+  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testGetUniversityByNameFailByNonexistenceName" time="0.72" />
+  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testUpdateUniversitySuccess" time="0.678">
+    <error message="Este país aún no se encuentra registrado" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: Este país aún no se encuentra registrado
+	at mx.fei.coilvicapp.logic.university.UniversityDAO.checkCountryExistence(UniversityDAO.java:133)
+	at mx.fei.coilvicapp.logic.university.UniversityDAO.registerUniversity(UniversityDAO.java:60)
+	at unit.test.UniversityDAO.UniversityTest.testUpdateUniversitySuccess(UniversityTest.java:164)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</failure>
+</error>
   </testcase>
-  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testGetAvailableUniversities" time="0.213">
-    <failure message="expected:&lt;[Universidad Autonoma de México, Tecnologico de Monterrey, Universidad Autonoma de Guadalajara]&gt; but was:&lt;[]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[Universidad Autonoma de México, Tecnologico de Monterrey, Universidad Autonoma de Guadalajara]&gt; but was:&lt;[]&gt;
-	at unit.test.UniversityDAO.UniversityTest.testGetAvailableUniversities(UniversityTest.java:291)
+  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testGetAvailableUniversities" time="0.654">
+    <error message="Este país aún no se encuentra registrado" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: Este país aún no se encuentra registrado
+	at mx.fei.coilvicapp.logic.university.UniversityDAO.checkCountryExistence(UniversityDAO.java:133)
+	at mx.fei.coilvicapp.logic.university.UniversityDAO.registerUniversity(UniversityDAO.java:60)
+	at unit.test.UniversityDAO.UniversityTest.testGetAvailableUniversities(UniversityTest.java:214)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</failure>
+</error>
   </testcase>
-  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testGetUniversitiesSuccess" time="0.195">
+  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testGetUniversitiesSuccess" time="0.606">
     <failure message="expected:&lt;[Universidad Autonoma de México, Tecnologico de Monterrey, Universidad Autonoma de Guadalajara]&gt; but was:&lt;[Universidad Católica Andrés Bello]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[Universidad Autonoma de México, Tecnologico de Monterrey, Universidad Autonoma de Guadalajara]&gt; but was:&lt;[Universidad Católica Andrés Bello]&gt;
-	at unit.test.UniversityDAO.UniversityTest.testGetUniversitiesSuccess(UniversityTest.java:274)
+	at unit.test.UniversityDAO.UniversityTest.testGetUniversitiesSuccess(UniversityTest.java:207)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testGetUniversityByNameSuccess" time="0.197">
+  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testGetUniversityByNameSuccess" time="0.569">
     <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
-	at unit.test.UniversityDAO.UniversityTest.testGetUniversityByNameSuccess(UniversityTest.java:243)
+	at unit.test.UniversityDAO.UniversityTest.testGetUniversityByNameSuccess(UniversityTest.java:188)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testDeleteUniversitySuccess" time="0.203">
-    <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
-	at unit.test.UniversityDAO.UniversityTest.testDeleteUniversitySuccess(UniversityTest.java:156)
+  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testDeleteUniversitySuccess" time="0.572">
+    <error message="Este país aún no se encuentra registrado" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: Este país aún no se encuentra registrado
+	at mx.fei.coilvicapp.logic.university.UniversityDAO.checkCountryExistence(UniversityDAO.java:133)
+	at mx.fei.coilvicapp.logic.university.UniversityDAO.registerUniversity(UniversityDAO.java:60)
+	at unit.test.UniversityDAO.UniversityTest.testDeleteUniversitySuccess(UniversityTest.java:135)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</failure>
+</error>
   </testcase>
-  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testDeleteUniversityFailByNonexistenceId" time="0.917" />
-  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testUpdateUniversityFailByDuplicatedName" time="0.218">
-    <failure message="unexpected exception type thrown; expected:&lt;mx.fei.coilvicapp.logic.implementations.DAOException&gt; but was:&lt;java.lang.NullPointerException&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: unexpected exception type thrown; expected:&lt;mx.fei.coilvicapp.logic.implementations.DAOException&gt; but was:&lt;java.lang.NullPointerException&gt;
-	at unit.test.UniversityDAO.UniversityTest.testUpdateUniversityFailByDuplicatedName(UniversityTest.java:224)
+  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testDeleteUniversityFailByNonexistenceId" time="0.603" />
+  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testUpdateUniversityFailByDuplicatedName" time="0.54" />
+  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testDeleteUniversityFailByDependencies" time="0.531" />
+  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testRegisterUniveritySuccess" time="0.534">
+    <error message="Este país aún no se encuentra registrado" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: Este país aún no se encuentra registrado
+	at mx.fei.coilvicapp.logic.university.UniversityDAO.checkCountryExistence(UniversityDAO.java:133)
+	at mx.fei.coilvicapp.logic.university.UniversityDAO.registerUniversity(UniversityDAO.java:60)
+	at unit.test.UniversityDAO.UniversityTest.testRegisterUniveritySuccess(UniversityTest.java:107)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-Caused by: java.lang.NullPointerException: Cannot invoke &quot;String.equals(Object)&quot; because the return value of &quot;mx.fei.coilvicapp.logic.university.University.getName()&quot; is null
-	at mx.fei.coilvicapp.logic.university.UniversityDAO.validateUniversityForUpdate(UniversityDAO.java:161)
-	at mx.fei.coilvicapp.logic.university.UniversityDAO.updateUniversity(UniversityDAO.java:81)
-	at unit.test.UniversityDAO.UniversityTest.lambda$testUpdateUniversityFailByDuplicatedName$3(UniversityTest.java:224)
-</failure>
+</error>
   </testcase>
-  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testDeleteUniversityFailByDependencies" time="0.211">
-    <failure message="expected mx.fei.coilvicapp.logic.implementations.DAOException to be thrown, but nothing was thrown" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected mx.fei.coilvicapp.logic.implementations.DAOException to be thrown, but nothing was thrown
-	at unit.test.UniversityDAO.UniversityTest.testDeleteUniversityFailByDependencies(UniversityTest.java:171)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</failure>
-  </testcase>
-  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testRegisterUniveritySuccess" time="0.176">
-    <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
-	at unit.test.UniversityDAO.UniversityTest.testRegisterUniveritySuccess(UniversityTest.java:111)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</failure>
-  </testcase>
-  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testRegisterUniversityFailByNonexistenceCountry" time="0.854" />
-  <system-out><![CDATA[Este país aún no se encuentra registrado
-null
-0
-[]
+  <testcase classname="unit.test.UniversityDAO.UniversityTest" name="testRegisterUniversityFailByNonexistenceCountry" time="0.52" />
+  <system-out><![CDATA[null
 [Universidad Católica Andrés Bello]
 null
-0
-0
-Este país aún no se encuentra registrado
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

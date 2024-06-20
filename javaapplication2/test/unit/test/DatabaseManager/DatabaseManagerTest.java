@@ -26,72 +26,67 @@ public class DatabaseManagerTest {
     }
 
     @Test
-    public void testGetConnectionSuccess() {
+    public void testGetConnectionSuccess() throws DAOException {
         Connection connection = null;
-        try {
-            connection = DATABASE_MANAGER.getConnection();
-        } catch (DAOException exception) {
-            Log.getLogger(DatabaseManagerTest.class).error(exception.getMessage(), exception);
-        }
+
+        connection = DATABASE_MANAGER.getConnection();
+
         System.out.println(connection);
         Assert.assertNotNull(connection);
         DATABASE_MANAGER.closeConnection();
     }
 
     @Test
-    public void testConnectSuccess() {
+    public void testConnectSuccess() throws DAOException {
         Connection connection = null;
-        try {
-            connection = DATABASE_MANAGER.connect();
-        } catch (DAOException exception) {
-            Log.getLogger(DatabaseManagerTest.class).error(exception.getMessage(), exception);
-        }
+
+        connection = DATABASE_MANAGER.connect();
         System.out.println(connection);
         Assert.assertNotNull(connection);
         DATABASE_MANAGER.closeConnection();
     }
 
     @Test
-    public void testCloseConnectionSuccess() {
+    public void testCloseConnectionSuccess() throws DAOException {
         boolean isClosed = false;
-        try {
-            isClosed = DATABASE_MANAGER.closeConnection();
-        } catch (Exception exception) {
-            Log.getLogger(DatabaseManagerTest.class).error(exception.getMessage(), exception);
-        }
+
+        isClosed = DATABASE_MANAGER.closeConnection();
         System.out.println(isClosed);
         Assert.assertTrue(isClosed);
     }
 
-    @Test
+    @Test(expected = DAOException.class)
     public void testGetConnectionFailByNotFoundPropertiesFile() throws DAOException {
         File originalFile = new File("resources/database/database.properties");
         File auxFile = new File("resources/database/database2.properties");
 
         originalFile.renameTo(auxFile);
-        DAOException exception = assertThrows(DAOException.class, () -> DATABASE_MANAGER.getConnection());
-
-        System.out.println(exception.getMessage());
-        DATABASE_MANAGER.closeConnection();
-        auxFile.renameTo(originalFile);
+        try {
+            DATABASE_MANAGER.getConnection();
+        } finally {
+            DATABASE_MANAGER.closeConnection();
+            auxFile.renameTo(originalFile);
+        }
     }
-    
-    @Test
-    public void testGetConnectionFailByIncorrectFile() throws IOException {
+
+    @Test(expected = DAOException.class)
+    public void testGetConnectionFailByIncorrectFile() throws IOException, DAOException {
         File originalFile = new File("resources/database/database.properties");
         File auxFile = new File("resources/database/database2.properties");
-        
+
         originalFile.renameTo(auxFile);
         File temporaryFile = new File("resources/database/database.properties");
         temporaryFile.createNewFile();
-        DAOException exception = assertThrows(DAOException.class, () -> DATABASE_MANAGER.getConnection());
-        temporaryFile.delete();
-        System.out.println(exception.getMessage());
-        auxFile.renameTo(originalFile);
+        try {
+            DATABASE_MANAGER.getConnection();
+        } finally {
+            temporaryFile.delete();
+            auxFile.renameTo(originalFile);
+        }
     }
-    
-    @Test
-    public void testGetConnectionFailByIncorrectPermissionsFile() throws IOException {
+
+    @Test(expected = DAOException.class)
+    public void testGetConnectionFailByIncorrectPermissionsFile() throws IOException, DAOException {
         File originalFile = new File("resources/database/database.properties");
         File auxFile = new File("resources/database/database2.properties");
 
@@ -102,13 +97,14 @@ public class DatabaseManagerTest {
         try (FileWriter writer = new FileWriter(temporaryFile)) {
             writer.write("mysql.db.user=user\n");
             writer.write("mysql.db.password=password\n");
-            writer.write("mysql.db.url=jdbc:mysql://127.0.0.1/db\n"); 
+            writer.write("mysql.db.url=jdbc:mysql://127.0.0.1/db\n");
         }
-
-        DAOException exception = assertThrows(DAOException.class, () -> DATABASE_MANAGER.getConnection());
-        System.out.println(exception.getMessage());
-        temporaryFile.delete();
-        auxFile.renameTo(originalFile);
+        try {
+            DATABASE_MANAGER.getConnection();
+        } finally {
+            temporaryFile.delete();
+            auxFile.renameTo(originalFile);
+        }
     }
 
 }

@@ -6,9 +6,10 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentative;
 import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentativeDAO;
 import mx.fei.coilvicapp.logic.university.University;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 import unit.test.Initializer.TestHelper;
 
@@ -22,6 +23,7 @@ public class InstitutionalRepresentativeTest {
 
     private final TestHelper TEST_HELPER = new TestHelper();
 
+    @Before
     public void setUp() {
         TEST_HELPER.initializeUniversities();
         auxUniversity = TEST_HELPER.getUniversityOne();
@@ -29,6 +31,7 @@ public class InstitutionalRepresentativeTest {
         initializeInstitutionalRepresentative();
     }
 
+    @After
     public void tearDown() {
         try {
             for (int i = 0; i < 3; i++) {
@@ -75,167 +78,110 @@ public class InstitutionalRepresentativeTest {
     }
 
     @Test
-    public void testRegisterInstitutionalRepresentativeSuccess() {
-        setUp();
+    public void testRegisterInstitutionalRepresentativeSuccess() throws DAOException {
         int idRepresentative = 0;
 
-        try {
-            idRepresentative = REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING);
-            INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(idRepresentative);
-        } catch (DAOException exception) {
-            Log.getLogger(InstitutionalRepresentativeTest.class).error(exception.getMessage(), exception);
-        }
+        idRepresentative = REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING);
+        INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(idRepresentative);
         System.out.println(idRepresentative);
         assertTrue(idRepresentative > 0);
-        tearDown();
     }
 
-    @Test
-    public void testRegisterInstitutionalRepresentativeFailByEmailDuplicated() {
-        setUp();
+    @Test(expected = DAOException.class)
+    public void testRegisterInstitutionalRepresentativeFailByEmailDuplicated() throws DAOException {
         INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setEmail(REPRESENTATIVES_FOR_TESTING.get(2).getEmail());
-        DAOException exception = assertThrows(DAOException.class, () -> REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
-        System.out.println(exception.getMessage());
-        tearDown();
+        REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING);
+    }
+
+    @Test(expected = DAOException.class)
+    public void testRegisterInstitutionalRepresentativeFailByNonexistenceUniversity() throws DAOException {
+        InstitutionalRepresentative auxInstitutionalRepresentative = new InstitutionalRepresentative();
+
+        auxInstitutionalRepresentative.setName(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.getName());
+        auxInstitutionalRepresentative.setPaternalSurname(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.getPaternalSurname());
+        auxInstitutionalRepresentative.setMaternalSurname(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.getMaternalSurname());
+        auxInstitutionalRepresentative.setPhoneNumber(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.getPhoneNumber());
+        auxInstitutionalRepresentative.setEmail(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.getEmail());
+        REPRESENTATIVE_DAO.registerInstitutionalRepresentative(auxInstitutionalRepresentative);
     }
 
     @Test
-    public void testRegisterInstitutionalRepresentativeFailByNonexistenceUniversity() {
-        setUp();
-        int idUniversity = 0;
-        idUniversity = INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.getIdUniversity();
-        INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdUniversity(0);
-        DAOException exception = assertThrows(DAOException.class, ()-> REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
-        System.out.println(exception.getMessage());
-        INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdUniversity(idUniversity);
-        tearDown();
-    }
-
-    @Test
-    public void testDeleteInstitutionalRepresentativeSuccess() {
-        setUp();
+    public void testDeleteInstitutionalRepresentativeSuccess() throws DAOException {
         int rowsAffected = 0;
-        try {
-            INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
-            rowsAffected = REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING);
-        } catch (DAOException exception) {
-            Log.getLogger(InstitutionalRepresentativeTest.class).error(exception.getMessage(), exception);
-        }
+
+        INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
+        rowsAffected = REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING);
         System.out.println(rowsAffected);
         assertTrue(rowsAffected > 0);
-        tearDown();
     }
 
     @Test
-    public void testUpdateInstitutionalRepresentativeSuccess() {
-        setUp();
+    public void testUpdateInstitutionalRepresentativeSuccess() throws DAOException {
         String newEmail = "javier2@gmail.com";
         int rowsAffected = 0;
 
-        try {
-            INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
-            INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setEmail(newEmail);
-            rowsAffected = REPRESENTATIVE_DAO.updateInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING);
-        } catch (DAOException exception) {
-            Log.getLogger(InstitutionalRepresentativeTest.class).error(exception.getMessage(), exception);
-        }
+        INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
+        INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setEmail(newEmail);
+        rowsAffected = REPRESENTATIVE_DAO.updateInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING);
         System.out.println(rowsAffected);
         assertTrue(rowsAffected > 0);
-        tearDown();
+    }
+
+    @Test(expected = DAOException.class)
+    public void testUpdateInstitutionalRepresentativeFailByDuplicatedEmail() throws DAOException {
+
+        INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
+        INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setEmail(REPRESENTATIVES_FOR_TESTING.get(2).getEmail());
+        REPRESENTATIVE_DAO.updateInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING);
     }
 
     @Test
-    public void testUpdateInstitutionalRepresentativeFailByDuplicatedEmail() {
-        setUp();
-        try {
-            INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.registerInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
-            INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING.setEmail(REPRESENTATIVES_FOR_TESTING.get(2).getEmail());
-        } catch (DAOException exception) {
-            Log.getLogger(InstitutionalRepresentativeTest.class).error(exception.getMessage(), exception);
-        }
-        
-        DAOException exception = assertThrows(DAOException.class, ()-> REPRESENTATIVE_DAO.updateInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING));
-        System.out.println(exception.getMessage());
-        tearDown();
-    }
-
-    @Test
-    public void testGetAllInstitutionalRepresentativesSuccesss() {
-        setUp();
+    public void testGetAllInstitutionalRepresentativesSuccesss() throws DAOException {
         ArrayList<InstitutionalRepresentative> result = new ArrayList<>();
 
-        try {
-            result = REPRESENTATIVE_DAO.getAllInstitutionalRepresentatives();
-        } catch (DAOException exception) {
-            Log.getLogger(InstitutionalRepresentativeTest.class).error(exception.getMessage(), exception);
-        }
+        result = REPRESENTATIVE_DAO.getAllInstitutionalRepresentatives();
         System.out.println(result);
         assertEquals(REPRESENTATIVES_FOR_TESTING, result);
-        tearDown();
     }
 
     @Test
-    public void testGetInstitutionalRepresentativeByIdSuccess() {
-        setUp();
+    public void testGetInstitutionalRepresentativeByIdSuccess() throws DAOException {
         InstitutionalRepresentative result = new InstitutionalRepresentative();
         int ForSearch = 1;
 
-        try {
-            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeById(REPRESENTATIVES_FOR_TESTING.get(ForSearch).getIdInstitutionalRepresentative());
-        } catch (DAOException exception) {
-            Log.getLogger(InstitutionalRepresentativeTest.class).error(exception.getMessage(), exception);
-        }
+        result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeById(REPRESENTATIVES_FOR_TESTING.get(ForSearch).getIdInstitutionalRepresentative());
         System.out.println(result);
         assertEquals(REPRESENTATIVES_FOR_TESTING.get(ForSearch), result);
-        tearDown();
     }
 
     @Test
-    public void testGetInstitutionalRepresentativeByIdFailByNonexistenceId() {
-        setUp();
+    public void testGetInstitutionalRepresentativeByIdFailByNonexistenceId() throws DAOException {
         InstitutionalRepresentative result = new InstitutionalRepresentative();
         int nonexistenceId = 0;
 
-        try {
-            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeById(nonexistenceId);
-        } catch (DAOException exception) {
-            Log.getLogger(InstitutionalRepresentativeTest.class).error(exception.getMessage(), exception);
-        }
+        result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeById(nonexistenceId);
         System.out.println(result.getIdInstitutionalRepresentative());
         assertTrue(result.getIdInstitutionalRepresentative() == 0);
-        tearDown();
     }
 
     @Test
-    public void testGetInstitutionalRepresentativeByEmailSuccess() {
-        setUp();
+    public void testGetInstitutionalRepresentativeByEmailSuccess() throws DAOException {
         InstitutionalRepresentative result = new InstitutionalRepresentative();
         int ForSearch = 1;
 
-        try {
-            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeByEmail(REPRESENTATIVES_FOR_TESTING.get(ForSearch).getEmail());
-        } catch (DAOException exception) {
-            Log.getLogger(InstitutionalRepresentativeTest.class).error(exception.getMessage(), exception);
-        }
+        result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeByEmail(REPRESENTATIVES_FOR_TESTING.get(ForSearch).getEmail());
         System.out.println(result);
         assertEquals(REPRESENTATIVES_FOR_TESTING.get(ForSearch), result);
-        tearDown();
     }
 
     @Test
-    public void testGetInstitutionalRepresentativeByEmailFailByNonexistenceEmail() {
-        setUp();
+    public void testGetInstitutionalRepresentativeByEmailFailByNonexistenceEmail() throws DAOException {
         InstitutionalRepresentative result = new InstitutionalRepresentative();
         String nonexistenceEmail = "xxxx@gmail.com";
 
-        try {
-            result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeByEmail(nonexistenceEmail);
-        } catch (DAOException exception) {
-            Log.getLogger(InstitutionalRepresentativeTest.class).error(exception.getMessage(), exception);
-        }
+        result = REPRESENTATIVE_DAO.getInstitutionalRepresentativeByEmail(nonexistenceEmail);
         System.out.println(result);
         assertTrue(result.getIdInstitutionalRepresentative() == 0);
-        tearDown();
     }
 
 }
