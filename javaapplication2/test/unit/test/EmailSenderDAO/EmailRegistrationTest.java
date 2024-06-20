@@ -7,36 +7,36 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import log.Log;
-import static org.junit.Assert.assertThrows;
+import org.junit.After;
+import org.junit.Before;
 import unit.test.Initializer.TestHelper;
 
 public class EmailRegistrationTest {
 
-    private static final EmailSenderDAO EMAIL_SENDER_DAO = new EmailSenderDAO();
-    private static final EmailSender EMAIL_SENDER_FOR_TESTING = new EmailSender();
+    private final EmailSenderDAO EMAIL_SENDER_DAO = new EmailSenderDAO();
+    private final EmailSender EMAIL_SENDER_FOR_TESTING = new EmailSender();
 
     private Professor auxProfessor;
-    
+
     private final TestHelper TEST_HELPER = new TestHelper();
 
-
+    @Before
     public void setUp() {
         TEST_HELPER.initializeProfessors();
         auxProfessor = TEST_HELPER.getProfessorOne();
         intializeEmail();
     }
-    
+
     public void intializeEmail() {
         EMAIL_SENDER_FOR_TESTING.setMessage("Mensaje de prueba");
         EMAIL_SENDER_FOR_TESTING.setSubject("Asunto de prueba");
         EMAIL_SENDER_FOR_TESTING.setReceiver(auxProfessor);
     }
-    
+
     @Test
     public void testRegisterSentEmailSuccess() {
-        setUp();
         int idEmail = 0;
-        
+
         try {
             idEmail = EMAIL_SENDER_DAO.registerEmail(EMAIL_SENDER_FOR_TESTING);
             EMAIL_SENDER_FOR_TESTING.setIdEmail(idEmail);
@@ -45,20 +45,15 @@ public class EmailRegistrationTest {
         }
         System.out.println(idEmail);
         assertTrue(idEmail > 0);
-        tearDown();
-    }
-    
-    @Test
-    public void testRegisterSentEmailFailByNoReceiver() {
-        setUp();
-        EMAIL_SENDER_FOR_TESTING.setReceiver(new Professor());
-        
-        DAOException exception = assertThrows(DAOException.class, () ->
-                EMAIL_SENDER_DAO.registerEmail(EMAIL_SENDER_FOR_TESTING));
-        System.out.println(exception.getMessage());
-        tearDown();
     }
 
+    @Test(expected = DAOException.class)
+    public void testRegisterSentEmailFailByNoReceiver() throws DAOException {
+        EMAIL_SENDER_FOR_TESTING.setReceiver(new Professor());
+        EMAIL_SENDER_DAO.registerEmail(EMAIL_SENDER_FOR_TESTING);
+    }
+
+    @After
     public void tearDown() {
         try {
             EMAIL_SENDER_DAO.deleteEmail(EMAIL_SENDER_FOR_TESTING.getIdEmail());

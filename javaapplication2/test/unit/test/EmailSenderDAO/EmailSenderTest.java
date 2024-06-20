@@ -66,12 +66,11 @@ public class EmailSenderTest {
         assertTrue(result);
     }
 
-    @Test
-    public void testSendEmailFailByNotCreatedEmail() {
+    @Test(expected = MessagingException.class)
+    public void testSendEmailFailByNotCreatedEmail() throws MessagingException {
         EmailSender emailSender = initializeEmailSender();
-        MessagingException exception = assertThrows(MessagingException.class, () -> 
-                emailSender.sendEmail());
-        System.out.println(exception.getMessage());
+        emailSender.sendEmail();
+
     }
 
 }

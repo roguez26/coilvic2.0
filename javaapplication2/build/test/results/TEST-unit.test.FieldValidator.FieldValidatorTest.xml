@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="roguez" name="unit.test.FieldValidator.FieldValidatorTest" skipped="0" tests="34" time="0.472" timestamp="2024-06-20T02:15:20">
+<testsuite errors="0" failures="0" hostname="roguez" name="unit.test.FieldValidator.FieldValidatorTest" skipped="0" tests="34" time="0.3" timestamp="2024-06-20T06:48:21">
   <properties>
     <property name="" value="======" />
     <property name="libs.spring-framework300.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\org-apache-commons-logging.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\cglib-2.2.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aop-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aspects-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-beans-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-support-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-core-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-expression-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-tomcat-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jdbc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jms-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-orm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-oxm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-struts-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-test-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-tx-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-web-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-portlet-3.2.18.RELEASE.jar" />
@@ -23,7 +23,7 @@
     <property name="libs.JWSAntTasks.javadoc" value="" />
     <property name="file.reference.log4j-1.2.17.jar" value="C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar" />
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.FieldValidator.FieldValidatorTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.FieldValidator.FieldValidatorTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher3254710372555078098.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit6385007783446051262.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.FieldValidator.FieldValidatorTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.FieldValidator.FieldValidatorTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher12498074468919173777.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit12652944252663915211.properties" />
     <property name="jdk.debug" value="release" />
     <property name="libs.spring-framework300.src" value="" />
     <property name="javadoc.use" value="true" />
@@ -507,159 +507,43 @@
     <property name="libs.javaee-web-api-7.0.src" value="" />
     <property name="libs.javaee-endorsed-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\javax.annotation.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\jaxb-api-osgi.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\webservices-api-osgi.jar" />
   </properties>
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPersonalNumberSuccess" time="0.013" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPasswordByNoNumbers" time="0.009" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckNameFailByNoAllowedSigns" time="0.013" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckTextFailByTooShort" time="0.002" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckShortRangeFailByTooShort" time="0.004" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckLongRangeFailByTooShort" time="0.008" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPhoneNumberFailByTooLong" time="0.004" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPhoneNumberFailByTooShort" time="0.002" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckEmailFailByNoAtSing" time="0.006" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckNameFailByRepeatedCharacters" time="0.003" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPersonalNumberSuccess" time="0.009" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckNameFailByNoAllowedSigns" time="0.004" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckTextFailByTooShort" time="0.001" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckShortRangeFailByTooShort" time="0.001" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckLongRangeFailByTooShort" time="0.003" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPhoneNumberFailByTooLong" time="0.002" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPhoneNumberFailByTooShort" time="0.0" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckEmailFailByNoAtSing" time="0.003" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckNameFailByRepeatedCharacters" time="0.001" />
   <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckNameFailByTooShort" time="0.002" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPasswordSuccess" time="0.001" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPasswordSuccess" time="0.0" />
   <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckTextSuccess" time="0.001" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPasswordByNoSigns" time="0.008" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPersonalNumberFailByTooLong" time="0.005" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckLongRangeFailByTooLong" time="0.004" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckNameSuccess" time="0.001" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPasswordByNoSigns" time="0.0" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPersonalNumberFailByTooLong" time="0.0" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckLongRangeFailByTooLong" time="0.0" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckNameSuccess" time="0.002" />
   <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckShortRangeSuccess" time="0.001" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckShortRangeFailByNoAllowedSigns" time="0.003" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckTextFailByNoAllowedSigns" time="0.002" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckShortRangeFailByNoAllowedSigns" time="0.001" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckTextFailByNoAllowedSigns" time="0.0" />
   <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckLongRangeSucess" time="0.001" />
   <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckEmailFailByBlankSpaces" time="0.001" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPhoneNumberFailByNoAllowedSigns" time="0.001" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPasswordByNoCapitalLetters" time="0.005" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPersonalNumberFailByTooShort" time="0.002" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckNumberSuccess" time="0.003" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckNameFailByTooLong" time="0.004" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPasswordByTooShort" time="0.001" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPhoneNumberFailByNoAllowedSigns" time="0.0" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPasswordByNoCapitalLetters" time="0.0" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPersonalNumberFailByTooShort" time="0.0" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckNumberSuccess" time="0.001" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckNameFailByTooLong" time="0.002" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPasswordByTooShort" time="0.0" />
   <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPhoneNumberSuccess" time="0.001" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckEmailFailByTooShort" time="0.002" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckShortRangeFailByTooLong" time="0.064" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckEmailSuccess" time="0.001" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckEmailFailByTooShort" time="0.0" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckShortRangeFailByTooLong" time="0.001" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckEmailSuccess" time="0.0" />
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckPasswordFailByNoNumbers" time="0.001" />
   <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckNameFailByRepeatedSigns" time="0.001" />
-  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckEmailFailByTooLong" time="0.0" />
-  <system-out><![CDATA[La contraseña debe tener las siguientes características:
-1.- Debe contener al menos 8 y máximo 128 caracteres (mayúsculas y minúsculas).
-2.- Debe contener  al menos un carácter especial (@, $, !, %, *, ? o &.
-3.- Debe contener al menos un número.
-
-El nombre debe tener las siguientes características:
-1.- Los únicos símbolos permitidos son espacios, ., -, y '
-2.- No debe contener dos símbolos consecutivos.
-3.- No debe terminar con espacios en blanco, ' o -
-4.- No debe contener números
-El texto debe tener las siguientes características:
-1.- Puede contener letras, números, espacios, comas, puntos y dos puntos.
-2.- No debe contener los siguientes símbolos: (!, ", #, $, %, &, ', (, ), *, +, -, /, ;, <, =, >, ?, @, [, \, ], ^, _, `, {, |, }, ~)
-
-El campo debe tener las siguientes características:
-1.- Debe contener al un rango de 3 a 45 caractéres
-2.- Solo se permiten caracteres: A-Z, 0-9
-3.- No se permiten otros simbolos
-El campo debe tener las siguientes características:
-1.- Debe contener al un rango de 3 a 255 caractéres 
-
-El número telefónico debe tener las siguientes características:
-1.- Debe contener un total de 10 dígitos
-2.- Solo debe contener números
-3.- No puede tener espacios en blanco
-4.- No debe contener símbolos
-
-El número telefónico debe tener las siguientes características:
-1.- Debe contener un total de 10 dígitos
-2.- Solo debe contener números
-3.- No puede tener espacios en blanco
-4.- No debe contener símbolos
-
-El Email debe contener las siguientes características:
-1.- No debe contener espacios en blanco
-2.- Simbolos permitidos: +, -, . y _
-3.- No debe empezar ni terminar con signos
-4.- Dominios permitidos: (@uv.mx, @estudiantes.uv.mx, @gmail.com, @hotmail.com, @outlook.com, @edu.mx, @yahoo.com, @icloud.com, @aol.com, @protonmail.com, @zoho.com, @mail.com)
-
-No se permiten entradas con 3 o más caracteres repetidos consecutivamente.
-
-El nombre debe tener las siguientes características:
-1.- Los únicos símbolos permitidos son espacios, ., -, y '
-2.- No debe contener dos símbolos consecutivos.
-3.- No debe terminar con espacios en blanco, ' o -
-4.- No debe contener números
-La contraseña debe tener las siguientes características:
-1.- Debe contener al menos 8 y máximo 128 caracteres (mayúsculas y minúsculas).
-2.- Debe contener  al menos un carácter especial (@, $, !, %, *, ? o &.
-3.- Debe contener al menos un número.
-
-El numero de personal UV debe tener las siguientes caracteristicas:
-1.- Debe contener 5 numeros.
-
-El campo debe tener las siguientes características:
-1.- Debe contener al un rango de 3 a 255 caractéres 
-
+  <testcase classname="unit.test.FieldValidator.FieldValidatorTest" name="testCheckEmailFailByTooLong" time="0.001" />
+  <system-out><![CDATA[true
 true
-El campo debe tener las siguientes características:
-1.- Debe contener al un rango de 3 a 45 caractéres
-2.- Solo se permiten caracteres: A-Z, 0-9
-3.- No se permiten otros simbolos
-El texto debe tener las siguientes características:
-1.- Puede contener letras, números, espacios, comas, puntos y dos puntos.
-2.- No debe contener los siguientes símbolos: (!, ", #, $, %, &, ', (, ), *, +, -, /, ;, <, =, >, ?, @, [, \, ], ^, _, `, {, |, }, ~)
-
-El Email debe contener las siguientes características:
-1.- No debe contener espacios en blanco
-2.- Simbolos permitidos: +, -, . y _
-3.- No debe empezar ni terminar con signos
-4.- Dominios permitidos: (@uv.mx, @estudiantes.uv.mx, @gmail.com, @hotmail.com, @outlook.com, @edu.mx, @yahoo.com, @icloud.com, @aol.com, @protonmail.com, @zoho.com, @mail.com)
-
-El número telefónico debe tener las siguientes características:
-1.- Debe contener un total de 10 dígitos
-2.- Solo debe contener números
-3.- No puede tener espacios en blanco
-4.- No debe contener símbolos
-
-La contraseña debe tener las siguientes características:
-1.- Debe contener al menos 8 y máximo 128 caracteres (mayúsculas y minúsculas).
-2.- Debe contener  al menos un carácter especial (@, $, !, %, *, ? o &.
-3.- Debe contener al menos un número.
-
-El numero de personal UV debe tener las siguientes caracteristicas:
-1.- Debe contener 5 numeros.
-
-El nombre debe tener las siguientes características:
-1.- Los únicos símbolos permitidos son espacios, ., -, y '
-2.- No debe contener dos símbolos consecutivos.
-3.- No debe terminar con espacios en blanco, ' o -
-4.- No debe contener números
-La contraseña debe tener las siguientes características:
-1.- Debe contener al menos 8 y máximo 128 caracteres (mayúsculas y minúsculas).
-2.- Debe contener  al menos un carácter especial (@, $, !, %, *, ? o &.
-3.- Debe contener al menos un número.
-
 true
-El Email debe contener las siguientes características:
-1.- No debe contener espacios en blanco
-2.- Simbolos permitidos: +, -, . y _
-3.- No debe empezar ni terminar con signos
-4.- Dominios permitidos: (@uv.mx, @estudiantes.uv.mx, @gmail.com, @hotmail.com, @outlook.com, @edu.mx, @yahoo.com, @icloud.com, @aol.com, @protonmail.com, @zoho.com, @mail.com)
-
-El campo debe tener las siguientes características:
-1.- Debe contener al un rango de 3 a 45 caractéres
-2.- Solo se permiten caracteres: A-Z, 0-9
-3.- No se permiten otros simbolos
-true
-El nombre debe tener las siguientes características:
-1.- Los únicos símbolos permitidos son espacios, ., -, y '
-2.- No debe contener dos símbolos consecutivos.
-3.- No debe terminar con espacios en blanco, ' o -
-4.- No debe contener números
-El Email debe contener las siguientes características:
-1.- No debe contener espacios en blanco
-2.- Simbolos permitidos: +, -, . y _
-3.- No debe empezar ni terminar con signos
-4.- Dominios permitidos: (@uv.mx, @estudiantes.uv.mx, @gmail.com, @hotmail.com, @outlook.com, @edu.mx, @yahoo.com, @icloud.com, @aol.com, @protonmail.com, @zoho.com, @mail.com)
-
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
