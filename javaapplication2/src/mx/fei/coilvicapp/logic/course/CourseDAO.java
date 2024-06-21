@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import log.Log;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
+import mx.fei.coilvicapp.logic.implementations.FieldValidator;
 import mx.fei.coilvicapp.logic.implementations.Status;
 
 public class CourseDAO implements ICourse {
@@ -43,7 +44,7 @@ public class CourseDAO implements ICourse {
         Course auxCourse = new Course();
 
         try {
-            auxCourse = getCourseByNameAndIdTerm(course);
+            auxCourse = getCourseByProfessorNameAndTerm(course);
         } catch (DAOException exception) {
             throw new DAOException("No fue posible realizar la validación", Status.WARNING);
         }
@@ -57,9 +58,9 @@ public class CourseDAO implements ICourse {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         String statement = "INSERT INTO Curso (idProfesor, idIdioma,"
-                + " idPeriodo, nombre, objetivoGeneral, temasInteres,"
-                + " numeroEstudiantes, perfilEstudiantes, informacionAdicional)"
-                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        + " idPeriodo, nombre, objetivoGeneral, temasInteres,"
+        + " numeroEstudiantes, perfilEstudiantes, informacionAdicional)"
+        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         DatabaseManager databaseManager = new DatabaseManager();
         ResultSet resultSet = null;
         int result = -1;
@@ -127,7 +128,9 @@ public class CourseDAO implements ICourse {
      */
     @Override
     public ArrayList<Course> getCourseProposalsByUniversity(String nameUniversity) throws DAOException {
-        ArrayList<Course> courses;
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkName(nameUniversity);
+        ArrayList<Course> courses;        
         courses = getCourseProposalsByUniversityName(nameUniversity, "Pendiente");
         return courses;
     }
@@ -198,6 +201,8 @@ public class CourseDAO implements ICourse {
      */
     @Override
     public ArrayList<Course> getCourseOfferingsByUniversity(String nameUniversity) throws DAOException {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkName(nameUniversity);
         ArrayList<Course> courses;
         courses = getCourseProposalsByUniversityName(nameUniversity, "Aceptado");
         return courses;
@@ -314,6 +319,7 @@ public class CourseDAO implements ICourse {
      * -1).
      * @throws DAOException Si ocurre un error al evaluar la propuesta de curso.
      */
+    
     @Override
     public int evaluateCourseProposal(Course course, String status) throws DAOException {
         int result = -1;
@@ -379,12 +385,12 @@ public class CourseDAO implements ICourse {
         String courseStatus = "";
         courseStatus = checkCourseStatus(course);
         if (courseStatus.equals("Pendiente")
-                || courseStatus.equals("Rechazado")) {
+        || courseStatus.equals("Rechazado")) {
             if (!checkCourseDuplicate(course)) {
                 result = updateCoursePrivate(course);
             }
         } else {
-            throw new DAOException("No puede actualizar un curso que ya fue aceptado, cancelado o finalizado", Status.WARNING);
+            throw new DAOException("No puede actualizar un curso en colaboración, aceptado, cancelado o finalizado", Status.WARNING);
         }
         return result;
     }
@@ -578,7 +584,9 @@ public class CourseDAO implements ICourse {
      */
     @Override
     public ArrayList<Course> getCoursesByProfessorAndName(int idProfessor, String name)
-            throws DAOException {
+    throws DAOException {
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.checkName(name);
         ArrayList<Course> courses;
         courses = getCoursesByIdProfessorAndName(idProfessor, name);
         return courses;
@@ -663,6 +671,8 @@ public class CourseDAO implements ICourse {
         int result = -1;
         if (checkCourseStatus(course).equals("Aceptado")) {
             result = updateCourseStatusByCourse(course, "Colaboracion");
+        } else {
+            throw new DAOException("No puede colaborar con un curso que no fue aceptado", Status.WARNING);
         }
         return result;
     }
@@ -683,7 +693,7 @@ public class CourseDAO implements ICourse {
         if (collaborativeProjectDAO.getFinishedCollaborativeProjectByIdCourse(course.getIdCourse()).getIdCollaborativeProject() > 0) {
             result = updateCourseStatusByCourse(course, "Finalizado");
         } else {
-            throw new DAOException("No puede finalizar un curso que es parte de un proyecto colaborativo", Status.WARNING);
+            throw new DAOException("No puede finalizar un curso que no es parte de un proyecto colaborativo finalizado", Status.WARNING);
         }
         return result;
     }
@@ -768,23 +778,25 @@ public class CourseDAO implements ICourse {
         return status;
     }
 
-    public Course getCourseByNameAndIdTerm(Course course) throws DAOException {
+    public Course getCourseByProfessorNameAndTerm(Course course) throws DAOException {
         Course auxCourse = new Course();
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String statement = "SELECT * FROM curso WHERE nombre = ? AND idPeriodo = ?";
-
+        String statement = "SELECT * FROM Curso WHERE"
+        + " idProfesor = ? AND nombre = ? AND idPeriodo = ?";        
+                
         try {
             connection = databaseManager.getConnection();
             preparedStatement = connection.prepareStatement(statement);
-
-            preparedStatement.setString(1, course.getName());
-            preparedStatement.setInt(2, course.getTerm().getIdTerm());
-
+            
+            preparedStatement.setInt(1, course.getProfessor().getIdProfessor());
+            preparedStatement.setString(2, course.getName());
+            preparedStatement.setInt(3, course.getTerm().getIdTerm());
+            
             resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 auxCourse = initializeCourse(resultSet);
             }
         } catch (SQLException exception) {
