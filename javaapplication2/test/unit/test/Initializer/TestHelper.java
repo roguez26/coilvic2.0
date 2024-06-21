@@ -234,7 +234,9 @@ public class TestHelper {
     }
 
     public void initializeProfessors() {
-        initializeUniversities();
+        if (universityOne.getIdUniversity() <= 0 && universityTwo.getIdUniversity() <= 0) {
+            initializeUniversities();
+        }  
         ProfessorDAO professorDAO = new ProfessorDAO();
         User user = new User();
         
@@ -271,7 +273,9 @@ public class TestHelper {
     }
     
     public void initializeProfessorsUV() {
-        initializeUniversities();
+        if (universityOne.getIdUniversity() <= 0 && universityTwo.getIdUniversity() <= 0) {
+            initializeUniversities();
+        }  
         initializeHiringCategory();
         initializeHiringType();
         initializeRegion();
@@ -447,7 +451,7 @@ public class TestHelper {
     
     public void initializeStudent() {
         StudentDAO studentDAO = new StudentDAO();
-        if (universityOne == null && universityTwo == null) {
+        if (universityOne.getIdUniversity() <= 0 && universityTwo.getIdUniversity() <= 0) {
             initializeUniversities();
         }        
         studentOne.setName("Edgar");

@@ -61,9 +61,14 @@ public class ProfessorUVTest {
     @Test(expected = DAOException.class)
     public void testFailureUpdateProfessorByAlreadyRegisteredEmail() throws DAOException {
         initializeAuxTestProfessorUV();
-        AUX_TEST_PROFESSOR.setIdProfessor(TEST_PROFESSOR.getIdProfessor());
         AUX_TEST_PROFESSOR.setEmail(TEST_PROFESSOR.getEmail());
-        PROFESSOR_DAO.updateProfessorUV(AUX_TEST_PROFESSOR);
+        int idProfessor = PROFESSOR_DAO.registerProfessor(AUX_TEST_PROFESSOR);
+        AUX_TEST_PROFESSOR.setIdProfessor(idProfessor);        
+        try {
+            PROFESSOR_DAO.updateProfessorUV(AUX_TEST_PROFESSOR);
+        } finally {
+            PROFESSOR_DAO.deleteProfessorByID(idProfessor);  
+        }
     }     
     
     @Test

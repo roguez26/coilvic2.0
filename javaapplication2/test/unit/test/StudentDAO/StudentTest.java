@@ -1,16 +1,12 @@
 package unit.test.StudentDAO;
 
 import java.util.ArrayList;
-import log.Log;
-import mx.fei.coilvicapp.logic.academicarea.AcademicAreaDAO;
 import mx.fei.coilvicapp.logic.student.*;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
-import mx.fei.coilvicapp.logic.region.RegionDAO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.After;
-import static org.junit.Assert.assertThrows;
 import unit.test.Initializer.TestHelper;
 
 public class StudentTest {
@@ -21,210 +17,105 @@ public class StudentTest {
     private final TestHelper testHelper = new TestHelper();
 
     @Before
-    public void setUp() {
+    public void setUp() throws DAOException {
         testHelper.initializeStudent();
         TEST_STUDENT = testHelper.getStudentOne();
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws DAOException {
         testHelper.deleteAll();
     }
-    
-    @Test 
-    public void testSuccessCheckPreconditions() {
-        boolean result = false;
-        AcademicAreaDAO academicAreaDAO = new AcademicAreaDAO();
-        RegionDAO regionDAO = new RegionDAO();        
-        testHelper.initializeAcademicArea();
-        testHelper.initializeRegion();
-        
-        try {
-            result = STUDENT_DAO.checkPreconditions();
-        } catch (DAOException exception) {
-            Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-        } finally {
-            try {
-                academicAreaDAO.deleteAcademicArea(testHelper.getAcademicArea().getIdAreaAcademica());
-                regionDAO.deleteRegion(testHelper.getRegion().getIdRegion());
-            } catch (DAOException exception) {
-                Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-            }            
-        }
-        Assert.assertTrue(result);
-    }
-    
-    @Test 
-    public void testFailureCheckPreconditions() {
-        boolean result = false;
-        
-        try {
-            result = STUDENT_DAO.checkPreconditions();
-        } catch (DAOException exception) {
-            Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-        }        
-        Assert.assertTrue(!result);      
-    }    
 
     @Test
-    public void testSuccessInsertStudent() {
-        int idTestStudent = 0;
+    public void testSuccessInsertStudent() throws DAOException {
+        int idTestStudent;
         initializeAuxStudent();
 
-        try {
-            idTestStudent = STUDENT_DAO.registerStudent(AUX_TEST_STUDENT);
-            STUDENT_DAO.deleteStudentById(idTestStudent);
-        } catch (DAOException exception) {
-            Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-        }
+        idTestStudent = STUDENT_DAO.registerStudent(AUX_TEST_STUDENT);
+        STUDENT_DAO.deleteStudentById(idTestStudent);
+
         Assert.assertTrue(idTestStudent > 0);
     }
 
-    @Test
-    public void testFailureInsertStudentByEmailAlreadyRegistered() {
+    @Test(expected = DAOException.class)
+    public void testFailureInsertStudentByEmailAlreadyRegistered() throws DAOException {
         initializeAuxStudent();
         AUX_TEST_STUDENT.setEmail(TEST_STUDENT.getEmail());
-        assertThrows(DAOException.class, () -> {
-            STUDENT_DAO.registerStudent(AUX_TEST_STUDENT);
-        });
+        STUDENT_DAO.registerStudent(AUX_TEST_STUDENT);
     }
 
     @Test
-    public void testSuccessUpdateStudent() {
-        int result = 0;
-        
+    public void testSuccessUpdateStudent() throws DAOException {
+        int result;
         initializeAuxStudent();
         AUX_TEST_STUDENT.setIdStudent(TEST_STUDENT.getIdStudent());
 
-        try {
-            result = STUDENT_DAO.updateStudent(AUX_TEST_STUDENT);
-        } catch (DAOException exception) {
-            Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-        }
+        result = STUDENT_DAO.updateStudent(AUX_TEST_STUDENT);
         Assert.assertTrue(result > 0);
     }
 
-    @Test
-    public void testFailureUpdateStudentByAlreadyRegisteredEmail() {
+    @Test(expected = DAOException.class)
+    public void testFailureUpdateStudentByAlreadyRegisteredEmail() throws DAOException {
         initializeAuxStudent();
-        int idTestStudent = 0;
-
+        int idTestStudent = STUDENT_DAO.registerStudent(AUX_TEST_STUDENT);
+        AUX_TEST_STUDENT.setEmail(TEST_STUDENT.getEmail());
         try {
-            idTestStudent = STUDENT_DAO.registerStudent(AUX_TEST_STUDENT);
-            AUX_TEST_STUDENT.setEmail(TEST_STUDENT.getEmail());
-            DAOException exception = assertThrows(DAOException.class, () -> {
-                STUDENT_DAO.updateStudent(AUX_TEST_STUDENT);
-            });
-        } catch(DAOException exception) {
-            Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
+            STUDENT_DAO.updateStudent(AUX_TEST_STUDENT);
         } finally {
-            try {
-                STUDENT_DAO.deleteStudentById(idTestStudent);
-            } catch (DAOException exception) {
-                Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-            }
+            STUDENT_DAO.deleteStudentById(idTestStudent);
         }
     }
 
     @Test
-    public void testSuccessDeleteStudent() {
-        int result = 0;
-
-        try {
-            result = STUDENT_DAO.deleteStudentById(TEST_STUDENT.getIdStudent());
-        } catch (DAOException exception) {
-            Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-        }
+    public void testSuccessDeleteStudent() throws DAOException {
+        int result = STUDENT_DAO.deleteStudentById(TEST_STUDENT.getIdStudent());
         Assert.assertTrue(result > 0);
     }
 
     @Test
-    public void testFailureDeleteStudentByIdNotAvailable() {
-        int result = 0;
-
-        try {
-            result = STUDENT_DAO.deleteStudentById(999);
-        } catch (DAOException exception) {
-            Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-        }
+    public void testFailureDeleteStudentByIdNotAvailable() throws DAOException {
+        int result = STUDENT_DAO.deleteStudentById(999);
         Assert.assertTrue(result == 0);
     }
 
     @Test
-    public void testSuccessGetStudentByEmail() {
-        Student student = new Student();
-
-        try {
-            student = STUDENT_DAO.getStudentByEmail(TEST_STUDENT.getEmail());
-        } catch (DAOException exception) {
-            Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-        }
+    public void testSuccessGetStudentByEmail() throws DAOException {
+        Student student = STUDENT_DAO.getStudentByEmail(TEST_STUDENT.getEmail());
         Assert.assertEquals(TEST_STUDENT, student);
     }
 
     @Test
-    public void testFailureGetStudentByEmailNotAvailable() {
-        Student student = new Student();
-
-        try {
-            student = STUDENT_DAO.getStudentByEmail("test@example.com");
-        } catch (DAOException exception) {
-            Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-        }
+    public void testFailureGetStudentByEmailNotAvailable() throws DAOException {
+        Student student = STUDENT_DAO.getStudentByEmail("test@example.com");
         Assert.assertNotEquals(TEST_STUDENT, student);
     }
 
     @Test
-    public void testSuccessGetStudentById() {
-        Student student = new Student();
-
-        try {
-            student = STUDENT_DAO.getStudentById(TEST_STUDENT.getIdStudent());
-        } catch (DAOException exception) {
-            Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-        }
+    public void testSuccessGetStudentById() throws DAOException {
+        Student student = STUDENT_DAO.getStudentById(TEST_STUDENT.getIdStudent());
         Assert.assertEquals(TEST_STUDENT, student);
     }
 
     @Test
-    public void testFailureGetStudentByIdNotAvailable() {
-        Student student = new Student();
-
-        try {
-            student = STUDENT_DAO.getStudentById(999);
-        } catch (DAOException exception) {
-            Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-        }
+    public void testFailureGetStudentByIdNotAvailable() throws DAOException {
+        Student student = STUDENT_DAO.getStudentById(999);
         Assert.assertNotEquals(TEST_STUDENT, student);
     }
 
     @Test
-    public void testSuccessGetAllStudents() {
-        ArrayList<Student> expectedStudents = new ArrayList<>();
-        ArrayList<Student> actualStudents = new ArrayList<>();
-
-        expectedStudents = initializeStudentsArray();
-        try {
-            actualStudents = STUDENT_DAO.getAllStudents();  
-        } catch (DAOException exception) {
-            Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-        } 
+    public void testSuccessGetAllStudents() throws DAOException {
+        ArrayList<Student> expectedStudents = initializeStudentsArray();
+        ArrayList<Student> actualStudents = STUDENT_DAO.getAllStudents();  
         Assert.assertEquals(expectedStudents, actualStudents);
     }
 
     @Test
-    public void testFailureGetAllStudents() {
-        ArrayList<Student> expectedStudents = new ArrayList<>();
-        ArrayList<Student> actualStudents = new ArrayList<>();
-        
-        expectedStudents = initializeStudentsArray();
-        try {
-            STUDENT_DAO.deleteStudentById(TEST_STUDENT.getIdStudent());
-            testHelper.deleteAll();
-            actualStudents = STUDENT_DAO.getAllStudents();
-        } catch (DAOException exception) {
-            Log.getLogger(StudentTest.class).error(exception.getMessage(), exception);
-        } 
+    public void testFailureGetAllStudents() throws DAOException {
+        ArrayList<Student> expectedStudents = initializeStudentsArray();
+        STUDENT_DAO.deleteStudentById(TEST_STUDENT.getIdStudent());
+        testHelper.deleteAll();
+        ArrayList<Student> actualStudents = STUDENT_DAO.getAllStudents();
         Assert.assertNotEquals(expectedStudents, actualStudents);
     }
 
@@ -234,7 +125,7 @@ public class StudentTest {
         students.add(testHelper.getStudentTwo());
         return students;
     }
-    
+
     public void initializeAuxStudent() {
         AUX_TEST_STUDENT.setName("Axel");
         AUX_TEST_STUDENT.setPaternalSurname("Valdes");
@@ -244,5 +135,4 @@ public class StudentTest {
         AUX_TEST_STUDENT.setLineage("Mexicano");
         AUX_TEST_STUDENT.setUniversity(testHelper.getUniversityTwo());   
     }    
-        
 }
