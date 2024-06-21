@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="MSI" name="unit.test.HiringTypeDAO.HiringTypeTest" skipped="0" tests="1" time="0.449" timestamp="2024-06-21T03:18:41">
+<testsuite errors="0" failures="0" hostname="MSI" name="unit.test.ModalityDAO.ModalityTest" skipped="0" tests="12" time="1.512" timestamp="2024-06-21T00:29:15">
   <properties>
     <property name="" value="======" />
     <property name="libs.spring-framework300.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\org-apache-commons-logging.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\cglib-2.2.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aop-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aspects-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-beans-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-support-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-core-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-expression-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-tomcat-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jdbc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jms-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-orm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-oxm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-struts-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-test-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-tx-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-web-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-portlet-3.2.18.RELEASE.jar" />
@@ -23,7 +23,7 @@
     <property name="libs.JWSAntTasks.javadoc" value="" />
     <property name="file.reference.log4j-1.2.17.jar" value="C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar" />
     <property name="sun.boot.library.path" value="C:\Users\axel_\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.9.9-hotspot\bin" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.HiringTypeDAO.HiringTypeTest methods=testFailureDeleteHiringTypeByIdNotAvailable skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\axel_\OneDrive\Escritorio\coilvic\coilvic2.0\javaapplication2\build\test\results\TEST-unit.test.HiringTypeDAO.HiringTypeTest.xml crashfile=C:\Users\axel_\OneDrive\Escritorio\coilvic\coilvic2.0\javaapplication2\build\junitvmwatcher5750079494278694134.properties propsfile=C:\Users\axel_\OneDrive\Escritorio\coilvic\coilvic2.0\javaapplication2\build\junit16131413556103191185.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.ModalityDAO.ModalityTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\axel_\OneDrive\Escritorio\coilvic\coilvic2.0\javaapplication2\build\test\results\TEST-unit.test.ModalityDAO.ModalityTest.xml crashfile=C:\Users\axel_\OneDrive\Escritorio\coilvic\coilvic2.0\javaapplication2\build\junitvmwatcher16197683239757806296.properties propsfile=C:\Users\axel_\OneDrive\Escritorio\coilvic\coilvic2.0\javaapplication2\build\junit14026154900558724077.properties" />
     <property name="jdk.debug" value="release" />
     <property name="libs.spring-framework300.src" value="" />
     <property name="javadoc.use" value="true" />
@@ -83,6 +83,7 @@
     <property name="jlink.additionalparam" value="" />
     <property name="libs.testng.maven-pom" value="" />
     <property name="org.openide.version" value="deprecated" />
+    <property name="test.includes" value="unit/test/ModalityDAO/ModalityTest.java" />
     <property name="run.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\junit-jupiter-api-5.6.0.jar;C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\junit-jupiter-params-5.6.0.jar;C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\junit-jupiter-engine-5.6.0.jar:C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\hamcrest-core-1.3.jar:C:\Libraries\jar_mail\javax-inject.jar:C:\Libraries\jar_mail\javax.activation-1.1.0.v201105071233.jar:C:\Libraries\jar_mail\javax.ejb.jar:C:\Libraries\jar_mail\javax.faces-api-2.0.jar:C:\Libraries\jar_mail\mail.jar:C:\Libraries\jar_mysql_8.0.33\mysql-connector-j-8.0.33.jar:C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar:C:\Libraries\poi-bin-5.2.3\poi-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-examples-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-excelant-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-javadoc-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-ooxml-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-ooxml-full-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-ooxml-lite-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-scratchpad-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\commons-compress-1.21.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\commons-logging-1.2.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\curvesapi-1.07.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\jakarta.activation-2.0.1.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\jakarta.xml.bind-api-3.0.1.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\slf4j-api-1.7.36.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\xmlbeans-5.1.1.jar;C:\Libraries\poi-bin-5.2.3\lib\SparseBitSet-1.2.jar;C:\Libraries\poi-bin-5.2.3\lib\commons-codec-1.15.jar;C:\Libraries\poi-bin-5.2.3\lib\commons-collections4-4.4.jar;C:\Libraries\poi-bin-5.2.3\lib\commons-io-2.11.0.jar;C:\Libraries\poi-bin-5.2.3\lib\commons-math3-3.6.1.jar;C:\Libraries\poi-bin-5.2.3\lib\log4j-api-2.18.0.jar:C:\Libraries\iText7-Core-7.1.4\barcodes-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\font-asian-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\forms-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\hyph-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\io-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\kernel-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\layout-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\pdfa-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\pdftest-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\sign-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\styled-xml-parser-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\svg-7.1.4.jar:C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\junit-4.13.2.jar:C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx-swt.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.base.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.controls.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.fxml.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.graphics.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.media.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.swing.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.web.jar:build/classes" />
     <property name="libs.jaxb.src" value="" />
     <property name="file.reference.poi-javadoc-5.2.3.jar" value="C:\Libraries\apache-poi\poi-bin-5.2.3\poi-javadoc-5.2.3.jar" />
@@ -262,7 +263,7 @@
     <property name="libs.jsp-compilation-syscp.classpath" value="C:\Program Files\NetBeans-19\netbeans\extide\ant\lib\ant.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\servlet4.0-jsp2.3-api.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\glassfish-jspparser-5.1.0.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\jstl-impl.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\jsf-2_2\javax.faces.jar" />
     <property name="libs.jsp-compilation.classpath" value="C:\Program Files\NetBeans-19\netbeans\extide\ant\lib\ant.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\servlet4.0-jsp2.3-api.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\glassfish-jspparser-5.1.0.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\jsf-2_2\javax.faces.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\jstl-api.jar;C:\Program Files\NetBeans-19\netbeans\extide\ant\lib\ant-launcher.jar" />
     <property name="libs.javaee-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee-api-6.0.jar" />
-    <property name="javac.includesfile.binary" value="C:\Users\axel_\OneDrive\Escritorio\coilvic\coilvic2.0\javaapplication2\null1908700175" />
+    <property name="javac.includesfile.binary" value="C:\Users\axel_\OneDrive\Escritorio\coilvic\coilvic2.0\javaapplication2\null501989086" />
     <property name="libs.javaee-api-7.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee-api-7.0.jar" />
     <property name="sun.cpu.isalist" value="amd64" />
     <property name="libs.restapi.maven-pom" value="" />
@@ -421,13 +422,12 @@
     <property name="ant.file.CoilVic-impl" value="C:\Users\axel_\OneDrive\Escritorio\coilvic\coilvic2.0\javaapplication2\nbproject\build-impl.xml" />
     <property name="libs.jakartaee-api-10.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\jakarta.jakartaee-api-10.0.0.jar" />
     <property name="netbeans.user" value="C:\Users\axel_\AppData\Roaming\NetBeans\19" />
-    <property name="javac.includes.binary" value="C:\Users\axel_\OneDrive\Escritorio\coilvic\coilvic2.0\javaapplication2\build\test\classes\unit\test\HiringTypeDAO\HiringTypeTest.class" />
+    <property name="javac.includes.binary" value="C:\Users\axel_\OneDrive\Escritorio\coilvic\coilvic2.0\javaapplication2\build\test\classes\unit\test\ModalityDAO\ModalityTest.class" />
     <property name="file.separator" value="\" />
     <property name="line.separator" value="&#xd;&#xa;" />
     <property name="javadoc.additionalparam" value="-exclude com.itextpdf.kernel.crypto.securityhandler  " />
     <property name="jnlp.signed" value="false" />
     <property name="libs.spring-webmvc5.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-5\spring-webmvc-5.2.9.RELEASE.jar" />
-    <property name="test.method" value="testFailureDeleteHiringTypeByIdNotAvailable" />
     <property name="javac.debug" value="true" />
     <property name="libs.restlib.maven-pom" value="" />
     <property name="libs.testng.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\testng-6.14.3.jar;C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\jcommander-1.78.jar" />
@@ -436,8 +436,8 @@
     <property name="file.reference.barcodes-7.1.4.jar" value="C:\Libraries\iText7-Core-7.1.4\barcodes-7.1.4.jar" />
     <property name="build.classes.dir" value="build/classes" />
     <property name="javadoc.windowtitle" value="Documentacion proyecto" />
-    <property name="nb.junit.single" value="true" />
-    <property name="nb.internal.action.name" value="run.single.method" />
+    <property name="nb.junit.single" value="false" />
+    <property name="nb.internal.action.name" value="run.single" />
     <property name="libs.javaee-api-8.0.maven-pom" value="" />
     <property name="libs.jaxws21.src" value="" />
     <property name="apple.awt.application.appearance" value="system" />
@@ -466,7 +466,7 @@
     <property name="${file.reference.poi-5.2.3.jar}" value="C:\Libraries\apache-poi\poi-bin-5.2.3\poi-examples-5.2.3.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\poi-excelant-5.2.3.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\poi-javadoc-5.2.3.jar:&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD" />
     <property name="user.properties.file" value="C:\Users\axel_\AppData\Roaming\NetBeans\19\build.properties" />
     <property name="libs.javaee-api-6.0.src" value="" />
-    <property name="javac.includes" value="unit/test/HiringTypeDAO/HiringTypeTest.java" />
+    <property name="javac.includes" value="unit/test/ModalityDAO/ModalityTest.java" />
     <property name="netbeans.autoupdate.country" value="US" />
     <property name="file.reference.xmlbeans-5.1.1.jar" value="C:\Libraries\poi-bin-5.2.3\ooxml-lib\xmlbeans-5.1.1.jar" />
     <property name="${file.reference.SparseBitSet-1.2.jar}" value="C:\Libraries\apache-poi\poi-bin-5.2.3\lib\commons-codec-1.15.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\lib\commons-collections4-4.4.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\lib\commons-io-2.11.0.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\lib\commons-math3-3.6.1.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\lib\log4j-api-2.18.0.jar:&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD" />
@@ -511,13 +511,13 @@
     <property name="libs.jakartaee-web-api-8.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\jakarta.jakartaee-web-api-8.0.0.jar" />
     <property name="javac.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\junit-jupiter-api-5.6.0.jar;C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\junit-jupiter-params-5.6.0.jar;C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\junit-jupiter-engine-5.6.0.jar:C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\hamcrest-core-1.3.jar:C:\Libraries\jar_mail\javax-inject.jar:C:\Libraries\jar_mail\javax.activation-1.1.0.v201105071233.jar:C:\Libraries\jar_mail\javax.ejb.jar:C:\Libraries\jar_mail\javax.faces-api-2.0.jar:C:\Libraries\jar_mail\mail.jar:C:\Libraries\jar_mysql_8.0.33\mysql-connector-j-8.0.33.jar:C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar:C:\Libraries\poi-bin-5.2.3\poi-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-examples-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-excelant-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-javadoc-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-ooxml-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-ooxml-full-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-ooxml-lite-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\poi-scratchpad-5.2.3.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\commons-compress-1.21.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\commons-logging-1.2.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\curvesapi-1.07.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\jakarta.activation-2.0.1.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\jakarta.xml.bind-api-3.0.1.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\slf4j-api-1.7.36.jar;C:\Libraries\poi-bin-5.2.3\ooxml-lib\xmlbeans-5.1.1.jar;C:\Libraries\poi-bin-5.2.3\lib\SparseBitSet-1.2.jar;C:\Libraries\poi-bin-5.2.3\lib\commons-codec-1.15.jar;C:\Libraries\poi-bin-5.2.3\lib\commons-collections4-4.4.jar;C:\Libraries\poi-bin-5.2.3\lib\commons-io-2.11.0.jar;C:\Libraries\poi-bin-5.2.3\lib\commons-math3-3.6.1.jar;C:\Libraries\poi-bin-5.2.3\lib\log4j-api-2.18.0.jar:C:\Libraries\iText7-Core-7.1.4\barcodes-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\font-asian-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\forms-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\hyph-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\io-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\kernel-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\layout-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\pdfa-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\pdftest-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\sign-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\styled-xml-parser-7.1.4.jar:C:\Libraries\iText7-Core-7.1.4\svg-7.1.4.jar:C:\Program Files\NetBeans-19\netbeans\platform\modules\ext\junit-4.13.2.jar:C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx-swt.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.base.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.controls.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.fxml.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.graphics.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.media.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.swing.jar;C:\Libraries\openjfx-17.0.11_windows-x64_bin-sdk\javafx-sdk-17.0.11\lib\javafx.web.jar" />
     <property name="dist.jlink.dir" value="dist/jlink" />
-    <property name="nb.junit.batch" value="false" />
+    <property name="nb.junit.batch" value="true" />
     <property name="libs.jakartaee-web-api-10.0.maven-pom" value="" />
     <property name="file.reference.jakarta.xml.bind-api-3.0.1.jar" value="C:\Libraries\poi-bin-5.2.3\ooxml-lib\jakarta.xml.bind-api-3.0.1.jar" />
     <property name="build.test.classes.dir" value="build/test/classes" />
     <property name="${file.reference.poi-scratchpad-5.2.3.jar}" value="C:\Libraries\apache-poi\poi-bin-5.2.3\poi-ooxml-5.2.3.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\poi-ooxml-full-5.2.3.jar:C:\Libraries\apache-poi\poi-bin-5.2.3\poi-ooxml-lite-5.2.3.jar:=======" />
     <property name="libs.spring-framework300.maven-pom" value="" />
-    <property name="ant.project.invoked-targets" value="test-single-method" />
+    <property name="ant.project.invoked-targets" value="test-single" />
     <property name="libs.jstl.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\jstl-impl.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\jstl-api.jar" />
     <property name="ap.cmd.line.internal" value="" />
     <property name="libs.PostgreSQLDriver.src" value="" />
@@ -538,7 +538,7 @@
     <property name="libs.jakartaee-web-api-9.0.src" value="" />
     <property name="libs.jakartaee-web-api-10.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\jakarta.jakartaee-web-api-10.0.0.jar" />
     <property name="sun.awt.datatransfer.timeout" value="1000" />
-    <property name="test.class" value="unit.test.HiringTypeDAO.HiringTypeTest" />
+    <property name="test.class" value="unit.test.ModalityDAO.ModalityTest" />
     <property name="junit.forkmode" value="perTest" />
     <property name="libs.jakartaee-api-8.0.src" value="" />
     <property name="annotation.processing.run.all.processors" value="true" />
@@ -546,7 +546,18 @@
     <property name="libs.jsp-compiler.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\ant\extra\jspcompile.jar" />
     <property name="libs.javaee-endorsed-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\javax.annotation.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\jaxb-api-osgi.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\webservices-api-osgi.jar" />
   </properties>
-  <testcase classname="unit.test.HiringTypeDAO.HiringTypeTest" name="testFailureDeleteHiringTypeByIdNotAvailable" time="0.378" />
+  <testcase classname="unit.test.ModalityDAO.ModalityTest" name="testGetModalitiesFailure" time="0.599" />
+  <testcase classname="unit.test.ModalityDAO.ModalityTest" name="testSuccessInsertModality" time="0.112" />
+  <testcase classname="unit.test.ModalityDAO.ModalityTest" name="testFailureDeleteModalityByIdNotAvailable" time="0.069" />
+  <testcase classname="unit.test.ModalityDAO.ModalityTest" name="testFailureGetModalityByIdNotAvailable" time="0.069" />
+  <testcase classname="unit.test.ModalityDAO.ModalityTest" name="testFailureInsertModalityByNameAlreadyRegistered" time="0.055" />
+  <testcase classname="unit.test.ModalityDAO.ModalityTest" name="testSuccessDeleteModality" time="0.066" />
+  <testcase classname="unit.test.ModalityDAO.ModalityTest" name="testFailureGetModalityByNameNotAvailable" time="0.066" />
+  <testcase classname="unit.test.ModalityDAO.ModalityTest" name="testSuccesUpdateModality" time="0.082" />
+  <testcase classname="unit.test.ModalityDAO.ModalityTest" name="testFailureUpdateModalityByAlreadyRegisteredName" time="0.102" />
+  <testcase classname="unit.test.ModalityDAO.ModalityTest" name="testSuccessGetModalityByName" time="0.055" />
+  <testcase classname="unit.test.ModalityDAO.ModalityTest" name="testSuccessGetModalityById" time="0.052" />
+  <testcase classname="unit.test.ModalityDAO.ModalityTest" name="testGetModalitiesSuccess" time="0.091" />
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
