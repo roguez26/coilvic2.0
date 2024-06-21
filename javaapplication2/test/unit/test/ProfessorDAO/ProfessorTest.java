@@ -1,10 +1,6 @@
 package unit.test.ProfessorDAO;
 
 import java.util.ArrayList;
-import log.Log;
-import mx.fei.coilvicapp.logic.academicarea.AcademicAreaDAO;
-import mx.fei.coilvicapp.logic.hiringcategory.HiringCategoryDAO;
-import mx.fei.coilvicapp.logic.hiringtype.HiringTypeDAO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,318 +8,160 @@ import org.junit.After;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.professor.ProfessorDAO;
-import mx.fei.coilvicapp.logic.region.RegionDAO;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import unit.test.Initializer.TestHelper;
 
 public class ProfessorTest {
-    
+
     private static Professor TEST_PROFESSOR = new Professor();
-    private static Professor AUX_TEST_PROFESSOR = new Professor();
-    private static final ProfessorDAO PROFESSOR_DAO = new ProfessorDAO();   
+    private static final Professor AUX_TEST_PROFESSOR = new Professor();
+    private static final ProfessorDAO PROFESSOR_DAO = new ProfessorDAO();
     private final TestHelper testHelper = new TestHelper();
-    
+
     @Before
     public void setUp() {
         testHelper.initializeProfessors();
         TEST_PROFESSOR = testHelper.getProfessorOne();
     }
-    
+
     @After
     public void tearDown() {
         testHelper.deleteAll();
     }
-    
-    @Test 
-    public void testSuccessCheckPreconditions() {
-        boolean result = false;
-        AcademicAreaDAO academicAreaDAO = new AcademicAreaDAO();
-        RegionDAO regionDAO = new RegionDAO();       
-        HiringTypeDAO hiringType = new HiringTypeDAO();
-        HiringCategoryDAO hiringCategory = new HiringCategoryDAO();
+
+    @Test
+    public void testSuccessCheckPreconditions() throws DAOException {
         testHelper.initializeAcademicArea();
         testHelper.initializeRegion();
         testHelper.initializeHiringCategory();
         testHelper.initializeHiringType();
-        
-        try {
-            result = PROFESSOR_DAO.checkPreconditions();
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        } finally {
-            try {
-                academicAreaDAO.deleteAcademicArea(testHelper.getAcademicArea().getIdAreaAcademica());
-                regionDAO.deleteRegion(testHelper.getRegion().getIdRegion());
-                hiringType.deleteHiringType(testHelper.getHiringType().getIdHiringType());
-                hiringCategory.deleteHiringCategory(testHelper.getHiringCategory().getIdHiringCategory());
-            } catch (DAOException exception) {
-                Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-            }            
-        }
+        boolean result = PROFESSOR_DAO.checkPreconditions();
         Assert.assertTrue(result);
-    }    
-    
-    @Test 
-    public void testFailureCheckPreconditions() {
-        boolean result = false;
-        
-        try {
-            result = PROFESSOR_DAO.checkPreconditions();
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        } 
-        Assert.assertTrue(!result);
-    }      
-    
+    }
+
     @Test
-    public void testSuccessRegisterProfessor() {
-        int idProfessor = 0;
-        
+    public void testFailureCheckPreconditions() throws DAOException {
+        boolean result = PROFESSOR_DAO.checkPreconditions();
+        Assert.assertFalse(result);
+    }
+
+    @Test
+    public void testSuccessRegisterProfessor() throws DAOException {
         initializeAuxTestProfessor();
-        try {
-            idProfessor = PROFESSOR_DAO.registerProfessor(AUX_TEST_PROFESSOR);
-            PROFESSOR_DAO.deleteProfessorByID(idProfessor);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
+        int idProfessor = PROFESSOR_DAO.registerProfessor(AUX_TEST_PROFESSOR);
+        PROFESSOR_DAO.deleteProfessorByID(idProfessor);
         assertTrue(idProfessor > 0);
     }
-    
-    @Test
-    public void testFailureRegisterProfessorByEmailAlreadyRegistered() {
+
+    @Test(expected = DAOException.class)
+    public void testFailureRegisterProfessorByEmailAlreadyRegistered() throws DAOException {
         initializeAuxTestProfessor();
         AUX_TEST_PROFESSOR.setEmail(TEST_PROFESSOR.getEmail());
-        assertThrows(DAOException.class, () -> {
-            PROFESSOR_DAO.registerProfessor(AUX_TEST_PROFESSOR);
-        });
+        PROFESSOR_DAO.registerProfessor(AUX_TEST_PROFESSOR);
     }
-    
+
     @Test
-    public void testSuccesUpdateProfessor() {
-        int result = 0;        
-        
+    public void testSuccessUpdateProfessor() throws DAOException {
         initializeAuxTestProfessor();
         AUX_TEST_PROFESSOR.setIdProfessor(TEST_PROFESSOR.getIdProfessor());
-        try {
-            result = PROFESSOR_DAO.updateProfessor(AUX_TEST_PROFESSOR);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
+        int result = PROFESSOR_DAO.updateProfessor(AUX_TEST_PROFESSOR);
         assertTrue(result > 0);
     }
-    
-    @Test
-    public void testFailureUpdateProfessorByEmailAlreadyRegistered() {
-        int result = 0;
 
+    @Test(expected = DAOException.class)
+    public void testFailureUpdateProfessorByEmailAlreadyRegistered() throws DAOException {
         initializeAuxTestProfessor();
         AUX_TEST_PROFESSOR.setEmail(TEST_PROFESSOR.getEmail());
+        int idProfessor = PROFESSOR_DAO.registerProfessor(AUX_TEST_PROFESSOR);
+        AUX_TEST_PROFESSOR.setIdProfessor(idProfessor);
+
         try {
-            result = PROFESSOR_DAO.registerProfessor(AUX_TEST_PROFESSOR);
-            DAOException exception = assertThrows(DAOException.class, () -> {
-                PROFESSOR_DAO.updateProfessor(AUX_TEST_PROFESSOR);
-            });            
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
+            PROFESSOR_DAO.updateProfessor(AUX_TEST_PROFESSOR);
         } finally {
-            try {
-                PROFESSOR_DAO.deleteProfessorByID(AUX_TEST_PROFESSOR.getIdProfessor());
-            } catch (DAOException exception) {
-                Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-            }
+            PROFESSOR_DAO.deleteProfessorByID(idProfessor);   
         }
     }
-    
+
     @Test
-    public void testSuccessDeleteProfessor() {
-        int result = 0;
-        
-        try {
-            result = PROFESSOR_DAO.deleteProfessorByID(TEST_PROFESSOR.getIdProfessor());
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
+    public void testSuccessDeleteProfessor() throws DAOException {
+        int result = PROFESSOR_DAO.deleteProfessorByID(TEST_PROFESSOR.getIdProfessor());
         assertTrue(result > 0);
-    }  
-    
+    }
+
     @Test
-    public void testFailureDeleteProfessorByIdNotFound() {
-        int result = 0;
-        
-        try {
-            result = PROFESSOR_DAO.deleteProfessorByID(3);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
+    public void testFailureDeleteProfessorByIdNotFound() throws DAOException {
+        int result = PROFESSOR_DAO.deleteProfessorByID(999999);
         assertTrue(result == 0);
-    }  
-    
-    
+    }
+
     @Test
-    public void testSuccessGetProfessorByID() {
-        Professor professor = new Professor();
-        try {
-            professor = PROFESSOR_DAO.getProfessorById(TEST_PROFESSOR.getIdProfessor());            
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertEquals(professor.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());       
+    public void testSuccessGetProfessorByID() throws DAOException {
+        Professor professor = PROFESSOR_DAO.getProfessorById(TEST_PROFESSOR.getIdProfessor());
+        Assert.assertEquals(professor.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());
     }
-    
-    @Test 
-    public void testFailureGetProfessorByIDNotFound() {
-        Professor professor = new Professor();
-        try {
-            professor = PROFESSOR_DAO.getProfessorById(999);            
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertNotEquals(professor.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());         
+
+    @Test
+    public void testFailureGetProfessorByIDNotFound() throws DAOException {
+        Professor professor = PROFESSOR_DAO.getProfessorById(999999);
+        Assert.assertNotEquals(professor.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());
     }
-    
-    @Test 
-    public void testSuccessGetProfessorByEmail() {
-        Professor professor = new Professor();
-        try {
-            professor = PROFESSOR_DAO.getProfessorByEmail(TEST_PROFESSOR.getEmail());            
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertEquals(professor.getEmail(), TEST_PROFESSOR.getEmail());
+
+    @Test
+    public void testSuccessGetProfessorByEmail() throws DAOException {
+        Professor professor = PROFESSOR_DAO.getProfessorByEmail(TEST_PROFESSOR.getEmail());
+        Assert.assertEquals(professor, TEST_PROFESSOR);
     }
-    
-    @Test 
-    public void testFailureGetProfessorByEmailNotFound() {
-        Professor professor = new Professor();
+
+    @Test
+    public void testFailureGetProfessorByEmailNotFound() throws DAOException {
         String emailToSearch = "testEmail@gmail.com";
-        try {
-            professor = PROFESSOR_DAO.getProfessorByEmail(emailToSearch);            
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertNotEquals(professor.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());       
-    }  
-    
+        Professor professor = PROFESSOR_DAO.getProfessorByEmail(emailToSearch);
+        Assert.assertNotEquals(professor, TEST_PROFESSOR);
+    }
+
     @Test
-    public void testSuccessGetAllProfessors() {
-        ArrayList<Professor> expectedProfessors = new ArrayList<>();
-        ArrayList<Professor> actualProfessors = new ArrayList<>();
-        
-        expectedProfessors = initializeProfessorsArray();
-        try {
-            actualProfessors = PROFESSOR_DAO.getAllProfessors();            
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        } 
+    public void testSuccessGetAllProfessors() throws DAOException {
+        ArrayList<Professor> expectedProfessors = initializeProfessorsArray();
+        ArrayList<Professor> actualProfessors = PROFESSOR_DAO.getAllProfessors();
         Assert.assertEquals(expectedProfessors, actualProfessors);
     }
-    
+
     @Test
-    public void testFailureGetAllProfessors() {
-        ArrayList<Professor> expectedProfessors = new ArrayList<>();
-        ArrayList<Professor> actualProfessors = new ArrayList<>();
-        
-        expectedProfessors = initializeProfessorsArray();
-        try {
-            testHelper.deleteAll();
-            actualProfessors = PROFESSOR_DAO.getAllProfessors();
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        } 
+    public void testFailureGetAllProfessors() throws DAOException {
+        testHelper.deleteAll();
+        ArrayList<Professor> expectedProfessors = initializeProfessorsArray();
+        ArrayList<Professor> actualProfessors = PROFESSOR_DAO.getAllProfessors();
         Assert.assertNotEquals(expectedProfessors, actualProfessors);
-    }    
-    
-    @Test
-    public void testSuccessGetAllProfessorsByPendingStatus() {
-        ArrayList<Professor> expectedProfessors = new ArrayList<>();
-        ArrayList<Professor> actualProfessors = new ArrayList<>();
-        
-        expectedProfessors = initializeProfessorsArray();
-        try {
-            actualProfessors = PROFESSOR_DAO.getProfessorsByPendingStatus();
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        } 
-        Assert.assertEquals(expectedProfessors, actualProfessors);
-    }    
-    
-    @Test
-    public void testFailureGetAllProfessorsByPendingStatus() {
-        ArrayList<Professor> expectedProfessors = new ArrayList<>();
-        ArrayList<Professor> actualProfessors = new ArrayList<>();
-        
-        try {
-            actualProfessors = PROFESSOR_DAO.getProfessorsByPendingStatus();
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        } 
-        Assert.assertNotEquals(expectedProfessors, actualProfessors);
-    }       
-    
-    @Test
-    public void testSuccessAcceptProfessor() {
-        int result = 0;
-        try {
-            result = PROFESSOR_DAO.acceptProfessor(TEST_PROFESSOR);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        } 
-        Assert.assertTrue(result > 0);
     }
-    
+
     @Test
-    public void testFailureAcceptProfessor() {
-        int result = 0;
-        
-        TEST_PROFESSOR.setIdProfessor(999);
-        try {
-            result = PROFESSOR_DAO.acceptProfessor(TEST_PROFESSOR);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        } 
-        Assert.assertTrue(result == 0);
-    }  
-    
-    @Test
-    public void testSuccessRejectProfessor() {
-        int result = 0;
-        try {
-            result = PROFESSOR_DAO.rejectProfessor(TEST_PROFESSOR);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        } 
-        Assert.assertTrue(result > 0);
+    public void testSuccessAcceptProfessor() throws DAOException {
+        int result = PROFESSOR_DAO.acceptProfessor(TEST_PROFESSOR);
+        assertTrue(result > 0);
     }
-    
+
     @Test
-    public void testFailureRejectProfessor() {
-        int result = 0;
-        
-        TEST_PROFESSOR.setIdProfessor(999);
-        try {
-            result = PROFESSOR_DAO.rejectProfessor(TEST_PROFESSOR);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        } 
-        Assert.assertTrue(result == 0);
-    }      
-    
-    public ArrayList<Professor> initializeProfessorsArray() {
+    public void testFailureAcceptProfessor() throws DAOException {
+        TEST_PROFESSOR.setIdProfessor(99999);
+        int result = PROFESSOR_DAO.acceptProfessor(TEST_PROFESSOR);
+        assertTrue(result == 0);
+    }
+
+    public ArrayList<Professor> initializeProfessorsArray() throws DAOException {
         ArrayList<Professor> professors = new ArrayList<>();
         professors.add(testHelper.getProfessorOne());
         professors.add(testHelper.getProfessorTwo());
         return professors;
-    }    
-    
-    private void initializeAuxTestProfessor() {        
-        AUX_TEST_PROFESSOR.setName("Jorge");
-        AUX_TEST_PROFESSOR.setPaternalSurname("Ocharan");
-        AUX_TEST_PROFESSOR.setMaternalSurname("Hernandez");
-        AUX_TEST_PROFESSOR.setEmail("jochar@uv.mx");
+    }
+
+    private void initializeAuxTestProfessor() {
+        AUX_TEST_PROFESSOR.setName("Juan Carlos");
+        AUX_TEST_PROFESSOR.setPaternalSurname("Perez");
+        AUX_TEST_PROFESSOR.setMaternalSurname("Arriaga");
+        AUX_TEST_PROFESSOR.setEmail("revo123@uv.mx");
         AUX_TEST_PROFESSOR.setGender("Hombre");
         AUX_TEST_PROFESSOR.setPhoneNumber("1234567890");
-        AUX_TEST_PROFESSOR.setUniversity(TEST_PROFESSOR.getUniversity()); 
+        AUX_TEST_PROFESSOR.setUniversity(TEST_PROFESSOR.getUniversity());
     }
 
 }

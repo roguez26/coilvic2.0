@@ -9,206 +9,141 @@ import org.junit.After;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.hiringtype.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 
 public class HiringTypeTest {
-    
+
     private static final HiringType TEST_HIRING_TYPE = new HiringType();
     private static final HiringTypeDAO HIRING_TYPE_DAO = new HiringTypeDAO();
 
     @Before
-    public void setUp() {
+    public void setUp() throws DAOException {
         TEST_HIRING_TYPE.setName("Planta");
-        try {
-            int idTestHiringType = HIRING_TYPE_DAO.registerHiringType(TEST_HIRING_TYPE);
-            TEST_HIRING_TYPE.setIdHiringType(idTestHiringType);
-        } catch(DAOException exception) {
-            Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);
-        }        
+        int idHiringType = HIRING_TYPE_DAO.registerHiringType(TEST_HIRING_TYPE);
+        TEST_HIRING_TYPE.setIdHiringType(idHiringType);
     }
-    
+
     @After
-    public void tearDown() {
-        try {
-            HIRING_TYPE_DAO.deleteHiringType(TEST_HIRING_TYPE.getIdHiringType());
-        } catch(DAOException exception) {
-            Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);
-        }        
+    public void tearDown() throws DAOException {
+        HIRING_TYPE_DAO.deleteHiringType(TEST_HIRING_TYPE.getIdHiringType());
     }
-    
+
     @Test
-    public void TestIsThereAtLeastOneHiringTypeSuccess() {
-        boolean result = false;
-        try{
-            result = HIRING_TYPE_DAO.isThereAtLeastOneHiringType();
-        } catch(DAOException exception) {
-            Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);
-        }
+    public void TestIsThereAtLeastOneHiringTypeSuccess() throws DAOException {
+        boolean result = HIRING_TYPE_DAO.isThereAtLeastOneHiringType();
         Assert.assertTrue(result);
     }
-    
+
     @Test
-    public void TestIsThereAtLeastOneHiringTypeFailure() {
-        boolean result = false;
-        try{
-            result = HIRING_TYPE_DAO.isThereAtLeastOneHiringType();
-        } catch(DAOException exception) {
-            Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertTrue(!result);
-    }   
-    
+    public void TestIsThereAtLeastOneHiringTypeFailure() throws DAOException {
+        HIRING_TYPE_DAO.deleteHiringType(TEST_HIRING_TYPE.getIdHiringType());
+        boolean result = HIRING_TYPE_DAO.isThereAtLeastOneHiringType();
+        Assert.assertFalse(result);
+    }
+
     @Test
-    public void testSuccessInsertHiringType() {
-        int idTestHiringType = 0;
+    public void testSuccessInsertHiringType() throws DAOException {
         HiringType hiringType = new HiringType();
-        
         hiringType.setName("Interino por plaza");
-        try {            
-            idTestHiringType = HIRING_TYPE_DAO.registerHiringType(hiringType);
-            HIRING_TYPE_DAO.deleteHiringType(idTestHiringType);
-        } catch (DAOException exception) {
-            Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);
-        }    
-        Assert.assertTrue(idTestHiringType > 0);       
-    } 
-    
-    @Test
-    public void testFailureInsertHiringTypeByNameAlreadyRegistered() {
+        int idHiringType = HIRING_TYPE_DAO.registerHiringType(hiringType);
+        HIRING_TYPE_DAO.deleteHiringType(idHiringType);
+        Assert.assertTrue(idHiringType > 0);
+    }
+
+    @Test(expected = DAOException.class)
+    public void testFailureInsertHiringTypeByNameAlreadyRegistered() throws DAOException {
         HiringType hiringType = new HiringType();
-        
         hiringType.setName(TEST_HIRING_TYPE.getName());
-        assertThrows(DAOException.class, () -> {
-            HIRING_TYPE_DAO.registerHiringType(hiringType);
-        });
-    } 
-    
+        HIRING_TYPE_DAO.registerHiringType(hiringType);
+    }
+
     @Test
-    public void testSuccesUpdateHiringType() {
-        int result = 0;        
+    public void testSuccessUpdateHiringType() throws DAOException {
         HiringType hiringType = new HiringType();
-        
         hiringType.setName("Interino por personas");
         hiringType.setIdHiringType(TEST_HIRING_TYPE.getIdHiringType());
-        try {            
-            result = HIRING_TYPE_DAO.updateHiringType(hiringType);
-        } catch (DAOException exception) {
-            Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);
-        } 
+        int result = HIRING_TYPE_DAO.updateHiringType(hiringType);
+        Assert.assertTrue(result > 0);
+    }
+
+    @Test(expected = DAOException.class)
+    public void testFailureUpdateHiringTypeByAlreadyRegisteredName() throws DAOException {
+        HiringType hiringType = new HiringType();
+        hiringType.setName("Apoyo");
+        hiringType.setIdHiringType(TEST_HIRING_TYPE.getIdHiringType());
+
+        HiringType auxHiringType = new HiringType();
+        auxHiringType.setName("Apoyo");
+        int idAuxHiringType = HIRING_TYPE_DAO.registerHiringType(auxHiringType);
+        try {
+            HIRING_TYPE_DAO.updateHiringType(hiringType);
+        } finally {
+            HIRING_TYPE_DAO.deleteHiringType(idAuxHiringType);
+        }
+    }
+
+    @Test
+    public void testSuccessDeleteHiringType() throws DAOException {
+        int result = HIRING_TYPE_DAO.deleteHiringType(TEST_HIRING_TYPE.getIdHiringType());
         Assert.assertTrue(result > 0);
     }
 
     @Test
-    public void testFailureUpdateHiringTypeByAlreadyRegisteredName() {
-        int result = 0;        
-        int idTestHiringType = 0;
-        HiringType hiringType = new HiringType();
-        
-        hiringType.setName("Apoyo");
-        hiringType.setIdHiringType(TEST_HIRING_TYPE.getIdHiringType());
-        try {            
-            HiringType auxHiringType = new HiringType();
-            auxHiringType.setName("Apoyo");
-            idTestHiringType = HIRING_TYPE_DAO.registerHiringType(auxHiringType);
-            assertThrows(DAOException.class, () -> {
-                HIRING_TYPE_DAO.updateHiringType(hiringType);
-            });
-        } catch (DAOException exception) {
-            Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);
-        } finally {
-            try {
-                HIRING_TYPE_DAO.deleteHiringType(idTestHiringType);
-            } catch (DAOException exception) {
-                Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);
-            }
-        }
-    }
-    
-    @Test 
-    public void testSuccessDeleteHiringType() {
-        int result = 0;
-        
-        try {
-            result = HIRING_TYPE_DAO.deleteHiringType(TEST_HIRING_TYPE.getIdHiringType());
-        } catch (DAOException exception) {
-            Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertTrue(result > 0);      
+    public void testFailureDeleteHiringTypeByIdNotAvailable() throws DAOException {
+        int result = HIRING_TYPE_DAO.deleteHiringType(9999);
+        Assert.assertTrue(result == 0);
     }
 
-    @Test 
-    public void testFailureDeleteHiringTypeByIdNotAvailable() {
-        assertThrows(DAOException.class, () -> {
-            HIRING_TYPE_DAO.deleteHiringType(999);
-        });
-    }
-    
     @Test
-    public void testSuccessGetHiringTypeByName() {
-        HiringType hiringType = new HiringType();
-        
-        try {
-            hiringType = HIRING_TYPE_DAO.getHiringTypeByName(TEST_HIRING_TYPE.getName());
-        } catch (DAOException exception) {
-            Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertEquals(TEST_HIRING_TYPE.getName(), hiringType.getName());
+    public void testSuccessGetHiringTypeByName() throws DAOException {
+        HiringType hiringType = HIRING_TYPE_DAO.getHiringTypeByName(TEST_HIRING_TYPE.getName());
+        Assert.assertEquals(TEST_HIRING_TYPE, hiringType);
     }
-    
+
     @Test
-    public void testFailureGetHiringTypeByNameNotAvailable() {
-        HiringType hiringType = new HiringType();
-        
-        try {
-            hiringType = HIRING_TYPE_DAO.getHiringTypeByName("Beca Trabajo");
-        } catch (DAOException exception) {
-            Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertNotEquals(TEST_HIRING_TYPE.getName(), hiringType.getName());
+    public void testFailureGetHiringTypeByNameNotAvailable() throws DAOException {
+        HiringType hiringType = HIRING_TYPE_DAO.getHiringTypeByName("Beca Trabajo");
+        Assert.assertNotEquals(TEST_HIRING_TYPE, hiringType);
     }
-    
-    @Test 
-    public void testSuccessGetHiringTypes() {
-        ArrayList<HiringType> expectedHiringTypes = new ArrayList<>();
-        ArrayList<HiringType> actualHiringTypes = new ArrayList<>();
-        
-        expectedHiringTypes = initializeHiringTypesArray();
-        try {
-            actualHiringTypes = HIRING_TYPE_DAO.getHiringTypes();
-        } catch (DAOException exception) {
-            Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);
-        } finally {
-            tearDownHiringTypesArray(expectedHiringTypes);
-        }
+
+    @Test
+    public void testSuccessGetHiringTypeById() throws DAOException {
+        HiringType hiringType = HIRING_TYPE_DAO.getHiringTypeById(TEST_HIRING_TYPE.getIdHiringType());
+        Assert.assertEquals(TEST_HIRING_TYPE, hiringType);
+    }
+
+    @Test
+    public void testFailureGetHiringTypeByIdNotAvailable() throws DAOException {
+        HiringType hiringType = HIRING_TYPE_DAO.getHiringTypeById(9999);
+        Assert.assertNotEquals(TEST_HIRING_TYPE, hiringType);
+    }
+
+    @Test
+    public void testSuccessGetHiringTypes() throws DAOException {
+        ArrayList<HiringType> expectedHiringTypes = initializeHiringTypesArray();
+        ArrayList<HiringType> actualHiringTypes = HIRING_TYPE_DAO.getHiringTypes();
+        tearDownHiringTypesArray(expectedHiringTypes);
         assertEquals(expectedHiringTypes, actualHiringTypes);
     }
-    
-    @Test 
-    public void testFailureGetHiringTypes() {
-        ArrayList<HiringType> expectedHiringTypes = new ArrayList<>();
-        ArrayList<HiringType> actualHiringTypes = new ArrayList<>();
-        
-        expectedHiringTypes = initializeHiringTypesArray();
-        try {
-            tearDownHiringTypesArray(expectedHiringTypes);
-            actualHiringTypes = HIRING_TYPE_DAO.getHiringTypes();
-        } catch (DAOException exception) {
-            Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);
-        } 
+
+    @Test
+    public void testFailureGetHiringTypes() throws DAOException {
+        ArrayList<HiringType> expectedHiringTypes = initializeHiringTypesArray();
+        tearDownHiringTypesArray(expectedHiringTypes);
+        ArrayList<HiringType> actualHiringTypes = HIRING_TYPE_DAO.getHiringTypes();
         Assert.assertNotEquals(expectedHiringTypes, actualHiringTypes);
-    }    
-    
+    }
+
     public ArrayList<HiringType> initializeHiringTypesArray() {
         ArrayList<HiringType> hiringTypes = new ArrayList<>();
-        
         hiringTypes.add(TEST_HIRING_TYPE);
+        
         HiringType hiringTypeAux1 = new HiringType();
         hiringTypeAux1.setName("Interino por plaza");
+        
         HiringType hiringTypeAux2 = new HiringType();
         hiringTypeAux2.setName("Apoyo");
         try {
-            int idHiringType = 0;
-            idHiringType = HIRING_TYPE_DAO.registerHiringType(hiringTypeAux1);
+            int idHiringType = HIRING_TYPE_DAO.registerHiringType(hiringTypeAux1);
             hiringTypeAux1.setIdHiringType(idHiringType);
             hiringTypes.add(hiringTypeAux1);
             idHiringType = HIRING_TYPE_DAO.registerHiringType(hiringTypeAux2);
@@ -219,14 +154,11 @@ public class HiringTypeTest {
         }
         return hiringTypes;
     }
-    
+
     public void tearDownHiringTypesArray(ArrayList<HiringType> hiringTypes) {
         try {
-            if (hiringTypes.size() > 1) {
-                HIRING_TYPE_DAO.deleteHiringType(hiringTypes.get(1).getIdHiringType());
-            }
-            if (hiringTypes.size() > 2) {
-                HIRING_TYPE_DAO.deleteHiringType(hiringTypes.get(2).getIdHiringType());
+            for (int i = 1; i < hiringTypes.size(); i++) {
+                HIRING_TYPE_DAO.deleteHiringType(hiringTypes.get(i).getIdHiringType());
             }
         } catch (DAOException exception) {
             Log.getLogger(HiringTypeTest.class).error(exception.getMessage(), exception);

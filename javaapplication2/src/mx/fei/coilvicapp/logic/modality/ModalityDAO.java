@@ -214,7 +214,6 @@ public class ModalityDAO implements IModality {
     @Override
     public ArrayList<Modality> getModalities() throws DAOException {
         ArrayList<Modality> modalities = new ArrayList<>();
-        Modality modality = new Modality();
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = null;
         PreparedStatement preparedStatement = null;        
@@ -226,6 +225,7 @@ public class ModalityDAO implements IModality {
             preparedStatement = connection.prepareStatement(statement);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                Modality modality = new Modality();
                 modality.setIdModality(resultSet.getInt("idModalidad"));
                 modality.setName(resultSet.getString("nombre"));
                 modalities.add(modality);

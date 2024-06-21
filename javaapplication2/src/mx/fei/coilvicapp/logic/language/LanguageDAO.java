@@ -217,7 +217,7 @@ public class LanguageDAO implements ILanguage {
         Connection connection = null;
         PreparedStatement preparedStatement = null;        
         ResultSet resultSet = null;        
-        String statement = "SELECT * FROM Idioma";
+        String statement = "SELECT * FROM Idioma ORDER BY idIdioma";
         
         try {
             connection = databaseManager.getConnection();

@@ -1,6 +1,5 @@
 package unit.test.ProfessorDAO;
 
-import log.Log;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.professor.ProfessorDAO;
 import mx.fei.coilvicapp.logic.professor.ProfessorUV;
@@ -11,11 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 import unit.test.Initializer.TestHelper;
 
-
 public class ProfessorUVTest {
     
     private static ProfessorUV TEST_PROFESSOR = new ProfessorUV();
-    private static ProfessorUV AUX_TEST_PROFESSOR = new ProfessorUV();
+    private static final ProfessorUV AUX_TEST_PROFESSOR = new ProfessorUV();
     private static final ProfessorDAO PROFESSOR_DAO = new ProfessorDAO();
     private final TestHelper testHelper = new TestHelper();
         
@@ -31,124 +29,65 @@ public class ProfessorUVTest {
     }    
     
     @Test
-    public void testSuccessRegisterProfessorUV() {
-        int idProfessorUV = 0;
+    public void testSuccessRegisterProfessorUV() throws DAOException {
         initializeAuxTestProfessorUV();
-        try {          
-            idProfessorUV = PROFESSOR_DAO.registerProfessorUV(AUX_TEST_PROFESSOR);
-            PROFESSOR_DAO.deleteProfessorUVByID(idProfessorUV);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorUVTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertTrue(idProfessorUV > 0);
+        int idProfessorUV = PROFESSOR_DAO.registerProfessorUV(AUX_TEST_PROFESSOR);
+        PROFESSOR_DAO.deleteProfessorUVByID(idProfessorUV);
+        assertTrue(idProfessorUV > 0);
     }
     
-    @Test
-    public void testFailureRegisterProfessorUVByEmailAlreadyRegistered() {
-        int idProfessorUV = 0;
+    @Test(expected = DAOException.class)
+    public void testFailureRegisterProfessorUVByEmailAlreadyRegistered() throws DAOException {
         initializeAuxTestProfessorUV();
         AUX_TEST_PROFESSOR.setEmail(TEST_PROFESSOR.getEmail());
-        try {          
-            idProfessorUV = PROFESSOR_DAO.registerProfessorUV(AUX_TEST_PROFESSOR);
-            PROFESSOR_DAO.deleteProfessorUVByID(idProfessorUV);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorUVTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertTrue(idProfessorUV <= 0);
+        PROFESSOR_DAO.registerProfessorUV(AUX_TEST_PROFESSOR);
     }  
     
-    @Test
-    public void testFailureRegisterProfessorUVByPersonalNumberAlreadyRegistered() {
-        int idProfessorUV = 0;
+    @Test(expected = DAOException.class)
+    public void testFailureRegisterProfessorUVByPersonalNumberAlreadyRegistered() throws DAOException {
         initializeAuxTestProfessorUV();
         AUX_TEST_PROFESSOR.setPersonalNumber(TEST_PROFESSOR.getPersonalNumber());
-        try {          
-            idProfessorUV = PROFESSOR_DAO.registerProfessorUV(AUX_TEST_PROFESSOR);
-            PROFESSOR_DAO.deleteProfessorUVByID(idProfessorUV);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorUVTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertTrue(idProfessorUV <= 0);
+        PROFESSOR_DAO.registerProfessorUV(AUX_TEST_PROFESSOR);
     }      
     
     @Test
-    public void testSuccesUpdateProfessor() {
-        int result = 0;        
-        
+    public void testSuccessUpdateProfessorUV() throws DAOException {        
         initializeAuxTestProfessorUV();
         AUX_TEST_PROFESSOR.setIdProfessor(TEST_PROFESSOR.getIdProfessor());
-        try {
-            result = PROFESSOR_DAO.updateProfessorUV(AUX_TEST_PROFESSOR);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
+        int result = PROFESSOR_DAO.updateProfessorUV(AUX_TEST_PROFESSOR);
         assertTrue(result > 0);
     }    
     
-    @Test
-    public void testFailureUpdateProfessorByAlreadyRegisteredEmail() {
-        int result = 0;        
-        
+    @Test(expected = DAOException.class)
+    public void testFailureUpdateProfessorByAlreadyRegisteredEmail() throws DAOException {
         initializeAuxTestProfessorUV();
         AUX_TEST_PROFESSOR.setIdProfessor(TEST_PROFESSOR.getIdProfessor());
         AUX_TEST_PROFESSOR.setEmail(TEST_PROFESSOR.getEmail());
-        try {
-            result = PROFESSOR_DAO.updateProfessorUV(AUX_TEST_PROFESSOR);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
-        assertTrue(result > 0);
+        PROFESSOR_DAO.updateProfessorUV(AUX_TEST_PROFESSOR);
     }     
     
     @Test
-    public void testSuccessDeleteProfessorUV() {
-        int result = 0;
-        
-        try {
-            result = PROFESSOR_DAO.deleteProfessorUVByID(TEST_PROFESSOR.getIdProfessor());
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
+    public void testSuccessDeleteProfessorUV() throws DAOException {
+        int result = PROFESSOR_DAO.deleteProfessorUVByID(TEST_PROFESSOR.getIdProfessor());
         assertTrue(result > 0);
     } 
     
     @Test
-    public void testFailureDeleteProfessorUVByIdNotFound() {
-        int result = 0;
-        
-        try {
-            result = PROFESSOR_DAO.deleteProfessorUVByID(999);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
-        assertTrue(result <= 0);
+    public void testFailureDeleteProfessorUVByIdNotFound() throws DAOException {
+        int result = PROFESSOR_DAO.deleteProfessorUVByID(999);
+        assertTrue(result == 0);
     }     
     
     @Test
-    public void testSuccessGetProfessorUVByPersonalNumber() {
-        ProfessorUV professorUV = new ProfessorUV();
-        try {
-            professorUV = PROFESSOR_DAO.getProfessorUVByPersonalNumber(
-                    TEST_PROFESSOR.getPersonalNumber());            
-            System.out.println("1 "+professorUV);
-            System.out.println("2 "+TEST_PROFESSOR);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertEquals(professorUV.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());       
+    public void testSuccessGetProfessorUVByPersonalNumber() throws DAOException {
+        ProfessorUV professorUV = PROFESSOR_DAO.getProfessorUVByPersonalNumber(TEST_PROFESSOR.getPersonalNumber());
+        Assert.assertEquals(professorUV.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());
     }  
     
     @Test
-    public void testFailureGetProfessorUVByPersonalNumber() {
-        ProfessorUV professorUV = new ProfessorUV();
-        try {
-            professorUV = PROFESSOR_DAO.getProfessorUVByPersonalNumber(999);            
-            System.out.println("1 "+professorUV);
-            System.out.println("2 "+TEST_PROFESSOR);
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorTest.class).error(exception.getMessage(), exception);
-        }
-        Assert.assertNotEquals(professorUV.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());       
+    public void testFailureGetProfessorUVByPersonalNumber() throws DAOException {
+        ProfessorUV professorUV = PROFESSOR_DAO.getProfessorUVByPersonalNumber(999);
+        Assert.assertNotEquals(professorUV.getIdProfessor(), TEST_PROFESSOR.getIdProfessor());
     }      
     
     private void initializeAuxTestProfessorUV() {        

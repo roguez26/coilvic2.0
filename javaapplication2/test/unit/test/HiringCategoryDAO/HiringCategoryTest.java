@@ -8,8 +8,6 @@ import org.junit.Test;
 import org.junit.After;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.hiringcategory.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 
 public class HiringCategoryTest {
     
@@ -17,203 +15,125 @@ public class HiringCategoryTest {
     private static final HiringCategoryDAO HIRING_CATEGORY_DAO = new HiringCategoryDAO();
     
     @Before
-    public void setUp() {
-        try {
-            TEST_HIRING_CATEGORY.setName("Docente TC");
-            int idHiringCategory = HIRING_CATEGORY_DAO.registerHiringCategory(TEST_HIRING_CATEGORY);
-            TEST_HIRING_CATEGORY.setIdHiringCategory(idHiringCategory);
-        } catch (DAOException exception) {
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-        }         
+    public void setUp() throws DAOException {
+        TEST_HIRING_CATEGORY.setName("Docente TC");
+        int idHiringCategory = HIRING_CATEGORY_DAO.registerHiringCategory(TEST_HIRING_CATEGORY);
+        TEST_HIRING_CATEGORY.setIdHiringCategory(idHiringCategory);
     }
     
     @After
-    public void tearDown() {
-        try {
-            HIRING_CATEGORY_DAO.deleteHiringCategory(TEST_HIRING_CATEGORY.getIdHiringCategory());
-        } catch (DAOException exception) {
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-        }
+    public void tearDown() throws DAOException {
+        HIRING_CATEGORY_DAO.deleteHiringCategory(TEST_HIRING_CATEGORY.getIdHiringCategory());
     }
     
     @Test
-    public void TestIsThereAtLeastOneHiringCategorySuccess() {
-        boolean result = false;
-        try{
-            result = HIRING_CATEGORY_DAO.isThereAtLeastOneHiringCategory();
-        } catch(DAOException exception) {
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-        }
+    public void TestIsThereAtLeastOneHiringCategorySuccess() throws DAOException {
+        boolean result = HIRING_CATEGORY_DAO.isThereAtLeastOneHiringCategory();
         Assert.assertTrue(result);
     }
     
     @Test
-    public void TestIsThereAtLeastOneHiringCategoryFailure() {
-        boolean result = false;
-        try{
-            result = HIRING_CATEGORY_DAO.isThereAtLeastOneHiringCategory();
-        } catch(DAOException exception) {
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-        }
+    public void TestIsThereAtLeastOneHiringCategoryFailure() throws DAOException {
+        HIRING_CATEGORY_DAO.deleteHiringCategory(TEST_HIRING_CATEGORY.getIdHiringCategory());
+        boolean result = HIRING_CATEGORY_DAO.isThereAtLeastOneHiringCategory();
         Assert.assertTrue(!result);
-    }     
+    } 
     
     @Test
-    public void testSuccessInsertHiringCategory() {
+    public void testSuccessInsertHiringCategory() throws DAOException {
         HiringCategory hiringCategory = new HiringCategory();
-        int idHiringCategory = 0;
         
-        hiringCategory.setName("Investigador T40C");               
-        try {            
-            idHiringCategory = HIRING_CATEGORY_DAO.registerHiringCategory(hiringCategory);
-            HIRING_CATEGORY_DAO.deleteHiringCategory(idHiringCategory);
-        } catch (DAOException exception) {
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-        }    
+        hiringCategory.setName("Investigador TC");               
+        int idHiringCategory = HIRING_CATEGORY_DAO.registerHiringCategory(hiringCategory);
+        HIRING_CATEGORY_DAO.deleteHiringCategory(idHiringCategory);
         Assert.assertTrue(idHiringCategory > 0);
     } 
     
-    @Test
-    public void testFailureInsertHiringCategoryByNameAlreadyRegistered() {
+    @Test(expected = DAOException.class)
+    public void testFailureInsertHiringCategoryByNameAlreadyRegistered() throws DAOException {
         HiringCategory hiringCategory = new HiringCategory();
-        hiringCategory.setName(TEST_HIRING_CATEGORY.getName());
         
-        assertThrows(DAOException.class, () -> {
-            HIRING_CATEGORY_DAO.registerHiringCategory(hiringCategory);
-        });
+        hiringCategory.setName(TEST_HIRING_CATEGORY.getName());
+        HIRING_CATEGORY_DAO.registerHiringCategory(hiringCategory);
     } 
     
     @Test
-    public void testSuccessUpdateHiringCategory() {    
+    public void testSuccessUpdateHiringCategory() throws DAOException {
         int result = 0;
         HiringCategory hiringCategory = new HiringCategory();
         
-        hiringCategory.setName("Tecnico Academico TC");
+        hiringCategory.setName("Eventual");
         hiringCategory.setIdHiringCategory(TEST_HIRING_CATEGORY.getIdHiringCategory());
-        try {            
-            result = HIRING_CATEGORY_DAO.updateHiringCategory(hiringCategory);
-        } catch (DAOException exception) {
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-        } 
+        result = HIRING_CATEGORY_DAO.updateHiringCategory(hiringCategory);
         Assert.assertTrue(result > 0);
     }
     
-    @Test
-    public void testFailureUpdateHiringCategoryByAlreadyRegisteredName() {
+    @Test(expected = DAOException.class)
+    public void testFailureUpdateHiringCategoryByAlreadyRegisteredName() throws DAOException {
         HiringCategory hiringCategory = new HiringCategory();
+        
         hiringCategory.setName("Tecnico Academico TC");
         hiringCategory.setIdHiringCategory(TEST_HIRING_CATEGORY.getIdHiringCategory());
         HiringCategory auxHiringCategory = new HiringCategory();
         auxHiringCategory.setName("Tecnico Academico TC");
-        int idTestHiringCategory = 0;
         
-        try {
-            idTestHiringCategory = HIRING_CATEGORY_DAO.registerHiringCategory(auxHiringCategory);
-            assertThrows(DAOException.class, () -> {
-                HIRING_CATEGORY_DAO.updateHiringCategory(hiringCategory);
-            });
-        } catch (DAOException exception) { 
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
+        int idTestHiringCategory = HIRING_CATEGORY_DAO.registerHiringCategory(auxHiringCategory);
+        try { 
+            HIRING_CATEGORY_DAO.updateHiringCategory(hiringCategory);
         } finally {
-            try {
-                HIRING_CATEGORY_DAO.deleteHiringCategory(idTestHiringCategory);
-            } catch (DAOException exception) {
-                Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-            }
+            HIRING_CATEGORY_DAO.deleteHiringCategory(idTestHiringCategory);
         }
-    }
-    
-    @Test 
-    public void testSuccessDeleteHiringCategory() {        
-        int result = 0;
-        
-        try {            
-           result = HIRING_CATEGORY_DAO.deleteHiringCategory(TEST_HIRING_CATEGORY.getIdHiringCategory());
-        } catch (DAOException exception) {
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-        }      
-        Assert.assertTrue(result > 0);
-    }
-    
-    @Test 
-    public void testFailureDeleteHiringCategoryByIdNotAvailable() {        
-        assertThrows(DAOException.class, () -> {
-           HIRING_CATEGORY_DAO.deleteHiringCategory(999);
-        });
     }
     
     @Test
-    public void testSuccessGetHiringCategoryByName() {
-        HiringCategory hiringCategory = new HiringCategory();
-        try {
-            hiringCategory = HIRING_CATEGORY_DAO.getHiringCategoryByName(TEST_HIRING_CATEGORY.getName());
-        } catch (DAOException exception) {
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-        }
+    public void testSuccessDeleteHiringCategory() throws DAOException {
+        int result = HIRING_CATEGORY_DAO.deleteHiringCategory(TEST_HIRING_CATEGORY.getIdHiringCategory());
+        Assert.assertTrue(result > 0);
+    }
+    
+    @Test
+    public void testFailureDeleteHiringCategoryByIdNotAvailable() throws DAOException {
+        int result = HIRING_CATEGORY_DAO.deleteHiringCategory(9999);
+        Assert.assertTrue(result == 0);
+    }
+    
+    @Test
+    public void testSuccessGetHiringCategoryByName() throws DAOException {
+        HiringCategory hiringCategory = HIRING_CATEGORY_DAO.getHiringCategoryByName(TEST_HIRING_CATEGORY.getName());
         Assert.assertEquals(TEST_HIRING_CATEGORY, hiringCategory);
     }
     
     @Test
-    public void testFailureGetHiringCategoryByNameNotAvailable() {
-        HiringCategory hiringCategory = new HiringCategory();
-        try {
-            hiringCategory = HIRING_CATEGORY_DAO.getHiringCategoryByName("Investigador T.C.");
-        } catch (DAOException exception) {
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-        }
+    public void testFailureGetHiringCategoryByNameNotAvailable() throws DAOException {
+        HiringCategory hiringCategory = HIRING_CATEGORY_DAO.getHiringCategoryByName("Investigador T.C.");
         Assert.assertNotEquals(TEST_HIRING_CATEGORY, hiringCategory);
     }
     
     @Test
-    public void testSuccessGetHiringCategoryById() {
-        HiringCategory hiringCategory = new HiringCategory();
-        try {
-            hiringCategory = HIRING_CATEGORY_DAO.getHiringCategoryById(TEST_HIRING_CATEGORY.getIdHiringCategory());
-        } catch (DAOException exception) {
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-        }
+    public void testSuccessGetHiringCategoryById() throws DAOException {
+        HiringCategory hiringCategory = HIRING_CATEGORY_DAO.getHiringCategoryById(TEST_HIRING_CATEGORY.getIdHiringCategory());
         Assert.assertEquals(TEST_HIRING_CATEGORY, hiringCategory);
     }
     
     @Test
-    public void testFailureGetHiringCategoryByIdNotAvailable() {
-        HiringCategory hiringCategory = new HiringCategory();
-        try {
-            hiringCategory = HIRING_CATEGORY_DAO.getHiringCategoryById(9999);
-        } catch (DAOException exception) {
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-        }
+    public void testFailureGetHiringCategoryByIdNotAvailable() throws DAOException {
+        HiringCategory hiringCategory = HIRING_CATEGORY_DAO.getHiringCategoryById(9999);
         Assert.assertNotEquals(TEST_HIRING_CATEGORY, hiringCategory);
     }    
     
     @Test 
-    public void testSuccessGetHiringCategories() {
-        ArrayList<HiringCategory> expectedHiringCategories = new ArrayList<>();
-        ArrayList<HiringCategory> actualHiringCategories = new ArrayList<>();
-        
-        expectedHiringCategories = initializeHiringCategoriesArray();
-        try {
-            actualHiringCategories = HIRING_CATEGORY_DAO.getHiringCategories();
-        } catch (DAOException exception) {
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-        } finally {
-            tearDownHiringCategoriesArray(expectedHiringCategories);
-        }
-        assertEquals(expectedHiringCategories, actualHiringCategories);
+    public void testSuccessGetHiringCategories() throws DAOException {
+        ArrayList<HiringCategory> expectedHiringCategories = initializeHiringCategoriesArray();
+        ArrayList<HiringCategory> actualHiringCategories = HIRING_CATEGORY_DAO.getHiringCategories();
+        tearDownHiringCategoriesArray(expectedHiringCategories);
+        Assert.assertEquals(expectedHiringCategories, actualHiringCategories);
     }
     
     @Test 
-    public void testFailureGetHiringCategories() {
-        ArrayList<HiringCategory> expectedHiringCategories = new ArrayList<>();
-        ArrayList<HiringCategory> actualHiringCategories = new ArrayList<>();
-        
-        expectedHiringCategories = initializeHiringCategoriesArray();
-        try {
-            tearDownHiringCategoriesArray(expectedHiringCategories);
-            actualHiringCategories = HIRING_CATEGORY_DAO.getHiringCategories();
-        } catch (DAOException exception) {
-            Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
-        } 
+    public void testFailureGetHiringCategories() throws DAOException {
+        ArrayList<HiringCategory> expectedHiringCategories = initializeHiringCategoriesArray();
+        tearDownHiringCategoriesArray(expectedHiringCategories);
+        ArrayList<HiringCategory> actualHiringCategories = HIRING_CATEGORY_DAO.getHiringCategories();
         Assert.assertNotEquals(expectedHiringCategories, actualHiringCategories);
     }    
     
@@ -222,9 +142,9 @@ public class HiringCategoryTest {
         
         hiringCategories.add(TEST_HIRING_CATEGORY);
         HiringCategory hiringCategoryAux1 = new HiringCategory();
-        hiringCategoryAux1.setName("Investigador TC");
+        hiringCategoryAux1.setName("Investigador MC");
         HiringCategory hiringCategoryAux2 = new HiringCategory();
-        hiringCategoryAux2.setName("Tecnico Academico TC");
+        hiringCategoryAux2.setName("Tecnico Academico MC");
         try {
             int idHiringCategory = 0;
             idHiringCategory = HIRING_CATEGORY_DAO.registerHiringCategory(hiringCategoryAux1);
@@ -247,5 +167,4 @@ public class HiringCategoryTest {
             Log.getLogger(HiringCategoryTest.class).error(exception.getMessage(), exception);
         }
     }
-    
 }

@@ -94,7 +94,6 @@ public class FieldValidator {
         if (stringForCheck != null) {
             Matcher matcher = pattern.matcher(stringForCheck);
             if (matcher.matches()) {
-                checkNoRepeatedCharacters(stringForCheck);
                 return;
             }
         }

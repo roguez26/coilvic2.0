@@ -214,7 +214,7 @@ public class TermDAO implements ITerm {
         Connection connection = null;
         PreparedStatement preparedStatement = null;        
         ResultSet resultSet = null;        
-        String statement = "SELECT * FROM Periodo";
+        String statement = "SELECT * FROM Periodo ORDER BY idPeriodo";
         
         try {
             connection = databaseManager.getConnection();
