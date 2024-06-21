@@ -14,8 +14,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import unit.test.Initializer.TestHelper;
 
-
-
 public class CollaborativeProjectTest {
     
     private final CollaborativeProject COLLABORATIVE_PROJECT_FOR_TESTING = new CollaborativeProject();
@@ -88,16 +86,12 @@ public class CollaborativeProjectTest {
     }       
     
     @Test
-    public void registerCollaborativeProjectSucces() {
-        setUp();
-        int idCollaborativeProject = 0;
-        try {
-            idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
-            (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
-            COLLABORATIVE_PROJECT_FOR_TESTING.setIdCollaborativeProject(idCollaborativeProject);
-        } catch (DAOException exception) {
-            Log.getLogger(CollaborativeProjectTest.class).error(exception.getMessage(), exception);
-        }
+    public void registerCollaborativeProjectSucces() throws DAOException{
+        int idCollaborativeProject = 0; 
+        setUp();               
+        idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
+        (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
+        COLLABORATIVE_PROJECT_FOR_TESTING.setIdCollaborativeProject(idCollaborativeProject);
         assertTrue(idCollaborativeProject > 0);
     }
     
@@ -137,9 +131,9 @@ public class CollaborativeProjectTest {
     }
     
     @Test
-    public void acceptCollaborativeProjectProposalSucces() throws DAOException{
-        setUp();
+    public void acceptCollaborativeProjectProposalSucces() throws DAOException{        
         int idCollaborativeProject;
+        setUp();
         String status;
         idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
         (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
@@ -150,9 +144,9 @@ public class CollaborativeProjectTest {
     }
 
     @Test
-    public void rejectCollaborativeProjectProposalSucces() throws DAOException {
-        setUp();
+    public void rejectCollaborativeProjectProposalSucces() throws DAOException {        
         int idCollaborativeProject;
+        setUp();
         String status;
         idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
         (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
@@ -168,7 +162,7 @@ public class CollaborativeProjectTest {
         initializeCollaborativeProject();
         DAOException exception = assertThrows
         (DAOException.class, () -> COLLABORATIVE_PROJECT_DAO.evaluateCollaborativeProjectProposal
-        (COLLABORATIVE_PROJECT_FOR_TESTING, "Rechazado"));        
+        (COLLABORATIVE_PROJECT_FOR_TESTING, "Aceptado"));        
         System.out.println(exception.getMessage());
     }
         
@@ -212,9 +206,9 @@ public class CollaborativeProjectTest {
     
     @Test
     public void updatePendingCollaborativeProjectSucces() throws DAOException {
-        setUp();
-        int idCollaborativeProject;
         int result = 0;
+        setUp();
+        int idCollaborativeProject;        
         idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
         (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
         COLLABORATIVE_PROJECT_FOR_TESTING.setIdCollaborativeProject(idCollaborativeProject);
@@ -699,5 +693,5 @@ public class CollaborativeProjectTest {
             Log.getLogger(CollaborativeProjectTest.class).error(exception.getMessage(), exception);
         }
         testHelper.deleteAll();
-    }    
+    }
 }

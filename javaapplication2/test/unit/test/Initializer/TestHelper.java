@@ -56,12 +56,10 @@ public class TestHelper {
     private CollaborativeProjectRequest collaborativeProjectRequest;
     private CollaborativeProjectRequest collaborativeProjectRequestTwo;
     private CollaborativeProjectRequest rejectedCollaborativeProjectRequest;
-    private CollaborativeProject collaborativeProject;
-    
+    private CollaborativeProject collaborativeProject;    
     private Assignment assignmentOne;
     private Assignment assignmentTwo;
-    private Assignment assignmentThree;
-    
+    private Assignment assignmentThree;    
     private Student studentOne;
     private Student studentTwo;
     private StudentUV studentUVOne;
@@ -90,12 +88,10 @@ public class TestHelper {
         collaborativeProjectRequest = new CollaborativeProjectRequest();
         collaborativeProjectRequestTwo = new CollaborativeProjectRequest();
         rejectedCollaborativeProjectRequest = new CollaborativeProjectRequest();
-        collaborativeProject = new CollaborativeProject();
-        
+        collaborativeProject = new CollaborativeProject();        
         assignmentOne = new Assignment();
         assignmentTwo = new Assignment();
-        assignmentThree = new Assignment();
-        
+        assignmentThree = new Assignment();        
         studentUVOne = new StudentUV();
         studentUVTwo = new StudentUV();
         studentOne = new Student();
@@ -325,7 +321,7 @@ public class TestHelper {
         }
     }    
 
-    public void intializeCourses() {
+    public void initializeCourses() {
         initializeProfessors();
         initializeTerm();
         initializeLanguage();
@@ -403,7 +399,7 @@ public class TestHelper {
     }
 
     public void initializeCollaborativeProjectRequest() {
-        intializeCourses();
+        initializeCourses();
         CollaborativeProjectRequestDAO collaborativeProjectRequestDAO = new CollaborativeProjectRequestDAO();
         collaborativeProjectRequest.setRequesterCourse(courseOne);
         collaborativeProjectRequest.setRequestedCourse(courseTwo);
@@ -431,7 +427,7 @@ public class TestHelper {
     
     
     public void initializeRejectedCollaborativeProjectRequest() {
-        intializeCourses();
+        initializeCourses();
         CollaborativeProjectRequestDAO collaborativeProjectRequestDAO = new CollaborativeProjectRequestDAO();
         rejectedCollaborativeProjectRequest.setRequesterCourse(courseOne);
         rejectedCollaborativeProjectRequest.setRequestedCourse(courseTwo);
@@ -517,7 +513,7 @@ public class TestHelper {
         initializeCollaborativeProjectRequest();
         initializeModality();
         initializeStudent();
-        CollaborativeProjectDAO collaborativeProjectDAO = new CollaborativeProjectDAO();
+        CollaborativeProjectDAO collaborativeProjectDAO = new CollaborativeProjectDAO();        
         collaborativeProject.setName("Programación y Bases de Datos");
         collaborativeProject.setStatus("Pendiente");
         collaborativeProject.setDescription("Este proyecto combina los conocimientos de programación orientada a objetos y bases de datos "
@@ -529,13 +525,12 @@ public class TestHelper {
         collaborativeProject.setRequestedCourse(courseOne);
         collaborativeProject.setRequesterCourse(courseTwo);
         try {
-            collaborativeProject.setIdCollaborativeProject(collaborativeProjectDAO.registerCollaborativeProject(collaborativeProject, collaborativeProjectRequest));
+            collaborativeProject.setIdCollaborativeProject(collaborativeProjectDAO.registerCollaborativeProject(collaborativeProject, collaborativeProjectRequest));            
             collaborativeProjectDAO.evaluateCollaborativeProjectProposal(collaborativeProject, "Aceptado");
-
         } catch (DAOException exception) {
             Log.getLogger(TestHelper.class
             ).error(exception.getMessage(), exception);
-        }
+        }        
         collaborativeProject.setStatus("Aceptado");
     }
     
