@@ -1,11 +1,9 @@
 package unit.test.UserDAO;
 
-import log.Log;
 import mx.fei.coilvicapp.logic.user.User;
 import mx.fei.coilvicapp.logic.user.UserDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.implementations.PasswordGenerator;
-import mx.fei.coilvicapp.logic.professor.Professor;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,25 +16,19 @@ public class UserRegistrationTest {
     private final UserDAO USER_DAO = new UserDAO();
 
     @Before
-    public void setUp() {
+    public void setUp() throws DAOException {
         initializeTestUser();
-        try {
-            int idTestUser = USER_DAO.registerUser(TEST_USER);
-            TEST_USER.setIdUser(idTestUser);
-        } catch (DAOException exception) {
-            Log.getLogger(UserRegistrationTest.class).error(exception.getMessage(), exception);
-        }
+        int idTestUser = USER_DAO.registerUser(TEST_USER);
+        TEST_USER.setIdUser(idTestUser);
+
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws DAOException {
         int idUser = TEST_USER.getIdUser();
 
-        try {
-            USER_DAO.deleteUser(idUser);
-        } catch (DAOException exception) {
-            Log.getLogger(UserRegistrationTest.class).error(exception.getMessage(), exception);
-        }
+        USER_DAO.deleteUser(idUser);
+
     }
 
     @Test
@@ -111,7 +103,7 @@ public class UserRegistrationTest {
 
     }
 
-    @Test (expected = DAOException.class)
+    @Test(expected = DAOException.class)
     public void testAuthenticateAdministrativeUserFailByIncorrectPassword() throws DAOException {
         USER_DAO.authenticateAdministrativeUser(TEST_USER.getIdUser(), "contrasena incorrecta");
     }

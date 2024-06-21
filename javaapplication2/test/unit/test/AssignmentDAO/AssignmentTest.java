@@ -3,7 +3,6 @@ package unit.test.AssignmentDAO;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import log.Log;
 import mx.fei.coilvicapp.logic.assignment.Assignment;
 import mx.fei.coilvicapp.logic.assignment.AssignmentDAO;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
@@ -20,25 +19,27 @@ public class AssignmentTest {
 
     private final Assignment ASSIGNMENT_FOR_TESTING = new Assignment();
     private final AssignmentDAO ASSIGNMENT_DAO = new AssignmentDAO();
-    private CollaborativeProject auxCollaborativeProject;
+    private CollaborativeProject auxCollaborativeProject = new CollaborativeProject();
     private final ArrayList<Assignment> ASSGIGNMENTES_FOR_TESTING = new ArrayList<>();
     private final TestHelper TEST_HELPER = new TestHelper();
 
     @Before
     public void setUp() {
+
         TEST_HELPER.initializeCollaborativeProject();
         auxCollaborativeProject = TEST_HELPER.getCollaborativeProject();
+
         initializeAssignment();
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws DAOException {
         AssignmentDAO assignmentDAO = new AssignmentDAO();
-        try {
-            assignmentDAO.deleteAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment(), auxCollaborativeProject);
-        } catch (DAOException exception) {
-            Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
+        if (ASSIGNMENT_FOR_TESTING.getIdAssignment() > 0) {
+            assignmentDAO.deleteAssignmentByIdAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment());
+           // assignmentDAO.deleteAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment(), auxCollaborativeProject);
         }
+
         if (!ASSGIGNMENTES_FOR_TESTING.isEmpty()) {
             deleteAssignments();
         }
@@ -62,6 +63,7 @@ public class AssignmentTest {
         collaborativeProjectDAO.finalizeCollaborativeProject(auxCollaborativeProject);
         ASSIGNMENT_DAO.registerAssignment(
                 ASSIGNMENT_FOR_TESTING, auxCollaborativeProject);
+
     }
 
     @Test
@@ -92,13 +94,11 @@ public class AssignmentTest {
         }
 
     }
+    
+    private void deleteAssignment() throws DAOException {
+        
+        ASSIGNMENT_DAO.deleteAssignmentByIdAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment());
 
-    private void deleteAssignment() {
-        try {
-            ASSIGNMENT_DAO.deleteAssignmentByIdAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment());
-        } catch (DAOException exception) {
-            Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
-        }
     }
 
     @Test
@@ -127,10 +127,8 @@ public class AssignmentTest {
                     ASSIGNMENT_FOR_TESTING, auxCollaborativeProject);
         } finally {
             deleteAssignment();
-
         }
     }
-
     @Test
     public void getAssignmentsSuccess() throws DAOException {
         ArrayList<Assignment> result = new ArrayList<>();
@@ -143,14 +141,16 @@ public class AssignmentTest {
         assertEquals(ASSGIGNMENTES_FOR_TESTING, result);
     }
 
+
     private void initializeAssignment() {
+        ASSIGNMENT_FOR_TESTING.setIdAssignment(0);
         ASSIGNMENT_FOR_TESTING.setName("Rompehielos");
         ASSIGNMENT_FOR_TESTING.setDescription("Actividad donde se presentaron los alumnos de "
                 + "Programación y los de Bases de Datos");
         ASSIGNMENT_FOR_TESTING.setPath("/files/id/Rompehielos.pdf");
     }
 
-    private void initializeAssignmentes() {
+    private void initializeAssignmentes() throws DAOException {
         String names[] = {"Rompehielos", "Ejercicios", "Presentacion"};
         String descriptions[] = {"Actividad para presentacion", "Actividades sobre culturizacion",
             "Descripcion sobre la colaboracion"};
@@ -159,29 +159,24 @@ public class AssignmentTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = currentDateTime.format(formatter);
 
-        try {
-            for (int i = 0; i < 3; i++) {
-                Assignment assignment = new Assignment();
-                assignment.setName(names[i]);
-                assignment.setDescription(descriptions[i]);
-                assignment.setPath(paths[i]);
-                assignment.setIdAssignment(ASSIGNMENT_DAO.registerAssignment(assignment, auxCollaborativeProject));
-                assignment.setDate(formattedDateTime);
-                ASSGIGNMENTES_FOR_TESTING.add(assignment);
-            }
-        } catch (DAOException exception) {
-            Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
+        for (int i = 0; i < 3; i++) {
+            Assignment assignment = new Assignment();
+            assignment.setName(names[i]);
+            assignment.setDescription(descriptions[i]);
+            assignment.setPath(paths[i]);
+            assignment.setIdAssignment(ASSIGNMENT_DAO.registerAssignment(assignment, auxCollaborativeProject));
+            assignment.setDate(formattedDateTime);
+            ASSGIGNMENTES_FOR_TESTING.add(assignment);
         }
+
     }
 
-    private void deleteAssignments() {
-        try {
-            for (int i = 0; i < 3; i++) {
-                ASSIGNMENT_DAO.deleteAssignment(ASSGIGNMENTES_FOR_TESTING.get(i).getIdAssignment(),
-                        auxCollaborativeProject);
-            }
-        } catch (DAOException exception) {
-            Log.getLogger(AssignmentTest.class).error(exception.getMessage(), exception);
+
+    private void deleteAssignments() throws DAOException {
+        for (int i = 0; i < 3; i++) {
+            ASSIGNMENT_DAO.deleteAssignment(ASSGIGNMENTES_FOR_TESTING.get(i).getIdAssignment(),
+                    auxCollaborativeProject);
         }
+
     }
 }

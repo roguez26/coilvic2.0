@@ -1,7 +1,6 @@
 package unit.test.UniversityDAO;
 
 import java.util.ArrayList;
-import log.Log;
 import mx.fei.coilvicapp.logic.country.Country;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentative;
@@ -29,7 +28,7 @@ public class UniversityTest {
     private final TestHelper TEST_HELPER = new TestHelper();
 
     @Before
-    public void setUp() {
+    public void setUp() throws DAOException {
         TEST_HELPER.initializeCountries();
         auxCountry = TEST_HELPER.getCountryOne();
         initializeUniversities();
@@ -38,20 +37,16 @@ public class UniversityTest {
     }
 
     @After
-    public void tearDown() {
-        try {
-            REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(AUX_REPRESENTATIVE);
-            for (int i = 0; i < UNIVERSITIES_FOR_TESTING.size(); i++) {
-                UNIVERSITY_DAO.deleteUniversity(UNIVERSITIES_FOR_TESTING.get(i).getIdUniversity());
-            }
-            UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING.getIdUniversity());
-        } catch (DAOException exception) {
-            Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
+    public void tearDown() throws DAOException {
+        REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(AUX_REPRESENTATIVE);
+        for (int i = 0; i < UNIVERSITIES_FOR_TESTING.size(); i++) {
+            UNIVERSITY_DAO.deleteUniversity(UNIVERSITIES_FOR_TESTING.get(i).getIdUniversity());
         }
+        UNIVERSITY_DAO.deleteUniversity(UNIVERSITY_FOR_TESTING.getIdUniversity());
         TEST_HELPER.deleteAll();
     }
 
-    private void initializeAuxiliarInstitutionalRepresentative() {
+    private void initializeAuxiliarInstitutionalRepresentative() throws DAOException {
         AUX_REPRESENTATIVE.setName("Carlos");
         AUX_REPRESENTATIVE.setPaternalSurname("Oliva");
         AUX_REPRESENTATIVE.setMaternalSurname("Ramirez");
@@ -62,15 +57,12 @@ public class UniversityTest {
             return;
         }
         AUX_REPRESENTATIVE.setUniversity(UNIVERSITY_FOR_TESTING);
-        try {
-            AUX_REPRESENTATIVE.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.
-                    registerInstitutionalRepresentative(AUX_REPRESENTATIVE));
-        } catch (DAOException exception) {
-            Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
-        }
+        AUX_REPRESENTATIVE.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.
+                registerInstitutionalRepresentative(AUX_REPRESENTATIVE));
+
     }
 
-    private void initializeUniversities() {
+    private void initializeUniversities() throws DAOException {
         String[] names = {"Universidad Autonoma de México", "Tecnologico de Monterrey", "Universidad "
             + "Autonoma de Guadalajara"};
         String[] acronyms = {"UNAM", "ITESM", "UAG"};
@@ -83,11 +75,8 @@ public class UniversityTest {
             university.setJurisdiction(jurisdictions[i]);
             university.setCity(cities[i]);
             university.setCountry(auxCountry);
-            try {
-                university.setIdUniversity(UNIVERSITY_DAO.registerUniversity(university));
-            } catch (DAOException exception) {
-                Log.getLogger(UniversityTest.class).error(exception.getMessage(), exception);
-            }
+            university.setIdUniversity(UNIVERSITY_DAO.registerUniversity(university));
+
             UNIVERSITIES_FOR_TESTING.add(university);
         }
     }
