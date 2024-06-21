@@ -96,9 +96,8 @@ public class CollaborativeProjectRequest {
             isEqual = idCollaborativeProjectRequest == request.idCollaborativeProjectRequest
                     && Objects.equals(requesterCourse, request.requesterCourse)
                     && Objects.equals(requestedCourse, request.requestedCourse)
-                    //&& Objects.equals(status, request.status)
-                    && Objects.equals(requestDate, request.requestDate)
-                    && Objects.equals(validationDate, request.validationDate);
+                    && Objects.equals(status, request.status);
+                   // && Objects.equals(requestDate, request.requestDate);
         }
         return isEqual;
     }
