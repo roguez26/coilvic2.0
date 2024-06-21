@@ -1,9 +1,7 @@
 package unit.test.FieldValidator;
 
 import mx.fei.coilvicapp.logic.implementations.FieldValidator;
-import log.Log;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertThrows;
 import org.junit.Test;
 
 public class FieldValidatorTest {

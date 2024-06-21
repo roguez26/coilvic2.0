@@ -9,7 +9,6 @@ import mx.fei.coilvicapp.logic.university.University;
 import mx.fei.coilvicapp.logic.university.UniversityDAO;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,23 +23,20 @@ public class CountryTest {
     private final University AUX_UNIVERSITY = new University();
 
     @Before
-    public void setUp() {
+    public void setUp() throws DAOException {
         initializeCountries();
         initializeCountry();
     }
 
     @After
-    public void tearDown() {
-        try {
-            UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY.getIdUniversity());
-            for (int i = 0; i < 5; i++) {
-                COUNTRY_DAO.deleteCountry(COUNTRIES_FOR_TESTING.get(i).getIdCountry());
-            }
-            COUNTRIES_FOR_TESTING.clear();
-            COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING.getIdCountry());
-        } catch (DAOException exception) {
-            Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
+    public void tearDown() throws DAOException {
+        UNIVERSITY_DAO.deleteUniversity(AUX_UNIVERSITY.getIdUniversity());
+        for (int i = 0; i < 5; i++) {
+            COUNTRY_DAO.deleteCountry(COUNTRIES_FOR_TESTING.get(i).getIdCountry());
         }
+        COUNTRIES_FOR_TESTING.clear();
+        COUNTRY_DAO.deleteCountry(COUNTRY_FOR_TESTING.getIdCountry());
+
     }
 
     private void initilizeUniversity() {
@@ -51,7 +47,7 @@ public class CountryTest {
         AUX_UNIVERSITY.setCountry(COUNTRY_FOR_TESTING);
     }
 
-    private void initializeCountries() {
+    private void initializeCountries() throws DAOException {
         String[] countryNames = {"Argentina", "Ecuador", "Rusia", "Italia", "Colombia"};
         String[] countryCodes = {"+54", "+593", "+7", "+39", "+57"};
 
@@ -59,11 +55,7 @@ public class CountryTest {
             Country country = new Country();
             country.setName(countryNames[i]);
             country.setCountryCode(countryCodes[i]);
-            try {
-                country.setIdCountry(COUNTRY_DAO.registerCountry(country));
-            } catch (DAOException exception) {
-                Log.getLogger(CountryTest.class).error(exception.getMessage(), exception);
-            }
+            country.setIdCountry(COUNTRY_DAO.registerCountry(country));
             COUNTRIES_FOR_TESTING.add(country);
         }
     }

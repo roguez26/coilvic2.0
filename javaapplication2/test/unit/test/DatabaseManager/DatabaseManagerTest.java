@@ -4,12 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
-import log.Log;
 import mx.fei.coilvicapp.dataaccess.DatabaseManager;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import org.junit.After;
 import org.junit.Assert;
-import static org.junit.Assert.assertThrows;
 import org.junit.Test;
 
 public class DatabaseManagerTest {
@@ -18,11 +16,7 @@ public class DatabaseManagerTest {
 
     @After
     public void tearDown() {
-        try {
-            DATABASE_MANAGER.closeConnection();
-        } catch (Exception exception) {
-            Log.getLogger(DatabaseManagerTest.class).error(exception.getMessage(), exception);
-        }
+        DATABASE_MANAGER.closeConnection();
     }
 
     @Test
@@ -33,7 +27,6 @@ public class DatabaseManagerTest {
 
         System.out.println(connection);
         Assert.assertNotNull(connection);
-        DATABASE_MANAGER.closeConnection();
     }
 
     @Test
@@ -43,7 +36,6 @@ public class DatabaseManagerTest {
         connection = DATABASE_MANAGER.connect();
         System.out.println(connection);
         Assert.assertNotNull(connection);
-        DATABASE_MANAGER.closeConnection();
     }
 
     @Test
