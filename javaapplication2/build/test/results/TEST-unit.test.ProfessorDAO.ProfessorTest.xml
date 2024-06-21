@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="1" failures="4" hostname="roguez" name="unit.test.ProfessorDAO.ProfessorTest" skipped="0" tests="20" time="12.619" timestamp="2024-06-20T06:48:41">
+<testsuite errors="0" failures="10" hostname="roguez" name="unit.test.ProfessorDAO.ProfessorTest" skipped="0" tests="20" time="18.954" timestamp="2024-06-21T06:35:36">
   <properties>
     <property name="" value="======" />
     <property name="libs.spring-framework300.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\org-apache-commons-logging.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\cglib-2.2.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aop-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aspects-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-beans-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-support-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-core-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-expression-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-tomcat-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jdbc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jms-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-orm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-oxm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-struts-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-test-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-tx-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-web-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-portlet-3.2.18.RELEASE.jar" />
@@ -23,7 +23,7 @@
     <property name="libs.JWSAntTasks.javadoc" value="" />
     <property name="file.reference.log4j-1.2.17.jar" value="C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar" />
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.ProfessorDAO.ProfessorTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.ProfessorDAO.ProfessorTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher3581352442623334792.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit17498437734264015353.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.ProfessorDAO.ProfessorTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.ProfessorDAO.ProfessorTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher1151384909079017902.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit7644669799350907455.properties" />
     <property name="jdk.debug" value="release" />
     <property name="libs.spring-framework300.src" value="" />
     <property name="javadoc.use" value="true" />
@@ -507,29 +507,43 @@
     <property name="libs.javaee-web-api-7.0.src" value="" />
     <property name="libs.javaee-endorsed-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\javax.annotation.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\jaxb-api-osgi.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\webservices-api-osgi.jar" />
   </properties>
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessRejectProfessor" time="1.608" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetProfessorByEmailNotFound" time="0.71" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetProfessorByIDNotFound" time="0.662" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetProfessorByID" time="0.676" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureDeleteProfessorByIdNotFound" time="0.597" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessAcceptProfessor" time="0.638">
-    <error message="No se permiten entradas con 3 o más caracteres repetidos consecutivamente.&#xa;" type="java.lang.IllegalArgumentException">java.lang.IllegalArgumentException: No se permiten entradas con 3 o más caracteres repetidos consecutivamente.
-
-	at mx.fei.coilvicapp.logic.implementations.FieldValidator.checkNoRepeatedCharacters(FieldValidator.java:195)
-	at mx.fei.coilvicapp.logic.implementations.FieldValidator.checkLongRange(FieldValidator.java:97)
-	at mx.fei.coilvicapp.logic.emailSender.EmailSender.setMessage(EmailSender.java:116)
-	at mx.fei.coilvicapp.logic.professor.ProfessorDAO.initializeEmailSender(ProfessorDAO.java:708)
-	at mx.fei.coilvicapp.logic.professor.ProfessorDAO.invokeSendEmail(ProfessorDAO.java:696)
-	at mx.fei.coilvicapp.logic.professor.ProfessorDAO.acceptProfessor(ProfessorDAO.java:565)
-	at unit.test.ProfessorDAO.ProfessorTest.testSuccessAcceptProfessor(ProfessorTest.java:268)
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessRejectProfessor" time="2.697">
+    <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
+	at unit.test.ProfessorDAO.ProfessorTest.testSuccessRejectProfessor(ProfessorTest.java:296)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
+</failure>
   </testcase>
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetAllProfessors" time="0.958" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetProfessorByEmail" time="0.603" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureCheckPreconditions" time="0.569">
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetProfessorByEmailNotFound" time="0.927">
+    <failure message="Values should be different. Actual: 0" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Values should be different. Actual: 0
+	at unit.test.ProfessorDAO.ProfessorTest.testFailureGetProfessorByEmailNotFound(ProfessorTest.java:205)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+</failure>
+  </testcase>
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetProfessorByIDNotFound" time="0.912">
+    <failure message="Values should be different. Actual: 0" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Values should be different. Actual: 0
+	at unit.test.ProfessorDAO.ProfessorTest.testFailureGetProfessorByIDNotFound(ProfessorTest.java:182)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+</failure>
+  </testcase>
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetProfessorByID" time="0.84" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureDeleteProfessorByIdNotFound" time="0.774" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessAcceptProfessor" time="0.861">
+    <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
+	at unit.test.ProfessorDAO.ProfessorTest.testSuccessAcceptProfessor(ProfessorTest.java:272)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+</failure>
+  </testcase>
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetAllProfessors" time="1.618" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetProfessorByEmail" time="0.868" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureCheckPreconditions" time="0.825">
     <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
 	at unit.test.ProfessorDAO.ProfessorTest.testFailureCheckPreconditions(ProfessorTest.java:76)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -537,19 +551,33 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessRegisterProfessor" time="0.559" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccesUpdateProfessor" time="0.607" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureUpdateProfessorByEmailAlreadyRegistered" time="0.606" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureRejectProfessor" time="0.425" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetAllProfessors" time="0.473">
-    <failure message="expected:&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt; but was:&lt;[Maria Arenas Valdes]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt; but was:&lt;[Maria Arenas Valdes]&gt;
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessRegisterProfessor" time="0.755">
+    <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
+	at unit.test.ProfessorDAO.ProfessorTest.testSuccessRegisterProfessor(ProfessorTest.java:90)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+</failure>
+  </testcase>
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccesUpdateProfessor" time="0.768">
+    <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
+	at unit.test.ProfessorDAO.ProfessorTest.testSuccesUpdateProfessor(ProfessorTest.java:113)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+</failure>
+  </testcase>
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureUpdateProfessorByEmailAlreadyRegistered" time="0.761" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureRejectProfessor" time="0.702" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetAllProfessors" time="0.805">
+    <failure message="expected: java.util.ArrayList&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt; but was: java.util.ArrayList&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected: java.util.ArrayList&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt; but was: java.util.ArrayList&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt;
 	at unit.test.ProfessorDAO.ProfessorTest.testSuccessGetAllProfessors(ProfessorTest.java:219)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessDeleteProfessor" time="0.419">
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessDeleteProfessor" time="0.678">
     <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
 	at unit.test.ProfessorDAO.ProfessorTest.testSuccessDeleteProfessor(ProfessorTest.java:147)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -557,18 +585,18 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetAllProfessorsByPendingStatus" time="0.483" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessCheckPreconditions" time="0.586" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureAcceptProfessor" time="0.433" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetAllProfessorsByPendingStatus" time="0.423">
-    <failure message="expected:&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt; but was:&lt;[Maria Arenas Valdes]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt; but was:&lt;[Maria Arenas Valdes]&gt;
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetAllProfessorsByPendingStatus" time="0.775" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessCheckPreconditions" time="0.882" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureAcceptProfessor" time="0.706" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetAllProfessorsByPendingStatus" time="0.763">
+    <failure message="expected: java.util.ArrayList&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt; but was: java.util.ArrayList&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected: java.util.ArrayList&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt; but was: java.util.ArrayList&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt;
 	at unit.test.ProfessorDAO.ProfessorTest.testSuccessGetAllProfessorsByPendingStatus(ProfessorTest.java:248)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureRegisterProfessorByEmailAlreadyRegistered" time="0.427" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureRegisterProfessorByEmailAlreadyRegistered" time="0.761" />
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
