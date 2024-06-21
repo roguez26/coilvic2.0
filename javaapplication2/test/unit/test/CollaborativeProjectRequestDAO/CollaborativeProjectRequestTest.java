@@ -39,13 +39,10 @@ public class CollaborativeProjectRequestTest {
     }
 
     @After
-    public void tearDown() {
-        try {
-            COLLABORATIVE_PROJECT_REQUEST_DAO.deleteCollaborativeProjectRequestByidCollaborativeProjectRequest(COLLABORATIVE_PROJECT_REQUEST_FOR_TESTING.getIdCollaborativeProjectRequest());
-            COLLABORATIVE_PROJECT_REQUEST_DAO.deleteCollaborativeProjectRequestByidCollaborativeProjectRequest(AUX_COLLABORATIVE_PROJECT_REQUEST_FOR_TESTING.getIdCollaborativeProjectRequest());
-        } catch (DAOException exception) {
-            Log.getLogger(CollaborativeProjectRequestTest.class).error(exception.getMessage(), exception);
-        }
+    public void tearDown() throws DAOException {
+        COLLABORATIVE_PROJECT_REQUEST_DAO.deleteCollaborativeProjectRequestByidCollaborativeProjectRequest(COLLABORATIVE_PROJECT_REQUEST_FOR_TESTING.getIdCollaborativeProjectRequest());
+        COLLABORATIVE_PROJECT_REQUEST_DAO.deleteCollaborativeProjectRequestByidCollaborativeProjectRequest(AUX_COLLABORATIVE_PROJECT_REQUEST_FOR_TESTING.getIdCollaborativeProjectRequest());
+
         TEST_HELPER.deleteAll();
     }
 
@@ -54,7 +51,7 @@ public class CollaborativeProjectRequestTest {
         COLLABORATIVE_PROJECT_REQUEST_FOR_TESTING.setRequesterCourse(auxCourseTwo);
     }
 
-    public Course initializeAuxCourse() {
+    public Course initializeAuxCourse() throws DAOException {
         CourseDAO courseDAO = new CourseDAO();
         Course auxCourse = new Course();
         auxCourse.setName("Desarrollo Web");
@@ -68,11 +65,8 @@ public class CollaborativeProjectRequestTest {
         auxCourse.setAdditionalInformation("El curso incluye la creación de"
                 + " proyectos completos desde cero utilizando metodologías ágiles.");
         auxCourse.setProfessor(auxCourseOne.getProfessor());
-        try {
-            auxCourse.setIdCourse(courseDAO.registerCourse(auxCourse));
-        } catch (DAOException exception) {
-            Log.getLogger(CollaborativeProjectRequestTest.class).error(exception.getMessage(), exception);
-        }
+        auxCourse.setIdCourse(courseDAO.registerCourse(auxCourse));
+
         return auxCourse;
     }
 

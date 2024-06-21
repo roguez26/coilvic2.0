@@ -6,7 +6,6 @@ import java.io.IOException;
 import log.Log;
 import mx.fei.coilvicapp.logic.implementations.FileManager;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -17,16 +16,13 @@ public class FileManagerTest {
     private File initializeLargeFile() throws IOException {
         File largeFile = File.createTempFile("LargeFile", ".txt");
 
-        try (FileWriter writer = new FileWriter(largeFile)) {
-            StringBuilder data = new StringBuilder();
-            for (int i = 0; i < 1000000; i++) {
-                data.append("Lorem ipsum dolor sit amet, consectetur adipiscing elit. ");
-            }
-            writer.write(data.toString());
-
-        } catch (IOException exception) {
-            Log.getLogger(FileManagerTest.class).error(exception.getMessage(), exception);
+        FileWriter writer = new FileWriter(largeFile);
+        StringBuilder data = new StringBuilder();
+        for (int i = 0; i < 1000000; i++) {
+            data.append("Lorem ipsum dolor sit amet, consectetur adipiscing elit. ");
         }
+        writer.write(data.toString());
+
         return largeFile;
     }
 

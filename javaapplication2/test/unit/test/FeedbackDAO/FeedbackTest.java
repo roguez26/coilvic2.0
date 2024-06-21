@@ -4,7 +4,6 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import java.util.ArrayList;
-import log.Log;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.feedback.FeedbackDAO;
 import mx.fei.coilvicapp.logic.feedback.Response;
@@ -13,7 +12,6 @@ import mx.fei.coilvicapp.logic.professor.Professor;
 import mx.fei.coilvicapp.logic.student.Student;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 import org.junit.Before;
 import unit.test.Initializer.TestHelper;
 
@@ -37,21 +35,18 @@ public class FeedbackTest {
         auxCollaborativeProject = TEST_HELPER.getCollaborativeProject();
         auxProfessor = TEST_HELPER.getProfessorOne();
         auxStudent = TEST_HELPER.getStudentOne();
-        
+
     }
 
     @After
-    public void tearDown() {
-        try {
-            if (QUESTION_FOR_TESTING != null) {
-                FEEDBACK_DAO.deleteQuestion(QUESTION_FOR_TESTING);
-            }
-            if (!QUESTIONS_FOR_TESTING.isEmpty()) {
-                deleteQuestions();
-            }
-        } catch (DAOException exception) {
-            Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
+    public void tearDown() throws DAOException {
+        if (QUESTION_FOR_TESTING != null) {
+            FEEDBACK_DAO.deleteQuestion(QUESTION_FOR_TESTING);
         }
+        if (!QUESTIONS_FOR_TESTING.isEmpty()) {
+            deleteQuestions();
+        }
+
         TEST_HELPER.deleteAll();
     }
 
@@ -195,32 +190,26 @@ public class FeedbackTest {
         }
     }
 
-    public void initializeProfessorQuestions() {
+    public void initializeProfessorQuestions() throws DAOException {
         String questionTexts[] = {"¿Qué te pareció la experiencia?", "¿El profesor cumplió con sus "
             + "resposabilidades?", "¿Qué fue los mejor de esta experiencia?"};
         String questionTypes[] = {"Profesor", "Profesor", "Profesor"};
-        try {
-            for (int i = 0; i < 3; i++) {
-                Question question = new Question();
-                question.setQuestionText(questionTexts[i]);
-                question.setQuestionType(questionTypes[i]);
-                question.setIdQuestion(FEEDBACK_DAO.registerQuestion(question));
-                QUESTIONS_FOR_TESTING.add(question);
-            }
-        } catch (DAOException exception) {
-            Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
+        for (int i = 0; i < 3; i++) {
+            Question question = new Question();
+            question.setQuestionText(questionTexts[i]);
+            question.setQuestionType(questionTypes[i]);
+            question.setIdQuestion(FEEDBACK_DAO.registerQuestion(question));
+            QUESTIONS_FOR_TESTING.add(question);
         }
+
     }
 
-    public void deleteQuestions() {
-        try {
-            for (int i = 0; i < 3; i++) {
-                FEEDBACK_DAO.deleteQuestion(QUESTIONS_FOR_TESTING.get(i));
-            }
-            QUESTIONS_FOR_TESTING.clear();
-        } catch (DAOException exception) {
-            Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
+    public void deleteQuestions() throws DAOException {
+        for (int i = 0; i < 3; i++) {
+            FEEDBACK_DAO.deleteQuestion(QUESTIONS_FOR_TESTING.get(i));
         }
+        QUESTIONS_FOR_TESTING.clear();
+
     }
 
     public void initializeQuestion() {
@@ -228,21 +217,18 @@ public class FeedbackTest {
         QUESTION_FOR_TESTING.setQuestionType("Estudiante-POST");
     }
 
-    public void initializeStudentQuestions() {
+    public void initializeStudentQuestions() throws DAOException {
         String questionTexts[] = {"¿Qué te pareció la experiencia?", "¿El profesor cumplió con sus "
-            + "resposabilidades?", "¿Qué fue los mejor de esta experiencia?"};
+            + "responsabilidades?", "¿Qué fue los mejor de esta experiencia?"};
         String questionTypes[] = {"Estudiante-POST", "Estudiante-POST", "Estudiante-POST"};
-        try {
-            for (int i = 0; i < 3; i++) {
-                Question question = new Question();
-                question.setQuestionText(questionTexts[i]);
-                question.setQuestionType(questionTypes[i]);
-                question.setIdQuestion(FEEDBACK_DAO.registerQuestion(question));
-                QUESTIONS_FOR_TESTING.add(question);
-            }
-        } catch (DAOException exception) {
-            Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
+        for (int i = 0; i < 3; i++) {
+            Question question = new Question();
+            question.setQuestionText(questionTexts[i]);
+            question.setQuestionType(questionTypes[i]);
+            question.setIdQuestion(FEEDBACK_DAO.registerQuestion(question));
+            QUESTIONS_FOR_TESTING.add(question);
         }
+
     }
 
     public void initializeProfessorResponses() {
@@ -273,28 +259,22 @@ public class FeedbackTest {
         }
     }
 
-    public void deleteProfessorResponses() {
+    public void deleteProfessorResponses() throws DAOException {
         FeedbackDAO feedbackDAO = new FeedbackDAO();
-        try {
-            feedbackDAO.deleteProfessorResponsesByIdAndIdCollaborativeProject(
-                    auxProfessor.getIdProfessor(),
-                    auxCollaborativeProject.getIdCollaborativeProject());
-            RESPONSES_FOR_TESTING.clear();
-        } catch (DAOException exception) {
-            Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
-        }
+        feedbackDAO.deleteProfessorResponsesByIdAndIdCollaborativeProject(
+                auxProfessor.getIdProfessor(),
+                auxCollaborativeProject.getIdCollaborativeProject());
+        RESPONSES_FOR_TESTING.clear();
+
     }
 
-    public void deleteStudentResponses() {
+    public void deleteStudentResponses() throws DAOException {
         FeedbackDAO feedbackDAO = new FeedbackDAO();
-        try {
-            feedbackDAO.deleteStudentResponsesByIdAndIdCollaborativeProject(
-                    auxStudent.getIdStudent(),
-                    auxCollaborativeProject.getIdCollaborativeProject());
-            RESPONSES_FOR_TESTING.clear();
-        } catch (DAOException exception) {
-            Log.getLogger(FeedbackTest.class).error(exception.getMessage(), exception);
-        }
+        feedbackDAO.deleteStudentResponsesByIdAndIdCollaborativeProject(
+                auxStudent.getIdStudent(),
+                auxCollaborativeProject.getIdCollaborativeProject());
+        RESPONSES_FOR_TESTING.clear();
+
     }
 
 }

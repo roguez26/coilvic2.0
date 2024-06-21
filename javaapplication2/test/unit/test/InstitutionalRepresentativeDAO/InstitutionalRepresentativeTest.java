@@ -1,7 +1,6 @@
 package unit.test.InstitutionalRepresentativeDAO;
 
 import java.util.ArrayList;
-import log.Log;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentative;
 import mx.fei.coilvicapp.logic.institutionalrepresentative.InstitutionalRepresentativeDAO;
@@ -24,7 +23,7 @@ public class InstitutionalRepresentativeTest {
     private final TestHelper TEST_HELPER = new TestHelper();
 
     @Before
-    public void setUp() {
+    public void setUp() throws DAOException {
         TEST_HELPER.initializeUniversities();
         auxUniversity = TEST_HELPER.getUniversityOne();
         initializeInstitutionalRepresentatives();
@@ -32,19 +31,16 @@ public class InstitutionalRepresentativeTest {
     }
 
     @After
-    public void tearDown() {
-        try {
-            for (int i = 0; i < 3; i++) {
-                REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(REPRESENTATIVES_FOR_TESTING.get(i));
-            }
-            REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING);
-            TEST_HELPER.deleteAll();
-        } catch (DAOException exception) {
-            Log.getLogger(InstitutionalRepresentativeTest.class).error(exception.getMessage(), exception);
+    public void tearDown() throws DAOException {
+        for (int i = 0; i < 3; i++) {
+            REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(REPRESENTATIVES_FOR_TESTING.get(i));
         }
+        REPRESENTATIVE_DAO.deleteInstitutionalRepresentative(INSTITUTIONAL_REPRESENTATIVE_FOR_TESTING);
+        TEST_HELPER.deleteAll();
+
     }
 
-    private void initializeInstitutionalRepresentatives() {
+    private void initializeInstitutionalRepresentatives() throws DAOException {
         String[] names = {"Natalia", "Daniel", "Juan"};
         String[] paternalSurnames = {"Hernandez", "Romero", "Mata"};
         String[] maternalSurnames = {"Alvarez", "Cid", "Alba"};
@@ -59,12 +55,9 @@ public class InstitutionalRepresentativeTest {
             institutionalRepresentative.setPhoneNumber(phoneNumber[i]);
             institutionalRepresentative.setEmail(emails[i]);
             institutionalRepresentative.setUniversity(auxUniversity);
-            try {
-                institutionalRepresentative.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.registerInstitutionalRepresentative(institutionalRepresentative));
-            } catch (DAOException exception) {
-                Log.getLogger(InstitutionalRepresentativeTest.class).error(exception.getMessage(), exception);
-            }
+            institutionalRepresentative.setIdInstitutionalRepresentative(REPRESENTATIVE_DAO.registerInstitutionalRepresentative(institutionalRepresentative));
             REPRESENTATIVES_FOR_TESTING.add(institutionalRepresentative);
+
         }
     }
 
