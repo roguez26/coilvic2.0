@@ -30,7 +30,7 @@ public class CollaborativeProjectRequestTest {
 
     @Before
     public void setUp() {
-        TEST_HELPER.intializeCourses();
+        TEST_HELPER.initializeCourses();
         auxCourseOne = TEST_HELPER.getCourseOne();
         auxCourseTwo = TEST_HELPER.getCourseTwo();
         auxCourseThree = TEST_HELPER.getCourseThree();

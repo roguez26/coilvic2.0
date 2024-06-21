@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="roguez" name="unit.test.FileManager.FileManagerTest" skipped="0" tests="10" time="1.191" timestamp="2024-06-21T01:06:24">
+<testsuite errors="0" failures="0" hostname="roguez" name="unit.test.FileManager.FileManagerTest" skipped="0" tests="10" time="1.24" timestamp="2024-06-21T06:35:10">
   <properties>
     <property name="" value="======" />
     <property name="libs.spring-framework300.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\org-apache-commons-logging.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\cglib-2.2.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aop-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aspects-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-beans-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-support-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-core-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-expression-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-tomcat-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jdbc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jms-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-orm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-oxm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-struts-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-test-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-tx-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-web-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-portlet-3.2.18.RELEASE.jar" />
@@ -23,7 +23,7 @@
     <property name="libs.JWSAntTasks.javadoc" value="" />
     <property name="file.reference.log4j-1.2.17.jar" value="C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar" />
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.FileManager.FileManagerTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.FileManager.FileManagerTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher3462166270546345368.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit13797221422255675481.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.FileManager.FileManagerTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.FileManager.FileManagerTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher10609053448915231971.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit2927311352667995563.properties" />
     <property name="jdk.debug" value="release" />
     <property name="libs.spring-framework300.src" value="" />
     <property name="javadoc.use" value="true" />
@@ -507,16 +507,16 @@
     <property name="libs.javaee-web-api-7.0.src" value="" />
     <property name="libs.javaee-endorsed-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\javax.annotation.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\jaxb-api-osgi.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\webservices-api-osgi.jar" />
   </properties>
-  <testcase classname="unit.test.FileManager.FileManagerTest" name="testSaveAssignment" time="0.043" />
-  <testcase classname="unit.test.FileManager.FileManagerTest" name="testSaveSyllabus" time="0.006" />
-  <testcase classname="unit.test.FileManager.FileManagerTest" name="isValidForSaveFailByTooLarge" time="0.61" />
-  <testcase classname="unit.test.FileManager.FileManagerTest" name="testSaveAssignmentFailByAllreadyFileAlready" time="0.005" />
+  <testcase classname="unit.test.FileManager.FileManagerTest" name="testSaveAssignment" time="0.05" />
+  <testcase classname="unit.test.FileManager.FileManagerTest" name="testSaveSyllabus" time="0.005" />
+  <testcase classname="unit.test.FileManager.FileManagerTest" name="isValidForSaveFailByTooLarge" time="0.65" />
+  <testcase classname="unit.test.FileManager.FileManagerTest" name="testSaveAssignmentFailByAllreadyFileAlready" time="0.004" />
   <testcase classname="unit.test.FileManager.FileManagerTest" name="isValidForSaveSucces" time="0.0" />
-  <testcase classname="unit.test.FileManager.FileManagerTest" name="testOpenFileSucess" time="0.255" />
+  <testcase classname="unit.test.FileManager.FileManagerTest" name="testOpenFileSucess" time="0.246" />
   <testcase classname="unit.test.FileManager.FileManagerTest" name="isValidForSaveFailByExistenceFile" time="0.001" />
-  <testcase classname="unit.test.FileManager.FileManagerTest" name="testOpenFileFailByNonexistenceFile" time="0.001" />
-  <testcase classname="unit.test.FileManager.FileManagerTest" name="testSaveSyllabusFailByAllreadyFileAlready" time="0.005" />
-  <testcase classname="unit.test.FileManager.FileManagerTest" name="isValidForSaveFailByNullFile" time="0.001" />
+  <testcase classname="unit.test.FileManager.FileManagerTest" name="testOpenFileFailByNonexistenceFile" time="0.0" />
+  <testcase classname="unit.test.FileManager.FileManagerTest" name="testSaveSyllabusFailByAllreadyFileAlready" time="0.002" />
+  <testcase classname="unit.test.FileManager.FileManagerTest" name="isValidForSaveFailByNullFile" time="0.0" />
   <system-out><![CDATA[files\activities\1234\certificate.pdf
 files\syllabus\1234\certificate.pdf
 true

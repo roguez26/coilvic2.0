@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="roguez" name="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" skipped="0" tests="51" time="79.442" timestamp="2024-06-21T01:03:13">
+<testsuite errors="0" failures="0" hostname="roguez" name="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" skipped="0" tests="51" time="83.96" timestamp="2024-06-21T06:31:17">
   <properties>
     <property name="" value="======" />
     <property name="libs.spring-framework300.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\org-apache-commons-logging.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\cglib-2.2.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aop-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aspects-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-beans-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-support-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-core-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-expression-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-tomcat-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jdbc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jms-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-orm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-oxm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-struts-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-test-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-tx-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-web-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-portlet-3.2.18.RELEASE.jar" />
@@ -23,7 +23,7 @@
     <property name="libs.JWSAntTasks.javadoc" value="" />
     <property name="file.reference.log4j-1.2.17.jar" value="C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar" />
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.CollaborativeProjectDAO.CollaborativeProjectTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.CollaborativeProjectDAO.CollaborativeProjectTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher18154688048932706530.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit8251511381863799763.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.CollaborativeProjectDAO.CollaborativeProjectTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.CollaborativeProjectDAO.CollaborativeProjectTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher8346543392671979631.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit1163483144499809029.properties" />
     <property name="jdk.debug" value="release" />
     <property name="libs.spring-framework300.src" value="" />
     <property name="javadoc.use" value="true" />
@@ -507,57 +507,57 @@
     <property name="libs.javaee-web-api-7.0.src" value="" />
     <property name="libs.javaee-endorsed-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\javax.annotation.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\jaxb-api-osgi.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\webservices-api-osgi.jar" />
   </properties>
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getPendingCollaborativeProjectsByProfessorTwoFail" time="2.816" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAcceptedCollaborativeProjectsByProfessorTwoFail" time="1.096" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getPendingCollaborativeProjectsByProfessorFailByNonExistenceIdProfessor" time="2.169" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAllAcceptedCollaborativeProjectsFail" time="0.612" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAllAcceptedCollaborativeProjectsSucces" time="2.72" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="evaluateCollaborativeProjectProposalFailByAlreadyEvaluatedCollaborativeProject" time="0.63" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getRejectedCollaborativeProjectsByProfessorFailByNonExistenceIdProfessor" time="1.886" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getRejectedCollaborativeProjectsByProfessorTwoSucces" time="2.274" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAllFinishedCollaborativeProjectsSucces" time="2.329" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getCollaborativeProjectByIdCollaborativeProjectFailByNonExistence" time="0.534" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getPendingCollaborativeProjectsByProfessorOneSucces" time="2.162" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectsByProfessorFailByNonExistenceIdProfessor" time="1.778" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="updatePendingCollaborativeProjectSucces" time="1.768" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectByIdCourseFailByNonExistenceIdCourse" time="1.624" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="registerCollaborativeProjectFailByDuplicateCode" time="1.656" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="updateRejectedCollaborativeProjectSucces" time="1.799" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectsByProfessorTwoSucces" time="2.207" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getCollaborativeProjectByCodeSucces" time="1.832" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAcceptedCollaborativeProjectsByProfessorTwoSucces" time="2.15" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="finalizeCollaborativeProjectFailByInappropiateState" time="1.5" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="updateCollaborativeProjectFailByAlreadyFinalizedCollaborativeProjectProposal" time="1.631" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="registerCollaborativeProjectFailByRejectedCollaborativeProjectRequest" time="1.208" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="registerCollaborativeProjectSucces" time="1.486" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="hasThreeActivitiesAtLeastSucces" time="1.776" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="updateCollaborativeProjectFailByDuplicateCode" time="1.916" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectByIdRequestedCourseSucces" time="1.781" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectByIdRequesterCourseSucces" time="1.802" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectsByProfessorOneFail" time="0.805" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getRejectedCollaborativeProjectsByProfessorOneSucces" time="2.137" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="acceptCollaborativeProjectProposalSucces" time="1.745" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="hasThreeActivitiesAtLeastFail" time="1.48" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectsByProfessorTwoFail" time="0.748" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="finalizeCollaborativeProjectSucces" time="1.606" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAllRejectedCollaborativeProjectsSucces" time="2.113" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="rejectCollaborativeProjectProposalSucces" time="1.754" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getRejectedCollaborativeProjectsByProfessorOneFail" time="0.737" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getCollaborativeProjectsProposalsSucces" time="2.02" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAllFinishedCollaborativeProjectsFail" time="0.527" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectsByProfessorOneSucces" time="2.179" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAcceptedCollaborativeProjectsByProfessorOneSucces" time="2.064" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getRejectedCollaborativeProjectsByProfessorTwoFail" time="0.742" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAcceptedCollaborativeProjectsByProfessorFailByNonExistenceIdProfessor" time="1.609" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getPendingCollaborativeProjectsByProfessorOneFail" time="0.726" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="updateCollaborativeProjectFailByAlreadyAcceptedCollaborativeProjectProposal" time="1.5" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="registerCollaborativeProjectFailByCoursesInAnotherCollaborativeProject" time="1.582" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAllRejectedCollaborativeProjectsFail" time="0.511" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAcceptedCollaborativeProjectsByProfessorOneFail" time="0.72" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getCollaborativeProjectByIdCollaborativeProjectSucces" time="1.706" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getPendingCollaborativeProjectsByProfessorTwoSucces" time="1.969" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getCollaborativeProjectByCodeFailByNonExistence" time="0.492" />
-  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getCollaborativeProjectsProposalsFail" time="0.521" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getPendingCollaborativeProjectsByProfessorTwoFail" time="2.728" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAcceptedCollaborativeProjectsByProfessorTwoFail" time="1.106" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getPendingCollaborativeProjectsByProfessorFailByNonExistenceIdProfessor" time="2.134" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAllAcceptedCollaborativeProjectsFail" time="0.647" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAllAcceptedCollaborativeProjectsSucces" time="2.769" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="evaluateCollaborativeProjectProposalFailByAlreadyEvaluatedCollaborativeProject" time="0.671" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getRejectedCollaborativeProjectsByProfessorFailByNonExistenceIdProfessor" time="2.003" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getRejectedCollaborativeProjectsByProfessorTwoSucces" time="2.443" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAllFinishedCollaborativeProjectsSucces" time="2.491" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getCollaborativeProjectByIdCollaborativeProjectFailByNonExistence" time="0.596" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getPendingCollaborativeProjectsByProfessorOneSucces" time="2.371" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectsByProfessorFailByNonExistenceIdProfessor" time="2.008" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="updatePendingCollaborativeProjectSucces" time="1.96" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectByIdCourseFailByNonExistenceIdCourse" time="1.679" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="registerCollaborativeProjectFailByDuplicateCode" time="1.732" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="updateRejectedCollaborativeProjectSucces" time="1.945" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectsByProfessorTwoSucces" time="2.367" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getCollaborativeProjectByCodeSucces" time="1.905" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAcceptedCollaborativeProjectsByProfessorTwoSucces" time="2.258" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="finalizeCollaborativeProjectFailByInappropiateState" time="1.586" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="updateCollaborativeProjectFailByAlreadyFinalizedCollaborativeProjectProposal" time="1.708" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="registerCollaborativeProjectFailByRejectedCollaborativeProjectRequest" time="1.264" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="registerCollaborativeProjectSucces" time="1.584" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="hasThreeActivitiesAtLeastSucces" time="1.905" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="updateCollaborativeProjectFailByDuplicateCode" time="2.002" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectByIdRequestedCourseSucces" time="1.908" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectByIdRequesterCourseSucces" time="1.884" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectsByProfessorOneFail" time="0.793" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getRejectedCollaborativeProjectsByProfessorOneSucces" time="2.195" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="acceptCollaborativeProjectProposalSucces" time="1.864" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="hasThreeActivitiesAtLeastFail" time="1.569" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectsByProfessorTwoFail" time="0.804" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="finalizeCollaborativeProjectSucces" time="1.661" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAllRejectedCollaborativeProjectsSucces" time="2.212" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="rejectCollaborativeProjectProposalSucces" time="1.838" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getRejectedCollaborativeProjectsByProfessorOneFail" time="0.837" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getCollaborativeProjectsProposalsSucces" time="2.157" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAllFinishedCollaborativeProjectsFail" time="0.559" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getFinishedCollaborativeProjectsByProfessorOneSucces" time="2.406" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAcceptedCollaborativeProjectsByProfessorOneSucces" time="2.238" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getRejectedCollaborativeProjectsByProfessorTwoFail" time="0.763" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAcceptedCollaborativeProjectsByProfessorFailByNonExistenceIdProfessor" time="1.742" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getPendingCollaborativeProjectsByProfessorOneFail" time="0.777" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="updateCollaborativeProjectFailByAlreadyAcceptedCollaborativeProjectProposal" time="1.602" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="registerCollaborativeProjectFailByCoursesInAnotherCollaborativeProject" time="1.687" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAllRejectedCollaborativeProjectsFail" time="0.542" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getAcceptedCollaborativeProjectsByProfessorOneFail" time="0.788" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getCollaborativeProjectByIdCollaborativeProjectSucces" time="1.736" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getPendingCollaborativeProjectsByProfessorTwoSucces" time="2.117" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getCollaborativeProjectByCodeFailByNonExistence" time="0.541" />
+  <testcase classname="unit.test.CollaborativeProjectDAO.CollaborativeProjectTest" name="getCollaborativeProjectsProposalsFail" time="0.54" />
   <system-out><![CDATA[No puede evaluar un proyecto colaborativo que ya fue evaluado
 Ya existe un proyecto con alguno de esos cursos
 No puede finalizar un proyecto colaborativo que no fue aceptado
