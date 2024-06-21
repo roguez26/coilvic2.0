@@ -36,7 +36,7 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
                 switch (courseDAO.checkCourseStatus(collaborativeProjectRequest.getRequestedCourse())) {
                     case "Aceptado" -> result = insertCollaborativeProjectRequest(collaborativeProjectRequest);
                     case "Pendiente" -> throw new DAOException
-                    ("No se pudo enviar la solicitud, el curso que solicitó aun no ha sido aceptado", Status.WARNING);
+                    ("No se pudo enviar la solicitud, el curso que solicitó aún no ha sido aceptado", Status.WARNING);
                     case "Rechazado" -> throw new DAOException
                     ("No se pudo enviar la solicitud, el curso que solicitó fue rechazado", Status.WARNING);
                     case "Colaboracion" -> throw new DAOException("No se pudo enviar la solicitud,"
@@ -45,7 +45,7 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
                 }
                 }
                 case "Pendiente" -> throw new DAOException("No se pudo enviar la solicitud,"
-                + " su curso aun no ha sido aceptado", Status.WARNING);
+                + " su curso aún no ha sido aceptado", Status.WARNING);
                 case "Rechazado" -> throw new DAOException("No se pudo enviar la solicitud,"
                 + " su curso fue rechazado", Status.WARNING);
                 case "Colaboracion" -> throw new DAOException("No se pudo enviar la solicitud,"
@@ -53,7 +53,7 @@ public class CollaborativeProjectRequestDAO implements ICollaborativeProjectRequ
                 default -> {}
             }
         } else {
-            throw new DAOException("No puedes enviar mas de una solicitud de"
+            throw new DAOException("No puedes enviar más de una solicitud de"
             + " proyecto colaborativo con el mismo curso", Status.WARNING);
         }
         return result;

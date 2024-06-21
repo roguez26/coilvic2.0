@@ -408,7 +408,8 @@ public class TestHelper {
         collaborativeProjectRequest.setRequesterCourse(courseOne);
         collaborativeProjectRequest.setRequestedCourse(courseTwo);
         collaborativeProjectRequestTwo.setRequesterCourse(courseThree);
-        collaborativeProjectRequestTwo.setRequestedCourse(courseFour);   
+        collaborativeProjectRequestTwo.setRequestedCourse(courseFour);
+                        
                 
         try {
             collaborativeProjectRequest.setIdCollaborativeProjectRequest(

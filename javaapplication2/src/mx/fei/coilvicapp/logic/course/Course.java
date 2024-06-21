@@ -147,7 +147,7 @@ public class Course {
             Course course = (Course) object;
             isEqual = idCourse == course.getIdCourse()
                     && Objects.equals(name, course.getName())
-                    && Objects.equals(status, course.getStatus())
+                    //&& Objects.equals(status, course.getStatus())
                     && Objects.equals(generalObjective, course.getGeneralObjective())
                     && Objects.equals(topicsInterest, course.getTopicsInterest())
                     && Objects.equals(numberStudents, course.getNumberStudents())

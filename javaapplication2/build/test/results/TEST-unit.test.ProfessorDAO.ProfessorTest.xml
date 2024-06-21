@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="1" failures="4" hostname="roguez" name="unit.test.ProfessorDAO.ProfessorTest" skipped="0" tests="20" time="12.585" timestamp="2024-06-20T22:05:48">
+<testsuite errors="1" failures="4" hostname="roguez" name="unit.test.ProfessorDAO.ProfessorTest" skipped="0" tests="20" time="19.678" timestamp="2024-06-21T01:06:53">
   <properties>
     <property name="" value="======" />
     <property name="libs.spring-framework300.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\org-apache-commons-logging.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\cglib-2.2.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aop-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aspects-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-beans-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-support-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-core-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-expression-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-tomcat-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jdbc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jms-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-orm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-oxm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-struts-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-test-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-tx-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-web-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-portlet-3.2.18.RELEASE.jar" />
@@ -23,7 +23,7 @@
     <property name="libs.JWSAntTasks.javadoc" value="" />
     <property name="file.reference.log4j-1.2.17.jar" value="C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar" />
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.ProfessorDAO.ProfessorTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.ProfessorDAO.ProfessorTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher9434718561055584160.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit3812337729745984656.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.ProfessorDAO.ProfessorTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.ProfessorDAO.ProfessorTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher13128182091112657932.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit11854248017370517362.properties" />
     <property name="jdk.debug" value="release" />
     <property name="libs.spring-framework300.src" value="" />
     <property name="javadoc.use" value="true" />
@@ -507,12 +507,12 @@
     <property name="libs.javaee-web-api-7.0.src" value="" />
     <property name="libs.javaee-endorsed-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\javax.annotation.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\jaxb-api-osgi.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\webservices-api-osgi.jar" />
   </properties>
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessRejectProfessor" time="1.573" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetProfessorByEmailNotFound" time="0.682" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetProfessorByIDNotFound" time="0.646" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetProfessorByID" time="0.655" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureDeleteProfessorByIdNotFound" time="0.586" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessAcceptProfessor" time="0.618">
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessRejectProfessor" time="2.684" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetProfessorByEmailNotFound" time="1.089" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetProfessorByIDNotFound" time="1.017" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetProfessorByID" time="1.018" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureDeleteProfessorByIdNotFound" time="0.903" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessAcceptProfessor" time="0.966">
     <error message="No se permiten entradas con 3 o más caracteres repetidos consecutivamente.&#xa;" type="java.lang.IllegalArgumentException">java.lang.IllegalArgumentException: No se permiten entradas con 3 o más caracteres repetidos consecutivamente.
 
 	at mx.fei.coilvicapp.logic.implementations.FieldValidator.checkNoRepeatedCharacters(FieldValidator.java:195)
@@ -527,9 +527,9 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </error>
   </testcase>
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetAllProfessors" time="0.956" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetProfessorByEmail" time="0.58" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureCheckPreconditions" time="0.592">
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetAllProfessors" time="1.508" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetProfessorByEmail" time="0.922" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureCheckPreconditions" time="0.913">
     <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
 	at unit.test.ProfessorDAO.ProfessorTest.testFailureCheckPreconditions(ProfessorTest.java:76)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -537,11 +537,11 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessRegisterProfessor" time="0.564" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccesUpdateProfessor" time="0.57" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureUpdateProfessorByEmailAlreadyRegistered" time="0.616" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureRejectProfessor" time="0.444" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetAllProfessors" time="0.473">
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessRegisterProfessor" time="0.841" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccesUpdateProfessor" time="0.836" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureUpdateProfessorByEmailAlreadyRegistered" time="0.925" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureRejectProfessor" time="0.686" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetAllProfessors" time="0.719">
     <failure message="expected:&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt; but was:&lt;[Maria Arenas Valdes]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt; but was:&lt;[Maria Arenas Valdes]&gt;
 	at unit.test.ProfessorDAO.ProfessorTest.testSuccessGetAllProfessors(ProfessorTest.java:219)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -549,7 +549,7 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessDeleteProfessor" time="0.456">
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessDeleteProfessor" time="0.703">
     <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError
 	at unit.test.ProfessorDAO.ProfessorTest.testSuccessDeleteProfessor(ProfessorTest.java:147)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -557,10 +557,10 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetAllProfessorsByPendingStatus" time="0.474" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessCheckPreconditions" time="0.563" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureAcceptProfessor" time="0.436" />
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetAllProfessorsByPendingStatus" time="0.464">
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureGetAllProfessorsByPendingStatus" time="0.716" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessCheckPreconditions" time="0.869" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureAcceptProfessor" time="0.708" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testSuccessGetAllProfessorsByPendingStatus" time="0.7">
     <failure message="expected:&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt; but was:&lt;[Maria Arenas Valdes]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[Maria Arenas Valdes, Jorge Gonzalez Hernandez]&gt; but was:&lt;[Maria Arenas Valdes]&gt;
 	at unit.test.ProfessorDAO.ProfessorTest.testSuccessGetAllProfessorsByPendingStatus(ProfessorTest.java:248)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -568,7 +568,7 @@
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 </failure>
   </testcase>
-  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureRegisterProfessorByEmailAlreadyRegistered" time="0.462" />
+  <testcase classname="unit.test.ProfessorDAO.ProfessorTest" name="testFailureRegisterProfessorByEmailAlreadyRegistered" time="0.701" />
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
