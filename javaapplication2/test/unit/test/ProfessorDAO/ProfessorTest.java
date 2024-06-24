@@ -142,9 +142,11 @@ public class ProfessorTest {
 
     @Test
     public void testFailureAcceptProfessor() throws DAOException {
+        int idForSave = TEST_PROFESSOR.getIdProfessor();
         TEST_PROFESSOR.setIdProfessor(99999);
         int result = PROFESSOR_DAO.acceptProfessor(TEST_PROFESSOR);
         assertTrue(result == 0);
+        TEST_PROFESSOR.setIdProfessor(idForSave);
     }
 
     public ArrayList<Professor> initializeProfessorsArray() throws DAOException {

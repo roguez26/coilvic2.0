@@ -373,8 +373,9 @@ public class CollaborativeProjectRequestTest {
         result = COLLABORATIVE_PROJECT_REQUEST_DAO.getCollaborativeProjectRequests(COLLABORATIVE_PROJECT_REQUEST_FOR_TESTING.getRequestedCourse().getProfessor().getIdProfessor());
         COLLABORATIVE_PROJECT_REQUEST_FOR_TESTING.setStatus("Aceptado");
         AUX_COLLABORATIVE_PROJECT_REQUEST_FOR_TESTING.setStatus("Pendiente");
-        expected.add(AUX_COLLABORATIVE_PROJECT_REQUEST_FOR_TESTING);
         expected.add(COLLABORATIVE_PROJECT_REQUEST_FOR_TESTING);
+        expected.add(AUX_COLLABORATIVE_PROJECT_REQUEST_FOR_TESTING);
+        
         assertEquals(expected, result);
     }
 

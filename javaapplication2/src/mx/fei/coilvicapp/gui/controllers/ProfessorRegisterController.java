@@ -105,16 +105,21 @@ public class ProfessorRegisterController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-        genderComboBox.setItems(FXCollections.observableArrayList(initializeGendersArrayForComboBox()));
-        universitiesComboBox.setItems(FXCollections.observableArrayList(
-                initializeUniversitiesArrayForComboBox()));
-        academicAreasComboBox.setItems(FXCollections.observableArrayList(
-                initializeAcademicAreasArrayForComboBox()));
-        hiringTypesComboBox.setItems(FXCollections.observableArrayList(
-                initializeHiringTypesArrayForComboBox()));
-        hiringCategoriesComboBox.setItems(FXCollections.observableArrayList(
-                initializeHiringCategoriesArrayForComboBox()));
-        regionsComboBox.setItems(FXCollections.observableArrayList(initializeRegionsArrayForComboBox()));
+        try {
+            genderComboBox.setItems(FXCollections.observableArrayList(initializeGendersArrayForComboBox()));
+            universitiesComboBox.setItems(FXCollections.observableArrayList(
+                    initializeUniversitiesArrayForComboBox()));
+            academicAreasComboBox.setItems(FXCollections.observableArrayList(
+                    initializeAcademicAreasArrayForComboBox()));
+            hiringTypesComboBox.setItems(FXCollections.observableArrayList(
+                    initializeHiringTypesArrayForComboBox()));
+            hiringCategoriesComboBox.setItems(FXCollections.observableArrayList(
+                    initializeHiringCategoriesArrayForComboBox()));
+            regionsComboBox.setItems(FXCollections.observableArrayList(initializeRegionsArrayForComboBox()));
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
+
         phoneNumberTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > 10) {
                 phoneNumberTextField.setText(oldValue);
@@ -179,7 +184,7 @@ public class ProfessorRegisterController implements Initializable {
     }
 
     private boolean confirmCancelation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion", 
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelacion",
                 "¿Deseas cancelar el registro?");
         return (response.get() == DialogController.BUTTON_YES);
     }
@@ -196,7 +201,7 @@ public class ProfessorRegisterController implements Initializable {
                 idRegisteredProfessor = professorDAO.registerProfessor(professor);
             }
             if (idRegisteredProfessor > 0) {
-                DialogController.getInformativeConfirmationDialog("Registrado","Se ha registrado su información"
+                DialogController.getInformativeConfirmationDialog("Registrado", "Se ha registrado su información"
                         + " con éxito, se le notificará cuando se haya validado su información");
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
             }
@@ -314,59 +319,43 @@ public class ProfessorRegisterController implements Initializable {
         stage.setHeight(height);
     }
 
-    private ArrayList<University> initializeUniversitiesArrayForComboBox() {
+    private ArrayList<University> initializeUniversitiesArrayForComboBox() throws DAOException {
         IUniversity universityDAO = new UniversityDAO();
         ArrayList<University> universities = new ArrayList<>();
 
-        try {
-            universities = universityDAO.getAllUniversities();
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorRegisterController.class).error(exception.getMessage(), exception);
-        }
+        universities = universityDAO.getAllUniversities();
+
         return universities;
     }
 
-    private ArrayList<AcademicArea> initializeAcademicAreasArrayForComboBox() {
+    private ArrayList<AcademicArea> initializeAcademicAreasArrayForComboBox() throws DAOException {
         IAcademicArea academicAreaDAO = new AcademicAreaDAO();
         ArrayList<AcademicArea> academicAreas = new ArrayList<>();
-        try {
-            academicAreas = academicAreaDAO.getAcademicAreas();
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorRegisterController.class).error(exception.getMessage(), exception);
-        }
+        academicAreas = academicAreaDAO.getAcademicAreas();
+
         return academicAreas;
     }
 
-    private ArrayList<HiringType> initializeHiringTypesArrayForComboBox() {
+    private ArrayList<HiringType> initializeHiringTypesArrayForComboBox() throws DAOException {
         IHiringType hiringTypeDAO = new HiringTypeDAO();
         ArrayList<HiringType> hiringTypes = new ArrayList<>();
-        try {
-            hiringTypes = hiringTypeDAO.getHiringTypes();
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorRegisterController.class).error(exception.getMessage(), exception);
-        }
+        hiringTypes = hiringTypeDAO.getHiringTypes();
+
         return hiringTypes;
     }
 
-    private ArrayList<HiringCategory> initializeHiringCategoriesArrayForComboBox() {
+    private ArrayList<HiringCategory> initializeHiringCategoriesArrayForComboBox() throws DAOException {
         IHiringCategory hiringCategoryDAO = new HiringCategoryDAO();
         ArrayList<HiringCategory> hiringCategories = new ArrayList<>();
-        try {
-            hiringCategories = hiringCategoryDAO.getHiringCategories();
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorRegisterController.class).error(exception.getMessage(), exception);
-        }
+        hiringCategories = hiringCategoryDAO.getHiringCategories();
+
         return hiringCategories;
     }
 
-    private ArrayList<Region> initializeRegionsArrayForComboBox() {
+    private ArrayList<Region> initializeRegionsArrayForComboBox() throws DAOException {
         IRegion regionDAO = new RegionDAO();
         ArrayList<Region> regions = new ArrayList<>();
-        try {
-            regions = regionDAO.getRegions();
-        } catch (DAOException exception) {
-            Log.getLogger(ProfessorRegisterController.class).error(exception.getMessage(), exception);
-        }
+        regions = regionDAO.getRegions();
         return regions;
     }
 
@@ -378,7 +367,6 @@ public class ProfessorRegisterController implements Initializable {
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
-
             }
         } catch (IOException ioException) {
             Log.getLogger(ProfessorRegisterController.class).error(ioException.getMessage(), ioException);

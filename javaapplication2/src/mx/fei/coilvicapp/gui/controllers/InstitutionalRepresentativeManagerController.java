@@ -89,8 +89,8 @@ public class InstitutionalRepresentativeManagerController implements Initializab
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                         "/mx/fei/coilvicapp/gui/views/InstitutionalRepresentativeDetails.fxml"));
                 MainApp.changeView(fxmlLoader);
-                InstitutionalRepresentativeDetailsController institutionalRepresentativeDetailsController =
-                        fxmlLoader.getController();
+                InstitutionalRepresentativeDetailsController institutionalRepresentativeDetailsController
+                        = fxmlLoader.getController();
                 institutionalRepresentativeDetailsController.setInstitutionalRepresentativeDetailsController(
                         institutionalRepresentative);
             } catch (IOException exception) {
@@ -110,7 +110,7 @@ public class InstitutionalRepresentativeManagerController implements Initializab
                 DialogController.getInformativeConfirmationDialog("Aviso", "No puedes registrar representantes "
                         + "institucionales si no hay universidades registradas");
             }
-        } catch (DAOException exception) { 
+        } catch (DAOException exception) {
             handleDAOException(exception);
         } catch (IOException exception) {
             Log.getLogger(InstitutionalRepresentativeManagerController.class).error(exception.getMessage(),
@@ -134,15 +134,13 @@ public class InstitutionalRepresentativeManagerController implements Initializab
         try {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
-                case ERROR -> {
+                case ERROR ->
                     goBack();
-                }
-                case FATAL -> {
+                case FATAL ->
                     MainApp.handleFatal();
-                }
             }
         } catch (IOException ioException) {
-            Log.getLogger(InstitutionalRepresentativeManagerController.class).error(ioException.getMessage(), 
+            Log.getLogger(InstitutionalRepresentativeManagerController.class).error(ioException.getMessage(),
                     ioException);
         }
     }

@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -68,7 +66,7 @@ public class ActivitiesManagementController implements Initializable {
                 uploadAssignmentController.setCollaborativeProject(collaborativeProject);
             });
         } catch (IOException exception) {
-            Log.getLogger(LoginParticipantController.class).error(exception.getMessage(), exception);
+            Log.getLogger(ActivitiesManagementController.class).error(exception.getMessage(), exception);
         }
         fillActivitiesTable(collaborativeProject);
     }
@@ -83,7 +81,7 @@ public class ActivitiesManagementController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                     "/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsProfessor.fxml"));
             MainApp.changeView(fxmlLoader);
-            CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController 
+            CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController
                     = fxmlLoader.getController();
             collaborativeProjectDetailsProfessorController.setCollaborativeProject(collaborativeProject);
             if (!justVisibleMode) {
@@ -91,8 +89,7 @@ public class ActivitiesManagementController implements Initializable {
             }
 
         } catch (IOException exception) {
-            Logger.getLogger(ActivitiesManagementController.class.getName()).log(Level.SEVERE, null, 
-                    exception);
+            Log.getLogger(ActivitiesManagementController.class).error(exception.getMessage(), exception);
         }
     }
 
@@ -126,7 +123,7 @@ public class ActivitiesManagementController implements Initializable {
                     uploadAssignmentController.setAssignment(selectedAssignment);
                 });
             } catch (IOException exception) {
-                Log.getLogger(LoginParticipantController.class).error(exception.getMessage(), exception);
+                Log.getLogger(ActivitiesManagementController.class).error(exception.getMessage(), exception);
             }
             fillActivitiesTable(collaborativeProject);
         } else {
@@ -148,7 +145,7 @@ public class ActivitiesManagementController implements Initializable {
         if (!collaborativeProject.getStatus().equals("Aceptado")) {
             editButton.setVisible(false);
             addButton.setVisible(false);
-        } 
+        }
         fillActivitiesTable(collaborativeProject);
     }
 
@@ -177,7 +174,7 @@ public class ActivitiesManagementController implements Initializable {
 
     private void handleDAOException(DAOException exception) {
         try {
-            DialogController.getDialog(new AlertMessage(exception.getMessage(), 
+            DialogController.getDialog(new AlertMessage(exception.getMessage(),
                     exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR ->

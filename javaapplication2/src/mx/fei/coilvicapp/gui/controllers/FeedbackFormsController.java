@@ -121,9 +121,7 @@ public class FeedbackFormsController implements Initializable {
     private ArrayList<Question> initializeProfessorQuestions() throws DAOException {
         ArrayList<Question> professorQuestions;
         IFeedback feedbackDAO = new FeedbackDAO();
-
         professorQuestions = feedbackDAO.getQuestionByType("Profesor");
-
         return professorQuestions;
     }
 
@@ -138,7 +136,7 @@ public class FeedbackFormsController implements Initializable {
             }
             cleanFields();
         } catch (IllegalArgumentException exception) {
-            DialogController.getInvalidDataDialog(exception.getMessage());
+            handleValidationException(exception);
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -305,6 +303,10 @@ public class FeedbackFormsController implements Initializable {
         } catch (IOException ioException) {
             Log.getLogger(FeedbackFormsController.class).error(ioException.getMessage(), ioException);
         }
+    }
+    
+    private void handleValidationException(IllegalArgumentException exception) {
+        DialogController.getInvalidDataDialog(exception.getMessage());
     }
 
 }

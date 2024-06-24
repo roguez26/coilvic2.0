@@ -89,19 +89,22 @@ public class RegisterStudentController implements Initializable {
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
-        gendersCombobox.setItems(FXCollections.observableArrayList(initializeGendersArrayForComboBox()));
-        universitiesCombobox.setItems(FXCollections.observableArrayList(
-                initializeUniversitiesArrayForComboBox()));
-        academicAreaCombobox.setItems(FXCollections.observableArrayList(
-                initializeAcademicAreasArrayForComboBox()));
-        initializeLineajesArrayForCombobox();
-        regionCombobox.setItems(FXCollections.observableArrayList(initializeRegionsArrayForComboBox())); 
+        try {
+            gendersCombobox.setItems(FXCollections.observableArrayList(initializeGendersArrayForComboBox()));
+            universitiesCombobox.setItems(FXCollections.observableArrayList(
+                    initializeUniversitiesArrayForComboBox()));
+            academicAreaCombobox.setItems(FXCollections.observableArrayList(
+                    initializeAcademicAreasArrayForComboBox()));
+            initializeLineajesArrayForCombobox();
+            regionCombobox.setItems(FXCollections.observableArrayList(initializeRegionsArrayForComboBox()));
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
     }
 
     private void initializeLineajesArrayForCombobox() {
-
-        lineagesCombobox.setItems(FXCollections.observableArrayList("Hispano, Latino u origen español", 
-                "Blanco", "Negro o africano", "Indio americano o nativo de Alaska", 
+        lineagesCombobox.setItems(FXCollections.observableArrayList("Hispano, Latino u origen español",
+                "Blanco", "Negro o africano", "Indio americano o nativo de Alaska",
                 "Asiático o Isleño del Pacífico", "Otro"));
     }
 
@@ -113,36 +116,24 @@ public class RegisterStudentController implements Initializable {
         return genders;
     }
 
-    private ArrayList<AcademicArea> initializeAcademicAreasArrayForComboBox() {
+    private ArrayList<AcademicArea> initializeAcademicAreasArrayForComboBox() throws DAOException {
         AcademicAreaDAO academicAreaDAO = new AcademicAreaDAO();
         ArrayList<AcademicArea> academicAreas = new ArrayList<>();
-        try {
-            academicAreas = academicAreaDAO.getAcademicAreas();
-        } catch (DAOException exception) {
-            handleDAOException(exception);
-        }
+        academicAreas = academicAreaDAO.getAcademicAreas();
         return academicAreas;
     }
 
-    private ArrayList<University> initializeUniversitiesArrayForComboBox() {
+    private ArrayList<University> initializeUniversitiesArrayForComboBox() throws DAOException {
         IUniversity universityDAO = new UniversityDAO();
         ArrayList<University> universities = new ArrayList<>();
-        try {
-            universities = universityDAO.getAllUniversities();
-        } catch (DAOException exception) {
-            handleDAOException(exception);
-        }
+        universities = universityDAO.getAllUniversities();
         return universities;
     }
 
-    private ArrayList<Region> initializeRegionsArrayForComboBox() {
+    private ArrayList<Region> initializeRegionsArrayForComboBox() throws DAOException {
         RegionDAO regionDAO = new RegionDAO();
         ArrayList<Region> regions = new ArrayList<>();
-        try {
-            regions = regionDAO.getRegions();
-        } catch (DAOException exception) {
-            handleDAOException(exception);
-        }
+        regions = regionDAO.getRegions();
         return regions;
     }
 
@@ -208,7 +199,7 @@ public class RegisterStudentController implements Initializable {
 
     private StudentUV initializeStudentUV(Student student) {
         StudentUV studentUV = new StudentUV();
-        
+
         studentUV.setName(nameTextField.getText());
         studentUV.setPaternalSurname(paternalSurnameTextField.getText());
         studentUV.setMaternalSurname(maternalSurnameTextField.getText());
