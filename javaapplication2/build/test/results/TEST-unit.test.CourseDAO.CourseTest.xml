@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="21" failures="6" hostname="roguez" name="unit.test.CourseDAO.CourseTest" skipped="0" tests="45" time="30.283" timestamp="2024-06-24T03:45:28">
+<testsuite errors="0" failures="0" hostname="roguez" name="unit.test.CourseDAO.CourseTest" skipped="0" tests="45" time="39.073" timestamp="2024-06-24T05:40:50">
   <properties>
     <property name="" value="======" />
     <property name="libs.spring-framework300.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\org-apache-commons-logging.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\cglib-2.2.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aop-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aspects-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-beans-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-support-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-core-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-expression-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-tomcat-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jdbc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jms-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-orm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-oxm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-struts-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-test-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-tx-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-web-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-portlet-3.2.18.RELEASE.jar" />
@@ -23,7 +23,7 @@
     <property name="libs.JWSAntTasks.javadoc" value="" />
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin" />
     <property name="file.reference.log4j-1.2.17.jar" value="C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.CourseDAO.CourseTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.CourseDAO.CourseTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher17439057474435926978.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit4959250493240001314.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.CourseDAO.CourseTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.CourseDAO.CourseTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher6536526148115569002.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit488241356687673645.properties" />
     <property name="jdk.debug" value="release" />
     <property name="libs.spring-framework300.src" value="" />
     <property name="javadoc.use" value="true" />
@@ -506,279 +506,65 @@
     <property name="libs.jakartaee-api-8.0.src" value="" />
     <property name="libs.javaee-endorsed-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\javax.annotation.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\jaxb-api-osgi.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\webservices-api-osgi.jar" />
   </properties>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="acceptCourseProposalSucces" time="1.839" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="cancelCourseProposalFailByCanceledCourse" time="0.809" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="finalizeCourseFailByNonFinalizedCollaborativeProject" time="1.376" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="updatePendingCourseSucces" time="0.821" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getColaborationCoursesByProfessorSucces" time="0.977" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getPendingCoursesByProfessorSucces" time="0.882">
-    <failure message="expected:&lt;[Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos]&gt; but was:&lt;[Introducción a la Programación, Análisis de Datos]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos]&gt; but was:&lt;[Introducción a la Programación, Análisis de Datos]&gt;
-	at unit.test.CourseDAO.CourseTest.getPendingCoursesByProfessorSucces(CourseTest.java:456)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</failure>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="evaluateCourseProposalFailByAlreadyEvaluatedCourse" time="0.828" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseOfferingsByUniversitySucces" time="0.429">
-    <error message="No puede evaluar un curso que ya fue evaluado" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No puede evaluar un curso que ya fue evaluado
-	at mx.fei.coilvicapp.logic.course.CourseDAO.evaluateCourseProposal(CourseDAO.java:336)
-	at unit.test.CourseDAO.CourseTest.getCourseOfferingsByUniversitySucces(CourseTest.java:416)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseProposalsByUniversitySucces" time="0.667">
-    <failure message="expected:&lt;[Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos]&gt; but was:&lt;[Análisis de Datos]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos]&gt; but was:&lt;[Análisis de Datos]&gt;
-	at unit.test.CourseDAO.CourseTest.getCourseProposalsByUniversitySucces(CourseTest.java:378)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</failure>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseProposalsByUniversityFailByNonFoundUniversity" time="0.627" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getColaborationCoursesByProfessorFail" time="0.64" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="changeCourseStatusToCollaborationFailByInapropiateState" time="0.502">
-    <error message="No fue posible registrar el curso" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
-	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:89)
-	at mx.fei.coilvicapp.logic.course.CourseDAO.registerCourse(CourseDAO.java:37)
-	at unit.test.CourseDAO.CourseTest.changeCourseStatusToCollaborationFailByInapropiateState(CourseTest.java:324)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="evaluateCourseProposalFailByCanceledCourse" time="0.492">
-    <error message="No fue posible registrar el curso" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
-	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:89)
-	at mx.fei.coilvicapp.logic.course.CourseDAO.registerCourse(CourseDAO.java:37)
-	at unit.test.CourseDAO.CourseTest.evaluateCourseProposalFailByCanceledCourse(CourseTest.java:137)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="rejectCourseProposalSucces" time="0.485">
-    <error message="No fue posible registrar el curso" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
-	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:89)
-	at mx.fei.coilvicapp.logic.course.CourseDAO.registerCourse(CourseDAO.java:37)
-	at unit.test.CourseDAO.CourseTest.rejectCourseProposalSucces(CourseTest.java:116)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getRejectedCoursesByProfessorFail" time="0.648" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCoursesByProfessorAndNameSucces" time="0.48">
-    <error message="No fue posible registrar el curso" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
-	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:89)
-	at mx.fei.coilvicapp.logic.course.CourseDAO.registerCourse(CourseDAO.java:37)
-	at unit.test.CourseDAO.CourseTest.getCoursesByProfessorAndNameSucces(CourseTest.java:562)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="cancelRejectedCourseProposalSucces" time="0.487">
-    <error message="No fue posible registrar el curso" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
-	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:89)
-	at mx.fei.coilvicapp.logic.course.CourseDAO.registerCourse(CourseDAO.java:37)
-	at unit.test.CourseDAO.CourseTest.cancelRejectedCourseProposalSucces(CourseTest.java:263)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="finalizeCourseSucces" time="0.657">
-    <error message="No puede finalizar un proyecto colaborativo que no fue aceptado" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No puede finalizar un proyecto colaborativo que no fue aceptado
-	at mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO.finalizeCollaborativeProject(CollaborativeProjectDAO.java:579)
-	at unit.test.CourseDAO.CourseTest.finalizeCourseSucces(CourseTest.java:339)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCancelledCoursesByProfessorSucces" time="0.855">
-    <failure message="expected:&lt;[Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Introducción a la Programación, Análisis de Datos]&gt; but was:&lt;[]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Introducción a la Programación, Análisis de Datos]&gt; but was:&lt;[]&gt;
-	at unit.test.CourseDAO.CourseTest.getCancelledCoursesByProfessorSucces(CourseTest.java:544)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</failure>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="updateCourseFailByCourseInCollaborativeProject" time="0.648" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getAcceptedCoursesByProfessorFail" time="0.688" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCoursesByProfessorAndNameFailByNonExistenceIdProfessor" time="0.483">
-    <error message="No fue posible registrar el curso" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
-	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:89)
-	at mx.fei.coilvicapp.logic.course.CourseDAO.registerCourse(CourseDAO.java:37)
-	at unit.test.CourseDAO.CourseTest.getCoursesByProfessorAndNameFailByNonExistenceIdProfessor(CourseTest.java:574)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseOfferingsByUniversityFail" time="0.714" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="cancelCourseProposalFailByFinalizedCourse" time="0.65">
-    <error message="No puede finalizar un proyecto colaborativo que no fue aceptado" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No puede finalizar un proyecto colaborativo que no fue aceptado
-	at mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO.finalizeCollaborativeProject(CollaborativeProjectDAO.java:579)
-	at unit.test.CourseDAO.CourseTest.cancelCourseProposalFailByFinalizedCourse(CourseTest.java:287)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getRejectedCoursesByProfessorSucces" time="0.485">
-    <error message="No puede evaluar un curso que ya fue evaluado" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No puede evaluar un curso que ya fue evaluado
-	at mx.fei.coilvicapp.logic.course.CourseDAO.evaluateCourseProposal(CourseDAO.java:336)
-	at unit.test.CourseDAO.CourseTest.getRejectedCoursesByProfessorSucces(CourseTest.java:497)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getAcceptedCoursesByProfessorSucces" time="0.495">
-    <error message="No puede evaluar un curso que ya fue evaluado" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No puede evaluar un curso que ya fue evaluado
-	at mx.fei.coilvicapp.logic.course.CourseDAO.evaluateCourseProposal(CourseDAO.java:336)
-	at unit.test.CourseDAO.CourseTest.getAcceptedCoursesByProfessorSucces(CourseTest.java:476)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="cancelPendingCourseProposalSucces" time="0.474">
-    <error message="No fue posible registrar el curso" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
-	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:89)
-	at mx.fei.coilvicapp.logic.course.CourseDAO.registerCourse(CourseDAO.java:37)
-	at unit.test.CourseDAO.CourseTest.cancelPendingCourseProposalSucces(CourseTest.java:251)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="cancelCourseProposalFailByCourseInCollaborativeProject" time="0.645">
-    <failure message="expected mx.fei.coilvicapp.logic.implementations.DAOException to be thrown, but nothing was thrown" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected mx.fei.coilvicapp.logic.implementations.DAOException to be thrown, but nothing was thrown
-	at unit.test.CourseDAO.CourseTest.cancelCourseProposalFailByCourseInCollaborativeProject(CourseTest.java:277)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</failure>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getPendingCoursesByProfessorFail" time="0.5">
-    <error message="No puede evaluar un curso que ya fue evaluado" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No puede evaluar un curso que ya fue evaluado
-	at mx.fei.coilvicapp.logic.course.CourseDAO.evaluateCourseProposal(CourseDAO.java:336)
-	at unit.test.CourseDAO.CourseTest.getPendingCoursesByProfessorFail(CourseTest.java:464)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseProposalsFail" time="0.37" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="changeCourseStatusToCollaborationSucces" time="0.487">
-    <error message="No fue posible registrar el curso" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
-	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:89)
-	at mx.fei.coilvicapp.logic.course.CourseDAO.registerCourse(CourseDAO.java:37)
-	at unit.test.CourseDAO.CourseTest.changeCourseStatusToCollaborationSucces(CourseTest.java:311)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="evaluateCourseProposalFailByFinalizedCourse" time="0.607">
-    <error message="No puede finalizar un proyecto colaborativo que no fue aceptado" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No puede finalizar un proyecto colaborativo que no fue aceptado
-	at mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO.finalizeCollaborativeProject(CollaborativeProjectDAO.java:579)
-	at unit.test.CourseDAO.CourseTest.evaluateCourseProposalFailByFinalizedCourse(CourseTest.java:161)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getAllCoursesByProfessorFailByNonExistenceIdProfessor" time="0.792" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCancelledCoursesByProfessorFail" time="0.811" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="registerCourseSucces" time="0.481">
-    <error message="No fue posible registrar el curso" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
-	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:89)
-	at mx.fei.coilvicapp.logic.course.CourseDAO.registerCourse(CourseDAO.java:37)
-	at unit.test.CourseDAO.CourseTest.registerCourseSucces(CourseTest.java:84)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseProposalsSucces" time="0.816">
-    <failure message="expected:&lt;[Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos]&gt; but was:&lt;[]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos]&gt; but was:&lt;[]&gt;
-	at unit.test.CourseDAO.CourseTest.getCourseProposalsSucces(CourseTest.java:362)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</failure>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="registerCourseFailByDuplicateCourse" time="0.508" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseOfferingsSucces" time="0.486">
-    <error message="No puede evaluar un curso que ya fue evaluado" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No puede evaluar un curso que ya fue evaluado
-	at mx.fei.coilvicapp.logic.course.CourseDAO.evaluateCourseProposal(CourseDAO.java:336)
-	at unit.test.CourseDAO.CourseTest.getCourseOfferingsSucces(CourseTest.java:395)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="evaluateCourseProposalFailByCourseInCollaborativeProject" time="0.648" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="updateRejectedCourseSucces" time="0.478">
-    <error message="No fue posible registrar el curso" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
-	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:89)
-	at mx.fei.coilvicapp.logic.course.CourseDAO.registerCourse(CourseDAO.java:37)
-	at unit.test.CourseDAO.CourseTest.updateRejectedCourseSucces(CourseTest.java:186)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getAllCoursesByProfessorSucces" time="0.865">
-    <failure message="expected:&lt;[Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos]&gt; but was:&lt;[]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos, Introducción a la Programación, Análisis de Datos]&gt; but was:&lt;[]&gt;
-	at unit.test.CourseDAO.CourseTest.getAllCoursesByProfessorSucces(CourseTest.java:438)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</failure>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseOfferingsFail" time="0.88" />
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="updateCourseFailByFinalizedCourse" time="0.631">
-    <error message="No puede finalizar un proyecto colaborativo que no fue aceptado" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No puede finalizar un proyecto colaborativo que no fue aceptado
-	at mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO.finalizeCollaborativeProject(CollaborativeProjectDAO.java:579)
-	at unit.test.CourseDAO.CourseTest.updateCourseFailByFinalizedCourse(CourseTest.java:238)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="updateCourseFailByCanceledCourse" time="0.493">
-    <error message="No fue posible registrar el curso" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
-	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:89)
-	at mx.fei.coilvicapp.logic.course.CourseDAO.registerCourse(CourseDAO.java:37)
-	at unit.test.CourseDAO.CourseTest.updateCourseFailByCanceledCourse(CourseTest.java:223)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
-  <testcase classname="unit.test.CourseDAO.CourseTest" name="updateCourseFailByAcceptedCourse" time="0.475">
-    <error message="No fue posible registrar el curso" type="mx.fei.coilvicapp.logic.implementations.DAOException">mx.fei.coilvicapp.logic.implementations.DAOException: No fue posible registrar el curso
-	at mx.fei.coilvicapp.logic.course.CourseDAO.insertCourse(CourseDAO.java:89)
-	at mx.fei.coilvicapp.logic.course.CourseDAO.registerCourse(CourseDAO.java:37)
-	at unit.test.CourseDAO.CourseTest.updateCourseFailByAcceptedCourse(CourseTest.java:199)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</error>
-  </testcase>
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="acceptCourseProposalSucces" time="1.865" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="cancelCourseProposalFailByCanceledCourse" time="0.78" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="finalizeCourseFailByNonFinalizedCollaborativeProject" time="1.329" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="updatePendingCourseSucces" time="0.791" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getColaborationCoursesByProfessorSucces" time="0.943" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getPendingCoursesByProfessorSucces" time="0.811" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="evaluateCourseProposalFailByAlreadyEvaluatedCourse" time="0.801" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseOfferingsByUniversitySucces" time="0.821" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseProposalsByUniversitySucces" time="0.788" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseProposalsByUniversityFailByNonFoundUniversity" time="0.669" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getColaborationCoursesByProfessorFail" time="0.654" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="changeCourseStatusToCollaborationFailByInapropiateState" time="0.597" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="evaluateCourseProposalFailByCanceledCourse" time="0.629" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="rejectCourseProposalSucces" time="0.688" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getRejectedCoursesByProfessorFail" time="0.646" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCoursesByProfessorAndNameSucces" time="0.665" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="cancelRejectedCourseProposalSucces" time="0.715" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="finalizeCourseSucces" time="1.382" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCancelledCoursesByProfessorSucces" time="0.788" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="updateCourseFailByCourseInCollaborativeProject" time="1.142" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getAcceptedCoursesByProfessorFail" time="0.63" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCoursesByProfessorAndNameFailByNonExistenceIdProfessor" time="0.57" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseOfferingsByUniversityFail" time="0.624" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="cancelCourseProposalFailByFinalizedCourse" time="1.309" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getRejectedCoursesByProfessorSucces" time="0.811" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getAcceptedCoursesByProfessorSucces" time="0.875" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="cancelPendingCourseProposalSucces" time="0.698" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="cancelCourseProposalFailByCourseInCollaborativeProject" time="1.252" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getPendingCoursesByProfessorFail" time="0.655" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseProposalsFail" time="0.359" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="changeCourseStatusToCollaborationSucces" time="0.666" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="evaluateCourseProposalFailByFinalizedCourse" time="1.28" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getAllCoursesByProfessorFailByNonExistenceIdProfessor" time="0.611" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCancelledCoursesByProfessorFail" time="0.614" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="registerCourseSucces" time="0.569" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseProposalsSucces" time="0.707" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="registerCourseFailByDuplicateCourse" time="0.784" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseOfferingsSucces" time="0.756" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="evaluateCourseProposalFailByCourseInCollaborativeProject" time="1.111" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="updateRejectedCourseSucces" time="0.692" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getAllCoursesByProfessorSucces" time="1.167" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="getCourseOfferingsFail" time="0.795" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="updateCourseFailByFinalizedCourse" time="1.925" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="updateCourseFailByCanceledCourse" time="0.96" />
+  <testcase classname="unit.test.CourseDAO.CourseTest" name="updateCourseFailByAcceptedCourse" time="0.963" />
   <system-out><![CDATA[No pude cancelar un curso que ya fue cancelado
 No puede finalizar un curso que no es parte de un proyecto colaborativo finalizado
 No puede evaluar un curso que ya fue evaluado
+No puede colaborar con un curso que no fue aceptado
+No puede evaluar un curso que fue cancelado
 No puede actualizar un curso en colaboración, aceptado, cancelado o finalizado
-No fue posible registrar el curso
-No puede evaluar un curso que ya fue evaluado
+No pude cancelar un curso finalizado
+No puede cancelar un curso que es parte de un proyecto colaborativo
+No puede evaluar un curso finalizado
+Ya existe un curso con el mismo nombre y periodo
+No puede evaluar un curso que es parte de un proyecto colaborativo
+No puede actualizar un curso en colaboración, aceptado, cancelado o finalizado
+No puede actualizar un curso en colaboración, aceptado, cancelado o finalizado
+No puede actualizar un curso en colaboración, aceptado, cancelado o finalizado
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

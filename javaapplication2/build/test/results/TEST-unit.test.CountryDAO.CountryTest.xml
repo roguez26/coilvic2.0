@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="roguez" name="unit.test.CountryDAO.CountryTest" skipped="0" tests="12" time="5.237" timestamp="2024-06-24T03:45:22">
+<testsuite errors="0" failures="0" hostname="roguez" name="unit.test.CountryDAO.CountryTest" skipped="0" tests="12" time="5.267" timestamp="2024-06-24T05:40:44">
   <properties>
     <property name="" value="======" />
     <property name="libs.spring-framework300.classpath" value="C:\Program Files\NetBeans-19\netbeans\platform\modules\org-apache-commons-logging.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\cglib-2.2.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aop-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-aspects-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-beans-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-context-support-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-core-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-expression-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-instrument-tomcat-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jdbc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-jms-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-orm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-oxm-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-struts-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-test-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-tx-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-web-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-3.2.18.RELEASE.jar;C:\Program Files\NetBeans-19\netbeans\java\modules\ext\spring-3.0\spring-webmvc-portlet-3.2.18.RELEASE.jar" />
@@ -23,7 +23,7 @@
     <property name="libs.JWSAntTasks.javadoc" value="" />
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin" />
     <property name="file.reference.log4j-1.2.17.jar" value="C:\Libraries\log4j_1.2.17\log4j-1.2.17.jar" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.CountryDAO.CountryTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.CountryDAO.CountryTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher6636214840845283464.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit5178178470188398564.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner unit.test.CountryDAO.CountryTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\test\results\TEST-unit.test.CountryDAO.CountryTest.xml crashfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junitvmwatcher4848352504829770730.properties propsfile=C:\Users\ivanr\OneDrive\Escritorio\ConstruccionCoilVic\JavaApplication2\build\junit17533482968117378752.properties" />
     <property name="jdk.debug" value="release" />
     <property name="libs.spring-framework300.src" value="" />
     <property name="javadoc.use" value="true" />
@@ -506,23 +506,23 @@
     <property name="libs.jakartaee-api-8.0.src" value="" />
     <property name="libs.javaee-endorsed-api-6.0.classpath" value="C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\javax.annotation.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\jaxb-api-osgi.jar;C:\Program Files\NetBeans-19\netbeans\enterprise\modules\ext\javaee6-endorsed\webservices-api-osgi.jar" />
   </properties>
-  <testcase classname="unit.test.CountryDAO.CountryTest" name="testGetCountryByNameFailByNonexistenceName" time="1.205" />
-  <testcase classname="unit.test.CountryDAO.CountryTest" name="testGetCountryByIdSuccess" time="0.397" />
-  <testcase classname="unit.test.CountryDAO.CountryTest" name="testGetAllCountries" time="0.36" />
-  <testcase classname="unit.test.CountryDAO.CountryTest" name="testGetCountryByNameSuccess" time="0.338" />
-  <testcase classname="unit.test.CountryDAO.CountryTest" name="testRegisterCountryFailByDuplicatedName" time="0.328" />
-  <testcase classname="unit.test.CountryDAO.CountryTest" name="testRegisterCountrySuccess" time="0.336" />
-  <testcase classname="unit.test.CountryDAO.CountryTest" name="testDeleteCountryFailByNonexistenceId" time="0.358" />
-  <testcase classname="unit.test.CountryDAO.CountryTest" name="testGetCountryByIdFailByNonexistenceId" time="0.316" />
-  <testcase classname="unit.test.CountryDAO.CountryTest" name="testUpdateCountrySuccess" time="0.369" />
-  <testcase classname="unit.test.CountryDAO.CountryTest" name="testDeleteCountryFailByDependencies" time="0.393" />
-  <testcase classname="unit.test.CountryDAO.CountryTest" name="testUpdateCountryFailByDuplicatedName" time="0.344" />
-  <testcase classname="unit.test.CountryDAO.CountryTest" name="testDeleteCountrySuccess" time="0.336" />
+  <testcase classname="unit.test.CountryDAO.CountryTest" name="testGetCountryByNameFailByNonexistenceName" time="1.216" />
+  <testcase classname="unit.test.CountryDAO.CountryTest" name="testGetCountryByIdSuccess" time="0.399" />
+  <testcase classname="unit.test.CountryDAO.CountryTest" name="testGetAllCountries" time="0.365" />
+  <testcase classname="unit.test.CountryDAO.CountryTest" name="testGetCountryByNameSuccess" time="0.344" />
+  <testcase classname="unit.test.CountryDAO.CountryTest" name="testRegisterCountryFailByDuplicatedName" time="0.355" />
+  <testcase classname="unit.test.CountryDAO.CountryTest" name="testRegisterCountrySuccess" time="0.391" />
+  <testcase classname="unit.test.CountryDAO.CountryTest" name="testDeleteCountryFailByNonexistenceId" time="0.355" />
+  <testcase classname="unit.test.CountryDAO.CountryTest" name="testGetCountryByIdFailByNonexistenceId" time="0.312" />
+  <testcase classname="unit.test.CountryDAO.CountryTest" name="testUpdateCountrySuccess" time="0.346" />
+  <testcase classname="unit.test.CountryDAO.CountryTest" name="testDeleteCountryFailByDependencies" time="0.372" />
+  <testcase classname="unit.test.CountryDAO.CountryTest" name="testUpdateCountryFailByDuplicatedName" time="0.331" />
+  <testcase classname="unit.test.CountryDAO.CountryTest" name="testDeleteCountrySuccess" time="0.329" />
   <system-out><![CDATA[0
 Ecuador
 [Argentina, Ecuador, Rusia, Italia, Colombia]
 Rusia
-10807
+11293
 0
 1
 1
