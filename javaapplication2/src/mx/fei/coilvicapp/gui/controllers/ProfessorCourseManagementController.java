@@ -224,9 +224,7 @@ public class ProfessorCourseManagementController implements Initializable {
                 MainApp.changeView(fxmlLoader);
                 RegisterCourseController registerCourseController = fxmlLoader.getController();
                 registerCourseController.setProfessor(professor);
-            } else {
-                // Algun error                
-            }
+            } 
         }
     }
 

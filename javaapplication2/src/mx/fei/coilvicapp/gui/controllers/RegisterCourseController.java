@@ -64,8 +64,12 @@ public class RegisterCourseController implements Initializable {
     @Override
     public void initialize(URL URL, ResourceBundle resoruceBundle) {
         numberStudentsComboBox.setItems(FXCollections.observableArrayList(initializeNumberStudentsArrayForComboBox()));
-        termComboBox.setItems(FXCollections.observableArrayList(initializeTermsArrayForComboBox()));
-        languageComboBox.setItems(FXCollections.observableArrayList(initializeLanguagesArrayForComboBox()));
+        try {
+            termComboBox.setItems(FXCollections.observableArrayList(initializeTermsArrayForComboBox()));
+            languageComboBox.setItems(FXCollections.observableArrayList(initializeLanguagesArrayForComboBox()));
+        } catch (DAOException exception) {
+            handleDAOException(exception);
+        }
     }
 
     public Professor getProfessor() {
@@ -112,23 +116,15 @@ public class RegisterCourseController implements Initializable {
         return numberStudents;
     }
 
-    private ArrayList<Term> initializeTermsArrayForComboBox() {
+    private ArrayList<Term> initializeTermsArrayForComboBox() throws DAOException {
         ArrayList<Term> terms = new ArrayList<>();
-        try {
-            terms = TERM_DAO.getTerms();
-        } catch (DAOException exception) {
-            Log.getLogger(RegisterCourseController.class).error(exception.getMessage(), exception);
-        }
+        terms = TERM_DAO.getTerms();
         return terms;
     }
 
-    private ArrayList<Language> initializeLanguagesArrayForComboBox() {
+    private ArrayList<Language> initializeLanguagesArrayForComboBox() throws DAOException {
         ArrayList<Language> languages = new ArrayList<>();
-        try {
-            languages = LANGUAGE_DAO.getLanguages();
-        } catch (DAOException exception) {
-            Log.getLogger(RegisterCourseController.class).error(exception.getMessage(), exception);
-        }
+        languages = LANGUAGE_DAO.getLanguages();
         return languages;
     }
 
@@ -215,7 +211,6 @@ public class RegisterCourseController implements Initializable {
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
-
             }
         } catch (IOException ioException) {
             Log.getLogger(RegisterCourseController.class).error(ioException.getMessage(), exception);

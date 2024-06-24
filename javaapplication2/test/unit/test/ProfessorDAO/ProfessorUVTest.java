@@ -33,6 +33,7 @@ public class ProfessorUVTest {
         initializeAuxTestProfessorUV();
         int idProfessorUV = PROFESSOR_DAO.registerProfessorUV(AUX_TEST_PROFESSOR);
         PROFESSOR_DAO.deleteProfessorUVByID(idProfessorUV);
+        PROFESSOR_DAO.deleteProfessorByID(idProfessorUV);
         assertTrue(idProfessorUV > 0);
     }
     
@@ -74,6 +75,7 @@ public class ProfessorUVTest {
     @Test
     public void testSuccessDeleteProfessorUV() throws DAOException {
         int result = PROFESSOR_DAO.deleteProfessorUVByID(TEST_PROFESSOR.getIdProfessor());
+        PROFESSOR_DAO.deleteProfessorByID(TEST_PROFESSOR.getIdProfessor());
         assertTrue(result > 0);
     } 
     

@@ -196,7 +196,6 @@ public class LoginParticipantController implements Initializable {
     @FXML
     void registerButtonIsPressed(ActionEvent event) {
         try {
-
             if (roleButton.getText().equals("Profesor")) {
                 IProfessor professorDAO = new ProfessorDAO();
                 if (professorDAO.checkPreconditions()) {

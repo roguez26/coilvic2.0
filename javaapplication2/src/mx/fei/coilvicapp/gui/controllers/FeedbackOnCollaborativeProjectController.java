@@ -148,7 +148,6 @@ public class FeedbackOnCollaborativeProjectController implements Initializable {
         if (student != null) {
             feedbackDAO.registerStudentResponses(responsesList);
             changeToCollaborativeProjectDetailsStudent();
-
         } else if (professor != null) {
             feedbackDAO.registerProfessorResponses(responsesList);
             closeWindow();

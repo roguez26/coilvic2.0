@@ -19,6 +19,8 @@ import main.MainApp;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProject;
 import mx.fei.coilvicapp.logic.collaborativeproject.ICollaborativeProject;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
+import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
+import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.Professor;
 
 public class CollaborativeProjectsHistoryController implements Initializable {
@@ -47,9 +49,7 @@ public class CollaborativeProjectsHistoryController implements Initializable {
 
     @FXML
     void backButtonIsPressed(ActionEvent event) {
-
         changeToProfessorDetails();
-
     }
 
     private void changeToProfessorDetails() {
@@ -102,8 +102,7 @@ public class CollaborativeProjectsHistoryController implements Initializable {
             collaborativeProjectList = collaborativeProjectDAO.getFinishedCollaborativeProjectsByProfessor(
                     professor.getIdProfessor());
         } catch (DAOException exception) {
-            Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), 
-                    exception);
+            handleDAOException(exception);
         }
 
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -115,5 +114,20 @@ public class CollaborativeProjectsHistoryController implements Initializable {
 
     public void setProfessorSession(Professor professor) {
         this.professorSession = professor;
+    }
+    
+    private void handleDAOException(DAOException exception) {
+        try {
+            DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
+            switch (exception.getStatus()) {
+                case ERROR ->
+                    changeToProfessorDetails();
+                case FATAL ->
+                    MainApp.handleFatal();
+            }
+        } catch (IOException ioException) {
+            Log.getLogger(CollaborativeProjectsManagementController.class).error(
+                    ioException.getMessage(), ioException);
+        }
     }
 }

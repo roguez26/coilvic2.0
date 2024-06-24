@@ -70,8 +70,7 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
         try {
             universities = universityDAO.getAvailableUniversities();
         } catch (DAOException exception) {
-            Log.getLogger(InstitutionalRepresentativeRegisterController.class).error(exception.getMessage(),
-                    exception);
+            handleDAOException(exception);
         }
         return universities;
     }
@@ -94,7 +93,7 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
 
     private boolean confirmCancelation() {
         Optional<ButtonType> response = DialogController.getConfirmationDialog(
-                "Confirmar cancelacion", "¿Deseas cancelar el registro?");
+                "Confirmar cancelación", "¿Deseas cancelar el registro?");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
@@ -119,7 +118,7 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
         } catch (DAOException exception) {
             handleDAOException(exception);
         } catch (IOException exception) {
-            Log.getLogger(InstitutionalRepresentativeRegisterController.class).error(exception.getMessage(), 
+            Log.getLogger(InstitutionalRepresentativeRegisterController.class).error(exception.getMessage(),
                     exception);
         }
     }

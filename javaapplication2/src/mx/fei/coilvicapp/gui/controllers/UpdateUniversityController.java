@@ -195,7 +195,6 @@ public class UpdateUniversityController implements Initializable {
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
-
             }
         } catch (IOException ioException) {
             Log.getLogger(UpdateUniversityController.class).error(ioException.getMessage(), ioException);

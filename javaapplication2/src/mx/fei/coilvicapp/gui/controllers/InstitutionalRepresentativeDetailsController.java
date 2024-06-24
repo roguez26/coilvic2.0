@@ -175,8 +175,7 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
                 rowsAffected = institutionalRepresentativeDAO.updateInstitutionalRepresentative(
                         initializeInstitutionalRepresentative());
             } catch (DAOException exception) {
-                Log.getLogger(InstitutionalRepresentativeDetailsController.class).error(exception.getMessage(),
-                        exception);
+                handleDAOException(exception);
             }
         }
         if (rowsAffected > 0) {

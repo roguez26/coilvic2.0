@@ -34,15 +34,12 @@ public class EmailRegistrationTest {
     }
 
     @Test
-    public void testRegisterSentEmailSuccess() {
+    public void testRegisterSentEmailSuccess() throws DAOException {
         int idEmail = 0;
 
-        try {
-            idEmail = EMAIL_SENDER_DAO.registerEmail(EMAIL_SENDER_FOR_TESTING);
-            EMAIL_SENDER_FOR_TESTING.setIdEmail(idEmail);
-        } catch (DAOException exception) {
-            Log.getLogger(EmailRegistrationTest.class).error(exception.getMessage(), exception);
-        }
+        idEmail = EMAIL_SENDER_DAO.registerEmail(EMAIL_SENDER_FOR_TESTING);
+        EMAIL_SENDER_FOR_TESTING.setIdEmail(idEmail);
+
         System.out.println(idEmail);
         assertTrue(idEmail > 0);
     }
@@ -54,12 +51,10 @@ public class EmailRegistrationTest {
     }
 
     @After
-    public void tearDown() {
-        try {
-            EMAIL_SENDER_DAO.deleteEmail(EMAIL_SENDER_FOR_TESTING.getIdEmail());
-        } catch (DAOException exception) {
-            Log.getLogger(EmailRegistrationTest.class).error(exception.getMessage(), exception);
-        }
+    public void tearDown() throws DAOException {
+
+        EMAIL_SENDER_DAO.deleteEmail(EMAIL_SENDER_FOR_TESTING.getIdEmail());
+
         TEST_HELPER.deleteAll();
     }
 }
