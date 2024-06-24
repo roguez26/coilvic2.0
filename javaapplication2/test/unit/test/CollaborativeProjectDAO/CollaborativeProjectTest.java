@@ -1,7 +1,6 @@
 package unit.test.CollaborativeProjectDAO;
 
 import java.util.ArrayList;
-import log.Log;
 import mx.fei.coilvicapp.logic.collaborativeproject.*;
 import mx.fei.coilvicapp.logic.collaborativeprojectrequest.CollaborativeProjectRequest;
 import mx.fei.coilvicapp.logic.course.Course;
@@ -9,7 +8,6 @@ import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.professor.Professor;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import unit.test.Initializer.TestHelper;
@@ -34,8 +32,8 @@ public class CollaborativeProjectTest {
         COLLABORATIVE_PROJECT_FOR_TESTING.setName("Programación y Bases de Datos");
         COLLABORATIVE_PROJECT_FOR_TESTING.setStatus("Pendiente");
         COLLABORATIVE_PROJECT_FOR_TESTING.setDescription("Este proyecto combina los conocimientos de"
-        + " programación orientada a objetos y bases de datos "
-        + "para desarrollar una aplicación completa que gestione información de manera eficiente.");
+        + " programación orientada a objetos y bases de datos"
+        + " para desarrollar una aplicación completa que gestione información de manera eficiente.");
         COLLABORATIVE_PROJECT_FOR_TESTING.setGeneralObjective("Integrar conceptos de programación y"
         + " bases de datos para desarrollar una solución software completa.");
         COLLABORATIVE_PROJECT_FOR_TESTING.setModality(testHelper.getModality());
@@ -45,7 +43,7 @@ public class CollaborativeProjectTest {
         COLLABORATIVE_PROJECT_FOR_TESTING.setRequestedCourse(testHelper.getCourseTwo());
     }
     
-    private void initializeCollaborativeProjects() {
+    private void initializeCollaborativeProjects() throws DAOException {
         setUp();
         CollaborativeProject collaborativeProject = new CollaborativeProject();
         int idCollaborativeProject;
@@ -62,32 +60,25 @@ public class CollaborativeProjectTest {
         collaborativeProject.setRequestedCourse(testHelper.getCourseFour());
         COLLABORATIVE_PROJECTS_FOR_TESTING.add(COLLABORATIVE_PROJECT_FOR_TESTING);        
         COLLABORATIVE_PROJECTS_FOR_TESTING.add(collaborativeProject);        
-        try {
-            idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
-            (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
-            COLLABORATIVE_PROJECT_FOR_TESTING.setIdCollaborativeProject(idCollaborativeProject);
-            idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
-            (collaborativeProject, testHelper.getCollaborativeProjectRequestTwo());
-            collaborativeProject.setIdCollaborativeProject(idCollaborativeProject);
-        } catch (DAOException exception) {
-            Log.getLogger(CollaborativeProjectTest.class).error(exception.getMessage(), exception);
-        }                
+        
+        idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
+        (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
+        COLLABORATIVE_PROJECT_FOR_TESTING.setIdCollaborativeProject(idCollaborativeProject);
+        idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
+        (collaborativeProject, testHelper.getCollaborativeProjectRequestTwo());
+        collaborativeProject.setIdCollaborativeProject(idCollaborativeProject);                                
     }
     
-    private void deleteCollaborativeProjects() {
-        try {
-            for (CollaborativeProject collaborativeProject : COLLABORATIVE_PROJECTS_FOR_TESTING) {
-                COLLABORATIVE_PROJECT_DAO.deleteCollaborativeProjectByidCollaborativeProject
-                (collaborativeProject.getIdCollaborativeProject());
-            }
-        } catch (DAOException exception) {
-            Log.getLogger(CollaborativeProjectTest.class).error(exception.getMessage(), exception);
-        }
+    private void deleteCollaborativeProjects() throws DAOException {        
+        for (CollaborativeProject collaborativeProject : COLLABORATIVE_PROJECTS_FOR_TESTING) {
+            COLLABORATIVE_PROJECT_DAO.deleteCollaborativeProjectByidCollaborativeProject
+            (collaborativeProject.getIdCollaborativeProject());
+        }        
     }       
     
     @Test
     public void registerCollaborativeProjectSucces() throws DAOException{
-        int idCollaborativeProject = 0; 
+        int idCollaborativeProject;
         setUp();               
         idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
         (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
@@ -95,39 +86,33 @@ public class CollaborativeProjectTest {
         assertTrue(idCollaborativeProject > 0);
     }
     
-    @Test
-    public void registerCollaborativeProjectFailByRejectedCollaborativeProjectRequest() {
+    @Test(expected = DAOException.class)
+    public void registerCollaborativeProjectFailByRejectedCollaborativeProjectRequest() throws DAOException {
         testHelper.initializeRejectedCollaborativeProjectRequest();
         testHelper.initializeModality();
         auxCollaborativeProjectRequest = testHelper.getRejectedCollaborativeProjectRequest();
         initializeCollaborativeProject();
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
-        (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest));
-        System.out.println(exception.getMessage());        
+        COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
+        (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
     }
     
-    @Test
-    public void registerCollaborativeProjectFailByCoursesInAnotherCollaborativeProject() {        
+    @Test(expected = DAOException.class)
+    public void registerCollaborativeProjectFailByCoursesInAnotherCollaborativeProject() throws DAOException {
         testHelper.initializeCollaborativeProject();
         initializeCollaborativeProject();
         auxCollaborativeProjectRequest = testHelper.getCollaborativeProjectRequest();
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
-        (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest));        
-        System.out.println(exception.getMessage());
+        COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
+        (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
     }
     
-    @Test
-    public void registerCollaborativeProjectFailByDuplicateCode() {
+    @Test(expected = DAOException.class)
+    public void registerCollaborativeProjectFailByDuplicateCode() throws DAOException {
         testHelper.initializeCollaborativeProject();
         initializeCollaborativeProject();
         COLLABORATIVE_PROJECT_FOR_TESTING.setCode(testHelper.getCollaborativeProject().getCode());
         auxCollaborativeProjectRequest = testHelper.getCollaborativeProjectRequestTwo();
-        DAOException exception = 
-        assertThrows(DAOException.class, () -> COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
-        (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest));        
-        System.out.println(exception.getMessage());
+        COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
+        (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
     }
     
     @Test
@@ -157,13 +142,11 @@ public class CollaborativeProjectTest {
         assertEquals("Rechazado",status);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void evaluateCollaborativeProjectProposalFailByAlreadyEvaluatedCollaborativeProject() throws DAOException {
         initializeCollaborativeProject();
-        DAOException exception = assertThrows
-        (DAOException.class, () -> COLLABORATIVE_PROJECT_DAO.evaluateCollaborativeProjectProposal
-        (COLLABORATIVE_PROJECT_FOR_TESTING, "Aceptado"));        
-        System.out.println(exception.getMessage());
+        COLLABORATIVE_PROJECT_DAO.evaluateCollaborativeProjectProposal
+        (COLLABORATIVE_PROJECT_FOR_TESTING, "Aceptado");
     }
         
     @Test
@@ -200,13 +183,14 @@ public class CollaborativeProjectTest {
     @Test 
     public void getCollaborativeProjectByIdCollaborativeProjectFailByNonExistence() throws DAOException {        
         CollaborativeProject collaborativeProject;               
-        collaborativeProject = COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectByIdCollaborativeProject(COLLABORATIVE_PROJECT_FOR_TESTING.getIdCollaborativeProject());
+        collaborativeProject = COLLABORATIVE_PROJECT_DAO.getCollaborativeProjectByIdCollaborativeProject
+        (COLLABORATIVE_PROJECT_FOR_TESTING.getIdCollaborativeProject());
         assertEquals(0,collaborativeProject.getIdCollaborativeProject());
     }
     
     @Test
     public void updatePendingCollaborativeProjectSucces() throws DAOException {
-        int result = 0;
+        int result;
         setUp();
         int idCollaborativeProject;        
         idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
@@ -231,7 +215,7 @@ public class CollaborativeProjectTest {
         assertTrue(result > 0);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void updateCollaborativeProjectFailByAlreadyAcceptedCollaborativeProjectProposal() throws DAOException {
         setUp();
         int idCollaborativeProject;
@@ -242,13 +226,11 @@ public class CollaborativeProjectTest {
         COLLABORATIVE_PROJECT_DAO.evaluateCollaborativeProjectProposal
         (COLLABORATIVE_PROJECT_FOR_TESTING, "Aceptado");
         COLLABORATIVE_PROJECT_FOR_TESTING.setName("Bases de datos y Programación");
-        DAOException exception = assertThrows
-        (DAOException.class, () -> COLLABORATIVE_PROJECT_DAO.updateCollaborativeProject
-        (COLLABORATIVE_PROJECT_FOR_TESTING));        
-        System.out.println(exception.getMessage());
+        COLLABORATIVE_PROJECT_DAO.updateCollaborativeProject
+        (COLLABORATIVE_PROJECT_FOR_TESTING);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void updateCollaborativeProjectFailByAlreadyFinalizedCollaborativeProjectProposal() throws DAOException {
         testHelper.initializeCollaborativeProject();
         CollaborativeProject collaborativeProject;
@@ -256,13 +238,11 @@ public class CollaborativeProjectTest {
         int result = 0;                
         COLLABORATIVE_PROJECT_DAO.finalizeCollaborativeProject(collaborativeProject);        
         collaborativeProject.setName("Bases de datos y Programación");
-        DAOException exception = assertThrows
-        (DAOException.class, () -> COLLABORATIVE_PROJECT_DAO.updateCollaborativeProject
-        (collaborativeProject));        
-        System.out.println(exception.getMessage());
+        COLLABORATIVE_PROJECT_DAO.updateCollaborativeProject
+        (collaborativeProject);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void updateCollaborativeProjectFailByDuplicateCode() throws DAOException {
         testHelper.initializeCollaborativeProject();
         initializeCollaborativeProject();
@@ -274,10 +254,8 @@ public class CollaborativeProjectTest {
         (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
         COLLABORATIVE_PROJECT_FOR_TESTING.setIdCollaborativeProject(idCollaborativeProject);
         COLLABORATIVE_PROJECT_FOR_TESTING.setCode(testHelper.getCollaborativeProject().getCode());
-        DAOException exception = assertThrows
-        (DAOException.class, () -> COLLABORATIVE_PROJECT_DAO.updateCollaborativeProject
-        (COLLABORATIVE_PROJECT_FOR_TESTING));        
-        System.out.println(exception.getMessage());                
+        COLLABORATIVE_PROJECT_DAO.updateCollaborativeProject
+        (COLLABORATIVE_PROJECT_FOR_TESTING);
     }
     
     @Test
@@ -288,22 +266,21 @@ public class CollaborativeProjectTest {
         idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
         (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
         COLLABORATIVE_PROJECT_FOR_TESTING.setIdCollaborativeProject(idCollaborativeProject);
-        COLLABORATIVE_PROJECT_DAO.evaluateCollaborativeProjectProposal(COLLABORATIVE_PROJECT_FOR_TESTING, "Aceptado");
+        COLLABORATIVE_PROJECT_DAO.evaluateCollaborativeProjectProposal
+        (COLLABORATIVE_PROJECT_FOR_TESTING, "Aceptado");
         result = COLLABORATIVE_PROJECT_DAO.finalizeCollaborativeProject(COLLABORATIVE_PROJECT_FOR_TESTING);
         assertTrue(result > 0);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void finalizeCollaborativeProjectFailByInappropiateState() throws DAOException {
         setUp();
         int idCollaborativeProject;
         idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
         (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
         COLLABORATIVE_PROJECT_FOR_TESTING.setIdCollaborativeProject(idCollaborativeProject);
-        DAOException exception = assertThrows
-        (DAOException.class, () -> COLLABORATIVE_PROJECT_DAO.finalizeCollaborativeProject
-        (COLLABORATIVE_PROJECT_FOR_TESTING));        
-        System.out.println(exception.getMessage());
+        COLLABORATIVE_PROJECT_DAO.finalizeCollaborativeProject
+        (COLLABORATIVE_PROJECT_FOR_TESTING);
     }
     
     @Test
@@ -316,17 +293,15 @@ public class CollaborativeProjectTest {
         assertTrue(check);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void hasThreeActivitiesAtLeastFail() throws DAOException {
         setUp();
         int idCollaborativeProject;
         idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
         (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
         COLLABORATIVE_PROJECT_FOR_TESTING.setIdCollaborativeProject(idCollaborativeProject);
-        DAOException exception = assertThrows
-        (DAOException.class, () -> COLLABORATIVE_PROJECT_DAO.hasThreeActivitiesAtLeast
-        (COLLABORATIVE_PROJECT_FOR_TESTING));
-        System.out.println(exception.getMessage());
+        COLLABORATIVE_PROJECT_DAO.hasThreeActivitiesAtLeast
+        (COLLABORATIVE_PROJECT_FOR_TESTING);
     }
             
     @Test
@@ -684,14 +659,9 @@ public class CollaborativeProjectTest {
     }
             
     @After
-    public void tearDown() {
-        try {
-            if (COLLABORATIVE_PROJECT_FOR_TESTING.getIdCollaborativeProject() > 0) {
-                COLLABORATIVE_PROJECT_DAO.deleteCollaborativeProjectByidCollaborativeProject(COLLABORATIVE_PROJECT_FOR_TESTING.getIdCollaborativeProject());
-            }
-        } catch (DAOException exception) {
-            Log.getLogger(CollaborativeProjectTest.class).error(exception.getMessage(), exception);
-        }
+    public void tearDown() throws DAOException {        
+        COLLABORATIVE_PROJECT_DAO.deleteCollaborativeProjectByidCollaborativeProject(COLLABORATIVE_PROJECT_FOR_TESTING.getIdCollaborativeProject());                   
         testHelper.deleteAll();
+        COLLABORATIVE_PROJECTS_FOR_TESTING.clear();
     }
 }
