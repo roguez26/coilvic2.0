@@ -29,8 +29,7 @@ public class CollaborativeProjectTest {
     }
     
     private void initializeCollaborativeProject() {
-        COLLABORATIVE_PROJECT_FOR_TESTING.setName("Programación y Bases de Datos");
-        COLLABORATIVE_PROJECT_FOR_TESTING.setStatus("Pendiente");
+        COLLABORATIVE_PROJECT_FOR_TESTING.setName("Programación y Bases de Datos");        
         COLLABORATIVE_PROJECT_FOR_TESTING.setDescription("Este proyecto combina los conocimientos de"
         + " programación orientada a objetos y bases de datos"
         + " para desarrollar una aplicación completa que gestione información de manera eficiente.");
@@ -47,8 +46,7 @@ public class CollaborativeProjectTest {
         setUp();
         CollaborativeProject collaborativeProject = new CollaborativeProject();
         int idCollaborativeProject;
-        collaborativeProject.setName("Desarrollo de Aplicaciones Móviles");
-        collaborativeProject.setStatus("En Proceso");
+        collaborativeProject.setName("Desarrollo de Aplicaciones Móviles");        
         collaborativeProject.setDescription("Este proyecto involucra la creación de aplicaciones móviles"
         + " utilizando tecnologías modernas para ofrecer funcionalidades avanzadas y una experiencia de usuario óptima.");
         collaborativeProject.setGeneralObjective("Desarrollar habilidades en el diseño y la implementación de aplicaciones móviles"
@@ -205,7 +203,7 @@ public class CollaborativeProjectTest {
     public void updateRejectedCollaborativeProjectSucces() throws DAOException {
         setUp();
         int idCollaborativeProject;
-        int result = 0;
+        int result;
         idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
         (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
         COLLABORATIVE_PROJECT_FOR_TESTING.setIdCollaborativeProject(idCollaborativeProject);
@@ -218,8 +216,7 @@ public class CollaborativeProjectTest {
     @Test(expected = DAOException.class)
     public void updateCollaborativeProjectFailByAlreadyAcceptedCollaborativeProjectProposal() throws DAOException {
         setUp();
-        int idCollaborativeProject;
-        int result = 0;
+        int idCollaborativeProject;        
         idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
         (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
         COLLABORATIVE_PROJECT_FOR_TESTING.setIdCollaborativeProject(idCollaborativeProject);
@@ -234,8 +231,7 @@ public class CollaborativeProjectTest {
     public void updateCollaborativeProjectFailByAlreadyFinalizedCollaborativeProjectProposal() throws DAOException {
         testHelper.initializeCollaborativeProject();
         CollaborativeProject collaborativeProject;
-        collaborativeProject = testHelper.getCollaborativeProject();
-        int result = 0;                
+        collaborativeProject = testHelper.getCollaborativeProject();        
         COLLABORATIVE_PROJECT_DAO.finalizeCollaborativeProject(collaborativeProject);        
         collaborativeProject.setName("Bases de datos y Programación");
         COLLABORATIVE_PROJECT_DAO.updateCollaborativeProject
@@ -262,7 +258,7 @@ public class CollaborativeProjectTest {
     public void finalizeCollaborativeProjectSucces() throws DAOException {
         setUp();
         int idCollaborativeProject;
-        int result = 0;
+        int result;
         idCollaborativeProject = COLLABORATIVE_PROJECT_DAO.registerCollaborativeProject
         (COLLABORATIVE_PROJECT_FOR_TESTING, auxCollaborativeProjectRequest);
         COLLABORATIVE_PROJECT_FOR_TESTING.setIdCollaborativeProject(idCollaborativeProject);

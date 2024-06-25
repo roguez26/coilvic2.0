@@ -33,7 +33,7 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
     CollaborativeProjectRequest collaborativeProjectRequest) throws DAOException {
         int result = -1;
         CollaborativeProjectRequestDAO collaboratibeProjectRequestDAO
-                = new CollaborativeProjectRequestDAO();
+        = new CollaborativeProjectRequestDAO();
 
         if (collaboratibeProjectRequestDAO.checkCollaborativeProjectRequestStatus(collaborativeProjectRequest).equals("Aceptado")) {
             if (checkCoursesForCollaborativeProject(collaborativeProject) == 0) {
@@ -62,10 +62,10 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
             throw new DAOException("No fue posible hacer la validación del proyecto colaborativo", Status.WARNING);
         }
         if (auxCollaborativeProject.getIdCollaborativeProject()
-                != collaborativeProject.getIdCollaborativeProject()
-                && auxCollaborativeProject.getIdCollaborativeProject() != 0) {
+        != collaborativeProject.getIdCollaborativeProject()
+        && auxCollaborativeProject.getIdCollaborativeProject() != 0) {
             throw new DAOException("El código del proyecto colaborativo ya está en uso."
-                    + " Por favor, elija otro código", Status.WARNING);
+            + " Por favor, elija otro código", Status.WARNING);
         }
         return check;
     }
@@ -77,9 +77,9 @@ public class CollaborativeProjectDAO implements ICollaborativeProject {
         DatabaseManager databaseManager = new DatabaseManager();
         ResultSet resultSet = null;
         String statement = "INSERT INTO ProyectoColaborativo"
-                + " (idCursoSolicitante, idCursoSolicitado, idModalidad,"
-                + " nombre, descripcion, objetivoGeneral, codigo, rutaSyllabus)"
-                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        + " (idCursoSolicitante, idCursoSolicitado, idModalidad,"
+        + " nombre, descripcion, objetivoGeneral, codigo, rutaSyllabus)"
+        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         int result = -1;
 
         try {

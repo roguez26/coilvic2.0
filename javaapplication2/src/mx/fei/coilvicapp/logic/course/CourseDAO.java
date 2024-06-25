@@ -650,9 +650,9 @@ public class CourseDAO implements ICourse {
             case "Colaboracion" ->
                 throw new DAOException("No puede cancelar un curso que es parte de un proyecto colaborativo", Status.WARNING);
             case "Finalizado" ->
-                throw new DAOException("No pude cancelar un curso finalizado", Status.WARNING);
+                throw new DAOException("No puede cancelar un curso finalizado", Status.WARNING);
             case "Cancelado" ->
-                throw new DAOException("No pude cancelar un curso que ya fue cancelado", Status.WARNING);
+                throw new DAOException("No puede cancelar un curso que ya fue cancelado", Status.WARNING);
             default -> {
             }
         }
