@@ -28,10 +28,9 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
 
     @FXML
     private TextField nombreTextField;
-    
+
     @FXML
     private TextField countryCodeTextField;
-    
 
     @FXML
     private TextField paternalSurnameTextField;
@@ -176,6 +175,8 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
                         initializeInstitutionalRepresentative());
             } catch (DAOException exception) {
                 handleDAOException(exception);
+            } catch (IllegalArgumentException exception) {
+                handleValidationException(exception);
             }
         }
         if (rowsAffected > 0) {
@@ -190,6 +191,10 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
                 wasNotUpdatedConfirmation();
             }
         }
+    }
+
+    private void handleValidationException(IllegalArgumentException exception) {
+        DialogController.getInvalidDataDialog(exception.getMessage());
     }
 
     private boolean wasNotUpdatedConfirmation() {
@@ -249,7 +254,8 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
-
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(InstitutionalRepresentativeDetailsController.class).error(
@@ -257,8 +263,7 @@ public class InstitutionalRepresentativeDetailsController implements Initializab
         }
     }
 
-    public void setInstitutionalRepresentativeDetailsController(InstitutionalRepresentative 
-            institutionalRepresentative) {
+    public void setInstitutionalRepresentativeDetailsController(InstitutionalRepresentative institutionalRepresentative) {
         this.institutionalRepresentative = institutionalRepresentative;
         initializeTextFields(institutionalRepresentative);
         universitiesComboBox.setValue(institutionalRepresentative.getUniversity());

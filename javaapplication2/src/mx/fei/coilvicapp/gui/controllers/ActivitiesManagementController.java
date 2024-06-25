@@ -61,8 +61,8 @@ public class ActivitiesManagementController implements Initializable {
 
     private void uploadAssignment() {
         try {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/UploadAssignment", controller -> {
-                UploadAssignmentController uploadAssignmentController = (UploadAssignmentController) controller;
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssignmentUpload", controller -> {
+                AssignmentUploadController uploadAssignmentController = (AssignmentUploadController) controller;
                 uploadAssignmentController.setCollaborativeProject(collaborativeProject);
             });
         } catch (IOException exception) {
@@ -118,7 +118,7 @@ public class ActivitiesManagementController implements Initializable {
         if (selectedAssignment != null) {
             try {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/UploadAssignment", controller -> {
-                    UploadAssignmentController uploadAssignmentController = (UploadAssignmentController) controller;
+                    AssignmentUploadController uploadAssignmentController = (AssignmentUploadController) controller;
                     uploadAssignmentController.setCollaborativeProject(collaborativeProject);
                     uploadAssignmentController.setAssignment(selectedAssignment);
                 });
@@ -181,6 +181,8 @@ public class ActivitiesManagementController implements Initializable {
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(ActivitiesManagementController.class).error(ioException.getMessage(), ioException);

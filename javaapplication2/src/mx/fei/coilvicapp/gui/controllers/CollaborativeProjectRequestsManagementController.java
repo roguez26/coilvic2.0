@@ -374,6 +374,8 @@ public class CollaborativeProjectRequestsManagementController implements Initial
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(CollaborativeProjectRequestsManagementController.class).error(ioException.getMessage(), ioException);

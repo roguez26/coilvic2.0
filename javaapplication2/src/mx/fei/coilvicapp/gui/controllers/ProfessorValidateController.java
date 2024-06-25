@@ -37,7 +37,7 @@ public class ProfessorValidateController implements Initializable {
 
     @FXML
     private TextField nombreTextField;
-    
+
     @FXML
     private TextField countryCodeTextField;
 
@@ -144,7 +144,7 @@ public class ProfessorValidateController implements Initializable {
                 rowsAffected = professorDAO.rejectProfessor(professor);
                 if (rowsAffected > 0) {
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
-                        NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                        ProfessorNotificationController notifyProfessorController = (ProfessorNotificationController) controller;
                         notifyProfessorController.setProfessor(professor);
                     });
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
@@ -309,7 +309,7 @@ public class ProfessorValidateController implements Initializable {
     }
 
     private boolean backConfirmation() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar", 
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Regresar",
                 "¿Desea regresar?");
         return (response.get() == DialogController.BUTTON_YES);
     }
@@ -408,6 +408,8 @@ public class ProfessorValidateController implements Initializable {
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorManager");
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(ProfessorValidateController.class).error(ioException.getMessage(), ioException);

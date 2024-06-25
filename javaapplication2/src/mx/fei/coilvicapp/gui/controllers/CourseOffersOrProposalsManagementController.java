@@ -83,7 +83,7 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
         if (professor != null) {
             this.professor = professor;
             initializeAll();
-        } 
+        }
     }
 
     @FXML
@@ -122,11 +122,17 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
                     updateTableView(courses);
                 } catch (DAOException exception) {
                     handleDAOException(exception);
+                } catch (IllegalArgumentException exception) {
+                    handleValidationException(exception);
                 }
             } else {
                 DialogController.getInformativeConfirmationDialog("Campo de búsqueda vacío", "Ingrese el nombre de una universidad");
             }
         }
+    }
+
+    private void handleValidationException(IllegalArgumentException exception) {
+        DialogController.getInvalidDataDialog(exception.getMessage());
     }
 
     @FXML
@@ -210,6 +216,8 @@ public class CourseOffersOrProposalsManagementController implements Initializabl
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(CourseOffersOrProposalsManagementController.class).error(ioException.getMessage(), ioException);

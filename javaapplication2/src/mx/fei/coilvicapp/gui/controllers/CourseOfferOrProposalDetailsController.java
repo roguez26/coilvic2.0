@@ -164,8 +164,8 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
                     }
                     if (result > 0) {
                         collaborativeProjectRequestConfirmationSent();
-                        MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
-                            NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                        MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorNotification", controller -> {
+                            ProfessorNotificationController notifyProfessorController = (ProfessorNotificationController) controller;
                             notifyProfessorController.setProfessor(professor);
                         });
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement.fxml"));
@@ -194,8 +194,8 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
                 }
                 if (result > 0) {
                     wasRejectedConfirmation();
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
-                        NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorNotification", controller -> {
+                        ProfessorNotificationController notifyProfessorController = (ProfessorNotificationController) controller;
                         notifyProfessorController.setProfessor(professor);
                     });
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement");
@@ -219,7 +219,7 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
                 if (result > 0) {
                     wasAcceptedConfirmation();
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
-                        NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                        ProfessorNotificationController notifyProfessorController = (ProfessorNotificationController) controller;
                         notifyProfessorController.setProfessor(professor);
                     });
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement");
@@ -264,7 +264,7 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
         ArrayList<Course> courses = new ArrayList<>();
         try {
             courses = COURSE_DAO.getAcceptedCoursesByProfessor(professor.getIdProfessor());
-            if(courses.isEmpty()) {
+            if (courses.isEmpty()) {
                 DialogController.getInformativeConfirmationDialog("Aviso", "No tienes cursos aceptados para poder"
                         + " enviar solicitudes para proyecto colaborativo");
             }
@@ -278,11 +278,11 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
         Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar rechazo", "¿Está seguro de que desea rechazar el curso?");
         return (response.get() == DialogController.BUTTON_YES);
     }
-    
+
     private boolean confirmSendRequest() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar solicitud", 
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar solicitud",
                 "¿Está seguro de enviar la solicitud curso? Una vez enviada no podrá usar este curso "
-                        + "para otro proyecto");
+                + "para otro proyecto");
         return (response.get() == DialogController.BUTTON_YES);
     }
 
@@ -319,6 +319,8 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(CourseOfferOrProposalDetailsController.class).error(ioException.getMessage(), ioException);

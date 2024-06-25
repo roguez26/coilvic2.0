@@ -18,7 +18,7 @@ public class PDFCreatorTest {
 
         generatedCertificate = PDF_CREATOR.generateCertificate(nameParticipantExample, destinationPath);
         File file = new File(generatedCertificate);
-        System.out.println(file.exists());
+        System.out.println(file.getAbsolutePath());
         assertTrue(file.exists());
         file.delete();
     }

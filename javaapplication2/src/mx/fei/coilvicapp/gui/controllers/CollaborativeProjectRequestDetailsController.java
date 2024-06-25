@@ -25,295 +25,261 @@ import mx.fei.coilvicapp.logic.professor.*;
 
 public class CollaborativeProjectRequestDetailsController implements Initializable {
 
-    
-    @FXML    
+    @FXML
     private Button backButton;
-    
+
     @FXML
     private Label nameCourse1Label;
-    
+
     @FXML
     private TextField nameCourse1TextField;
-    
+
     @FXML
     private TextArea generalObjectiveTextArea;
-    
+
     @FXML
     private TextField topicsInterestTextField;
-    
+
     @FXML
     private TextField numberStudentsTextField;
-    
+
     @FXML
     private TextField languageTextField;
-    
+
     @FXML
     private TextField studentsProfileTextField;
-    
+
     @FXML
     private TextArea additionalInformationTextArea;
-    
+
     @FXML
     private TextField termTextField;
-    
+
     @FXML
     private Label nameCourse2Label;
-    
+
     @FXML
-    private TextField nameCourse2TextField;        
-    
+    private TextField nameCourse2TextField;
+
     @FXML
     private TextField nameProfessorTextField;
-    
+
     @FXML
     private TextField paternalSurnameTextField;
-    
+
     @FXML
     private TextField maternalSurnameTextField;
-    
+
     @FXML
     private TextField emailTextField;
-    
+
     @FXML
     private TextField phoneNumberTextField;
 
     @FXML
     private TextField genderTextField;
-    
+
     @FXML
     private TextField universityTextField;
-    
+
     @FXML
     private TextField countryTextField;
-    
+
     @FXML
     private TextField statusTextField;
-    
+
     @FXML
     private TextField requestDateTextField;
-    
+
     @FXML
     private TextField validationDateTextField;
-               
+
     @FXML
     private Button cancelRequestButton;
-    
+
     @FXML
     private Button rejectButton;
-    
+
     @FXML
     private Button acceptButton;
-    
-    private CollaborativeProjectRequest collaborativeProjectRequest;    
-    private Professor professor;    
-    
+
+    private CollaborativeProjectRequest collaborativeProjectRequest;
+    private Professor professor;
+
     @Override
-    public void initialize(URL URL, ResourceBundle resourceBundle) { 
+    public void initialize(URL URL, ResourceBundle resourceBundle) {
     }
-    
+
     public CollaborativeProjectRequest getCollaborativeProjectRequest() {
         return collaborativeProjectRequest;
     }
-    
-    public void setCollaborativeProjectRequest
-    (CollaborativeProjectRequest collaborativeProjectRequest) {
+
+    public void setCollaborativeProjectRequest(CollaborativeProjectRequest collaborativeProjectRequest) {
         if (collaborativeProjectRequest != null) {
             this.collaborativeProjectRequest = collaborativeProjectRequest;
             initializeAll();
         }
     }
-    
-    public Professor getProfessor() {              
+
+    public Professor getProfessor() {
         return professor;
     }
-    
-    public void setProfessor(Professor professor) {        
+
+    public void setProfessor(Professor professor) {
         this.professor = professor;
     }
-    
+
     @FXML
     void backButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == backButton) {
-            if (professor != null) {                
+            if (professor != null) {
                 goBack();
-            }            
+            }
         }
     }
-    
+
     private void goBack() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource
-                ("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
-                MainApp.changeView(fxmlLoader);
-                CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController =
-                fxmlLoader.getController();
-                collaborativeProjectRequestsManagementController.setProfessor(professor);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
+            MainApp.changeView(fxmlLoader);
+            CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController
+                    = fxmlLoader.getController();
+            collaborativeProjectRequestsManagementController.setProfessor(professor);
         } catch (IOException excpetion) {
-            Log.getLogger
-            (CollaborativeProjectRequestDetailsController.class).error(excpetion.getMessage(), excpetion);
+            Log.getLogger(CollaborativeProjectRequestDetailsController.class).error(excpetion.getMessage(), excpetion);
         }
     }
-    
+
     @FXML
     void cancelRequestButtonButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == cancelRequestButton) {
             if (confirmCancelRequest()) {
                 int result = -1;
-                CollaborativeProjectRequestDAO collaborativeProjectRequestDAO =
-                new CollaborativeProjectRequestDAO();
+                CollaborativeProjectRequestDAO collaborativeProjectRequestDAO
+                        = new CollaborativeProjectRequestDAO();
                 try {
-                    result = collaborativeProjectRequestDAO.cancelCollaborativeProjectRequest
-                    (collaborativeProjectRequest);
+                    result = collaborativeProjectRequestDAO.cancelCollaborativeProjectRequest(collaborativeProjectRequest);
                 } catch (DAOException exception) {
                     handleDAOException(exception);
                 }
                 if (result > 0) {
                     wasCancelledConfirmation();
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource
-                    ("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
                     MainApp.changeView(fxmlLoader);
-                    CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController =
-                    fxmlLoader.getController();
+                    CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController
+                            = fxmlLoader.getController();
                     collaborativeProjectRequestsManagementController.setProfessor(professor);
-                }                
+                }
             }
         }
     }
-    
+
     @FXML
     void rejectButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == rejectButton) {
             if (confirmRejectRequest()) {
                 int result = -1;
-                CollaborativeProjectRequestDAO collaborativeProjectRequestDAO = 
-                new CollaborativeProjectRequestDAO();
+                CollaborativeProjectRequestDAO collaborativeProjectRequestDAO
+                        = new CollaborativeProjectRequestDAO();
                 try {
-                    result = collaborativeProjectRequestDAO.attendCollaborativeProjectRequest
-                    (collaborativeProjectRequest, "Rechazado");
+                    result = collaborativeProjectRequestDAO.attendCollaborativeProjectRequest(collaborativeProjectRequest, "Rechazado");
                 } catch (DAOException exception) {
                     handleDAOException(exception);
                 }
-                if (result > 0) {                
+                if (result > 0) {
                     wasRejectedConfirmation();
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
-                        NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorNotification", controller -> {
+                        ProfessorNotificationController notifyProfessorController = (ProfessorNotificationController) controller;
                         notifyProfessorController.setProfessor(professor);
                     });
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource
-                    ("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
                     MainApp.changeView(fxmlLoader);
-                    CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController =
-                    fxmlLoader.getController();
+                    CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController
+                            = fxmlLoader.getController();
                     collaborativeProjectRequestsManagementController.setProfessor(professor);
-                }                
+                }
             }
         }
     }
-    
+
     @FXML
     void acceptButtonIsPressed(ActionEvent event) throws IOException {
         if (event.getSource() == acceptButton) {
             if (confirmAcceptRequest()) {
                 int result = -1;
-                CollaborativeProjectRequestDAO collaborativeProjectRequestDAO = 
-                new CollaborativeProjectRequestDAO();
+                CollaborativeProjectRequestDAO collaborativeProjectRequestDAO
+                        = new CollaborativeProjectRequestDAO();
                 try {
-                    result = collaborativeProjectRequestDAO.attendCollaborativeProjectRequest
-                    (collaborativeProjectRequest, "Aceptado");
+                    result = collaborativeProjectRequestDAO.attendCollaborativeProjectRequest(collaborativeProjectRequest, "Aceptado");
                 } catch (DAOException exception) {
                     handleDAOException(exception);
                 }
-                if (result > 0) {                
+                if (result > 0) {
                     wasAcceptedConfirmation();
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
-                        NotifyProfessorController notifyProfessorController = (NotifyProfessorController) controller;
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorNotification", controller -> {
+                        ProfessorNotificationController notifyProfessorController = (ProfessorNotificationController) controller;
                         notifyProfessorController.setProfessor(professor);
                     });
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource
-                    ("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
                     MainApp.changeView(fxmlLoader);
-                    CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController =
-                    fxmlLoader.getController();
+                    CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController
+                            = fxmlLoader.getController();
                     collaborativeProjectRequestsManagementController.setProfessor(professor);
-                }                
-            }    
+                }
+            }
         }
-    }        
-    
+    }
+
     public void initializeAll() {
-        if (collaborativeProjectRequest.getRequesterCourse().getProfessor().getIdProfessor() == 
-        professor.getIdProfessor()) {
+        if (collaborativeProjectRequest.getRequesterCourse().getProfessor().getIdProfessor()
+                == professor.getIdProfessor()) {
             nameCourse1Label.setText("Curso solicitado");
             nameCourse1TextField.setText(collaborativeProjectRequest.getRequestedCourse().toString());
-            generalObjectiveTextArea.setText
-            (collaborativeProjectRequest.getRequestedCourse().getGeneralObjective());
-            topicsInterestTextField.setText
-            (collaborativeProjectRequest.getRequestedCourse().getTopicsInterest());
-            numberStudentsTextField.setText
-            (String.valueOf(collaborativeProjectRequest.getRequestedCourse().getNumberStudents()));
-            languageTextField.setText
-            (collaborativeProjectRequest.getRequestedCourse().getLanguage().toString());
-            studentsProfileTextField.setText
-            (collaborativeProjectRequest.getRequestedCourse().getStudentsProfile());
-            additionalInformationTextArea.setText
-            (collaborativeProjectRequest.getRequestedCourse().getAdditionalInformation());
+            generalObjectiveTextArea.setText(collaborativeProjectRequest.getRequestedCourse().getGeneralObjective());
+            topicsInterestTextField.setText(collaborativeProjectRequest.getRequestedCourse().getTopicsInterest());
+            numberStudentsTextField.setText(String.valueOf(collaborativeProjectRequest.getRequestedCourse().getNumberStudents()));
+            languageTextField.setText(collaborativeProjectRequest.getRequestedCourse().getLanguage().toString());
+            studentsProfileTextField.setText(collaborativeProjectRequest.getRequestedCourse().getStudentsProfile());
+            additionalInformationTextArea.setText(collaborativeProjectRequest.getRequestedCourse().getAdditionalInformation());
             termTextField.setText(collaborativeProjectRequest.getRequestedCourse().getTerm().toString());
-            
-            nameProfessorTextField.setText
-            (collaborativeProjectRequest.getRequestedCourse().getProfessor().getName());
-            paternalSurnameTextField.setText
-            (collaborativeProjectRequest.getRequestedCourse().getProfessor().getPaternalSurname());
-            maternalSurnameTextField.setText
-            (collaborativeProjectRequest.getRequestedCourse().getProfessor().getMaternalSurname());
+
+            nameProfessorTextField.setText(collaborativeProjectRequest.getRequestedCourse().getProfessor().getName());
+            paternalSurnameTextField.setText(collaborativeProjectRequest.getRequestedCourse().getProfessor().getPaternalSurname());
+            maternalSurnameTextField.setText(collaborativeProjectRequest.getRequestedCourse().getProfessor().getMaternalSurname());
             emailTextField.setText(collaborativeProjectRequest.getRequestedCourse().getProfessor().getEmail());
-            phoneNumberTextField.setText
-            (collaborativeProjectRequest.getRequestedCourse().getProfessor().getPhoneNumber());
-            genderTextField.setText
-            (collaborativeProjectRequest.getRequestedCourse().getProfessor().getGender());
-            universityTextField.setText
-            (collaborativeProjectRequest.getRequestedCourse().getProfessor().getUniversity().toString());
+            phoneNumberTextField.setText(collaborativeProjectRequest.getRequestedCourse().getProfessor().getPhoneNumber());
+            genderTextField.setText(collaborativeProjectRequest.getRequestedCourse().getProfessor().getGender());
+            universityTextField.setText(collaborativeProjectRequest.getRequestedCourse().getProfessor().getUniversity().toString());
             countryTextField.setText(collaborativeProjectRequest.getRequestedCourse()
-            .getProfessor().getUniversity().getCountry().toString());
-            
-            nameCourse2Label.setText("Curso solicitante");            
+                    .getProfessor().getUniversity().getCountry().toString());
+
+            nameCourse2Label.setText("Curso solicitante");
             nameCourse2TextField.setText(collaborativeProjectRequest.getRequesterCourse().toString());
-            
+
             if (collaborativeProjectRequest.getStatus().equals("Pendiente")) {
                 cancelRequestButton.setVisible(true);
             }
         } else {
             nameCourse1Label.setText("Curso solicitante");
             nameCourse1TextField.setText(collaborativeProjectRequest.getRequesterCourse().toString());
-            generalObjectiveTextArea.setText
-            (collaborativeProjectRequest.getRequesterCourse().getGeneralObjective());
-            topicsInterestTextField.setText
-            (collaborativeProjectRequest.getRequesterCourse().getTopicsInterest());
-            numberStudentsTextField.setText
-            (String.valueOf(collaborativeProjectRequest.getRequesterCourse().getNumberStudents()));
-            languageTextField.setText
-            (collaborativeProjectRequest.getRequesterCourse().getLanguage().toString());
-            studentsProfileTextField.setText
-            (collaborativeProjectRequest.getRequesterCourse().getStudentsProfile());
-            additionalInformationTextArea.setText
-            (collaborativeProjectRequest.getRequesterCourse().getAdditionalInformation());
+            generalObjectiveTextArea.setText(collaborativeProjectRequest.getRequesterCourse().getGeneralObjective());
+            topicsInterestTextField.setText(collaborativeProjectRequest.getRequesterCourse().getTopicsInterest());
+            numberStudentsTextField.setText(String.valueOf(collaborativeProjectRequest.getRequesterCourse().getNumberStudents()));
+            languageTextField.setText(collaborativeProjectRequest.getRequesterCourse().getLanguage().toString());
+            studentsProfileTextField.setText(collaborativeProjectRequest.getRequesterCourse().getStudentsProfile());
+            additionalInformationTextArea.setText(collaborativeProjectRequest.getRequesterCourse().getAdditionalInformation());
             termTextField.setText(collaborativeProjectRequest.getRequesterCourse().getTerm().toString());
-            
-            nameProfessorTextField.setText
-            (collaborativeProjectRequest.getRequesterCourse().getProfessor().getName());
-            paternalSurnameTextField.setText
-            (collaborativeProjectRequest.getRequesterCourse().getProfessor().getPaternalSurname());
-            maternalSurnameTextField.setText
-            (collaborativeProjectRequest.getRequesterCourse().getProfessor().getMaternalSurname());
+
+            nameProfessorTextField.setText(collaborativeProjectRequest.getRequesterCourse().getProfessor().getName());
+            paternalSurnameTextField.setText(collaborativeProjectRequest.getRequesterCourse().getProfessor().getPaternalSurname());
+            maternalSurnameTextField.setText(collaborativeProjectRequest.getRequesterCourse().getProfessor().getMaternalSurname());
             emailTextField.setText(collaborativeProjectRequest.getRequesterCourse().getProfessor().getEmail());
-            phoneNumberTextField.setText
-            (collaborativeProjectRequest.getRequesterCourse().getProfessor().getPhoneNumber());
-            genderTextField.setText
-            (collaborativeProjectRequest.getRequesterCourse().getProfessor().getGender());
-            universityTextField.setText
-            (collaborativeProjectRequest.getRequesterCourse().getProfessor().getUniversity().toString());
+            phoneNumberTextField.setText(collaborativeProjectRequest.getRequesterCourse().getProfessor().getPhoneNumber());
+            genderTextField.setText(collaborativeProjectRequest.getRequesterCourse().getProfessor().getGender());
+            universityTextField.setText(collaborativeProjectRequest.getRequesterCourse().getProfessor().getUniversity().toString());
             countryTextField.setText(collaborativeProjectRequest.getRequesterCourse()
-            .getProfessor().getUniversity().getCountry().toString());
-            
+                    .getProfessor().getUniversity().getCountry().toString());
+
             nameCourse2Label.setText("Curso solicitado");
             nameCourse2TextField.setText(collaborativeProjectRequest.getRequesterCourse().toString());
 
@@ -326,69 +292,64 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
         requestDateTextField.setText(collaborativeProjectRequest.getRequestDate());
         validationDateTextField.setText(collaborativeProjectRequest.getValidationDate());
     }
-    
+
     private boolean confirmCancelRequest() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog
-        ("Confirmar cancelación", "¿Está seguro de que desea cancelar la solicitud?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar cancelación", "¿Está seguro de que desea cancelar la solicitud?");
         return (response.get() == DialogController.BUTTON_YES);
     }
-    
+
     private boolean wasCancelledConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
-        ("Solictud cancelada","Se canceló la solicitud con éxito");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Solictud cancelada", "Se canceló la solicitud con éxito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
-    
+
     private boolean confirmRejectRequest() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog
-        ("Confirmar rechazo", "¿Está seguro de que desea rechazar la solicitud?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar rechazo", "¿Está seguro de que desea rechazar la solicitud?");
         return (response.get() == DialogController.BUTTON_YES);
     }
-    
+
     private boolean wasRejectedConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
-        ("Solictud rechazada","Se rechazó la solicitud con éxito");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Solictud rechazada", "Se rechazó la solicitud con éxito");
         return response.get() == DialogController.BUTTON_ACCEPT;
     }
 
     private boolean confirmAcceptRequest() {
-        Optional<ButtonType> response = DialogController.getConfirmationDialog
-        ("Confirmar rechazo", "¿Está seguro de que desea rechazar la solicitud?");
+        Optional<ButtonType> response = DialogController.getConfirmationDialog("Confirmar aceptación", "¿Está seguro de que desea aceptar la solicitud?");
         return (response.get() == DialogController.BUTTON_YES);
     }
-    
+
     private boolean wasAcceptedConfirmation() {
-        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog
-        ("Solictud aceptada","Se aceptó la solicitud con éxito");
+        Optional<ButtonType> response = DialogController.getInformativeConfirmationDialog("Solictud aceptada", "Se aceptó la solicitud con éxito");
         return response.get() == DialogController.BUTTON_ACCEPT;
-    } 
-    
+    }
+
     private void handleDAOException(DAOException exception) {
         try {
-            DialogController.getDialog(new AlertMessage (exception.getMessage(), exception.getStatus()));
+            DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
             switch (exception.getStatus()) {
                 case ERROR -> {
                     if (professor == null) {
                         MainApp.changeView("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement");
                     } else {
-                        FXMLLoader fxmlLoader = new FXMLLoader
-                        (getClass().getResource("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement.fxml"));
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement.fxml"));
                         MainApp.changeView(fxmlLoader);
-                        CourseOffersOrProposalsManagementController courseOffersOrProposalsManagementController =
-                        fxmlLoader.getController();
+                        CourseOffersOrProposalsManagementController courseOffersOrProposalsManagementController
+                                = fxmlLoader.getController();
                         courseOffersOrProposalsManagementController.setProfessor(professor);
-                    } 
-                }               
-                case FATAL -> MainApp.handleFatal();
-                
+                    }
+                }
+                case FATAL ->
+                    MainApp.handleFatal();
+                default -> {
+                }
+
             }
         } catch (IOException ioException) {
-            Log.getLogger
-            (CollaborativeProjectRequestDetailsController.class).error(ioException.getMessage(), ioException);
+            Log.getLogger(CollaborativeProjectRequestDetailsController.class).error(ioException.getMessage(), ioException);
         }
     }
-    
+
     private void handleValidationException(IllegalArgumentException exception) {
-        DialogController.getDialog(new AlertMessage( exception.getMessage(), Status.WARNING));
-    }     
+        DialogController.getDialog(new AlertMessage(exception.getMessage(), Status.WARNING));
+    }
 }

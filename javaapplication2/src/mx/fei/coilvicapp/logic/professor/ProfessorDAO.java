@@ -220,7 +220,7 @@ public class ProfessorDAO implements IProfessor {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         String statement = "UPDATE profesor SET nombre = ?, apellidoPaterno = ?,"
-                + " apellidoMaterno = ?, correo = ?, genero = ?, telefono = ?, estado = 'Pendiente' WHERE idProfesor = ?";
+                + " apellidoMaterno = ?, correo = ?, genero = ?, telefono = ?, estado = 'Aceptado' WHERE idProfesor = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         
         try {

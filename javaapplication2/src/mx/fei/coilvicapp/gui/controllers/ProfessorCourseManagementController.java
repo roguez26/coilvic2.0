@@ -92,7 +92,7 @@ public class ProfessorCourseManagementController implements Initializable {
                 MainApp.changeView(fxmlLoader);
                 ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
                 professorMainMenuController.setProfessor(professor);
-            } 
+            }
         } catch (IOException exception) {
             Log.getLogger(ProfessorMainMenuController.class).error(exception.getMessage(), exception);
         }
@@ -108,11 +108,17 @@ public class ProfessorCourseManagementController implements Initializable {
                     updateTableView(courses);
                 } catch (DAOException exception) {
                     handleDAOException(exception);
+                } catch (IllegalArgumentException exception) {
+                    handleValidationException(exception);
                 }
             } else {
                 DialogController.getInformativeConfirmationDialog("Campo de búsqueda vacío", "Ingrese el nombre de un curso");
             }
         }
+    }
+
+    private void handleValidationException(IllegalArgumentException exception) {
+        DialogController.getInvalidDataDialog(exception.getMessage());
     }
 
     @FXML
@@ -222,9 +228,9 @@ public class ProfessorCourseManagementController implements Initializable {
             if (professor != null) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/RegisterCourse.fxml"));
                 MainApp.changeView(fxmlLoader);
-                RegisterCourseController registerCourseController = fxmlLoader.getController();
+                CourseRegistrationController registerCourseController = fxmlLoader.getController();
                 registerCourseController.setProfessor(professor);
-            } 
+            }
         }
     }
 
@@ -256,6 +262,8 @@ public class ProfessorCourseManagementController implements Initializable {
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(ProfessorCourseManagementController.class).error(ioException.getMessage(), ioException);

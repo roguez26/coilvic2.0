@@ -115,7 +115,7 @@ public class LoginParticipantController implements Initializable {
         Student student = new Student();
         IStudent studentDAO = new StudentDAO();
         CollaborativeProject collaborativeProject = new CollaborativeProject();
-        
+
         student.setEmail(emailTextField.getText());
         collaborativeProject.setCode(identifierPasswordField.getText());
         student = studentDAO.getStudentByEmail(emailTextField.getText());
@@ -165,7 +165,6 @@ public class LoginParticipantController implements Initializable {
         } catch (IllegalArgumentException exception) {
             throw new IllegalArgumentException("El usuario proporcionado es incorrecto");
         }
-        
 
         fieldValidator.checkPassword(identifierPasswordField.getText());
         if (userDAO.authenticateAdministrativeUser(idUser, identifierPasswordField.getText())) {
@@ -181,14 +180,14 @@ public class LoginParticipantController implements Initializable {
         }
     }
 
-    private void changeViewForStudent(Student student, CollaborativeProject collaborativeProject) throws 
+    private void changeViewForStudent(Student student, CollaborativeProject collaborativeProject) throws
             IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                 "/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetailsStudent.fxml"));
 
         MainApp.changeView(fxmlLoader);
-        CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController = 
-                fxmlLoader.getController();
+        CollaborativeProjectDetailsStudentController collaborativeProjectDetailsStudentController
+                = fxmlLoader.getController();
         collaborativeProjectDetailsStudentController.setStudent(student);
         collaborativeProjectDetailsStudentController.setCollaborativeProject(collaborativeProject);
     }
@@ -207,7 +206,7 @@ public class LoginParticipantController implements Initializable {
             } else {
                 IStudent studentDAO = new StudentDAO();
                 if (studentDAO.checkPreconditions()) {
-                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/RegisterStudent");
+                    MainApp.changeView("/mx/fei/coilvicapp/gui/views/StudentRegistration");
                 } else {
                     DialogController.getInformativeConfirmationDialog("Recursos no disponibles",
                             "No contamos con los recursos para realizar su registro");
@@ -227,7 +226,9 @@ public class LoginParticipantController implements Initializable {
                 case ERROR ->
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
                 case FATAL ->
-                     MainApp.handleFatal();
+                    MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(LoginParticipantController.class).error(ioException.getMessage(), ioException);

@@ -150,6 +150,8 @@ public class FeedbackController implements Initializable {
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(FeedbackController.class).error(ioException.getMessage(), ioException);

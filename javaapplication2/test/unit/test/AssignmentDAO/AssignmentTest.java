@@ -1,4 +1,4 @@
-package unit.test.AssignmentDAO;
+//package unit.test.AssignmentDAO;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,7 +37,6 @@ public class AssignmentTest {
         AssignmentDAO assignmentDAO = new AssignmentDAO();
         if (ASSIGNMENT_FOR_TESTING.getIdAssignment() > 0) {
             assignmentDAO.deleteAssignmentByIdAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment());
-           // assignmentDAO.deleteAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment(), auxCollaborativeProject);
         }
 
         if (!ASSGIGNMENTES_FOR_TESTING.isEmpty()) {
@@ -96,7 +95,6 @@ public class AssignmentTest {
     }
     
     private void deleteAssignment() throws DAOException {
-        
         ASSIGNMENT_DAO.deleteAssignmentByIdAssignment(ASSIGNMENT_FOR_TESTING.getIdAssignment());
 
     }

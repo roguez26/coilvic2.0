@@ -1,14 +1,12 @@
 package unit.test.CourseDAO;
 
 import java.util.ArrayList;
-import log.Log;
 import mx.fei.coilvicapp.logic.collaborativeproject.CollaborativeProjectDAO;
 import mx.fei.coilvicapp.logic.implementations.DAOException;
 import mx.fei.coilvicapp.logic.course.*;
 import unit.test.Initializer.TestHelper;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -78,14 +76,12 @@ public class CourseTest {
         assertTrue(idCourse > 0);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void registerCourseFailByDuplicateCourse() throws DAOException {
         testHelper.initializeCourses();
         initializeCourse();
         COURSE_FOR_TESTING.setName(testHelper.getCourseOne().getName());
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COURSE_DAO.registerCourse(COURSE_FOR_TESTING));
-        System.out.println(exception.getMessage());
+        COURSE_DAO.registerCourse(COURSE_FOR_TESTING);
     }
     
     @Test
@@ -112,39 +108,33 @@ public class CourseTest {
         assertEquals("Rechazado",status);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void evaluateCourseProposalFailByAlreadyEvaluatedCourse() throws DAOException {
         testHelper.initializeCourses();
         Course course;
         course = testHelper.getCourseOne();
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COURSE_DAO.evaluateCourseProposal(course, "Aceptado"));
-        System.out.println(exception.getMessage());
+        COURSE_DAO.evaluateCourseProposal(course, "Aceptado");
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void evaluateCourseProposalFailByCanceledCourse() throws DAOException {        
         setUp();
         int idCourse;
         idCourse = COURSE_DAO.registerCourse(COURSE_FOR_TESTING);
         COURSE_FOR_TESTING.setIdCourse(idCourse);
         COURSE_DAO.cancelCourseProposal(COURSE_FOR_TESTING);
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COURSE_DAO.evaluateCourseProposal(COURSE_FOR_TESTING, "Aceptado"));
-        System.out.println(exception.getMessage());
+        COURSE_DAO.evaluateCourseProposal(COURSE_FOR_TESTING, "Aceptado");
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void evaluateCourseProposalFailByCourseInCollaborativeProject() throws DAOException {        
         testHelper.initializeCollaborativeProject();
         Course course;
         course = testHelper.getCourseOne();
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COURSE_DAO.evaluateCourseProposal(course, "Aceptado"));
-        System.out.println(exception.getMessage());
+        COURSE_DAO.evaluateCourseProposal(course, "Aceptado");
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void evaluateCourseProposalFailByFinalizedCourse() throws DAOException {        
         testHelper.initializeCollaborativeProject();
         CollaborativeProjectDAO collaborativeProjectDAO= new CollaborativeProjectDAO();
@@ -152,9 +142,7 @@ public class CourseTest {
         course = testHelper.getCourseOne();
         collaborativeProjectDAO.finalizeCollaborativeProject(testHelper.getCollaborativeProject());
         COURSE_DAO.finalizeCourse(course);
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COURSE_DAO.evaluateCourseProposal(course, "Aceptado"));
-        System.out.println(exception.getMessage());
+        COURSE_DAO.evaluateCourseProposal(course, "Aceptado");
     }
     
     @Test
@@ -184,7 +172,7 @@ public class CourseTest {
         assertEquals(COURSE_FOR_TESTING,course);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void updateCourseFailByAcceptedCourse() throws DAOException {
         int idCourse;
         setUp();
@@ -192,23 +180,19 @@ public class CourseTest {
         COURSE_FOR_TESTING.setIdCourse(idCourse);
         COURSE_DAO.evaluateCourseProposal(COURSE_FOR_TESTING, "Aceptado");        
         COURSE_FOR_TESTING.setName("Programación orientada a objetos");
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COURSE_DAO.updateCourse(COURSE_FOR_TESTING));
-        System.out.println(exception.getMessage());        
+        COURSE_DAO.updateCourse(COURSE_FOR_TESTING);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void updateCourseFailByCourseInCollaborativeProject() throws DAOException {
         testHelper.initializeCollaborativeProject();
         Course course;
         course = testHelper.getCourseOne();
         course.setName("Programación orientada a objetos");
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COURSE_DAO.updateCourse(course));
-        System.out.println(exception.getMessage()); 
+        COURSE_DAO.updateCourse(course);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void updateCourseFailByCanceledCourse() throws DAOException {
         setUp();
         int idCourse;
@@ -216,12 +200,10 @@ public class CourseTest {
         COURSE_FOR_TESTING.setIdCourse(idCourse);
         COURSE_DAO.cancelCourseProposal(COURSE_FOR_TESTING);
         COURSE_FOR_TESTING.setName("Programación orientada a objetos");
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COURSE_DAO.updateCourse(COURSE_FOR_TESTING));
-        System.out.println(exception.getMessage()); 
+        COURSE_DAO.updateCourse(COURSE_FOR_TESTING);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void updateCourseFailByFinalizedCourse() throws DAOException {
         testHelper.initializeCollaborativeProject();
         CollaborativeProjectDAO collaborativeProjectDAO= new CollaborativeProjectDAO();
@@ -230,9 +212,7 @@ public class CourseTest {
         collaborativeProjectDAO.finalizeCollaborativeProject(testHelper.getCollaborativeProject());
         COURSE_DAO.finalizeCourse(course);
         course.setName("Programación orientada a objetos");
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COURSE_DAO.updateCourse(COURSE_FOR_TESTING));
-        System.out.println(exception.getMessage());
+        COURSE_DAO.updateCourse(COURSE_FOR_TESTING);
     }
     
     @Test
@@ -260,17 +240,15 @@ public class CourseTest {
         assertEquals("Cancelado",status);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void cancelCourseProposalFailByCourseInCollaborativeProject() throws DAOException {
         testHelper.initializeCollaborativeProject();
         Course course;
         course = testHelper.getCourseOne();        
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COURSE_DAO.cancelCourseProposal(course));
-        System.out.println(exception.getMessage());
+        COURSE_DAO.cancelCourseProposal(course);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void cancelCourseProposalFailByFinalizedCourse() throws DAOException {
         testHelper.initializeCollaborativeProject();
         CollaborativeProjectDAO collaborativeProjectDAO= new CollaborativeProjectDAO();
@@ -278,21 +256,17 @@ public class CourseTest {
         course = testHelper.getCourseOne();
         collaborativeProjectDAO.finalizeCollaborativeProject(testHelper.getCollaborativeProject());
         COURSE_DAO.finalizeCourse(course);
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COURSE_DAO.cancelCourseProposal(course));
-        System.out.println(exception.getMessage());
+        COURSE_DAO.cancelCourseProposal(course);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void cancelCourseProposalFailByCanceledCourse() throws DAOException {        
         setUp();
         int idCourse;
         idCourse = COURSE_DAO.registerCourse(COURSE_FOR_TESTING);
         COURSE_FOR_TESTING.setIdCourse(idCourse);
         COURSE_DAO.cancelCourseProposal(COURSE_FOR_TESTING);
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COURSE_DAO.cancelCourseProposal(COURSE_FOR_TESTING));
-        System.out.println(exception.getMessage());
+        COURSE_DAO.cancelCourseProposal(COURSE_FOR_TESTING);
     }
     
     @Test
@@ -308,16 +282,13 @@ public class CourseTest {
         assertEquals("Colaboracion",status);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void changeCourseStatusToCollaborationFailByInapropiateState() throws DAOException {        
         setUp();
         int idCourse;
         idCourse = COURSE_DAO.registerCourse(COURSE_FOR_TESTING);
         COURSE_FOR_TESTING.setIdCourse(idCourse);
-        DAOException exception =
-        assertThrows(DAOException.class, () -> 
-        COURSE_DAO.changeCourseStatusToCollaboration(COURSE_FOR_TESTING));
-        System.out.println(exception.getMessage());
+        COURSE_DAO.changeCourseStatusToCollaboration(COURSE_FOR_TESTING);
     }
     
     @Test
@@ -333,14 +304,12 @@ public class CourseTest {
         assertEquals("Finalizado",status);
     }
     
-    @Test
+    @Test(expected = DAOException.class)
     public void finalizeCourseFailByNonFinalizedCollaborativeProject() throws DAOException {
         testHelper.initializeCollaborativeProject();        
         Course course;
         course = testHelper.getCourseOne();
-        DAOException exception =
-        assertThrows(DAOException.class, () -> COURSE_DAO.finalizeCourse(course));
-        System.out.println(exception.getMessage());
+        COURSE_DAO.finalizeCourse(course);
     }
     
     @Test
@@ -429,6 +398,13 @@ public class CourseTest {
     }
     
     @Test
+    public void getAllCoursesByProfessorFail() throws DAOException {
+        ArrayList<Course> result;
+        result = COURSE_DAO.getAllCoursesByProfessor(testHelper.getProfessorOne().getIdProfessor());
+        assertTrue(result.isEmpty());
+    }
+    
+    @Test
     public void getAllCoursesByProfessorFailByNonExistenceIdProfessor() throws DAOException {
         ArrayList<Course> result;
         initializeCourses();
@@ -459,6 +435,15 @@ public class CourseTest {
     }
     
     @Test
+    public void getPendingCoursesByProfessorFailByNonExistenceIdProfessor() throws DAOException {
+        ArrayList<Course> result;
+        initializeCourses();
+        result = COURSE_DAO.getPendingCoursesByProfessor(0);
+        deleteCourses();
+        assertTrue(result.isEmpty());
+    }
+    
+    @Test
     public void getAcceptedCoursesByProfessorSucces() throws DAOException {
         ArrayList<Course> result;
         initializeCourses();
@@ -480,6 +465,18 @@ public class CourseTest {
     }
     
     @Test
+    public void getAcceptedCoursesByProfessorFailByNonExistenceIdProfessor() throws DAOException {
+        ArrayList<Course> result;
+        initializeCourses();
+        for (Course course : COURSES_FOR_TESTING) {
+            COURSE_DAO.evaluateCourseProposal(course, "Aceptado");
+        }
+        result = COURSE_DAO.getAcceptedCoursesByProfessor(0);
+        deleteCourses();
+        assertTrue(result.isEmpty());
+    }
+    
+    @Test
     public void getRejectedCoursesByProfessorSucces() throws DAOException {
         ArrayList<Course> result;
         initializeCourses();
@@ -496,6 +493,18 @@ public class CourseTest {
         ArrayList<Course> result;
         initializeCourses();
         result = COURSE_DAO.getRejectedCoursesByProfessor(testHelper.getProfessorOne().getIdProfessor());
+        deleteCourses();
+        assertTrue(result.isEmpty());
+    }
+    
+    @Test
+    public void getRejectedCoursesByProfessorFailByNonExistenceIdProfessor() throws DAOException {
+        ArrayList<Course> result;
+        initializeCourses();
+        for (Course course : COURSES_FOR_TESTING) {
+            COURSE_DAO.evaluateCourseProposal(course, "Rechazado");
+        }
+        result = COURSE_DAO.getRejectedCoursesByProfessor(0);
         deleteCourses();
         assertTrue(result.isEmpty());
     }
@@ -523,6 +532,19 @@ public class CourseTest {
     }
     
     @Test
+    public void getColaborationCoursesByProfessorFailByNonExistenceIdProfessor() throws DAOException {
+        ArrayList<Course> result;
+        initializeCourses();
+        for (Course course : COURSES_FOR_TESTING) {
+            COURSE_DAO.evaluateCourseProposal(course, "Aceptado");
+            COURSE_DAO.changeCourseStatusToCollaboration(course);
+        }
+        result = COURSE_DAO.getColaborationCoursesByProfessor(0);
+        deleteCourses();
+        assertTrue(result.isEmpty());
+    }
+    
+    @Test
     public void getCancelledCoursesByProfessorSucces() throws DAOException {
         ArrayList<Course> result;
         initializeCourses();
@@ -539,6 +561,18 @@ public class CourseTest {
         ArrayList<Course> result;
         initializeCourses();
         result = COURSE_DAO.getCancelledCoursesByProfessor(testHelper.getProfessorOne().getIdProfessor());
+        deleteCourses();
+        assertTrue(result.isEmpty());
+    }
+    
+    @Test
+    public void getCancelledCoursesByProfessorFailByNonExistenceIdProfessor() throws DAOException {
+        ArrayList<Course> result;
+        initializeCourses();
+        for (Course course : COURSES_FOR_TESTING) {
+            COURSE_DAO.cancelCourseProposal(course);
+        }
+        result = COURSE_DAO.getCancelledCoursesByProfessor(0);
         deleteCourses();
         assertTrue(result.isEmpty());
     }
@@ -568,13 +602,21 @@ public class CourseTest {
         assertTrue(result.isEmpty());
     }
     
+    @Test
+    public void getCoursesByProfessorAndNameFailByNonExistenceCourse() throws DAOException {
+        ArrayList<Course> result;
+        setUp();
+        int idCourse;
+        idCourse = COURSE_DAO.registerCourse(COURSE_FOR_TESTING);
+        COURSE_FOR_TESTING.setIdCourse(idCourse);
+        result = COURSE_DAO.getCoursesByProfessorAndName
+        (testHelper.getProfessorOne().getIdProfessor(), "not found");
+        assertTrue(result.isEmpty());
+    }
+    
     @After
-    public void tearDown() {
-        try {            
-            COURSE_DAO.deleteCourseByIdCourse(COURSE_FOR_TESTING.getIdCourse());
-        } catch (DAOException exception) {
-            Log.getLogger(CourseTest.class).error(exception.getMessage(), exception);
-        }
+    public void tearDown() throws DAOException {
+        COURSE_DAO.deleteCourseByIdCourse(COURSE_FOR_TESTING.getIdCourse());                        
         testHelper.deleteAll();
         COURSES_FOR_TESTING.clear();
     }          

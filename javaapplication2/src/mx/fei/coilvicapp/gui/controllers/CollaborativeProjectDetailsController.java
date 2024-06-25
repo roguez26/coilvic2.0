@@ -56,7 +56,7 @@ public class CollaborativeProjectDetailsController implements Initializable {
     @FXML
     void seeSyllabusButtonIsPressed(ActionEvent event) {
         FileManager fileManager = new FileManager();
-        
+
         try {
             fileManager.openFile(collaborativeProject.getSyllabusPath());
         } catch (IllegalArgumentException exception) {
@@ -94,9 +94,11 @@ public class CollaborativeProjectDetailsController implements Initializable {
                     closeWindow();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(ioException.getMessage(), 
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(ioException.getMessage(),
                     ioException);
         }
     }
