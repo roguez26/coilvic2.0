@@ -187,16 +187,16 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
                     handleDAOException(exception);
                 }
                 if (result > 0) {
-                    wasRejectedConfirmation();
+                    wasRejectedConfirmation();                                                            
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorNotification", controller -> {
-                        ProfessorNotificationController notifyProfessorController = (ProfessorNotificationController) controller;
-                        notifyProfessorController.setProfessor(professor);
+                        ProfessorNotificationController notifyProfessorController = (ProfessorNotificationController) controller;                        
+                        notifyProfessorController.setProfessor(professor);                        
                     });
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CollaborativeProjectRequestsManagement.fxml"));
                     MainApp.changeView(fxmlLoader);
                     CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController
                             = fxmlLoader.getController();
-                    collaborativeProjectRequestsManagementController.setProfessor(professor);
+                    collaborativeProjectRequestsManagementController.setProfessor(collaborativeProjectRequest.getRequesterCourse().getProfessor());
                 }
             }
         }
@@ -224,7 +224,7 @@ public class CollaborativeProjectRequestDetailsController implements Initializab
                     MainApp.changeView(fxmlLoader);
                     CollaborativeProjectRequestsManagementController collaborativeProjectRequestsManagementController
                             = fxmlLoader.getController();
-                    collaborativeProjectRequestsManagementController.setProfessor(professor);
+                    collaborativeProjectRequestsManagementController.setProfessor(collaborativeProjectRequest.getRequesterCourse().getProfessor());
                 }
             }
         }

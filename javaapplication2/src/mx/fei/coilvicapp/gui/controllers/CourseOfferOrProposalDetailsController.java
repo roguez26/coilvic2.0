@@ -171,7 +171,7 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement.fxml"));
                         MainApp.changeView(fxmlLoader);
                         CourseOffersOrProposalsManagementController courseOffersOrProposalsManagementController = fxmlLoader.getController();
-                        courseOffersOrProposalsManagementController.setProfessor(professor);
+                        courseOffersOrProposalsManagementController.setProfessor(course.getProfessor());
                     }
                 }
             } else {
@@ -196,7 +196,7 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
                     wasRejectedConfirmation();
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/ProfessorNotification", controller -> {
                         ProfessorNotificationController notifyProfessorController = (ProfessorNotificationController) controller;
-                        notifyProfessorController.setProfessor(professor);
+                        notifyProfessorController.setProfessor(course.getProfessor());
                     });
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement");
                 }
@@ -220,7 +220,7 @@ public class CourseOfferOrProposalDetailsController implements Initializable {
                     wasAcceptedConfirmation();
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/NotifyProfessor", controller -> {
                         ProfessorNotificationController notifyProfessorController = (ProfessorNotificationController) controller;
-                        notifyProfessorController.setProfessor(professor);
+                        notifyProfessorController.setProfessor(course.getProfessor());
                     });
                     MainApp.changeView("/mx/fei/coilvicapp/gui/views/CourseOffersOrProposalsManagement");
                 }
