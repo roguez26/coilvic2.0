@@ -77,18 +77,17 @@ public class ProfessorManagerController implements Initializable {
     private void backButtonIsPressed(ActionEvent event) {
         goBack();
     }
-    
+
     private void goBack() {
         try {
             if (professorSession != null) {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
-                            + "ProfessorMainMenu.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
+                        + "ProfessorMainMenu.fxml"));
 
-                    MainApp.changeView(fxmlLoader);
-                    ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
-                    professorMainMenuController.setProfessor(professorSession);
-                }
-            else if (allProfessorAreVisibles) {
+                MainApp.changeView(fxmlLoader);
+                ProfessorMainMenuController professorMainMenuController = fxmlLoader.getController();
+                professorMainMenuController.setProfessor(professorSession);
+            } else if (allProfessorAreVisibles) {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
             } else {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
@@ -117,7 +116,7 @@ public class ProfessorManagerController implements Initializable {
             MainApp.changeView(fxmlLoader);
             ProfessorDetailsController professorDetailsController = fxmlLoader.getController();
             professorDetailsController.setProfessor(professor);
-            if(professorSession != null) {
+            if (professorSession != null) {
                 professorDetailsController.setProfessorSession(professorSession);
             }
         } catch (IOException ioException) {
@@ -179,6 +178,8 @@ public class ProfessorManagerController implements Initializable {
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(ProfessorManagerController.class).error(ioException.getMessage(), ioException);

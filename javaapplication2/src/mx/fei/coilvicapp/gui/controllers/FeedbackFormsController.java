@@ -299,12 +299,14 @@ public class FeedbackFormsController implements Initializable {
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(FeedbackFormsController.class).error(ioException.getMessage(), ioException);
         }
     }
-    
+
     private void handleValidationException(IllegalArgumentException exception) {
         DialogController.getInvalidDataDialog(exception.getMessage());
     }

@@ -367,6 +367,8 @@ public class ProfessorRegisterController implements Initializable {
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(ProfessorRegisterController.class).error(ioException.getMessage(), ioException);

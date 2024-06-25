@@ -25,12 +25,12 @@ import mx.fei.coilvicapp.logic.implementations.PDFCreator;
 import static mx.fei.coilvicapp.logic.implementations.Status.ERROR;
 import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 import mx.fei.coilvicapp.logic.professor.Professor;
-  
+
 public class CollaborativeProjectDetailsProfessorController implements Initializable {
 
     @FXML
     private TextField codeTextField;
-    
+
     @FXML
     private Button generateCertificateButton;
 
@@ -117,7 +117,7 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
             FeedbackController feedbackController = fxmlLoader.getController();
             feedbackController.setCollaborativeProject(collaborativeProject);
         } catch (IOException exception) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), 
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(),
                     exception);
         }
     }
@@ -147,15 +147,15 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
     private void feedbackOnCollaborativeProject() {
         try {
-            MainApp.changeView("/mx/fei/coilvicapp/gui/views/FeedbackOnCollaborativeProject", controller -> {
-                FeedbackOnCollaborativeProjectController feedbackOnCollaborativeProjectController = 
-                        (FeedbackOnCollaborativeProjectController) controller;
+            MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectFeedback", controller -> {
+                CollaborativeProjectFeedbackController feedbackOnCollaborativeProjectController
+                        = (CollaborativeProjectFeedbackController) controller;
                 feedbackOnCollaborativeProjectController.setCollaborativeProject(collaborativeProject);
                 feedbackOnCollaborativeProjectController.setProfessor(professor);
                 feedbackOnCollaborativeProjectController.setTypeQuestiones("Profesor");
             });
         } catch (IOException exception) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), 
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(),
                     exception);
         }
     }
@@ -163,7 +163,7 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
     @FXML
     void seeSyllabusButtonIsPressed(ActionEvent event) {
         FileManager fileManager = new FileManager();
-        
+
         try {
             fileManager.openFile(collaborativeProject.getSyllabusPath());
         } catch (IllegalArgumentException exception) {
@@ -188,7 +188,7 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
             }
             activitiesManagementController.setCollaborativeProject(collaborativeProject);
         } catch (IOException exception) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), 
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(),
                     exception);
         }
 
@@ -203,24 +203,24 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
 
         initializeFields(collaborativeProject);
     }
-    
+
     @FXML
     void generateCertificateButtonIsPressed() {
         PDFCreator certificateCreator = new PDFCreator();
-            
-            if (certificateCreator.templateExists()) {
-                try {
-                    certificateCreator.generateCertificate(professor.toString(), new FileManager().selectDirectoryPath(
-                            generateCertificateButton.getScene().getWindow()));
-                    DialogController.getInformativeConfirmationDialog("Aviso", "La constancia se descargó con éxito");
-                } catch (IOException exception) {
-                    handleIOException(exception);
-                }
-            } else {
-                DialogController.getInformativeConfirmationDialog("Lo sentimos", "No se encontraron los recursos para "
-                        + "generar la constancia");
+
+        if (certificateCreator.templateExists()) {
+            try {
+                certificateCreator.generateCertificate(professor.toString(), new FileManager().selectDirectoryPath(
+                        generateCertificateButton.getScene().getWindow()));
+                DialogController.getInformativeConfirmationDialog("Aviso", "La constancia se descargó con éxito");
+            } catch (IOException exception) {
+                handleIOException(exception);
             }
-        
+        } else {
+            DialogController.getInformativeConfirmationDialog("Lo sentimos", "No se encontraron los recursos para "
+                    + "generar la constancia");
+        }
+
     }
 
     public void setProfessor(Professor professor) {
@@ -257,12 +257,12 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
                         + "CollaborativeProjectsProfessor.fxml"));
                 MainApp.changeView(fxmlLoader);
-                CollaborativeProjectsProfessorController collaborativeProjectsProfessorController = 
-                        fxmlLoader.getController();
+                CollaborativeProjectsProfessorController collaborativeProjectsProfessorController
+                        = fxmlLoader.getController();
                 collaborativeProjectsProfessorController.setProfessor(professor);
             }
         } catch (IOException exception) {
-            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(), 
+            Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(exception.getMessage(),
                     exception);
         }
     }
@@ -275,13 +275,15 @@ public class CollaborativeProjectDetailsProfessorController implements Initializ
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(CollaborativeProjectDetailsProfessorController.class).error(ioException.getMessage(),
                     ioException);
         }
     }
-    
+
     private void handleIOException(IOException exception) {
         DialogController.getInformativeConfirmationDialog("Lo sentimos", exception.getMessage());
     }

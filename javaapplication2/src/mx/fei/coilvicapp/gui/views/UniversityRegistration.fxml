@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.UniversityRegistrationController">
+   <children>
+      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="570.0" prefWidth="430.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
+         <children>
+            <HBox alignment="BOTTOM_RIGHT" focusTraversable="true" prefHeight="75.0" prefWidth="814.0">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="57.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true" smooth="false">
+                     <image>
+                        <Image url="@../../../../../stylesheets/Imagen1.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+               <padding>
+                  <Insets right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <Label alignment="CENTER" prefHeight="45.0" prefWidth="214.0" stylesheets="@../../../../../stylesheets/titleLabel.css" text="Registrar Universidad">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <VBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="355.0" prefWidth="286.0" spacing="9.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="134.0" stylesheets="@../../../../../stylesheets/label.css" text="Nombre:" />
+                  <TextField fx:id="nameTextField" prefHeight="26.0" prefWidth="326.0" promptText="Ej: Universidad Veracruzana" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label prefHeight="18.0" prefWidth="103.0" stylesheets="@../../../../../stylesheets/label.css" text="Acrónimo:" />
+                  <TextField fx:id="acronymTextField" promptText="Ej: UV" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label prefHeight="18.0" prefWidth="119.0" stylesheets="@../../../../../stylesheets/label.css" text="Jurisdicción:" />
+                  <TextField fx:id="jurisdictionTextField" promptText="Ej: Veracruz" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label prefHeight="15.0" prefWidth="78.0" stylesheets="@../../../../../stylesheets/label.css" text="Ciudad:" />
+                  <TextField fx:id="cityTextField" prefHeight="26.0" prefWidth="241.0" promptText="Ej: Xalapa" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <ComboBox fx:id="countryCombobox" prefWidth="150.0" promptText="País" stylesheets="@../../../../../stylesheets/combobox.css" visibleRowCount="5" />
+               </children>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" cache="true" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="395.0" spacing="20.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#cancelButtonIsPressed" prefHeight="27.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" HBox.hgrow="ALWAYS" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#acceptButtonIsPressed" prefHeight="27.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Aceptar" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</VBox>

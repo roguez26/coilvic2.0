@@ -75,10 +75,10 @@ public class MainApp extends Application {
     }
     
     public static void handleFatal() throws IOException{
-        Stage currentStage = (Stage) scene.getWindow();
-        scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/LoginParticipant"));
-        scene.setFill(Color.BLUE);
-        currentStage.setScene(scene);
+//        Stage currentStage = (Stage) scene.getWindow();
+//        scene = new Scene(loadFXML("/mx/fei/coilvicapp/gui/views/LoginParticipant"));
+//        scene.setFill(Color.BLUE);
+//        currentStage.setScene(scene);
     }
     
 }

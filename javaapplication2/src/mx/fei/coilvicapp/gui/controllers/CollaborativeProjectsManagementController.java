@@ -64,13 +64,13 @@ public class CollaborativeProjectsManagementController implements Initializable 
     private void intializeCollaborativeProjectsTable() {
         ICollaborativeProject collaborativeProjectDAO = new CollaborativeProjectDAO();
         ArrayList<CollaborativeProject> collaborativeProjectsList = new ArrayList<>();
-        
+
         try {
             collaborativeProjectsList = collaborativeProjectDAO.getCollaborativeProjectsProposals();
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
-        
+
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         courseOneTableColumn.setCellValueFactory(new PropertyValueFactory<>("requesterCourse"));
         courseTwoTableColumn.setCellValueFactory(new PropertyValueFactory<>("requestedCourse"));
@@ -94,8 +94,8 @@ public class CollaborativeProjectsManagementController implements Initializable 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
                     + "CollaborativeProjectDetailsProfessor.fxml"));
             MainApp.changeView(fxmlLoader);
-            CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController = 
-                    fxmlLoader.getController();
+            CollaborativeProjectDetailsProfessorController collaborativeProjectDetailsProfessorController
+                    = fxmlLoader.getController();
             collaborativeProjectDetailsProfessorController.setCollaborativeProject(
                     selectedCollaborativeProject);
         } else {
@@ -169,10 +169,10 @@ public class CollaborativeProjectsManagementController implements Initializable 
                 .getSelectionModel().getSelectedItem();
         if (selectedCollaborativeProject != null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
-                    + "ValidateCollaborativeProject.fxml"));
+                    + "CollaborativeProjectValidation.fxml"));
             MainApp.changeView(fxmlLoader);
-            ValidateCollaborativeProjectController collaborativeProjectDetailsStudentController =
-                    fxmlLoader.getController();
+            CollaborativeProjectValidationController collaborativeProjectDetailsStudentController
+                    = fxmlLoader.getController();
             collaborativeProjectDetailsStudentController.setCollaborativeProject(
                     selectedCollaborativeProject);
         } else {
@@ -185,7 +185,7 @@ public class CollaborativeProjectsManagementController implements Initializable 
     void backButtonIsPressed(ActionEvent event) {
         goBack();
     }
-    
+
     private void goBack() {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/CoordinationMainMenu");
@@ -204,6 +204,8 @@ public class CollaborativeProjectsManagementController implements Initializable 
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(CollaborativeProjectsManagementController.class).error(

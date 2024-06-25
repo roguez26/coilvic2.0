@@ -98,9 +98,9 @@ public class CollaborativeProjectsProfessorController implements Initializable {
                 ICollaborativeProjectRequest collaborativeProjectRequestDAO = new CollaborativeProjectRequestDAO();
                 if (collaborativeProjectRequestDAO.areThereAvailableRequests(professor.getIdProfessor())) {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
-                            + "RegisterCollaborativeProject.fxml"));
+                            + "CollaborativeProjectRegistration.fxml"));
                     MainApp.changeView(fxmlLoader);
-                    RegisterCollaborativeProjectController registerCollaborativeProjectController
+                    CollaborativeProjectRegistrationController registerCollaborativeProjectController
                             = fxmlLoader.getController();
                     registerCollaborativeProjectController.setProfessor(professor);
                 } else {
@@ -126,7 +126,7 @@ public class CollaborativeProjectsProfessorController implements Initializable {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
                             + "RegisterCollaborativeProject.fxml"));
                     MainApp.changeView(fxmlLoader);
-                    RegisterCollaborativeProjectController registerCollaborativeProjectController
+                    CollaborativeProjectRegistrationController registerCollaborativeProjectController
                             = fxmlLoader.getController();
                     registerCollaborativeProjectController.setProfessor(professor);
                     registerCollaborativeProjectController.setCollaborativeProject(selectedCollaborativeProject);
@@ -232,6 +232,8 @@ public class CollaborativeProjectsProfessorController implements Initializable {
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(CollaborativeProjectsProfessorController.class).error(ioException.getMessage(),

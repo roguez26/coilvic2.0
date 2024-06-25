@@ -59,11 +59,11 @@ public class CollaborativeProjectsHistoryController implements Initializable {
             MainApp.changeView(fxmlLoader);
             ProfessorDetailsController professorDetailsController = fxmlLoader.getController();
             professorDetailsController.setProfessor(professor);
-            if(professorSession != null) {
+            if (professorSession != null) {
                 professorDetailsController.setProfessorSession(professorSession);
             }
         } catch (IOException exception) {
-            Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), 
+            Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(),
                     exception);
         }
     }
@@ -75,12 +75,12 @@ public class CollaborativeProjectsHistoryController implements Initializable {
         if (selectedCollaborativeProject != null) {
             try {
                 MainApp.changeView("/mx/fei/coilvicapp/gui/views/CollaborativeProjectDetails", controller -> {
-                    CollaborativeProjectDetailsController collaborativeProjectDetailsController = 
-                            (CollaborativeProjectDetailsController) controller;
+                    CollaborativeProjectDetailsController collaborativeProjectDetailsController
+                            = (CollaborativeProjectDetailsController) controller;
                     collaborativeProjectDetailsController.setCollaborativeProject(selectedCollaborativeProject);
                 });
             } catch (IOException exception) {
-                Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(), 
+                Log.getLogger(CollaborativeProjectsHistoryController.class).error(exception.getMessage(),
                         exception);
             }
         } else {
@@ -115,7 +115,7 @@ public class CollaborativeProjectsHistoryController implements Initializable {
     public void setProfessorSession(Professor professor) {
         this.professorSession = professor;
     }
-    
+
     private void handleDAOException(DAOException exception) {
         try {
             DialogController.getDialog(new AlertMessage(exception.getMessage(), exception.getStatus()));
@@ -124,6 +124,8 @@ public class CollaborativeProjectsHistoryController implements Initializable {
                     changeToProfessorDetails();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(CollaborativeProjectsManagementController.class).error(

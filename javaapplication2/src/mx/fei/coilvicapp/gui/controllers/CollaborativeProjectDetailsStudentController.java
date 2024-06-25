@@ -23,7 +23,6 @@ import static mx.fei.coilvicapp.logic.implementations.Status.FATAL;
 
 public class CollaborativeProjectDetailsStudentController implements Initializable {
 
-
     @FXML
     private Label collaborativeProjectNameLabel;
 
@@ -77,7 +76,7 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
     void downloadCertificateButtonIsPressed(ActionEvent event) {
         if (isFeedbackDone()) {
             PDFCreator certificateCreator = new PDFCreator();
-            
+
             if (certificateCreator.templateExists()) {
                 try {
                     certificateCreator.generateCertificate(student.toString(), new FileManager().selectDirectoryPath(
@@ -103,10 +102,10 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
     private boolean isFeedbackDone() {
         boolean result = false;
         FeedbackDAO feedbackDAO = new FeedbackDAO();
-        
+
         try {
-            result = (feedbackDAO.hasCompletedPreForm(student, collaborativeProject) && 
-                    feedbackDAO.hasCompletedPostForm(student, collaborativeProject));
+            result = (feedbackDAO.hasCompletedPreForm(student, collaborativeProject)
+                    && feedbackDAO.hasCompletedPostForm(student, collaborativeProject));
         } catch (DAOException exception) {
             handleDAOException(exception);
         }
@@ -116,7 +115,7 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
     @FXML
     void startFeedBackIsPressed(ActionEvent event) {
         FeedbackDAO feedbackDAO = new FeedbackDAO();
-        
+
         try {
             if (feedbackDAO.areThereStudentQuestions()) {
                 if (!feedbackDAO.hasCompletedPreForm(student, collaborativeProject)) {
@@ -143,12 +142,12 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
 
     private void feedbackOnCollaborativeProject(String type) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/fei/coilvicapp/gui/views/"
-                + "FeedbackOnCollaborativeProject.fxml"));
-        
+                + "CollaborativeProjectFeedback.fxml"));
+
         try {
             MainApp.changeView(fxmlLoader);
-            FeedbackOnCollaborativeProjectController feedbackOnCollaborativeProjectController = 
-                    fxmlLoader.getController();
+            CollaborativeProjectFeedbackController feedbackOnCollaborativeProjectController
+                    = fxmlLoader.getController();
             feedbackOnCollaborativeProjectController.setCollaborativeProject(collaborativeProject);
             feedbackOnCollaborativeProjectController.setStudent(student);
             feedbackOnCollaborativeProjectController.setTypeQuestiones(type);
@@ -162,12 +161,12 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
     void exitButtonIsPressed(ActionEvent event) {
         goBack();
     }
-    
+
     private void goBack() {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/LoginParticipant");
         } catch (IOException exception) {
-            Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(exception.getMessage(), 
+            Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(exception.getMessage(),
                     exception);
         }
     }
@@ -199,6 +198,8 @@ public class CollaborativeProjectDetailsStudentController implements Initializab
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(CollaborativeProjectDetailsStudentController.class).error(ioException.getMessage(),

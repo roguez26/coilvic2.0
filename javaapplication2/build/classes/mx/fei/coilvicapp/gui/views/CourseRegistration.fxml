@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="vbox-container" stylesheets="@../../../../../stylesheets/vboxbackground.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.fei.coilvicapp.gui.controllers.CourseRegistrationController">
+   <children>
+      <HBox alignment="CENTER_RIGHT" prefHeight="94.0" prefWidth="622.0" spacing="165.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="187.0" stylesheets="@../../../../../stylesheets/titleLabel.css" text="Crear Curso" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="45.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../stylesheets/Imagen1.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" prefHeight="518.0" prefWidth="606.0" styleClass="content" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
+         <children>
+            <VBox maxWidth="-Infinity" prefHeight="470.0" prefWidth="500.0" spacing="10.0" stylesheets="@../../../../../stylesheets/formsContainerVBox.css">
+               <children>
+                  <Label prefHeight="22.0" prefWidth="102.0" stylesheets="@../../../../../stylesheets/label.css" text="Nombre" />
+                  <TextField fx:id="nameTextField" prefHeight="12.0" prefWidth="266.0" promptText="Ej: Programación" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label prefHeight="23.0" prefWidth="145.0" stylesheets="@../../../../../stylesheets/label.css" text="Objetivo General" />
+                  <TextArea fx:id="generalObjectiveTextArea" prefHeight="139.0" prefWidth="401.0" promptText="Ej: Crear bases solidas en la programación orientada a objetos" styleClass="text-area" stylesheets="@../../../../../stylesheets/textArea.css" />
+                  <Label prefHeight="22.0" prefWidth="123.0" stylesheets="@../../../../../stylesheets/label.css" text="Temas de Interés" />
+                  <TextField fx:id="topicsInterestTextField" prefHeight="12.0" prefWidth="266.0" promptText="Ej: Clases, Objetos, Abstracción, Herncia, Polimorfismo, etc..." stylesheets="@../../../../../stylesheets/textField.css" />
+                  <HBox prefHeight="58.0" prefWidth="500.0" spacing="20.0">
+                     <children>
+                        <VBox maxWidth="-Infinity" prefHeight="44.0" prefWidth="160.0" spacing="10.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="151.0" stylesheets="@../../../../../stylesheets/label.css" text="Número de Estudiantes" />
+                              <ComboBox fx:id="numberStudentsComboBox" prefHeight="28.0" prefWidth="140.0" stylesheets="@../../../../../stylesheets/combobox.css" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="484.0" layoutY="10.0" maxWidth="-Infinity" prefHeight="54.0" prefWidth="160.0" spacing="10.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="84.0" stylesheets="@../../../../../stylesheets/label.css" text="Periodo" />
+                              <ComboBox fx:id="termComboBox" prefHeight="28.0" prefWidth="140.0" stylesheets="@../../../../../stylesheets/combobox.css" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="460.0" layoutY="10.0" maxWidth="-Infinity" prefHeight="54.0" prefWidth="160.0" spacing="10.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="90.0" stylesheets="@../../../../../stylesheets/label.css" text="Idioma" />
+                              <ComboBox fx:id="languageComboBox" prefHeight="27.0" prefWidth="140.0" stylesheets="@../../../../../stylesheets/combobox.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <Label prefHeight="17.0" prefWidth="109.0" stylesheets="@../../../../../stylesheets/label.css" text="Perfil Estudiantes" />
+                  <TextField fx:id="studentsProfileTextField" layoutX="10.0" layoutY="37.0" prefHeight="12.0" prefWidth="266.0" promptText="Ej: Ingeniería de Software" stylesheets="@../../../../../stylesheets/textField.css" />
+                  <Label prefHeight="17.0" prefWidth="137.0" stylesheets="@../../../../../stylesheets/label.css" text="Información Adicional" />
+                  <TextArea fx:id="additionalInformationTextArea" layoutX="10.0" layoutY="101.0" prefHeight="139.0" prefWidth="401.0" promptText="Ej: Crear bases solidas en la progranación orientada a objetos" styleClass="text-area" stylesheets="@../../../../../stylesheets/textArea.css" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" prefHeight="87.0" prefWidth="283.0" spacing="40.0">
+         <children>
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonIsPressed" prefWidth="90.0" stylesheets="@../../../../../stylesheets/buttongray.css" text="Cancelar" />
+            <Button fx:id="saveButton" lineSpacing="40.0" minWidth="90.0" mnemonicParsing="false" onAction="#saveButtonIsPressed" stylesheets="@../../../../../stylesheets/buttonblue.css" text="Guardar" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

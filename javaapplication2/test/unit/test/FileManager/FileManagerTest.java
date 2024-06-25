@@ -3,7 +3,6 @@ package unit.test.FileManager;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import log.Log;
 import mx.fei.coilvicapp.logic.implementations.FileManager;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

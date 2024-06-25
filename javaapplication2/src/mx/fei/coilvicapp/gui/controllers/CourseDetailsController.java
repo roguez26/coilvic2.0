@@ -333,6 +333,8 @@ public class CourseDetailsController implements Initializable {
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
 
             }
         } catch (IOException ioException) {

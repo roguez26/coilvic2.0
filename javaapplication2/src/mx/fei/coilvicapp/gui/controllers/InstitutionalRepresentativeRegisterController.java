@@ -28,7 +28,7 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
 
     @FXML
     private TextField nameTextField;
-    
+
     @FXML
     private TextField countryCodeTextField;
 
@@ -127,7 +127,7 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
         if (!fieldsAreEmpty()) {
             IInstitutionalRepresentative institutionalRepresentativeDAO = new InstitutionalRepresentativeDAO();
             InstitutionalRepresentative institutionalRepresentative = initializeInstitutionalRepresentative();
-            
+
             if (institutionalRepresentativeDAO.registerInstitutionalRepresentative(institutionalRepresentative)
                     > 0) {
                 wasRegisteredConfirmation();
@@ -138,7 +138,7 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
             emptyFieldsConfirmation();
         }
     }
-    
+
     @FXML
     private void universityIsSelected(ActionEvent event) {
         if (universitiesComboBox.getValue() != null) {
@@ -189,6 +189,8 @@ public class InstitutionalRepresentativeRegisterController implements Initializa
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(InstitutionalRepresentativeRegisterController.class).error(ioException.getMessage(),

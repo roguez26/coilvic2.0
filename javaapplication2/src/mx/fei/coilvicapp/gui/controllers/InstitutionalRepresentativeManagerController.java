@@ -138,6 +138,8 @@ public class InstitutionalRepresentativeManagerController implements Initializab
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(InstitutionalRepresentativeManagerController.class).error(ioException.getMessage(),

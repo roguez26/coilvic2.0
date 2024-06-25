@@ -43,7 +43,6 @@ public class UniversityManagerController implements Initializable {
 
     @FXML
     private TableColumn countryTableColumn;
-   
 
     @Override
     public void initialize(URL URL, ResourceBundle resourceBundle) {
@@ -57,7 +56,7 @@ public class UniversityManagerController implements Initializable {
 
     private void initializeUniversitiesTable() {
         ArrayList<University> universitiesList = new ArrayList<>();
-        
+
         try {
             universitiesList = UNIVERSITY_DAO.getAllUniversities();
         } catch (DAOException exception) {
@@ -65,12 +64,12 @@ public class UniversityManagerController implements Initializable {
         }
         universitiesTableView.getItems().addAll(universitiesList);
     }
-    
+
     @FXML
     private void backButtonIsPressed(ActionEvent event) {
         goBack();
     }
-    
+
     private void goBack() {
         try {
             MainApp.changeView("/mx/fei/coilvicapp/gui/views/AssistantMainMenu");
@@ -84,13 +83,13 @@ public class UniversityManagerController implements Initializable {
         try {
             ICountry countryDAO = new CountryDAO();
             if (countryDAO.isThereAtLeastOneCountry()) {
-                MainApp.changeView("/mx/fei/coilvicapp/gui/views/registerUniversity");
+                MainApp.changeView("/mx/fei/coilvicapp/gui/views/UniversityRegistration");
             } else {
                 DialogController.getInformativeConfirmationDialog("Aviso", "No puedes registrar universidades "
                         + "si no hay paises registrados");
             }
-            
-        } catch (DAOException exception) { 
+
+        } catch (DAOException exception) {
             handleDAOException(exception);
         } catch (IOException exception) {
             Log.getLogger(UniversityManagerController.class).error(exception.getMessage(), exception);
@@ -103,15 +102,15 @@ public class UniversityManagerController implements Initializable {
         if (university != null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-                        "/mx/fei/coilvicapp/gui/views/UpdateUniversity.fxml"));
+                        "/mx/fei/coilvicapp/gui/views/UniversityUpdate.fxml"));
                 MainApp.changeView(fxmlLoader);
-                UpdateUniversityController updateUniversitycontroller = fxmlLoader.getController();
-                
+                UniversityUpdateController updateUniversitycontroller = fxmlLoader.getController();
+
                 updateUniversitycontroller.setUniversity(university);
             } catch (IOException exception) {
                 Log.getLogger(UniversityManagerController.class).error(exception.getMessage(), exception);
             }
-        } 
+        }
     }
 
     private void handleDAOException(DAOException exception) {
@@ -122,6 +121,8 @@ public class UniversityManagerController implements Initializable {
                     goBack();
                 case FATAL ->
                     MainApp.handleFatal();
+                default -> {
+                }
             }
         } catch (IOException ioException) {
             Log.getLogger(UniversityManagerController.class).error(ioException.getMessage(), ioException);
